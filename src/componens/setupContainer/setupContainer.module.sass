@@ -1,0 +1,108 @@
+.settingsBodyColumn
+  padding-top: 28px
+  min-height: -webkit-calc(100vh - 108px)
+  min-height: calc(100vh - 108px)
+  margin-bottom: -80px
+  /* background-color: #fff; */
+  position: relative
+  z-index: 2
+
+  article
+    p
+      padding-top: 17px
+      font-size: 15px
+      line-height: 1.55
+      color: #444
+    section
+      border-bottom: 2px solid #f0f0f0
+      padding: 39px 0
+  h1
+    font-size: 28px
+  padding-left: 20px
+  .display
+    display: none
+.settingsBodyColumn:before
+  min-width: 285px
+  content: ''
+  position: absolute
+  width: -webkit-calc((100% - 1054px)/ 2 + 285px)
+  width: calc((100% - 1054px)/ 2 + 285px)
+  height: 100%
+  // background-color: #f7f9fa
+  background-color: #fafafa
+  /* border-right: 1px solid #ebedee; */
+  left: 0
+  top: 0
+  z-index: 0
+
+.settingsBodyColumn
+  .container
+    max-width: 1054px
+    display: -webkit-box
+    display: -webkit-flex
+    display: -ms-flexbox
+    display: flex
+    -webkit-box-orient: horizontal
+    -webkit-box-direction: normal
+    -webkit-flex-direction: row
+    -ms-flex-direction: row
+    flex-direction: row
+    -webkit-flex-wrap: nowrap
+    -ms-flex-wrap: nowrap
+    flex-wrap: nowrap
+    -webkit-box-pack: justify
+    -webkit-justify-content: space-between
+    -ms-flex-pack: justify
+    justify-content: space-between
+    -webkit-box-align: start
+    -webkit-align-items: flex-start
+    -ms-flex-align: start
+    align-items: flex-start
+    position: relative
+    z-index: 2
+
+.container 
+  max-width: 1194px
+  margin: 0 auto
+  padding: 0 15px
+
+.columnsContainer
+  display: -webkit-box
+  display: -webkit-flex
+  display: -ms-flexbox
+  display: flex
+  -webkit-box-orient: horizontal
+  -webkit-box-direction: normal
+  -webkit-flex-direction: row
+  -ms-flex-direction: row
+  flex-direction: row
+  -webkit-flex-wrap: nowrap
+  -ms-flex-wrap: nowrap
+  flex-wrap: nowrap
+  -webkit-box-pack: justify
+  -webkit-justify-content: space-between
+  -ms-flex-pack: justify
+  justify-content: space-between
+  -webkit-box-align: stretch
+  -webkit-align-items: stretch
+  -ms-flex-align: stretch
+  align-items: stretch
+
+
+.menuTriggerBtn
+  z-index: 25
+  border: 1px solid #e1e1e1
+  -webkit-box-shadow: rgba(9,30,66,.25) 0 20px 32px -8px
+  box-shadow: rgba(9,30,66,.25) 0 20px 32px -8px
+  background-color: #fff
+  -webkit-border-radius: 4px
+  border-radius: 4px
+  cursor: pointer
+  position: fixed
+  width: 48px
+  height: 48px
+  right: 15px
+  bottom: 15px
+  
+  @media screen and (min-width: 769px)
+    display: none

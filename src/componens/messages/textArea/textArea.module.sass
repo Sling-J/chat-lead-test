@@ -1,0 +1,116 @@
+.textArea
+  width: 100%
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif
+  height: auto
+  background: transparent
+
+  &:hover
+    .hoverBar
+      display: block
+
+  //.editable
+  //  padding: .5rem
+  //  box-sizing: border-box
+  //  border-top-left-radius: 15px
+  //  border-top-right-radius: 15px
+  //  background-color: #f1f0f0
+  //  transition: border-color .15s,background-color .15s
+  //  will-change: border-color,background-color,box-shadow
+  //  resize: none
+  //  border: none
+  //  width: 100%
+  //  outline: none
+  //  color: #3c4858
+  //  font-size: 15px
+  //  height: 150px
+  //
+  //  &:hover
+  //    box-shadow: inset 0 0 0 2px #0084ff
+
+  textarea
+    padding: .5rem
+    box-sizing: border-box
+    border-top-left-radius: 15px
+    border-top-right-radius: 15px
+    background-color: #f1f0f0
+    transition: border-color .15s,background-color .15s
+    will-change: border-color,background-color,box-shadow
+    resize: none
+    border: none
+    width: 100%
+    outline: none
+    color: #3c4858
+    font-size: 15px
+    height: 150px
+
+    &:hover
+      box-shadow: inset 0 0 0 2px #0084ff
+
+.hoverBar
+  display: none
+  position: absolute
+
+.actionNav
+  position: relative
+  width: 100%
+  margin-top: -32px
+  display: flex
+  justify-content: space-between
+
+.actionButtons
+  height: 30px
+  width: 80px
+  //box-shadow: rgba(9,30,66,.25) 0 10px 15px 0px
+  background: #fff
+  border: 1px solid #dcdee0;
+  border-bottom-left-radius: 5px
+  border-bottom-right-radius: 5px
+  display: flex
+  flex-direction: row
+  justify-content: space-around
+
+  .actionNavSmile
+    width: 30px
+    height: 30px
+    background: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cpath%20opacity%3D%22.4%22%20d%3D%22M0%200h24v24H0z%22%2F%3E%3Cpath%20fill%3D%22%23828A99%22%20fill-rule%3D%22nonzero%22%20d%3D%22M2%2012C2%206.477%206.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010S2%2017.523%202%2012zm18.3%200a8.3%208.3%200%201%200-16.6%200%208.3%208.3%200%200%200%2016.6%200zm-11.05-.5a1.25%201.25%200%201%201%200-2.5%201.25%201.25%200%200%201%200%202.5zm5.5%200a1.25%201.25%200%201%201%200-2.5%201.25%201.25%200%200%201%200%202.5z%22%2F%3E%3Cpath%20stroke%3D%22%23828A99%22%20stroke-width%3D%221.7%22%20d%3D%22M9%2014.85c.833.767%201.833%201.15%203%201.15s2.167-.383%203-1.15%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") center no-repeat
+    background-size: 24px
+    cursor: pointer
+
+  .actionNavVars
+    width: 30px
+    height: 30px
+    background: url("http://chatlead.centrus.kz/svg/db/nav/macros.svg") center no-repeat 
+    background-size: 20px
+    cursor: pointer
+
+.actionNavVarsMenu
+  width: 260px
+  background-color: #fff
+  margin-top: 30px
+  cursor: auto
+  box-shadow: rgba(9,30,66,.25) 0 20px 32px -8px;
+  position: relative
+  z-index: 99
+
+  h3
+    padding: 15px
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e8e8e8;
+    font-weight: 700
+    font-size: 13px
+    color: #444
+  
+  li
+    width: 100%
+    padding: 10px 15px
+    margin: 5px 0
+    &:hover
+      color: #1e88e5
+      background-color: rgba(22,105,186,.075)
+      cursor: pointer
+    &:last-child
+      margin-bottom: 30px

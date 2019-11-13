@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  test:
+    environment:
+      - NODE_ENV=testing
+    build: .
+    image: $CONTAINER_TEST_IMAGE
+
+  app:
+    environment:
+      - NODE_ENV=production
+      - API_HOST=https://api.chatlead.io/app
+    build: .
+    image: $CONTAINER_RELEASE_IMAGE
+    volumes:
+      - "/var/www/chat_lead_ui/dist:/var/www/chat_lead_ui/dist"

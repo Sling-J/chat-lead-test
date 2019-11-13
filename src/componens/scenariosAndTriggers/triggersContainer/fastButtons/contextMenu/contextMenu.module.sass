@@ -1,0 +1,169 @@
+.mainContainer
+  width: 300px
+  border: 1px solid #e0e6ed
+  background-color: #fff
+  box-shadow: 0 0 10px 0 rgba(77,77,77,.2)
+  position: absolute
+  left: 215px
+  top: -40px
+  z-index: 1000
+  padding: 10px 0
+  font-family: "Lato", sans-serif
+
+
+  &:before
+    border-bottom: 10px solid #e5e5e5
+    border-left: 10px solid transparent
+    border-right: 10px solid transparent
+    content: ""
+    height: 0
+    position: absolute
+    transform: rotate(-90deg)
+    left: -15px
+    top: 10px
+    width: 0
+    background: #fff
+
+  h2
+    font-size: 15px
+    font-weight: 600
+    line-height: 20px
+    color: #3c4858
+    padding: 10px 0 10px 0
+//margin: 24px 10px 8px
+
+
+.header
+  border-bottom: 1px solid #e0e6ed
+  font-family: 'Lato', sans-serif
+  font-size: 15px
+  line-height: 20px
+  color: #3c4858
+  padding: 0 10px 10px
+
+
+.buttonChanger
+  display: flex
+  flex-direction: column
+  padding: 0 10px
+
+
+  select
+    background: #f1f3f5
+    overflow: hidden
+    height: 72px
+    border: 2px solid #bdcadd
+    border-radius: 10px
+    min-width: 100px
+    outline: none
+    cursor: pointer
+
+
+  .changerElement
+    position: relative
+    height: 60px
+    border: 2px dashed #e0e6ed
+    border-radius: 10px
+    cursor: pointer
+    font-family: 'Lato', sans-serif
+    font-size: 15px
+    line-height: 20px
+    color: #3c4858
+    font-weight: 600
+    display: flex
+    justify-content: center
+    align-items: center
+    margin-top: 10px
+
+    &:hover
+      background: #e5e5e5
+      border-color: #0084ff
+
+  input
+    margin: 0
+    padding: 5px 9px
+    width: 100%
+    outline: none!important
+    border: 1px solid rgba(0,0,0,.12)
+    border-radius: 3px
+    background: transparent none
+    //background-color: #fff
+    box-shadow: none
+    color: rgba(0,0,0,.87)
+    font-size: .9rem
+    box-sizing: border-box
+    margin-bottom: 10px
+
+label
+  position: relative
+
+.inputContainer
+  display: flex
+  width: 100%
+  align-items: center
+
+  .closedButton
+    width: 100%
+    border-radius: 10px 0 0 10px
+    border: 2px solid #bdcadd
+    border-right: 1px solid #bdcadd
+    background: #f1f3f5
+    box-sizing: border-box
+    height: 72px
+    display: flex
+    align-items: center
+    padding: 10px
+    color: #000
+
+
+//select
+//  width: 100%
+//  border-radius: 10px 0 0 10px
+//  border-right: 1px solid #bdcadd
+//  -webkit-appearance: none
+//  -moz-appearance: none
+//  appearance: none
+//  background: #f1f3f5
+//  font-family: 'Lato', sans-serif
+//  font-size: 14px
+//  font-weight: 500
+//  line-height: 20px
+//  color: #3c4858
+//
+//  &:hover
+//    background: #e5e7e9
+//
+//  select::-ms-expand
+//    display: none
+//
+//  option
+//    font-size: 14px
+//    height: 40px
+//    padding: 0
+
+.selector
+  width: 100%
+  height: 72px
+  background: #f1f3f5
+
+
+.closeButton
+  width: 50px
+  border-radius: 0 10px 10px 0
+  display: flex
+  justify-content: center
+  align-items: center
+  background: #f1f3f5
+  overflow: hidden
+  color: #bdcadd
+  font-size: 20px
+  height: 72px
+  box-sizing: border-box
+  border: 2px solid #bdcadd
+  border-left: none
+
+  &:hover
+    background-color: #f8fafc
+    color: #ff6249
+
+
