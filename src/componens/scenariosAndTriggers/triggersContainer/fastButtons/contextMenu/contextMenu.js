@@ -9,7 +9,8 @@ import onClickOutside from "react-onclickoutside";
 import {connect} from "react-redux";
 
 const ContextMenu = (props) => {
-    const {focusStatus} = props;
+    const {focusStatus, scenarioId} = props;
+    const changedScenario = props.botScenarios.filter(elem => elem.id === scenarioId)[0];
 
 
     ContextMenu.handleClickOutside = () => focusStatus(false);
@@ -39,6 +40,21 @@ const ContextMenu = (props) => {
         }
     };
 
+    const getTriggers = () => {
+        const triggers = [];
+
+        changedScenario.triggers.map(trigger =>
+            triggers.push({
+                value: trigger.id,
+                label: trigger.caption
+            })
+        );
+
+        return triggers;
+    };
+
+    console.log(changedScenario);
+
     return (
         <div className={style.mainContainer}>
             <div className={style.header}>
@@ -55,7 +71,7 @@ const ContextMenu = (props) => {
                 <div className={style.inputContainer}>
                     <Select
                         placeholder={'Триггер'}
-                        // options={getTriggers()}
+                        options={getTriggers()}
                         // defaultValue={buttonData.payload.trigger_id && {
                         //     value: buttonData.payload.trigger_id,
                         //     label: changedTriggerInFastButton.caption
@@ -93,8 +109,16 @@ const ContextMenu = (props) => {
 
 };
 
+const mapStateToProps = state => {
+    const {botScenarios} = state.singleBotReducers;
+
+    return {
+        botScenarios
+    }
+};
+
 const clickOutsideConfig = {
     handleClickOutside: () => ContextMenu.handleClickOutside
 };
 
-export default onClickOutside(connect(null, null)(ContextMenu), clickOutsideConfig);
+export default onClickOutside(connect(mapStateToProps, null)(ContextMenu), clickOutsideConfig);

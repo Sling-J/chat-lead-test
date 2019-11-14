@@ -32,10 +32,10 @@ const ButtonsContainer = (props) => {
         const messagesCopy = changedTrigger.messages;
         let buttons = null;
 
-        if(changedSlideOrElement || changedSlideOrElement === 0) {
+        if (changedSlideOrElement || changedSlideOrElement === 0) {
             buttons = messagesCopy[props.changedSocial][index][type][changedSlideOrElement].keyboard;
 
-        }else {
+        } else {
             buttons = messagesCopy[props.changedSocial][index].keyboard;
         }
 
@@ -61,8 +61,8 @@ const ButtonsContainer = (props) => {
     const allButtonsInMessage = () => {
         const messagesCopy = changedTrigger.messages;
         const buttonsArray = changedSlideOrElement || changedSlideOrElement === 0 ?
-                messagesCopy[props.changedSocial][index][type][changedSlideOrElement].keyboard
-                    : messagesCopy[props.changedSocial][index].keyboard;
+            messagesCopy[props.changedSocial][index][type][changedSlideOrElement].keyboard
+            : messagesCopy[props.changedSocial][index].keyboard;
 
 
         return buttonsArray;
@@ -70,9 +70,7 @@ const ButtonsContainer = (props) => {
 
 
     const editButton = (typeButton, buttonData, indexButton, isEmpty) => {
-
         const messagesCopy = changedTrigger.messages;
-
         const buttonsValues = allButtonsInMessage();
 
         Object.assign(buttonsValues[indexButton], buttonData, {
@@ -90,6 +88,8 @@ const ButtonsContainer = (props) => {
             botId: props.match.params.botId
         };
 
+        console.log(buttonData);
+
         props.updateTrigger(triggerData, null, props.changedSocial);
     };
 
@@ -98,46 +98,44 @@ const ButtonsContainer = (props) => {
 
     return (
         <div className={style.mainContainer}>
-
             {
                 allButtonsInMessage().map((elem, indexArr) => (
-
                     <div className={style.buttonElement} onClick={() => setIndexOpenButton(indexArr)}>
-                           <div>
-                               {
-                                   indexOpenButton === indexArr && (
-                                       <ScenarioIdContext.Consumer>
-                                           {scenarioId => (
-                                               <ContextMenu
-                                                   buttonEditHandler={editButton}
-                                                   typeButton={elem.isEmpty ? 'empty' : elem.type}
-                                                   scenarioId={scenarioId}
-                                                   indexButton={indexArr}
-                                                   buttonData={elem}
-                                                   setIndexOpenButton={setIndexOpenButton}
-                                                   changedTrigger={changedTrigger}
-                                                   styleForContextMenu={styleForContextMenu}
-                                                   index={index}
-                                               />
-                                           )}
-                                       </ScenarioIdContext.Consumer>
-                                   )
-                               }
-                               <div className={style.button} style={styleForButton}>
-                                   <div className={style.captionContainer} style={styleForCaption}>
-                                       {
-                                           elem.caption || 'Новая Кнопка'
-                                       }
-                                   </div>
-                                   <div className={style.label}>
-                                       {
-                                           elem.isEmpty
-                                               ? <FontAwesomeIcon icon={faCircle}/>
-                                               : markForButton[elem.type]
-                                       }
-                                   </div>
-                               </div>
-                           </div>
+                        <div>
+                            {
+                                indexOpenButton === indexArr && (
+                                    <ScenarioIdContext.Consumer>
+                                        {scenarioId => (
+                                            <ContextMenu
+                                                buttonEditHandler={editButton}
+                                                typeButton={elem.isEmpty ? 'empty' : elem.type}
+                                                scenarioId={scenarioId}
+                                                indexButton={indexArr}
+                                                buttonData={elem}
+                                                setIndexOpenButton={setIndexOpenButton}
+                                                changedTrigger={changedTrigger}
+                                                styleForContextMenu={styleForContextMenu}
+                                                index={index}
+                                            />
+                                        )}
+                                    </ScenarioIdContext.Consumer>
+                                )
+                            }
+                            <div className={style.button} style={styleForButton}>
+                                <div className={style.captionContainer} style={styleForCaption}>
+                                    {
+                                        elem.caption || 'Новая Кнопка'
+                                    }
+                                </div>
+                                <div className={style.label}>
+                                    {
+                                        elem.isEmpty
+                                            ? <FontAwesomeIcon icon={faCircle}/>
+                                            : markForButton[elem.type]
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 ))
             }
@@ -154,14 +152,14 @@ const ButtonsContainer = (props) => {
                         </div>
                     )
                     : allButtonsInMessage().length < 3 && (
-                        <div
-                            className={style.variable}
-                            style={styleForControls || {}}
-                            onClick={() => appendNewButton()}
-                        >
-                            <h2>+ Добавить кнопку</h2>
-                        </div>
-                    )
+                    <div
+                        className={style.variable}
+                        style={styleForControls || {}}
+                        onClick={() => appendNewButton()}
+                    >
+                        <h2>+ Добавить кнопку</h2>
+                    </div>
+                )
             }
 
         </div>

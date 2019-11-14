@@ -74,14 +74,24 @@ const ContextMenu = (props) => {
 
             buttonEditHandler(typeButton, buttonData, indexButton);
 
+        } else if (typeButton === buttonsTypes.call_buttons) {
+            if (forCaption) {
+                Object.assign(buttonData, {
+                    caption: e.target.value
+                })
+            } else {
+                Object.assign(buttonData, {
+                    call: e.target.value
+                })
+            }
+
+            buttonEditHandler(typeButton, buttonData, indexButton);
         } else if (typeButton === 'empty') {
             Object.assign(buttonData, {
                 caption: e.target.value
             });
             buttonEditHandler(typeButton, buttonData, indexButton, true);
         }
-
-
     };
 
     const getBotScenarios = () => {
@@ -357,7 +367,6 @@ const ContextMenu = (props) => {
                     </div>
                 </>
             )
-
         }
         // }else if(typeButton === buttonsTypes.fast_buttons) {
         //    return (
