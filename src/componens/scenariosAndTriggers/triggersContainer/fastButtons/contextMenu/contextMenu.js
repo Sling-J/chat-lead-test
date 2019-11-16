@@ -24,8 +24,6 @@ const ContextMenu = (props) => {
         changedScenario.triggers.filter(elem => elem.id === buttonData.payload.trigger_id)[0]
     );
 
-    console.log(buttonData);
-
     ContextMenu.handleClickOutside = () => setIndexOpenButton(false);
 
     const stylesForSelector = {

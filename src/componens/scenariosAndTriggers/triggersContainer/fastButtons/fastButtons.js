@@ -114,15 +114,15 @@ const FastButtons = (props) => {
 
             {changedSlideOrElement || changedSlideOrElement === 0 ?
                 allFastButtonsInMessage().length === 0 && (
-                    <div onClick={appendFastButton}>
-                        Appeeeend
-                    </div>
+                    <button onClick={appendFastButton}>
+                        Apend fast button
+                    </button>
                 )
                 :
                 allFastButtonsInMessage().length < 4 && (
-                    <div onClick={appendFastButton}>
-                        Appeeeend
-                    </div>
+                    <button onClick={appendFastButton}>
+                        Apend fast button
+                    </button>
                 )
             }
 
