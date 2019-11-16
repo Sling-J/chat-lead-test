@@ -19,8 +19,6 @@ const FastButtons = (props) => {
         styleForContextMenu
     } = props;
 
-    console.log(changedTrigger.messages);
-
     const appendFastButton = () => {
         const messagesCopy = changedTrigger.messages;
         let buttons = null;
@@ -36,7 +34,7 @@ const FastButtons = (props) => {
             isEmpty: true,
             type: buttonsTypes.fast_buttons,
             payload: {
-                trigger_id: ''
+                trigger_id: changedTrigger.id
             },
         });
 
