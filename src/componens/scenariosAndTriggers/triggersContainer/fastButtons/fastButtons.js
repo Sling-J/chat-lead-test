@@ -5,23 +5,23 @@ import {updateTrigger} from "../../../../actions/actionCreator";
 import {connect} from 'react-redux';
 import {ScenarioIdContext} from "../../../../utils/Contexts";
 import {buttonsTypes} from "../../../../constants/defaultValues";
+import {withRouter} from "react-router-dom";
 
 const FastButtons = (props) => {
-    const [isFocusInNewButton, focusInNewButton] = useState(false);
+    const [indexOpenButton, setIndexOpenButton] = useState(false);
 
     const {
         type,
         index,
-        value,
         changedTrigger,
         changedSlideOrElement,
-        styleForControls,
         styleForButton,
-        styleForCaption,
         styleForContextMenu
     } = props;
 
-    const appendNewButton = () => {
+    console.log(changedTrigger.messages);
+
+    const appendFastButton = () => {
         const messagesCopy = changedTrigger.messages;
         let buttons = null;
 
@@ -34,7 +34,10 @@ const FastButtons = (props) => {
         buttons.push({
             caption: 'Новая Кнопка',
             isEmpty: true,
-            type: buttonsTypes.fast_buttons
+            type: buttonsTypes.fast_buttons,
+            payload: {
+                trigger_id: ''
+            },
         });
 
         const triggerData = {
@@ -48,74 +51,124 @@ const FastButtons = (props) => {
         props.updateTrigger(triggerData, null, props.changedSocial);
     };
 
-    // console.log(Object.keys(props.changedTrigger.keyboard));
-    //
-    // const editButton = (typeButton, buttonData, indexButton, isEmpty) => {
-    //     const messagesCopy = changedTrigger.messages;
-    //     const buttonsValues = allButtonsInMessage();
-    //
-    //     Object.assign(buttonsValues[indexButton], buttonData, {
-    //         isEmpty: isEmpty || false,
-    //         type: typeButton
-    //     });
-    //
-    //     messagesCopy[props.changedSocial][index].keyboard = buttonsValues;
-    //
-    //     const triggerData = {
-    //         ...changedTrigger,
-    //         index,
-    //         type,
-    //         messages: messagesCopy,
-    //         botId: props.match.params.botId
-    //     };
-    //
-    //     console.log(buttonData);
-    //
-    //     props.updateTrigger(triggerData, null, props.changedSocial);
-    // };
+    const editButton = (typeButton, buttonData, indexButton, isEmpty) => {
+        const messagesCopy = changedTrigger.messages;
+        const buttonsValues = allFastButtonsInMessage();
+
+        Object.assign(buttonsValues[indexButton], buttonData, {
+            isEmpty: isEmpty || false,
+            type: typeButton
+        });
+
+        messagesCopy[props.changedSocial][index].keyboard = buttonsValues;
+
+        const triggerData = {
+            ...changedTrigger,
+            index,
+            type,
+            messages: messagesCopy,
+            botId: props.match.params.botId
+        };
+
+        props.updateTrigger(triggerData, null, props.changedSocial);
+    };
+
+    const allFastButtonsInMessage = () => {
+        const messagesCopy = changedTrigger.messages;
+        const buttonsArray = changedSlideOrElement || changedSlideOrElement === 0 ?
+            messagesCopy[props.changedSocial][index][type][changedSlideOrElement].keyboard
+            : messagesCopy[props.changedSocial][index].keyboard;
+
+
+        return buttonsArray.filter(button => button.type === buttonsTypes.fast_buttons);
+    };
 
     return (
         <div className={style.mainContainer}>
-
-            {
-                isFocusInNewButton ?
-                    (
-                        <div className={style.inputContainer}>
-                            <input
-                                className={style.openNewFastButton}
-                                type={'text'}
-                                autoFocus={true}
-                                placeholder={'Название'}
-                                // onBlur={() => focusInNewButton(false)}
-                            />
-                            <div className={style.contextMenuContainer}>
-
-                                <ScenarioIdContext.Consumer>
-                                    {scenarioId => (
-                                        <ContextMenu
-                                            scenarioId={scenarioId}
-                                            focusStatus={focusInNewButton}
-                                        />
-                                    )}
-                                </ScenarioIdContext.Consumer>
-                            </div>
+            {allFastButtonsInMessage().map((elem, indexArr) => (
+                <div onClick={() => setIndexOpenButton(indexArr)}>
+                    <div className={style.contextMenuContainer}>
+                        {indexOpenButton === indexArr && (
+                            <ScenarioIdContext.Consumer>
+                                {scenarioId => (
+                                    <ContextMenu
+                                        buttonEditHandler={editButton}
+                                        typeButton={elem.type}
+                                        scenarioId={scenarioId}
+                                        indexButton={indexArr}
+                                        buttonData={elem}
+                                        setIndexOpenButton={setIndexOpenButton}
+                                        changedTrigger={changedTrigger}
+                                        styleForContextMenu={styleForContextMenu}
+                                        index={index}
+                                    />
+                                )}
+                            </ScenarioIdContext.Consumer>
+                        )}
+                    </div>
+                    <div style={styleForButton}>
+                        <div className={style.newFastButton}>
+                            {elem.caption || 'Быстрый ответ'}
                         </div>
-                    ) : (
-                        <div
-                            className={style.newFastButton}
-                            onClick={() => isFocusInNewButton()}
-                        >
-                            + Быстрый ответ
-                        </div>
-                    )
+                    </div>
+                </div>
+            ))}
+
+            {changedSlideOrElement || changedSlideOrElement === 0 ?
+                allFastButtonsInMessage().length === 0 && (
+                    <div onClick={appendFastButton}>
+                        Appeeeend
+                    </div>
+                )
+                :
+                allFastButtonsInMessage().length < 4 && (
+                    <div onClick={appendFastButton}>
+                        Appeeeend
+                    </div>
+                )
             }
 
+            {/*{*/}
+            {/*    isFocusInNewButton ?*/}
+            {/*        (*/}
+            {/*            <div className={style.inputContainer}>*/}
+            {/*                <input*/}
+            {/*                    className={style.openNewFastButton}*/}
+            {/*                    type={'text'}*/}
+            {/*                    autoFocus={true}*/}
+            {/*                    placeholder={'Название'}*/}
+            {/*                    // onBlur={() => focusInNewButton(false)}*/}
+            {/*                />*/}
+            {/*                <div className={style.contextMenuContainer}>*/}
+
+            {/*                    <ScenarioIdContext.Consumer>*/}
+            {/*                        {scenarioId => (*/}
+            {/*                            <ContextMenu*/}
+            {/*                                scenarioId={scenarioId}*/}
+            {/*                            />*/}
+            {/*                        )}*/}
+            {/*                    </ScenarioIdContext.Consumer>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*        ) : (*/}
+            {/*            <div*/}
+            {/*                className={style.newFastButton}*/}
+            {/*            >*/}
+            {/*                + Быстрый ответ*/}
+            {/*            </div>*/}
+            {/*        )*/}
+            {/*}*/}
         </div>
     )
 };
+
+const mapStateToProps = ({singleBotReducers}) => ({
+    changedSocial: singleBotReducers.changedSocial
+});
+
 
 const mapDispatchToProps = dispatch => ({
     updateTrigger: (triggerData, updationData, changedSocial) => dispatch(updateTrigger(triggerData, updationData, changedSocial)),
 });
 
-export default connect(null, mapDispatchToProps)(FastButtons);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FastButtons));

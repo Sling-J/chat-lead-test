@@ -65,7 +65,7 @@ const ButtonsContainer = (props) => {
             : messagesCopy[props.changedSocial][index].keyboard;
 
 
-        return buttonsArray;
+        return buttonsArray.filter(button => button.type !== buttonsTypes.fast_buttons);
     };
 
 

@@ -7,14 +7,27 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import onClickOutside from "react-onclickoutside";
 import {connect} from "react-redux";
+import {buttonsTypes} from "../../../../../constants/defaultValues";
 
 const ContextMenu = (props) => {
-    const {focusStatus, scenarioId} = props;
+    const {
+        setIndexOpenButton,
+        scenarioId,
+        buttonEditHandler,
+        typeButton,
+        indexButton,
+        buttonData,
+    } = props;
+
     const changedScenario = props.botScenarios.filter(elem => elem.id === scenarioId)[0];
 
+    console.log(buttonData);
 
-    ContextMenu.handleClickOutside = () => focusStatus(false);
+    const changedTriggerInFastButton = typeButton === buttonsTypes.fast_buttons && (
+        changedScenario.triggers.filter(elem => elem.id === buttonData.payload.trigger_id)[0]
+    );
 
+    ContextMenu.handleClickOutside = () => setIndexOpenButton(false);
 
     const stylesForSelector = {
         control: (styles, state) => ({
@@ -29,7 +42,7 @@ const ContextMenu = (props) => {
             height: '100%',
             background: '#f1f3f5'
         }),
-        option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+        option: (styles, {data, isDisabled, isFocused, isSelected}) => {
             return {
                 ...styles,
                 color: '#000',
@@ -37,6 +50,24 @@ const ContextMenu = (props) => {
                 cursor: 'pointer',
                 borderRadius: '0'
             };
+        }
+    };
+
+    const editButton = (e, forCaption) => {
+        if (typeButton === buttonsTypes.fast_buttons) {
+            if (forCaption) {
+                Object.assign(buttonData, {
+                    caption: e.target.value
+                })
+            } else {
+                Object.assign(buttonData, {
+                    payload: {
+                        trigger_id: e.target.value
+                    }
+                })
+            }
+
+            buttonEditHandler(typeButton, buttonData, indexButton);
         }
     };
 
@@ -53,8 +84,6 @@ const ContextMenu = (props) => {
         return triggers;
     };
 
-    console.log(changedScenario);
-
     return (
         <div className={style.mainContainer}>
             <div className={style.header}>
@@ -64,44 +93,41 @@ const ContextMenu = (props) => {
                 <h2>Заголовок кнопки</h2>
                 <input
                     type={'text'}
-                    // defaultValue={buttonData.caption}
+                    defaultValue={buttonData.caption}
                     title={'title'}
-                    // onInput={(e) => editButton(e, true)}
+                    onInput={(e) => editButton(e, true)}
                 />
                 <div className={style.inputContainer}>
                     <Select
                         placeholder={'Триггер'}
                         options={getTriggers()}
-                        // defaultValue={buttonData.payload.trigger_id && {
-                        //     value: buttonData.payload.trigger_id,
-                        //     label: changedTriggerInFastButton.caption
-                        // }}
-                        // onChange={(value) => editButton({
-                        //     target: {
-                        //         value: value.value
-                        //     }
-                        // })}
+                        defaultValue={buttonData.payload.trigger_id && {
+                            value: buttonData.payload.trigger_id,
+                            label: changedTriggerInFastButton.caption
+                        }}
+                        onChange={(value) => editButton({
+                            target: {
+                                value: value.value
+                            }
+                        })}
                         styles={stylesForSelector}
                         className={style.selector}
                         isSearchable={false}
-                        components={{ DropdownIndicator:() => null }}
-                        // arrowRenderer={() => ''}
+                        components={{DropdownIndicator: () => null}}
+                        arrowRenderer={() => ''}
                     />
                     <div
                         className={style.closeButton}
-                        // onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
-                        //     caption: ''
-                        // }), indexButton, true)}
+                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
+                            caption: ''
+                        }), indexButton, true)}
                     >
                         <FontAwesomeIcon icon={faTimes}/>
                     </div>
                 </div>
-                {/*<Actions*/}
-                    {/*{...props}*/}
-                {/*/>*/}
-                {/*<Controls*/}
-                    {/*{...props}*/}
-                {/*/>*/}
+                <Controls
+                    {...props}
+                />
             </div>
         </div>
     )
@@ -109,13 +135,12 @@ const ContextMenu = (props) => {
 
 };
 
-const mapStateToProps = state => {
-    const {botScenarios} = state.singleBotReducers;
-
-    return {
-        botScenarios
-    }
-};
+const mapStateToProps = ({singleBotReducers}) => ({
+    changedScenarioId: singleBotReducers.changedScenarioId,
+    botScenarios: singleBotReducers.botScenarios,
+    isFetching: singleBotReducers.isFetching,
+    error: singleBotReducers.error,
+});
 
 const clickOutsideConfig = {
     handleClickOutside: () => ContextMenu.handleClickOutside

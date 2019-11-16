@@ -4,6 +4,7 @@ import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
 import ContentEditable from 'react-contenteditable';
 import {connect} from "react-redux";
+import FastButtons from "../../scenariosAndTriggers/triggersContainer/fastButtons/fastButtons";
 
 
 const TextArea = (props) => {
@@ -58,23 +59,23 @@ const TextArea = (props) => {
                 {/*tagName='article' // Use a custom HTML tag (uses a div by default)*/}
             {/*/>*/}
             {/*<p onInput={(e) => console.log(e.target)} tabIndex={1} contentEditable={true}>{valueTextArea}</p>*/}
-            <textarea 
-                id="insertVariable" 
-                onBlur={(e) => handler(e, index, type)} 
+            <textarea
+                id="insertVariable"
+                onBlur={(e) => handler(e, index, type)}
                 defaultValue={Object.values(value)[0]}
             />
             <div className={style.actionNav}>
                 <div className={style.actionButtons}>
-                    <div 
+                    <div
                         className={style.actionNavSmile}
                     >
                     </div>
-                    <div 
+                    <div
                         className={style.actionNavVars}
                         onMouseEnter={handleMouseHover}
                         onMouseLeave={handleMouseHover}
                     >
-                        { isTextAreaHovering && 
+                        { isTextAreaHovering &&
                         <div className={style.actionNavVarsMenu}>
                             <h3>Макросы</h3>
                             <ul>
@@ -90,6 +91,11 @@ const TextArea = (props) => {
             <ButtonsContainer
                 {...props}
             />
+            <FastButtons
+                {...props}
+            />
+
+
 
          </div>
     )
@@ -246,4 +252,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(TextArea);
+export default  connect(mapStateToProps)(TextArea);

@@ -155,9 +155,6 @@ const TriggersContainer = (props) => {
                                                updateTriggerUpdateMessageHandler={updateTriggerUpdateMessageHandler}
                                                updateTriggerDeleteMessageHandler={updateTriggerDeleteMessageHandler}
                                            />
-                                           <FastButtons
-                                               changedTrigger={changedTrigger}
-                                           />
                                            <div className={style.controls}>
                                                <ButtonsForAddNewMessage
                                                    changedTrigger={changedTrigger}
