@@ -38,6 +38,8 @@ const TextArea = (props) => {
         console.log(isTextAreaHovering);
     }
 
+    console.log(props.changedSocial)
+
 
     return (
         <div className={style.textArea} key={Object.values(value)[0]}>
@@ -91,12 +93,13 @@ const TextArea = (props) => {
             <ButtonsContainer
                 {...props}
             />
-            <FastButtons
-                {...props}
-            />
-
-
-
+            {props.changedSocial === 'facebook' || props.changedSocial === 'telegram' ?
+                <FastButtons
+                    {...props}
+                />
+                :
+                null
+            }
          </div>
     )
 };

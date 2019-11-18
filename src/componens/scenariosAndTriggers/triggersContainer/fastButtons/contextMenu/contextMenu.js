@@ -20,9 +20,6 @@ const ContextMenu = (props) => {
     } = props;
 
     const changedScenario = props.botScenarios.filter(elem => elem.id === scenarioId)[0];
-
-    console.log(buttonData);
-
     const changedTriggerInFastButton = typeButton === buttonsTypes.fast_buttons && (
         changedScenario.triggers.filter(elem => elem.id === buttonData.payload.trigger_id)[0]
     );
