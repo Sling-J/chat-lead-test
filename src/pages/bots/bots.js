@@ -58,9 +58,9 @@ const Bots = (props) => {
                         </div>
                     </div>
                 </div>
-                ) : (<div></div>)
+                ) : (<div/>)
             }
-            
+
         </div>
     )
 };

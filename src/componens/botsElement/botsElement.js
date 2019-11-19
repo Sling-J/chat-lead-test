@@ -25,9 +25,9 @@ const BotsElement = (props) => {
         <li className={style.mainContainer}>
             {isEdit ? (
             <div className={style.nameContainer}>
-                
 
-                
+
+
                 <input name="name" type="text" placeholder="Название" style={{fontSize: "27px", maxWidth: "75%", marginTop: "19px"}} />
                 <button className={style.bot_edit_btn+" bot-list__edit default-btn default-btn--icon-style default-btn--outline"} onClick={() => {
                     const new_name = document.querySelector('.'+style.nameContainer+' input[name=name]').value
@@ -68,7 +68,7 @@ const BotsElement = (props) => {
             </div>
             <h2>Тестовый период заканчивается через <span>14 дней</span></h2>
             <div className={style.controls}>
-                <Link to={`/bots/${id}/scenario`} className={style.link}>Изменить</Link>
+                <Link to={`/bots/${id}/setup`} className={style.link}>Изменить</Link>
                 <img src={trash} alt="Delete" onClick={() => props.botCallback(name, id)}/>
             </div>
 
@@ -78,7 +78,7 @@ const BotsElement = (props) => {
 
 const mapDispatchToProps = dispatch => ({
     deleteBot: (botData) => dispatch(deleteBot(botData)),
-    editManager: (setupData) => dispatch(editManager(setupData))    
+    editManager: (setupData) => dispatch(editManager(setupData))
 });
 
 export default connect(null, mapDispatchToProps)(BotsElement);
