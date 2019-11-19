@@ -31,7 +31,7 @@ const Actions = (props) => {
 
     return (
         <div className={style.actionsMainContainer}>
-            <h2>Дополнительные действия: </h2>
+            <h2 style={{color: '#82848B', textAlign: 'center'}}>Дополнительные действия: </h2>
             {
                 Object.keys(buttonData).map(key => (
                     (key === tagsTypes.AddTags || key === tagsTypes.Remove_Tags) && (

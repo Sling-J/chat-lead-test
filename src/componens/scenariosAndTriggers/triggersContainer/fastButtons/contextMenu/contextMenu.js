@@ -71,7 +71,7 @@ const ContextMenu = (props) => {
     const getTriggers = () => {
         const triggers = [];
 
-        changedScenario.triggers.map(trigger =>
+        changedScenario.triggers.forEach(trigger =>
             triggers.push({
                 value: trigger.id,
                 label: trigger.caption
