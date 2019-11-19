@@ -64,9 +64,7 @@ const ContextMenu = (props) => {
             })
          } else {
             Object.assign(buttonData, {
-               payload: {
-                  trigger_id: e.target.value
-               }
+               trigger_id: e.target.value
             })
          }
 
@@ -103,7 +101,6 @@ const ContextMenu = (props) => {
             })
          }
       });
-
       return botScenarios;
    };
 
