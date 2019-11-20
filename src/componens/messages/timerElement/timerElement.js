@@ -207,14 +207,69 @@ const TimerElement = (props) => {
       )
    } else {
       return (
-         <MaterialDatePicker
-            disableToolbar
-            variant="inline"
-            label="Only calendar"
-            helperText="No year selection"
-            // value={selectedDate}
-            // onChange={handleDateChange}
-         />
+         <div className={style.mainContentContainer}>
+            <div className={style.hoverBar}>
+               <HoverBarForMessage
+                  {...props}
+                  styleForBar={{top: '-25px', left: '320px'}}
+               />
+            </div>
+            <div className={style.mainContainer} onClick={() => setStatusIsOpenWindow(true)}>
+               {
+                  <ClickOutsideHandler onClickedOutside={() => setStatusIsOpenWindow(false)}>
+                     <div className={style.container}>
+                        <div
+                           className={style.timerContainer}
+                        >
+                           Потеря активности
+                           до {formatUnixToDate(valuesForTimer[Object.keys(valuesForTimer)[0]], 'send_time') || 0}
+                        </div>
+                        {
+                           isOpenWindow && (
+                              <div className={style.messageContainer}>
+                                 <div className={style.header}>
+                                    Потеря активности
+                                 </div>
+                                 <div className={style.controlsContainer}>
+                                    <label>Потеря активности</label>
+                                    <div className={style.inputContainer}>
+                                       <DatePicker
+                                          selected={
+                                             new Date(
+                                                formatUnixToDate(
+                                                   valuesForTimer[Object.keys(valuesForTimer)[0]],
+                                                   'send_time',
+                                                   true
+                                                )
+                                             )
+                                          }
+                                          dateFormat={'yyyy-MM-dd'}
+                                          locale={ru}
+                                          onChange={(date) => {
+                                             const dateObject = {
+                                                target: {
+                                                   value: formatDateToUnix(date)
+                                                }
+                                             };
+
+                                             updateTrigger(dateObject, 'send_time')
+                                          }}
+                                          minDate={new Date()}
+                                          className={style.datePickerInput}
+                                       />
+                                    </div>
+                                 </div>
+
+                              </div>
+                           )
+                        }
+
+                     </div>
+                  </ClickOutsideHandler>
+               }
+
+            </div>
+         </div>
       )
    }
 

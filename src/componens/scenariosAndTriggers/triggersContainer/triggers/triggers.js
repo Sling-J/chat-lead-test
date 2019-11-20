@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import style from './triggers.module.sass';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClone, faCommentDots, faTrashAlt} from "@fortawesome/free-regular-svg-icons";
@@ -21,9 +21,9 @@ const Triggers = (props) => {
       props.deleteTrigger(triggerData);
    };
 
-   useEffect(() => {
-      changeTriggerId(changedScenario.triggers[0].id)
-   }, [changedScenario.triggers.length]);
+   // useEffect(() => {
+   //    changeTriggerId(changedScenario.triggers[0].id)
+   // }, [changedScenario.triggers.length]);
 
    const editTrigger = (e, id) => {
       setTriggerIdEdit(false);
@@ -101,16 +101,15 @@ const Triggers = (props) => {
                            <FontAwesomeIcon icon={faCommentDots}/>
                         </p>
                         <p className={style.caption}>
-                           {/*{trigger.caption}*/}
-                           {
-                              triggerIdEdit === index ?
-                                 <input
-                                    onBlur={(e) => editTrigger(e, trigger.id)}
-                                    type={'text'}
-                                    defaultValue={trigger.caption}
-                                    className={style.editInput}
-                                 />
-                                 : trigger.caption
+                           {triggerIdEdit === index ?
+                              <input
+                                 onBlur={(e) => editTrigger(e, trigger.id)}
+                                 type={'text'}
+                                 defaultValue={trigger.caption}
+                                 className={style.editInput}
+                              />
+                              :
+                              trigger.caption
                            }
                         </p>
                         <p

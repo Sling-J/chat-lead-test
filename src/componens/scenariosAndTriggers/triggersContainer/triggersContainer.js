@@ -18,7 +18,6 @@ import Triggers from './triggers/triggers';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClone} from "@fortawesome/free-regular-svg-icons";
 
-
 const TriggersContainer = (props) => {
    const changedScenario = props.botScenarios.filter(elem => elem.id === props.scenarioId)[0];
    const triggers = changedScenario && changedScenario.triggers;
@@ -41,7 +40,6 @@ const TriggersContainer = (props) => {
 
       props.appendTrigger(triggerData);
    };
-
 
    const updateTriggerDeleteMessageHandler = index => {
       console.log(index);
@@ -125,6 +123,7 @@ const TriggersContainer = (props) => {
                   <>
                      <MessagesContainer
                         changedTrigger={changedTrigger}
+                        changedScenario={changedScenario}
                         updateTriggerUpdateMessageHandler={updateTriggerUpdateMessageHandler}
                         updateTriggerDeleteMessageHandler={updateTriggerDeleteMessageHandler}
                      />

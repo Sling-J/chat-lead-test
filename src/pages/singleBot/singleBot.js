@@ -8,35 +8,32 @@ import MainHeader from "../../componens/mainHeader/mainHeader";
 
 
 const SingleBot = (props) => {
-
-    useEffect(() => {
-        props.getScenaries(props.match.params.botId)
-    }, [props.match.params.botId]);
-
+   useEffect(() => {
+      props.getScenaries(props.match.params.botId)
+   }, [props.match.params.botId]);
 
 
-
-    return (
-        <div className={style.mainContainer}>
-            <MainHeader
-                isMainHeader={false}
-            />
-            <NavBar/>
-            <div className={style.contentBlock}>
-                <ScenariosContainer/>
-            </div>
-        </div>
-    )
+   return (
+      <div className={style.mainContainer}>
+         <MainHeader
+            isMainHeader={false}
+         />
+         <NavBar/>
+         <div className={style.contentBlock}>
+            <ScenariosContainer/>
+         </div>
+      </div>
+   )
 };
 
 const mapStateToProps = state => {
-  const {botScenarios, isFetching, error} = state.singleBotReducers;
-    const {changedScenarioId} = state.singleBotReducers;
+   const {botScenarios, isFetching, error} = state.singleBotReducers;
+   const {changedScenarioId} = state.singleBotReducers;
 
 
-    return {
+   return {
       botScenarios, isFetching, error, changedScenarioId
-  }
+   }
 };
 
 const mapDispatchToProps = dispatch => ({

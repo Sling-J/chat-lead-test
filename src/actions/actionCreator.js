@@ -2,15 +2,15 @@ import ACTION from './actionTypes';
 
 
 export const signUp = (signUpData, history) => ({
-    type: ACTION.SIGN_UP_ACTION,
-    signUpData,
-    history
+   type: ACTION.SIGN_UP_ACTION,
+   signUpData,
+   history
 });
 
 export const auth = (authData, history) => ({
-    type: ACTION.AUTH_ACTION,
-    authData,
-    history
+   type: ACTION.AUTH_ACTION,
+   authData,
+   history
 });
 
 export const logout = (history) => ({
@@ -29,20 +29,20 @@ export const deleteBot = (deleteBotData) => ({
 });
 
 export const getAllBotsForUser = (botId) => ({
-    type: ACTION.GET_ALL_BOTS_ACTION,
-    botId
+   type: ACTION.GET_ALL_BOTS_ACTION,
+   botId
 });
 
 export const getAllScenariesForBot = (idBot) => ({
    type: ACTION.GET_ALL_SCENARIES,
-    idBot
+   idBot
 });
 
 export const addNewScenario = (botId, destination, trigger_text) => ({
    type: ACTION.ADD_NEW_SCENARIO,
    botId,
-    destination,
-    trigger_text
+   destination,
+   trigger_text
 });
 
 export const changeScenarioId = (scenarioId) => ({
@@ -61,13 +61,13 @@ export const copyScenario = (scenarioData) => ({
 });
 
 export const editScenario = (scenarioData) => ({
-    type: ACTION.EDIT_SCENARIO,
-    scenarioData
-})
+   type: ACTION.EDIT_SCENARIO,
+   scenarioData
+});
 
 export const deleteScenario = (scenarioData) => ({
    type: ACTION.DELETE_SCENARIO,
-    scenarioData
+   scenarioData
 });
 
 export const addNewTrigger = (triggerData) => ({
@@ -78,13 +78,13 @@ export const addNewTrigger = (triggerData) => ({
 export const updateTrigger = (triggerData, updationData, changedSocial) => ({
    type: ACTION.UPDATE_TRIGGER,
    triggerData,
-    updationData,
-    changedSocial
+   updationData,
+   changedSocial
 });
 
 export const deleteTrigger = (triggerData) => ({
-    type: ACTION.DELETE_TRIGGER,
-    triggerData
+   type: ACTION.DELETE_TRIGGER,
+   triggerData
 });
 
 export const editTriggerCaption = (triggerData) => ({
@@ -98,13 +98,13 @@ export const deleteMessageInTrigger = (index) => ({
 });
 
 export const updateButtonsInTrigger = (triggerData) => ({
-    type: ACTION.UPDATE_BUTTONS_IN_TRIGGER,
-    triggerData
+   type: ACTION.UPDATE_BUTTONS_IN_TRIGGER,
+   triggerData
 });
 
 export const updateSocialInTrigger = (triggerData) => ({
    type: ACTION.UPDATE_SOCIAL_IN_TRIGGER,
-    triggerData
+   triggerData
 });
 
 export const getAllAutorides = (botId) => ({
@@ -118,9 +118,9 @@ export const getAutorideLinks = (autorideData) => ({
 });
 
 export const addNewAutoride = (managerId, trigger_text) => ({
-    type: ACTION.APPEND_AUTORIDE,
-    managerId,
-    trigger_text
+   type: ACTION.APPEND_AUTORIDE,
+   managerId,
+   trigger_text
 });
 
 export const deleteAutoride = (managerId, idAutoride) => ({
@@ -135,15 +135,14 @@ export const getAllBroadCasts = (managerId) => ({
 });
 
 export const updateBroadCasts = (broadCastData) => ({
-    type: ACTION.UPDATE_BROADCAST,
-    broadCastData
+   type: ACTION.UPDATE_BROADCAST,
+   broadCastData
 });
 
 export const appendBroadCast = (managerId) => ({
    type: ACTION.APPEND_BROADCAST,
    managerId
 });
-
 
 // setup
 
@@ -159,7 +158,7 @@ export const editManager = (setupData) => ({
 
 export const updateBotReactions = (reactionsData) => ({
    type: ACTION.UPDATE_BOT_REACTIONS,
-    reactionsData
+   reactionsData
 });
 
 export const getFacebookAuthUrl = (idBot) => ({

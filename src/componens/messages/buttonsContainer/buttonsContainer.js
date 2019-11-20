@@ -3,7 +3,7 @@ import style from './buttonsContainer.module.sass';
 import {buttonsTypes} from "../../../constants/defaultValues";
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
-import {updateTrigger} from "../../../actions/actionCreator";
+import {addNewTrigger, updateTrigger} from "../../../actions/actionCreator";
 import ContextMenu from './contextMenu/contextMenu';
 import {ScenarioIdContext} from "../../../utils/Contexts";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -18,7 +18,7 @@ const ButtonsContainer = (props) => {
    const {
       type,
       index,
-      value,
+      changedScenario,
       changedTrigger,
       changedSlideOrElement,
       styleForControls,
@@ -28,13 +28,12 @@ const ButtonsContainer = (props) => {
    } = props;
 
    const appendNewButton = () => {
-
       const messagesCopy = changedTrigger.messages;
+
       let buttons = null;
 
       if (changedSlideOrElement || changedSlideOrElement === 0) {
          buttons = messagesCopy[props.changedSocial][index][type][changedSlideOrElement].keyboard;
-
       } else {
          buttons = messagesCopy[props.changedSocial][index].keyboard;
       }
@@ -52,10 +51,8 @@ const ButtonsContainer = (props) => {
          messages: messagesCopy,
          botId: props.match.params.botId
       };
-      //
+
       props.updateTrigger(triggerData, null, props.changedSocial);
-
-
    };
 
    const allButtonsInMessage = () => {
@@ -64,12 +61,10 @@ const ButtonsContainer = (props) => {
          messagesCopy[props.changedSocial][index][type][changedSlideOrElement].keyboard
          : messagesCopy[props.changedSocial][index].keyboard;
 
-
       return buttonsArray;
    };
 
-
-   const editButton = (typeButton, buttonData, indexButton, isEmpty) => {
+   const editButton = (typeButton, buttonData, indexButton, isEmpty, isCreateTrigger) => {
       const messagesCopy = changedTrigger.messages;
       const buttonsValues = allButtonsInMessage();
 
@@ -88,13 +83,17 @@ const ButtonsContainer = (props) => {
          botId: props.match.params.botId
       };
 
-      console.log(buttonData);
+      if (isCreateTrigger) {
+         const trigger = {
+            scenario_id: changedScenario.id,
+            manager_id: props.match.params.botId,
+         };
+
+         props.appendTrigger(trigger);
+      }
 
       props.updateTrigger(triggerData, null, props.changedSocial);
    };
-
-   // console.log(allButtonsInMessage());
-
 
    return (
       <div className={style.mainContainer}>
@@ -121,12 +120,12 @@ const ButtonsContainer = (props) => {
                   <div className={style.button} style={styleForButton}>
                      <div className={style.captionContainer} style={styleForCaption}>
                         {elem.caption || 'Новая Кнопка'}
-                     </div>
-                     <div className={style.label}>
-                        {elem.isEmpty
-                           ? <FontAwesomeIcon icon={faCircle}/>
-                           : markForButton[elem.type]
-                        }
+                        <span>
+                           {elem.isEmpty
+                              ? <FontAwesomeIcon icon={faCircle}/>
+                              : markForButton[elem.type]
+                           }
+                        </span>
                      </div>
                   </div>
                </div>
@@ -166,6 +165,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData, updationData, social) => dispatch(updateTrigger(triggerData, updationData, social)),
+   appendTrigger: triggerData => dispatch(addNewTrigger(triggerData)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ButtonsContainer));

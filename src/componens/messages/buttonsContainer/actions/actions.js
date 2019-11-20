@@ -1,68 +1,160 @@
-import React, {useState} from 'react';
-import style from './actions.module.sass';
+import React, {useState, Fragment} from 'react';
 import ActionsContextMenu from './actionsContextMenu/actionsContextMenu';
 import {connect} from "react-redux";
 import {updateTrigger} from "../../../../actions/actionCreator";
-import {tagsTypes, tagsTranscription} from "../../../../constants/defaultValues";
+import {tagsTypes} from "../../../../constants/defaultValues";
 
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import ListItem from '@material-ui/core/ListItem';
+import CreateIcon from '@material-ui/icons/Create';
+import DoneIcon from '@material-ui/icons/Done';
+
+import style from './actions.module.sass';
 
 const Actions = (props) => {
-    const {buttonEditHandler, typeButton, scenarioId, indexButton, buttonData} = props;
-    const [isOpenContextMenu, openContextMenu] = useState(false);
+   const {buttonEditHandler, typeButton, indexButton, buttonData} = props;
+   const [isOpenContextMenu, openContextMenu] = useState(false);
+   const [editTagField, setEditTagField] = useState(false);
+   const [createTagField, setCreateTagField] = useState(false);
+   const [anchorEl, setAnchorEl] = React.useState(null);
+   const [newTag, setNewTag] = useState('');
+   const [editedTag, setEditedTag] = useState('');
 
-    const editTagsInButton = (typeTag) => {
-        if(!buttonData[typeTag]) {
-            Object.assign(buttonData, {
-                [typeTag]: []
-            });
-        }
-        buttonData[typeTag].push('');
+   const handleOpen = event => {
+      setAnchorEl(event.currentTarget);
+   };
 
-        buttonEditHandler(typeButton, buttonData, indexButton, buttonData.isEmpty);
+   const handleClose = () => {
+      setAnchorEl(null);
+   };
 
-    };
+   const editTagsInButton = (typeTag) => {
+      if (!buttonData[typeTag]) {
+         Object.assign(buttonData, {
+            [typeTag]: []
+         });
+      }
 
-    const updateTag = (e, key, index) => {
-       buttonData[key][index] = e.target.value;
+      buttonEditHandler(typeButton, buttonData, indexButton, buttonData.isEmpty);
+   };
 
-       buttonEditHandler(typeButton, buttonData, indexButton, buttonData.isEmpty);
-    };
+   const openTagField = () => {
+      setEditTagField(true);
+   };
 
+   const handleSubmit = (event, key) => {
+      event.preventDefault();
 
-    return (
-        <div className={style.actionsMainContainer}>
-            <h2 style={{color: '#82848B', textAlign: 'center'}}>Дополнительные действия: </h2>
-            {
-                Object.keys(buttonData).map(key => (
-                    (key === tagsTypes.AddTags || key === tagsTypes.Remove_Tags) && (
-                        buttonData[key].map((elem, index) => (
-                            <div className={style.actionElement}>
-                                <label>{tagsTranscription[key]}</label>
-                                <input type={'text'} defaultValue={elem} onInput={(e) => updateTag(e, key, index)}/>
-                            </div>
-                        ))
-                    )
-                ))
-            }
-            <div className={style.controlsContainer} onClick={() => openContextMenu(true)}>
-                {
-                    isOpenContextMenu && (
-                        <ActionsContextMenu
-                            openContextMenu={openContextMenu}
-                            editTagsInButton={editTagsInButton}
+      if (newTag.length !== 0) {
+         buttonData[key].push(newTag);
+         buttonEditHandler(typeButton, buttonData, indexButton, buttonData.isEmpty);
+         setNewTag('');
+      }
+
+      setCreateTagField(false)
+   };
+
+   const handleEditExistingTag = (event, key, index) => {
+      event.preventDefault();
+
+      if (editedTag.length !== 0) {
+         buttonData[key][index] = editedTag;
+         buttonEditHandler(typeButton, buttonData, indexButton, buttonData.isEmpty);
+         setEditedTag('');
+      }
+
+      setEditTagField(false)
+   };
+
+   console.log(editedTag);
+
+   return (
+      <div className={style.actionsMainContainer}>
+         <h2 style={{color: '#82848B', textAlign: 'center'}}>Дополнительные действия: </h2>
+
+         {Object.keys(buttonData).map(key => (
+            (key === tagsTypes.AddTags || key === tagsTypes.Remove_Tags) && (
+               <Fragment>
+                  <div>
+                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleOpen}>
+                        Open Menu
+                     </Button>
+                     <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                        className={style.tagsListBox}
+                     >
+                        {buttonData[key].map((elem, index) => (
+                           <ListItem>
+                              <div>
+                                 {editTagField ? (
+                                    <form onSubmit={e => handleEditExistingTag(e, key, index)}>
+                                       <input
+                                          type="text"
+                                          defaultValue={elem}
+                                          onChange={e => setEditedTag(e.target.value)}
+                                       />
+                                    </form>
+                                 ) : (
+                                    <p>{elem}</p>
+                                 )}
+                              </div>
+
+                              <Button
+                                 color="primary" size="small"
+                                 onClick={e => editTagField ? handleEditExistingTag(e, key, index) : openTagField(true)}
+                              >
+                                 {editTagField
+                                    ? <DoneIcon/>
+                                    : <CreateIcon/>}
+                              </Button>
+                           </ListItem>
+                        ))}
+                     </Menu>
+                  </div>
+
+                  {createTagField ? (
+                     <form onSubmit={e => handleSubmit(e, key)}>
+                        <input
+                           type="text"
+                           value={newTag}
+                           onChange={e => setNewTag(e.target.value)}
                         />
-                    )
-                }
-                <div className={style.actionsContainer}>
-                    + Действие
-                </div>
+
+                        <button>Добавить</button>
+                     </form>
+                  ) : (
+                     <button onClick={() => setCreateTagField(true)}>Создать тэг</button>
+                  )}
+               </Fragment>
+            )
+         ))}
+
+         <br/>
+         <br/>
+
+         <div className={style.controlsContainer} onClick={() => openContextMenu(true)}>
+            {isOpenContextMenu && (
+               <ActionsContextMenu
+                  openContextMenu={openContextMenu}
+                  editTagsInButton={editTagsInButton}
+               />
+            )}
+
+            <div style={{color: '#82848B'}} className={style.actionsContainer}>
+               + Действие
             </div>
-        </div>
-    )
+         </div>
+      </div>
+   )
 };
 
 const mapDispatchToProps = dispatch => ({
-    updateTrigger: (triggerData, updationData) => dispatch(updateTrigger(triggerData, updationData)),
+   updateTrigger: (triggerData, updationData) => dispatch(updateTrigger(triggerData, updationData)),
 });
 
 export default connect(mapDispatchToProps)(Actions);
