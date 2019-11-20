@@ -10,137 +10,140 @@ import {connect} from "react-redux";
 import {buttonsTypes} from "../../../../../constants/defaultValues";
 
 const ContextMenu = (props) => {
-    const {
-        setIndexOpenButton,
-        scenarioId,
-        buttonEditHandler,
-        typeButton,
-        indexButton,
-        buttonData,
-    } = props;
+   const {
+      setIndexOpenButton,
+      scenarioId,
+      buttonEditHandler,
+      typeButton,
+      indexButton,
+      buttonData,
+   } = props;
 
-    const changedScenario = props.botScenarios.filter(elem => elem.id === scenarioId)[0];
-    const changedTriggerInFastButton = typeButton === buttonsTypes.fast_buttons && (
-        changedScenario.triggers.filter(elem => elem.id === buttonData.payload.trigger_id)[0]
-    );
+   const changedScenario = props.botScenarios.filter(elem => elem.id === scenarioId)[0];
+   const changedTriggerInFastButton = typeButton === buttonsTypes.fast_buttons && (
+      changedScenario.triggers.filter(elem => elem.id === buttonData.payload.trigger_id)[0]
+   );
 
-    ContextMenu.handleClickOutside = () => setIndexOpenButton(false);
+   ContextMenu.handleClickOutside = () => setIndexOpenButton(false);
 
-    const stylesForSelector = {
-        control: (styles, state) => ({
+   const stylesForSelector = {
+      control: (styles, state) => ({
+         ...styles,
+         boxShadow: '0 !important',
+         cursor: 'pointer',
+         '&:hover': {
+            border: '2px solid #bdcadd !important'
+         },
+         border: '2px solid #bdcadd',
+         borderRadius: '10px 0 0 10px',
+         height: '100%',
+         background: '#f1f3f5'
+      }),
+      option: (styles, {data, isDisabled, isFocused, isSelected}) => {
+         return {
             ...styles,
-            boxShadow: '0 !important',
+            color: '#000',
+            backgroundColor: isSelected ? '#f4f3f5' : 'white',
             cursor: 'pointer',
-            '&:hover': {
-                border: '2px solid #bdcadd !important'
-            },
-            border: '2px solid #bdcadd',
-            borderRadius: '10px 0 0 10px',
-            height: '100%',
-            background: '#f1f3f5'
-        }),
-        option: (styles, {data, isDisabled, isFocused, isSelected}) => {
-            return {
-                ...styles,
-                color: '#000',
-                backgroundColor: isSelected ? '#f4f3f5' : 'white',
-                cursor: 'pointer',
-                borderRadius: '0'
-            };
-        }
-    };
+            borderRadius: '0'
+         };
+      }
+   };
 
-    const editButton = (e, forCaption) => {
-        if (typeButton === buttonsTypes.fast_buttons) {
-            if (forCaption) {
-                Object.assign(buttonData, {
-                    caption: e.target.value
-                })
-            } else {
-                Object.assign(buttonData, {
-                    payload: {
-                        trigger_id: e.target.value
-                    }
-                })
-            }
-
-            buttonEditHandler(typeButton, buttonData, indexButton);
-        }
-    };
-
-    const getTriggers = () => {
-        const triggers = [];
-
-        changedScenario.triggers.forEach(trigger =>
-            triggers.push({
-                value: trigger.id,
-                label: trigger.caption
+   const editButton = (e, forCaption) => {
+      if (typeButton === buttonsTypes.fast_buttons) {
+         if (forCaption) {
+            Object.assign(buttonData, {
+               caption: e.target.value
             })
-        );
+         } else {
+            Object.assign(buttonData, {
+               payload: {
+                  trigger_id: e.target.value
+               }
+            })
+         }
 
-        return triggers;
-    };
+         buttonEditHandler(typeButton, buttonData, indexButton);
+      }
+   };
 
-    return (
-        <div className={style.mainContainer}>
-            <div className={style.header}>
-                Редактировать кнопку
+   const getTriggers = () => {
+      const triggers = [];
+
+      changedScenario.triggers.forEach(trigger =>
+         triggers.push({
+            value: trigger.id,
+            label: trigger.caption
+         })
+      );
+
+      return triggers;
+   };
+
+   return (
+      <div className={style.mainContainer}>
+         <div className={style.header}>
+            Редактировать кнопку
+         </div>
+         <div className={style.buttonChanger}>
+            <h2>Заголовок кнопки</h2>
+            <input
+               type={'text'}
+               defaultValue={buttonData.caption}
+               title={'title'}
+               onInput={(e) => editButton(e, true)}
+            />
+            <div className={style.inputContainer}>
+               <Select
+                  placeholder={'Триггер'}
+                  options={getTriggers()}
+                  defaultValue={buttonData.payload.trigger_id && {
+                     value: buttonData.payload.trigger_id,
+                     label: changedTriggerInFastButton.caption
+                  }}
+                  onChange={(value) => editButton({
+                     target: {
+                        value: value.value
+                     }
+                  })}
+                  styles={stylesForSelector}
+                  className={style.selector}
+                  isSearchable={false}
+                  components={{DropdownIndicator: () => null}}
+                  arrowRenderer={() => ''}
+               />
+               <div
+                  className={style.closeButton}
+                  onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
+                     caption: ''
+                  }), indexButton, true)}
+               >
+                  <FontAwesomeIcon icon={faTimes}/>
+               </div>
             </div>
-            <div className={style.buttonChanger}>
-                <h2>Заголовок кнопки</h2>
-                <input
-                    type={'text'}
-                    defaultValue={buttonData.caption}
-                    title={'title'}
-                    onInput={(e) => editButton(e, true)}
-                />
-                <div className={style.inputContainer}>
-                    <Select
-                        placeholder={'Триггер'}
-                        options={getTriggers()}
-                        defaultValue={buttonData.payload.trigger_id && {
-                            value: buttonData.payload.trigger_id,
-                            label: changedTriggerInFastButton.caption
-                        }}
-                        onChange={(value) => editButton({
-                            target: {
-                                value: value.value
-                            }
-                        })}
-                        styles={stylesForSelector}
-                        className={style.selector}
-                        isSearchable={false}
-                        components={{DropdownIndicator: () => null}}
-                        arrowRenderer={() => ''}
-                    />
-                    <div
-                        className={style.closeButton}
-                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
-                            caption: ''
-                        }), indexButton, true)}
-                    >
-                        <FontAwesomeIcon icon={faTimes}/>
-                    </div>
-                </div>
-                <Controls
-                    {...props}
-                />
-            </div>
-        </div>
-    )
+            <Actions
+               {...props}
+            />
+            <Controls
+               {...props}
+            />
+         </div>
+      </div>
+   )
 
 
 };
 
 const mapStateToProps = ({singleBotReducers}) => ({
-    changedScenarioId: singleBotReducers.changedScenarioId,
-    botScenarios: singleBotReducers.botScenarios,
-    isFetching: singleBotReducers.isFetching,
-    error: singleBotReducers.error,
+   changedScenarioId: singleBotReducers.changedScenarioId,
+   botScenarios: singleBotReducers.botScenarios,
+   isFetching: singleBotReducers.isFetching,
+   error: singleBotReducers.error,
 });
 
 const clickOutsideConfig = {
-    handleClickOutside: () => ContextMenu.handleClickOutside
+   handleClickOutside: () => ContextMenu.handleClickOutside
 };
 
 export default onClickOutside(connect(mapStateToProps, null)(ContextMenu), clickOutsideConfig);
