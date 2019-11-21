@@ -77,9 +77,17 @@ const Actions = (props) => {
             (key === tagsTypes.AddTags || key === tagsTypes.Remove_Tags) && (
                <Fragment>
                   <div>
-                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleOpen}>
-                        Open Menu
-                     </Button>
+                     <div className={style.tagsListBtn}>
+                        <Button
+                           aria-controls="simple-menu"
+                           aria-haspopup="true"
+                           onClick={handleOpen}
+                           href=""
+                           variant="outlined"
+                        >
+                           Теги
+                        </Button>
+                     </div>
                      <Menu
                         id="simple-menu"
                         anchorEl={anchorEl}
@@ -99,9 +107,7 @@ const Actions = (props) => {
                                           onChange={e => setEditedTag(e.target.value)}
                                        />
                                     </form>
-                                 ) : (
-                                    <p>{elem}</p>
-                                 )}
+                                 ) : elem}
                               </div>
 
                               <Button
@@ -117,25 +123,36 @@ const Actions = (props) => {
                      </Menu>
                   </div>
 
-                  {createTagField ? (
-                     <form onSubmit={e => handleSubmit(e, key)}>
-                        <input
-                           type="text"
-                           value={newTag}
-                           onChange={e => setNewTag(e.target.value)}
-                        />
-
-                        <button>Добавить</button>
-                     </form>
-                  ) : (
-                     <button onClick={() => setCreateTagField(true)}>Создать тэг</button>
-                  )}
+                  <div className={style.createTagBtnBox}>
+                     {createTagField ? (
+                        <form onSubmit={e => handleSubmit(e, key)}>
+                           <input
+                              type="text"
+                              value={newTag}
+                              placeholder="Введите тег"
+                              onChange={e => setNewTag(e.target.value)}
+                           />
+                           {}
+                           <Button variant="contained" className={style.createTagBtn} href="">Добавить</Button>
+                        </form>
+                     ) : (
+                        <Button
+                           variant="contained"
+                           className={style.createTagBtn}
+                           onClick={() => setCreateTagField(true)}
+                           href=""
+                        >
+                           {key === tagsTypes.AddTags ? (
+                              'Добавить тег'
+                           ) : (
+                              'Убрать тег'
+                           )}
+                        </Button>
+                     )}
+                  </div>
                </Fragment>
             )
          ))}
-
-         <br/>
-         <br/>
 
          <div className={style.controlsContainer} onClick={() => openContextMenu(true)}>
             {isOpenContextMenu && (
