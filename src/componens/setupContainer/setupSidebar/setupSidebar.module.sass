@@ -1,137 +1,150 @@
-.setupSidebar 
-  top: 78px 
-  width: 300px 
-  margin-top: -40px 
-  padding-top: 30px 
-  padding-right: 20px 
-  position: -webkit-sticky 
-  position: sticky 
-  overflow-x: hidden 
-  overflow-y: auto 
-  -webkit-transition: .2s cubic-bezier(.79,.14,.15,.86) 
-  -o-transition: .2s cubic-bezier(.79,.14,.15,.86) 
-  transition: .2s cubic-bezier(.79,.14,.15,.86) 
-  -webkit-overflow-scrolling: touch 
-  max-height: -webkit-calc(100vh - 75px) 
-  max-height: calc(100vh - 75px)
+.setupSidebar
+   top: 78px
+   width: 300px
+   margin-top: -40px
+   padding-top: 30px
+   padding-right: 20px
+   position: -webkit-sticky
+   position: sticky
+   overflow-x: hidden
+   overflow-y: auto
+   -webkit-transition: .2s cubic-bezier(.79, .14, .15, .86)
+   -o-transition: .2s cubic-bezier(.79, .14, .15, .86)
+   transition: .2s cubic-bezier(.79, .14, .15, .86)
+   -webkit-overflow-scrolling: touch
+   max-height: -webkit-calc(100vh - 75px)
+   max-height: calc(100vh - 75px)
 
-.groupBlock 
-  overflow: hidden 
-  background: url(../../../images/w-512-h-5121390849392-combo-512@3x.png) no-repeat 
-  background-size: cover 
-  background-clip: border-box 
-  position: relative 
-  -webkit-border-radius: 8px 
-  border-radius: 8px 
-  padding: 30px 20px 
-  margin-bottom: 20px 
+.groupBlock
+   overflow: hidden
+   background: url(../../../images/w-512-h-5121390849392-combo-512@3x.png) no-repeat
+   background-size: cover
+   background-clip: border-box
+   position: relative
+   -webkit-border-radius: 8px
+   border-radius: 8px
+   padding: 30px 20px
+   margin-bottom: 20px
+
 .groupBlock__text
-  font-size: 15px
-  color: #fff
-  line-height: 1.55
-  margin-bottom: 15px
-  text-align: center
-.ui_vmenu_sep 
-  padding: 12px 0 
-  position: relative 
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif 
-  border: 1px solid #dadada 
-  -webkit-border-radius: 3px 
-  border-radius: 3px 
-  margin-bottom: 15px 
-  background-color: #fff 
+   font-size: 15px
+   color: #fff
+   line-height: 1.55
+   margin-bottom: 15px
+   text-align: center
+
+.ui_vmenu_sep
+   padding: 12px 0
+   position: relative
+   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif
+   border: 1px solid #dadada
+   -webkit-border-radius: 3px
+   border-radius: 3px
+   margin-bottom: 15px
+   background-color: #fff
+
 .ui_vmenu__title
-  border-bottom: 1px solid #7b7979
-  text-align: center
+   border-bottom: 1px solid #7b7979
+   text-align: center
 
 
 .ui_vmenu__item
-  display: block
-  overflow: hidden
-  -webkit-user-select: none
-  -moz-user-select: none
-  -ms-user-select: none
-  user-select: none
-  position: relative
-  border-left: 2px solid transparent
-  -o-text-overflow: ellipsis
-  text-overflow: ellipsis
-  white-space: nowrap
-  font-size: 14px
-  line-height: 36px
-  padding: 0 23px
-  cursor: pointer
-  color: #25435b
-  input[type="text"]
-    width: 100%
-    padding: 5px 5px
-    -webkit-border-radius: 0
-    border-radius: 0
-    border-bottom: 1px solid #7b7979
-  input[type="radio"]
-    margin-right: 10px
-  input[type="radio"]:checked+span
-    background-color: #edf1f5
-    border-left-color: #4680fe
-    font-weight: 700
-    color: #444
+   display: block
+   overflow: hidden
+   -webkit-user-select: none
+   -moz-user-select: none
+   -ms-user-select: none
+   user-select: none
+   position: relative
+   border-left: 2px solid transparent
+   -o-text-overflow: ellipsis
+   text-overflow: ellipsis
+   white-space: nowrap
+   font-size: 14px
+   line-height: 36px
+   padding: 0 23px
+   cursor: pointer
+   color: #25435b
+
+   input[type="text"]
+      width: 100%
+      padding: 5px 5px
+      -webkit-border-radius: 0
+      border-radius: 0
+      border-bottom: 1px solid #7b7979
+
+   input[type="radio"]
+      margin-right: 10px
+
+   input[type="radio"]:checked + span
+      background-color: #edf1f5
+      border-left-color: #4680fe
+      font-weight: 700
+      color: #444
 
 
 .ui_vmenu__item_p
-  color: #7b7979
-  padding: 15px 23px
-  font-size: 14px
+   color: #7b7979
+   padding: 15px 23px
+   font-size: 14px
+
 .ui_vmenu_sep_form
-  margin-top: 10px
+   margin-top: 10px
 
 .ui_vmenu__item:hover
-  background-color: #edf1f5
+   background-color: #edf1f5
 
 .ui_vmenu__item_input
-  margin-right: 10px
+   margin-right: 10px
 
 .ui_vmenu_sep_button
-  width: 80%!important
-  background: #517df9
-  color: #fff
-  padding: 10px
-  margin: 10px auto
-  display: block
-  position: relative
-  cursor: pointer
+   width: 80% !important
+   height: 30px
+   background-color: #517df9 !important
+   color: #fff !important
+   padding: 0 10px !important
+   font-size: 14px
+   font-weight: 400
+   margin: 10px 26px !important
+   position: relative
 
-.ui_vmenu__item_span
-  // background-color: #edf1f5
-  // border-left-color: #4680fe
-  // font-weight: 700
-  // color: #444
+   div
+      width: 20px !important
+      height: 20px !important
+
+
+   &:disabled
+      opacity: 0.7
+
+   &:enabled
+      cursor: pointer
 
 .telegram_input
-  width: 100%
-  padding: 5px 5px
-  -webkit-border-radius: 0
-  border-radius: 0
-  border-bottom: 1px solid #7b7979
-  outline: 0
+   width: 100%
+   padding: 5px 5px
+   -webkit-border-radius: 0
+   border-radius: 0
+   border-bottom: 1px solid #7b7979
+   outline: 0
 
-  // -webkit-writing-mode: horizontal-tb !important
-  // text-rendering: auto
-  // color: initial
-  // letter-spacing: normal
-  // word-spacing: normal
-  // text-transform: none
-  // text-indent: 0px
-  // text-shadow: none
-  // display: inline-block
-  // text-align: start
-  // -webkit-appearance: textfield
-  // background-color: white
-  // -webkit-rtl-ordering: logical
-  // cursor: text
-  // margin: 0em
-  // font: 400 13.3333px Arial
-  // padding: 1px 0px
-  // border-width: 2px
-  // border-style: inset
-  // border-color: initial
-  // border-image: initial
+// -webkit-writing-mode: horizontal-tb !important
+// text-rendering: auto
+// color: initial
+// letter-spacing: normal
+// word-spacing: normal
+// text-transform: none
+// text-indent: 0px
+// text-shadow: none
+// display: inline-block
+// text-align: start
+// -webkit-appearance: textfield
+// background-color: white
+// -webkit-rtl-ordering: logical
+// cursor: text
+// margin: 0em
+// font: 400 13.3333px Arial
+// padding: 1px 0px
+// border-width: 2px
+// border-style: inset
+// border-color: initial
+// border-image: initial

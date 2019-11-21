@@ -161,18 +161,18 @@ export const updateBotReactions = (reactionsData) => ({
    reactionsData
 });
 
-export const getFacebookAuthUrl = (idBot) => ({
-   type: ACTION.GET_FACEBOOK_AUTH_URL,
+export const facebookAuthUrl = (idBot) => ({
+   type: ACTION.GET_FACEBOOK_AUTH_URL_REQUEST,
    idBot
 });
 
-export const getVkAuth = (idBot) => ({
-   type: ACTION.GET_VK_AUTH_URL,
+export const vkAuth = (idBot) => ({
+   type: ACTION.GET_VK_AUTH_URL_REQUEST,
    idBot
 });
 
-export const getQRCodeUrl = (idBot) => ({
-   type: ACTION.GET_WA_QR_URL,
+export const QRCodeUrl = (idBot) => ({
+   type: ACTION.GET_WA_QR_URL_REQUEST,
    idBot
 });
 
