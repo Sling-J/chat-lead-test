@@ -85,7 +85,6 @@ const MainHeader = (props) => {
 };
 
 
-
 const mapStateToProps = state => {
     const {botsData, changedBotData, isFetching, error} = state.botsReducers;
 
