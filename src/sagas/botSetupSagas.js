@@ -9,7 +9,7 @@ import {
    getScenariesForManager,
    addNewScenario
 } from "../api/rest/restContoller";
-import {signUpErrors, authErrors} from "../constants/errors/user";
+import {signUpErrors} from "../constants/errors/user";
 import {destinationScenario} from "../constants/defaultValues";
 
 const localStorageToken = () => localStorage.getItem('token');
@@ -127,8 +127,7 @@ export function* getQRCodeSaga() {
 }
 
 export function* updateBotReactionsSaga({reactionsData}) {
-   if (localStorage.getItem('token')) {
-
+   if (localStorageToken()) {
       yield put({type: ACTION.BOT_SETUP_REQUEST});
 
       const formData = new FormData();

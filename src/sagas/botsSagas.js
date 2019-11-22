@@ -198,11 +198,8 @@ export function* editScenarioSagas({scenarioData}) {
 }
 
 export function* deleteScenarioSagas({scenarioData}) {
-
    if (localStorage.getItem('token')) {
-
       yield put({type: ACTION.SINGLE_BOT_DATA_REQUEST});
-
 
       const formData = new FormData();
       formData.append('manager_id', scenarioData.botId);

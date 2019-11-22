@@ -96,7 +96,7 @@ const SetupSidebar = (props) => {
                   )}
 
                </div>
-               <div className="for-telegram" style={{display: "none;"}}>
+               <div className={`for-telegram ${style.ui_vmenu__box}`}>
                   {props.botSetupData.telegram_name !== '' ? (
                      <>
                         <p className={style.ui_vmenu__item_p}>{props.botSetupData.telegram_name}</p>
@@ -142,7 +142,7 @@ const SetupSidebar = (props) => {
 
 
                </div>
-               <div className="for-vk" style={{display: "none;"}}>
+               <div className={`for-vk ${style.ui_vmenu__box}`}>
                   {props.botSetupData.vk_name !== '' ? (
                      <>
                         <p className={style.ui_vmenu__item_p}>{props.botSetupData.vk_name}</p>
@@ -172,7 +172,7 @@ const SetupSidebar = (props) => {
                      </div>
                   )}
                </div>
-               <div className="for-whatsapp" style={{display: "none;"}}>
+               <div className={`for-whatsapp ${style.ui_vmenu__box}`}>
                   <p className={style.ui_vmenu__item_p}>ШАГ 1: Откройте WhatsApp Web, наведите свой телефон чтобы
                      считать код</p>
                   <Button

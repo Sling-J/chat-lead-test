@@ -19,7 +19,7 @@ const TextArea = (props) => {
 
    const addName = () => {
       let myField = document.querySelector("#insertVariable");
-      let myValue = " {firstName}";
+      let myValue = " {first_name}";
       let input = myField.value;
       input += myValue;
       myField.value = input;
@@ -27,7 +27,7 @@ const TextArea = (props) => {
 
    const addLastName = () => {
       let myField = document.querySelector("#insertVariable");
-      let myValue = " {lastName}";
+      let myValue = " {last_name}";
       let input = myField.value;
       input += myValue;
       myField.value = input;

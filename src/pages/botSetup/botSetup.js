@@ -5,7 +5,7 @@ import Header from '../../componens/header/header';
 import MainHeader from '../../componens/mainHeader/mainHeader';
 import NavBar from '../../componens/navbar/navbar';
 import {connect} from 'react-redux';
-import {changeScenarioId, getManager} from "../../actions/actionCreator";
+import {changeScenarioId, getAllScenariesForBot, getManager} from "../../actions/actionCreator";
 import {ScenarioIdContext} from "../../utils/Contexts";
 import TriggersContainer from "../../componens/scenariosAndTriggers/triggersContainer/triggersContainer";
 
@@ -13,14 +13,12 @@ const BotSetup = (props) => {
    const {changeScenarioId, changedScenarioId} = props;
    const {botSetupData} = props;
 
-
-
    useEffect(() => {
       props.getManager(props.match.params.botId);
+      props.getScenaries(props.match.params.botId);
    }, []);
 
    const contentContainer = () => {
-
       if (changedScenarioId) {
          return (
             <div className={style.triggersContainer}>
@@ -68,8 +66,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
    getManager: (botId) => dispatch(getManager(botId)),
-   changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId))
-
+   changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId)),
+   getScenaries: (botId) => dispatch(getAllScenariesForBot(botId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BotSetup);

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import style from './setupWideColumn.module.sass';
 import {connect} from 'react-redux';
-// import { stringLiteral } from '@babel/types';
 import {
    getManager,
    editManager,
@@ -14,7 +13,6 @@ import svr_r4 from '../../../svg/db/settings/301-idea-1.svg';
 import amocrm_logo from '../../../images/amocrm-logo-rect.png';
 import bitrix_logo from '../../../images/bitrix-24-logo.png';
 import {destinationScenario} from "../../../constants/defaultValues";
-import faceBookMassanger from "../../../images/facebook-messenger-logo-big.png";
 
 
 class SetupWideColumn extends Component {
@@ -27,10 +25,12 @@ class SetupWideColumn extends Component {
    };
 
    componentDidUpdate(prevProps, prevState, snapshot) {
-      const {emailList, telList} = this.state;
       const {botSetupData} = this.props;
 
-      if (prevProps.botSetupData !== botSetupData) {
+      if (
+         (prevProps.botSetupData.application_email !== botSetupData.application_email) ||
+         (prevProps.botSetupData.application_whatsapp_id !== botSetupData.application_whatsapp_id)
+      ) {
          let resEmailList = botSetupData.application_email.split(",").filter(item => item.length !== 0);
          let resTelList = botSetupData.application_whatsapp_id.split(",").filter(item => item.length !== 0);
          let willSend = botSetupData.application_will_send;
@@ -106,12 +106,12 @@ class SetupWideColumn extends Component {
 
       if (type === "email") {
          let newEmailList = [...emailList];
-         newEmailList.splice(index, 1)
+         newEmailList.splice(index, 1);
 
          editManager({
             idBot: botId,
             application_will_send: willSend,
-            application_email: newEmailList.toString(),
+            application_email: emailList.length === 1 ? ',' : newEmailList.toString(),
             application_whatsapp_id: telList.toString(),
             optional_params: ["application_email", "application_whatsapp_id", "application_will_send"]
          });
@@ -119,13 +119,13 @@ class SetupWideColumn extends Component {
 
       if (type === "tel") {
          let newTelList = [...telList];
-         newTelList.splice(index, 1)
+         newTelList.splice(index, 1);
 
          editManager({
             idBot: botId,
             application_will_send: willSend,
             application_email: emailList.toString(),
-            application_whatsapp_id: newTelList.toString(),
+            application_whatsapp_id: telList.length === 1 ? ',' : newTelList.toString(),
             optional_params: ["application_email", "application_whatsapp_id", "application_will_send"]
          });
       }
@@ -133,9 +133,24 @@ class SetupWideColumn extends Component {
 
    render() {
       const {telList, willSend, emailList, email, tel} = this.state;
-      const {editManager, botSetupData} = this.props;
+      const {editManager, botSetupData, botScenarios} = this.props;
       const {default_response, welcome_message, subscription_message} = botSetupData;
       const botId = botSetupData.id;
+
+      const isEmptyCheck = (message) => {
+         const filteredMessage = botScenarios.find(scenario => scenario.id === parseInt(message));
+
+         return filteredMessage && filteredMessage.triggers.map(trigger =>
+            trigger.messages.vk.length !== 0 ||
+            trigger.messages.facebook.length !== 0 ||
+            trigger.messages.telegram.length !== 0 ||
+            trigger.messages.whatsapp.length !== 0
+         );
+      };
+
+      const isWelcomeMessageEmpty = isEmptyCheck(welcome_message);
+      const isDefaultResponseEmpty = isEmptyCheck(default_response);
+      const isSubscriptionMessageEmpty = isEmptyCheck(subscription_message);
 
       return (
          <div className={style.wideСolumn}>
@@ -152,20 +167,25 @@ class SetupWideColumn extends Component {
                               <div className={style.label}>Приветственные сообщения</div>
                               <p>Реакция на первое сообщение пользователя боту, срабатывает только 1 раз</p>
                            </div>
-                           <div className={style.inputGroup}>
+                           <div className={
+                              `${style.inputGroup}
+                                 ${(isWelcomeMessageEmpty && isWelcomeMessageEmpty[0])
+                                    ? style.inputGroupCheck
+                                    : style.inputGroupDanger}
+                               `
+                           }>
                               <input
                                  type={'checkbox'}
                                  id={'welcome_message'}
                                  className={style.statusIcon}
                                  checked={welcome_message && welcome_message !== 'null'}
-                                 onChange={(e) => this.reactionBots(
+                                 onChange={e => this.reactionBots(
                                     destinationScenario.welcome_message,
                                     true
                                  )}
                               />
                               <label htmlFor={'welcome_message'}/>
                            </div>
-
                         </label>
                      </div>
                      <div className={style.table_row} dataaction="keywords" datatype="1" dataid="2">
@@ -177,7 +197,13 @@ class SetupWideColumn extends Component {
                               <p>Сработает, только если пользователь писал в сообщество</p>
                            </div>
 
-                           <div className={style.inputGroup}>
+                           <div className={
+                              `${style.inputGroup}
+                                 ${(isSubscriptionMessageEmpty && isSubscriptionMessageEmpty[0])
+                                    ? style.inputGroupCheck
+                                    : style.inputGroupDanger}
+                               `
+                           }>
                               <input
                                  type={'checkbox'}
                                  className={style.statusIcon}
@@ -220,8 +246,13 @@ class SetupWideColumn extends Component {
                               <div className={style.label}>Реакция на неизвестную команду</div>
                               <p>Ответ на любое сообщение не по сценарию</p>
                            </div>
-                           <div className={style.inputGroup}>
-
+                           <div className={
+                              `${style.inputGroup}
+                                 ${(isDefaultResponseEmpty && isDefaultResponseEmpty[0])
+                                    ? style.inputGroupCheck
+                                    : style.inputGroupDanger}
+                               `
+                           }>
                               <input
                                  type={'checkbox'}
                                  id={'default_response'}
@@ -278,8 +309,9 @@ class SetupWideColumn extends Component {
                                     </div>
                                  )}
                                  <input
+                                    className={style.subscribeField}
                                     id="notificationEmail"
-                                    type="text"
+                                    type="email"
                                     name="mail"
                                     placeholder="example@mail.com"
                                     onChange={e => this.setState({email: e.target.value})}
@@ -299,8 +331,9 @@ class SetupWideColumn extends Component {
                                     </div>
                                  )}
                                  <input
+                                    className={style.subscribeField}
                                     id="notificationTel"
-                                    type="text"
+                                    type="number"
                                     name="phone"
                                     placeholder="+7 ___ ___ __ __"
                                     onChange={e => this.setState({tel: e.target.value})}
@@ -396,6 +429,7 @@ class SetupWideColumn extends Component {
                                     его
                                     целиком вместе с .bitrix24.ru</small>
                               </div>
+
                               <div className={style.inputGr}>
                                  <label>Способ подключения</label>
                                  <div className={style.checkboxs}>
@@ -410,6 +444,7 @@ class SetupWideColumn extends Component {
                                        поддерживается.</label>
                                  </div>
                               </div>
+
                               <div className={style.inputGr}>
                                  <label for="webhook">Код веб-хука*</label>
                                  <input type="text" name="webhook" placeholder="xxxxxxxxxxxxxxxx"/>
@@ -418,9 +453,12 @@ class SetupWideColumn extends Component {
                               <div className={style.inputGr}>
                                  <label for="userId">Номер пользователя*</label>
                                  <input type="text" name="usedId" placeholder="1"/>
-                                 <small>Номер пользователя, которому принадлежит веб-хук (по-умолчанию:
-                                    1).</small>
+                                 <small>
+                                    Номер пользователя, которому принадлежит веб-хук (по-умолчанию:
+                                    1).
+                                 </small>
                               </div>
+
                               <span>
 											<button
                                     className={style.default_btn + " " + style.default_btn__primary}
@@ -449,9 +487,10 @@ class SetupWideColumn extends Component {
 
 const mapStateToProps = state => {
    const {botSetupData, isFetching, error} = state.botSetupReducers;
+   const {botScenarios} = state.singleBotReducers;
 
    return {
-      botSetupData, isFetching, error
+      botSetupData, isFetching, error, botScenarios
    }
 };
 

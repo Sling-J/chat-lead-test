@@ -1,3 +1,9 @@
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button
+   -webkit-appearance: none
+   margin: 0
+
+
 .wideСolumn
   -webkit-transition: .2s cubic-bezier(.79,.14,.15,.86)
   -o-transition: .2s cubic-bezier(.79,.14,.15,.86)
@@ -5,14 +11,15 @@
   width: -webkit-calc(100% - 270px)
   width: calc(100% - 270px)
   padding-left: 15px
-  input[type="text"]
+
+  .subscribeField
     -webkit-writing-mode: horizontal-tb !important
     text-rendering: auto
     color: initial
     letter-spacing: normal
     word-spacing: normal
     text-transform: none
-    text-indent: 0px
+    text-indent: 0
     text-shadow: none
     display: inline-block
     text-align: start
@@ -20,13 +27,10 @@
     background-color: white
     -webkit-rtl-ordering: logical
     cursor: text
-    margin: 0em
+    margin: 0 0 0 5px
     font: 400 13.3333px Arial
-    padding: 1px 0px
-    border-width: 2px
-    border-style: inset
-    border-color: initial
-    border-image: initial
+    padding: 7px 0 5px
+    border: none
 
 .mainPageTitle
   color: #444
@@ -99,8 +103,10 @@
 .table_row
   display: flex
   justify-content: center
+
   &:hover
     background-color: #4680fe1c
+
   label
     width: 100%
     border-bottom: 1px solid #efefef
@@ -125,6 +131,20 @@
       left: 3%
       width: 30px
       height: 30px
+
+.inputGroupCheck
+   label
+      &:before
+         border-color: #66bb6a
+         background-color: #66bb6a
+         background-image: url("../../../svg/db/check.svg")
+
+.inputGroupDanger
+   label
+      &:before
+         border-color: tomato
+         background-color: tomato
+         background-image: url("../../../svg/db/danger.svg")
 
 .inputGroup
   position: absolute
@@ -162,9 +182,6 @@
       height: 20px
       border-radius: 50%
       content: ''
-      border-color: #66bb6a
-      background-color: #66bb6a
-      background-image: url("../../../svg/db/check.svg")
       background-position: 50% 50%
       position: absolute
       background-size: 10px 10px
@@ -208,8 +225,8 @@
   h1
     font-size: 28px
   padding-left: 20px
-  
-  
+
+
 
 
 
@@ -217,7 +234,7 @@
   padding: 20px
   -webkit-box-shadow: 0 1px 5px 0 rgba(9,30,66,.12), 0 7px 25px 0 rgba(9,30,66,.15)
   box-shadow: 0 1px 5px 0 rgba(9,30,66,.12), 0 7px 25px 0 rgba(9,30,66,.15)
-  
+
   h3
     border-bottom: 1px solid #d0d0d0
     padding-bottom: 10px
@@ -228,10 +245,10 @@
     button
       position: absolute
       right: 100px
-    .switch 
-      position: relative 
-      display: inline-block 
-      width: 50px 
+    .switch
+      position: relative
+      display: inline-block
+      width: 50px
       height: 20px
       input
         opacity: 1
@@ -248,7 +265,7 @@
           -webkit-transform: translateX(26px)
           -ms-transform: translateX(26px)
           transform: translateX(26px)
-      
+
     .switcherContainer
       width: 50%
       max-width: 340px
@@ -303,55 +320,55 @@
       width: auto
       max-width: 100%
       min-width: 60px
-      
 
-  .slider 
-    position: absolute 
-    cursor: pointer 
-    top: 0 
-    left: 0 
-    right: 0 
-    bottom: 0 
-    background-color: #ccc 
-    -webkit-transition: .4s 
-    transition: .4s 
-  .slider:before 
-    position: absolute 
-    content: "" 
-    height: 14px 
-    width: 14px 
-    left: 5px 
-    bottom: 3px 
-    background-color: white 
-    -webkit-transition: .4s 
-    transition: .4s 
-  input 
-    &:checked 
+
+  .slider
+    position: absolute
+    cursor: pointer
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    background-color: #ccc
+    -webkit-transition: .4s
+    transition: .4s
+  .slider:before
+    position: absolute
+    content: ""
+    height: 14px
+    width: 14px
+    left: 5px
+    bottom: 3px
+    background-color: white
+    -webkit-transition: .4s
+    transition: .4s
+  input
+    &:checked
       & + .slider
         opacity: 1
-        background-color: #1BCA00 
-        &:before 
-          -webkit-transform: translateX(26px) 
-          -ms-transform: translateX(26px) 
-          transform: translateX(26px) 
+        background-color: #1BCA00
+        &:before
+          -webkit-transform: translateX(26px)
+          -ms-transform: translateX(26px)
+          transform: translateX(26px)
     &:focus
       outline: none
-      & + .slider 
+      & + .slider
         box-shadow: 0 0 1px #1BCA00
 
   .underinput
-    span 
+    span
       color: #adadad
       font-size: 12px
       line-height: 1.42
       width: 100%
       margin: 0 15px
 
-.slider 
-  &.round 
-    border-radius: 34px 
-    &:before 
-      border-radius: 50% 
+.slider
+  &.round
+    border-radius: 34px
+    &:before
+      border-radius: 50%
 
 
 .integration
@@ -363,7 +380,7 @@
     -webkit-justify-content: space-between
     justify-content: space-between
     list-style: none
-    
+
     li
       width: 100%
       border-radius: 6px
