@@ -77,7 +77,7 @@ const CardOrGalleryElement = (props) => {
             <div className={style.hoverBar}>
                 <HoverBarForMessage
                     {...props}
-                    styleForBar={{top: '0', left: '320px'}}
+                    styleForBar={{top: '0', left: '328px'}}
                 />
             </div>
             <div className={style.contentContainer}>

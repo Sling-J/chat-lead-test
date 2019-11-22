@@ -114,7 +114,7 @@ const FormElement = (props) => {
             <div className={style.hoverBar}>
                 <HoverBarForMessage
                     {...props}
-                    styleForBar={{top: '-20px', left: '320px'}}
+                    styleForBar={{top: '-20px', left: '328px'}}
                     // statusDraggable={(status) => setStatusDragable(status)}
                 />
             </div>

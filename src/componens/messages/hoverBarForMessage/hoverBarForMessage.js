@@ -9,118 +9,110 @@ import {withRouter} from "react-router-dom";
 
 
 const HoverBarForMessage = (props) => {
-    const {styleForBar, statusDraggable, index, changedTrigger} = props;
+   const {styleForBar, statusDraggable, index, changedTrigger} = props;
 
-    const deleteMessage = () => {
-        const messagesCopy = changedTrigger.messages;
+   const deleteMessage = () => {
+      const messagesCopy = changedTrigger.messages;
 
-        messagesCopy[props.changedSocial].splice(index, 1);
+      messagesCopy[props.changedSocial].splice(index, 1);
 
-        const updatedTrigger = {
-            ...changedTrigger,
-            index: index,
-            messages: messagesCopy,
-            botId: props.match.params.botId
-        };
-        props.updateTrigger(updatedTrigger);
-    };
+      const updatedTrigger = {
+         ...changedTrigger,
+         index: index,
+         messages: messagesCopy,
+         botId: props.match.params.botId
+      };
+      props.updateTrigger(updatedTrigger);
+   };
 
-    const cloneMessage = () => {
-        const messagesCopy = changedTrigger.messages;
+   const cloneMessage = () => {
+      const messagesCopy = changedTrigger.messages;
 
-        messagesCopy[props.changedSocial].splice(index, 0, messagesCopy[props.changedSocial][index]);
+      messagesCopy[props.changedSocial].splice(index, 0, messagesCopy[props.changedSocial][index]);
 
-        const updatedTrigger = {
-            ...changedTrigger,
-            index: index,
-            messages: messagesCopy,
-            botId: props.match.params.botId
-        };
-        props.updateTrigger(updatedTrigger);
-    };
+      const updatedTrigger = {
+         ...changedTrigger,
+         index: index,
+         messages: messagesCopy,
+         botId: props.match.params.botId
+      };
+      props.updateTrigger(updatedTrigger);
+   };
 
-    const messageInUp = () => {
-        const messagesCopy = changedTrigger.messages;
+   const messageInUp = () => {
+      const messagesCopy = changedTrigger.messages;
 
-        messagesCopy[props.changedSocial].splice(index - 1, 0, messagesCopy[props.changedSocial][index]);
-        messagesCopy[props.changedSocial].splice(index + 1, 1);
+      messagesCopy[props.changedSocial].splice(index - 1, 0, messagesCopy[props.changedSocial][index]);
+      messagesCopy[props.changedSocial].splice(index + 1, 1);
 
-        const updatedTrigger = {
-            ...changedTrigger,
-            index: index,
-            messages: messagesCopy,
-            botId: props.match.params.botId
-        };
-        props.updateTrigger(updatedTrigger);
+      const updatedTrigger = {
+         ...changedTrigger,
+         index: index,
+         messages: messagesCopy,
+         botId: props.match.params.botId
+      };
+      props.updateTrigger(updatedTrigger);
 
-    };
+   };
 
-    const messageInDown = () => {
-        const messagesCopy = changedTrigger.messages;
+   const messageInDown = () => {
+      const messagesCopy = changedTrigger.messages;
 
 
-        messagesCopy[props.changedSocial].splice(index + 2, 0, messagesCopy[props.changedSocial][index]);
-        messagesCopy[props.changedSocial].splice(index, 1);
+      messagesCopy[props.changedSocial].splice(index + 2, 0, messagesCopy[props.changedSocial][index]);
+      messagesCopy[props.changedSocial].splice(index, 1);
 
-        const updatedTrigger = {
-            ...changedTrigger,
-            index: index,
-            messages: messagesCopy,
-            botId: props.match.params.botId
-        };
-        props.updateTrigger(updatedTrigger);
-    };
-    //
-    // const dragStartHandler = (e) => {
-    //     console.log(e.pageX, e.pageY);
-    // };
+      const updatedTrigger = {
+         ...changedTrigger,
+         index: index,
+         messages: messagesCopy,
+         botId: props.match.params.botId
+      };
 
-    // const mousemoveHanlder = (e) => {
-    //     console.log(e.pageX, e.pageY)
-    // };
-    //
-    // const dragStartHander = (e) => {
-    //
-    //     document.addEventListener("mousemove", mousemoveHanlder);
-    // };
-    //
-    // const deleteListener = () => {
-    //     document.removeEventListener('mousemove', mousemoveHanlder);
-    // };
+      props.updateTrigger(updatedTrigger);
+   };
+   //
+   // const dragStartHandler = (e) => {
+   //     console.log(e.pageX, e.pageY);
+   // };
 
-    return (
-        <div className={style.mainContainer} style={styleForBar}>
-            <p onClick={deleteMessage}><FontAwesomeIcon icon={faTimes}/></p>
-            <p onClick={messageInUp}>
-                <FontAwesomeIcon icon={faLongArrowAltUp}/>
-            </p>
-            <p onClick={messageInDown}>
-                <FontAwesomeIcon icon={faLongArrowAltDown}/>
-            </p>
-            {/*<p*/}
-                {/*// onDragStart={() => console.log(1)}*/}
-                {/*// onDragEnd={() => console.log(2)}*/}
-                {/*// onDragStart={(e) => statusDraggable(true)}*/}
-                {/*// onDragOver={(e) => console.log(e.pageX, e.pageY)}*/}
-                {/*// onDragEnd={() => statusDraggable(false)}*/}
-            {/*>*/}
-                {/*<FontAwesomeIcon icon={faArrowsAltV}/>*/}
-            {/*</p>*/}
-            <p onClick={cloneMessage}><FontAwesomeIcon icon={faClone}/></p>
-        </div>
-    )
+   // const mousemoveHanlder = (e) => {
+   //     console.log(e.pageX, e.pageY)
+   // };
+   //
+   // const dragStartHander = (e) => {
+   //
+   //     document.addEventListener("mousemove", mousemoveHanlder);
+   // };
+   //
+   // const deleteListener = () => {
+   //     document.removeEventListener('mousemove', mousemoveHanlder);
+   // };
+
+   return (
+      <div className={style.mainContainer} style={styleForBar}>
+         <p onClick={deleteMessage}><FontAwesomeIcon icon={faTimes}/></p>
+         <p onClick={messageInUp}>
+            <FontAwesomeIcon icon={faLongArrowAltUp}/>
+         </p>
+         <p onClick={messageInDown}>
+            <FontAwesomeIcon icon={faLongArrowAltDown}/>
+         </p>
+         <p onClick={cloneMessage}><FontAwesomeIcon icon={faClone}/></p>
+      </div>
+   )
 };
 
 const mapStateToProps = state => {
-    const {changedSocial} = state.singleBotReducers;
+   const {changedSocial} = state.singleBotReducers;
 
-    return {
-        changedSocial
-    }
+   return {
+      changedSocial
+   }
 };
 
 const mapDispatchToProps = dispatch => ({
-    updateTrigger: (triggerData) => dispatch(updateTrigger(triggerData)),
+   updateTrigger: (triggerData) => dispatch(updateTrigger(triggerData)),
 });
 
 
