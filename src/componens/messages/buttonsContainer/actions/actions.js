@@ -67,8 +67,6 @@ const Actions = (props) => {
       setEditTagField(false)
    };
 
-   console.log(editedTag);
-
    return (
       <div className={style.actionsMainContainer}>
          <h2 style={{color: '#82848B', textAlign: 'center'}}>Дополнительные действия: </h2>
@@ -107,7 +105,7 @@ const Actions = (props) => {
                                           onChange={e => setEditedTag(e.target.value)}
                                        />
                                     </form>
-                                 ) : elem}
+                                 ) : <p>{elem}</p>}
                               </div>
 
                               <Button

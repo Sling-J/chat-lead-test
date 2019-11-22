@@ -1,13 +1,13 @@
 .mainContainer
    width: 300px
-   border: 1px solid #e0e6ed
-   background-color: #fff
-   box-shadow: 0 0 10px 0 rgba(77, 77, 77, .2)
-   position: absolute
-   left: 363px
-   z-index: 1000
-   padding: 10px 0
-   font-family: "Lato", sans-serif
+   border: 1px solid #e0e6ed !important
+   background-color: #fff !important
+   box-shadow: 0 0 10px 0 rgba(77, 77, 77, .2) !important
+   position: absolute !important
+   left: 363px !important
+   z-index: 1000 !important
+   padding: 10px 0 !important
+   font-family: "Lato", sans-serif !important
 
 
    &:before
@@ -65,6 +65,7 @@
 
 
    .changerElement
+      transition: background-color 0.2s
       position: relative
       height: 50px
       border: 1px dashed #82848B
@@ -80,8 +81,8 @@
       margin-top: 14px
 
       &:hover
-         background: #e5e5e5
-         border-color: #0084ff
+         background-color: darken(#fff, 5%)
+         border-color: #000
 
       & svg
          width: 25px
@@ -119,9 +120,34 @@ label
       box-sizing: border-box
       height: 52px
       display: flex
+      justify-content: space-between
       align-items: center
-      padding: 10px
       color: #000
+
+      .openedButtonText
+         display: flex
+         align-items: center
+         transition: background 0.3s
+         width: 85%
+         padding: 10px
+         box-sizing: border-box
+         border-radius: 10px 0 0 10px
+
+         &:hover
+            padding: 9px 10px
+            background: #E1E5EA
+
+      .openedButtonIcon
+         transition: background 0.3s
+         border-radius: 0 10px 10px 0
+         padding: 19px 10px
+         box-sizing: border-box
+         border-left: 1px dashed #bdcadd
+         width: 15%
+         text-align: center
+
+         &:hover
+            background: #E1E5EA
 
 
 //select

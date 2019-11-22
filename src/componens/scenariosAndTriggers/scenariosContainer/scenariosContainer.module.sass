@@ -1,243 +1,132 @@
 .mainContainer
-  display: flex
-  //justify-content: space-around
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif
-  margin-top: 0
-  padding: 0 20px
-  max-width: 1054px
-  //height: 100vh
-  //box-sizing: border-box
+   display: flex
+   //justify-content: space-around
+   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif
+   margin-top: 0
+   padding: 0 20px
+   max-width: 1054px
+   //height: 100vh
+   //box-sizing: border-box
 
-  h2
-    font-size: 24px
-    font-weight: 400
-    line-height: 32px
-    color: #8492a6
+   h2
+      font-size: 24px
+      font-weight: 400
+      line-height: 32px
+      color: #8492a6
 
 .infoBlock
-  display: flex
-  padding: 20px 15px 25px 20px
-  //position: relative
-  color: #67707a
-  //width: 50%
-  border: 1px solid #dadada
-  //border: 1px solid red
+   display: flex
+   padding: 20px 15px 25px 20px
+   //position: relative
+   color: #67707a
+   //width: 50%
+   border: 1px solid #dadada
+   //border: 1px solid red
 
-  .infoText
-    margin-left: 10px
-    p
-      text-align: left
-      font-size: 14px
-      margin-top: 0
-      margin-bottom: 5px
-      color: #444
-      line-height: 20px
-      font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif
-      letter-spacing: 0.2px
+   .infoText
+      margin-left: 10px
 
-    span
-      text-align: left
-      font-size: 14px
-      border-bottom: 1px solid rgba(70,128,254,.7)
-      padding-bottom: 2px
-      color: #4680fe
-      margin-top: 5px
-
-    //p
-    //  &:last-child
-    //    margin-top: 10px
-
-.createButton
-  height: 52px
-  line-height: 20px
-  background-color: #4680fe
-  border-radius: 25px
-  padding: 0 50px
-  display: flex
-  justify-content: center
-  align-items: center
-  color: white
-  cursor: pointer
-  font-size: 13px
-
-.controls
-  display: flex
-  width: 35%
-  flex-direction: column
-  align-items: center
-
-  .hardLine
-    width: 100%
-    border: none
-    background: #e1e1e1
-    content: ''
-    height: 1px
-    margin-top: 30px
-    margin-bottom: 30px
-
-.flexLeft
-  display: flex
-
-.inputContainer
-  width: 95%
-  margin-right: 30px
-  .searchContainer
-    display: flex
-    svg
-      width: 20px
-      height: 20px
-      position: relative
-      top: 5px
-      left: -35px
-
-  .icon
-    color: #82848B
-    font-weight: 400
-    background: #fff
-    //background-color: transparent
-    white-space: nowrap
-    width: 25px
-    height: 25px
-    display: flex
-    justify-content: center
-    align-items: center
-    border-radius: 2px
-    margin-left: 4px
-    margin-top: 4px
-    position: relative
-
-    .tooltipText
-      visibility: hidden
-      width: 120px
-      background-color: rgba(32,35,38,.98)
-      color: #fff
-      text-align: center
-      border-radius: 6px
-      padding: 7px 12px
-      position: absolute
-      z-index: 99
-      font-size: 12px
-      bottom: 125%
-      left: 50%
-      margin-left: -60px
-      opacity: 0
-      transition: opacity 0.3s
-
-      &::after
-        content: ""
-        position: absolute
-        top: 100%
-        left: 50%
-        margin-left: -5px
-        border-width: 5px
-        border-style: solid
-        border-color: #555 transparent transparent transparent
-
-    &:hover
-      .tooltipText
-        visibility: visible
-        opacity: 1
-
-    img
-      width: 15px
-      height: 15px
-
-  h2
-    color: #444
-    font-weight: 400
-    font-size: 28px
-    margin-bottom: 32px
-
-  input
-    padding: 10px 45px 10px 20px !important
-    border: 1px solid #dadada !important
-    background-color: transparent !important
-    -webkit-transition: .2s ease-out !important
-    -o-transition: .2s ease-out !important
-    transition: .2s ease-out !important
-    -webkit-border-radius: 25px !important
-    border-radius: 25px !important
-    width: 45% !important
-    margin-bottom: 30px !important
-    outline: none !important
-
-    &::placeholder
-      font-size: 13px
-    &:focus
-      border: 1px solid #4680fe !important
-
-
-.scenariosContainer
-  display: flex
-  flex-direction: column
-  align-items: flex-end
-  //border: 1px solid #e0e6ed
-  border-radius: 4px
-  //margin-left: 60px
-  //margin-top: 20px
-  width: 80%
-  padding: 0
-  box-sizing: border-box
-  margin-left: 50px
-
-
-  img
-    width: 40px
-    height: 40px
-
-  table
-    width: 100%
-    border: 1px solid #e1e1e1
-
-    .keyWord
-      font-size: 14px
-      color: #444
+      p
+         text-align: left
+         font-size: 14px
+         margin-top: 0
+         margin-bottom: 5px
+         color: #444
+         line-height: 20px
+         font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif
+         letter-spacing: 0.2px
 
       span
-        color: #000
-        font-weight: 500
+         text-align: left
+         font-size: 14px
+         border-bottom: 1px solid rgba(70, 128, 254, .7)
+         padding-bottom: 2px
+         color: #4680fe
+         margin-top: 5px
 
+//p
+//  &:last-child
+//    margin-top: 10px
 
-    .controlsImages
+.createButton
+   height: 52px
+   line-height: 20px
+   background-color: #4680fe
+   border-radius: 25px
+   padding: 0 50px
+   display: flex
+   justify-content: center
+   align-items: center
+   color: white
+   cursor: pointer
+   font-size: 13px
+
+.controls
+   display: flex
+   width: 35%
+   flex-direction: column
+   align-items: center
+
+   .hardLine
+      width: 100%
+      border: none
+      background: #e1e1e1
+      content: ''
+      height: 1px
+      margin-top: 30px
+      margin-bottom: 30px
+
+.flexLeft
+   display: flex
+
+.inputContainer
+   width: 95%
+   margin-right: 30px
+
+   .searchContainer
       display: flex
-      justify-content: flex-end
-      margin: 0
-      //padding-right: 20px
 
-      .icon
-        color: #82848B
-        font-weight: 400
-        background: #fff
-        border: 1px solid #82848B
-        //background-color: transparent
-        white-space: nowrap
-        width: 25px
-        height: 25px
-        display: flex
-        justify-content: center
-        align-items: center
-        border-radius: 2px
-        margin-left: 4px
-        position: relative
+      svg
+         width: 20px
+         height: 20px
+         position: relative
+         top: 5px
+         left: -35px
 
-        .tooltipText
-          visibility: hidden
-          width: 120px
-          background-color: rgba(32,35,38,.98)
-          color: #fff
-          text-align: center
-          border-radius: 6px
-          padding: 7px 12px
-          position: absolute
-          z-index: 1
-          font-size: 12px
-          bottom: 125%
-          left: 50%
-          margin-left: -60px
-          opacity: 0
-          transition: opacity 0.3s
+   .icon
+      color: #82848B
+      font-weight: 400
+      background: #fff
+      //background-color: transparent
+      white-space: nowrap
+      width: 25px
+      height: 25px
+      display: flex
+      justify-content: center
+      align-items: center
+      border-radius: 2px
+      margin-left: 4px
+      margin-top: 4px
+      position: relative
 
-          &::after
+      .tooltipText
+         visibility: hidden
+         width: 120px
+         background-color: rgba(32, 35, 38, .98)
+         color: #fff
+         text-align: center
+         border-radius: 6px
+         padding: 7px 12px
+         position: absolute
+         z-index: 99
+         font-size: 12px
+         bottom: 125%
+         left: 50%
+         margin-left: -60px
+         opacity: 0
+         transition: opacity 0.3s
+
+         &::after
             content: ""
             position: absolute
             top: 100%
@@ -247,136 +136,256 @@
             border-style: solid
             border-color: #555 transparent transparent transparent
 
-        &:hover
-          .tooltipText
+      &:hover
+         .tooltipText
             visibility: visible
             opacity: 1
 
-        img
+      img
          width: 15px
          height: 15px
 
+   h2
+      color: #444
+      font-weight: 400
+      font-size: 28px
+      margin-bottom: 32px
 
-    tr
-      background: #fafafa
+   input
+      padding: 10px 45px 10px 20px !important
+      border: 1px solid #dadada !important
+      background-color: transparent !important
+      -webkit-transition: .2s ease-out !important
+      -o-transition: .2s ease-out !important
+      transition: .2s ease-out !important
+      -webkit-border-radius: 25px !important
+      border-radius: 25px !important
+      width: 45% !important
+      margin-bottom: 30px !important
+      outline: none !important
+
+      &::placeholder
+         font-size: 13px
+
+      &:focus
+         border: 1px solid #4680fe !important
+
+
+.scenariosContainer
+   display: flex
+   flex-direction: column
+   align-items: flex-end
+   //border: 1px solid #e0e6ed
+   border-radius: 4px
+   //margin-left: 60px
+   //margin-top: 20px
+   width: 80%
+   padding: 0
+   box-sizing: border-box
+   margin-left: 50px
+
+
+   img
+      width: 40px
+      height: 40px
+
+   table
       width: 100%
       border: 1px solid #e1e1e1
-      cursor: pointer
+
+      .keyWord
+         font-size: 14px
+         color: #444
+
+         span
+            color: #000
+            font-weight: 500
 
 
-      td
-        padding: 15px
+      .controlsImages
+         display: flex
+         justify-content: flex-end
+         margin: 0
+         //padding-right: 20px
 
-        img
-          width: 20px
-          height: 20px
-          margin-left: 2px
+         .icon
+            color: #82848B
+            font-weight: 400
+            background: #fff
+            border: 1px solid #82848B
+            //background-color: transparent
+            white-space: nowrap
+            width: 25px
+            height: 25px
+            display: flex
+            justify-content: center
+            align-items: center
+            border-radius: 2px
+            margin-left: 4px
+            position: relative
 
-    tr
-      &:first-child
-        border: 1px solid #e1e1e1
-        background: #fff
-        border-radius: 6px 6px 0 0
-        cursor: default
-      
-    tr:not(:first-child):hover
-          background: #EEF2F5
+            .tooltipText
+               visibility: hidden
+               width: 120px
+               background-color: rgba(32, 35, 38, .98)
+               color: #fff
+               text-align: center
+               border-radius: 6px
+               padding: 7px 12px
+               position: absolute
+               z-index: 1
+               font-size: 12px
+               bottom: 125%
+               left: 50%
+               margin-left: -60px
+               opacity: 0
+               transition: opacity 0.3s
+
+               &::after
+                  content: ""
+                  position: absolute
+                  top: 100%
+                  left: 50%
+                  margin-left: -5px
+                  border-width: 5px
+                  border-style: solid
+                  border-color: #555 transparent transparent transparent
+
+            &:hover
+               .tooltipText
+                  visibility: visible
+                  opacity: 1
+
+            img
+               width: 15px
+               height: 15px
+
+
+      tr
+         background: #fafafa
+         width: 100%
+         border: 1px solid #e1e1e1
+         cursor: pointer
+
+
+         td
+            padding: 15px
+
+            img
+               width: 20px
+               height: 20px
+               margin-left: 2px
+
+      tr
+         &:first-child
+            border: 1px solid #e1e1e1
+            background: #fff
+            border-radius: 6px 6px 0 0
+            cursor: default
+
+      tr:not(:first-child):hover
+         background: #EEF2F5
 
 .autoridesElement
-  width: 100%
-  display: flex
-  justify-content: flex-start
-  align-items: center
-  cursor: pointer
-  padding: 12px 0
-  border-bottom: 1px solid #e0e6ed
+   width: 100%
+   display: flex
+   justify-content: flex-start
+   align-items: center
+   cursor: pointer
+   padding: 12px 0
+   border-bottom: 1px solid #e0e6ed
 
-  h2
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif
-    color: #3c4858
-    font-size: 15px
+   h2
+      font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif
+      color: #3c4858
+      font-size: 15px
 
 .triggersContainer
-  width: 100%
-  display: flex
+   width: 100%
+   display: flex
 
 .buttonsContainer
-  width: 25%
-  box-sizing: border-box
-  margin-left: 20px
+   width: 25%
+   box-sizing: border-box
+   margin-left: 20px
 
-  .next
-    width: 100%
-    //height: 52px
-    line-height: 20px
-    position: relative
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif
-    margin-bottom: 15px
-    font-size: 13px
-    background-color: #4680fe
-    display: flex
-    justify-content: center
-    align-items: center
-    padding: 14px 12px 14px
-    border-radius: 25px
-    box-sizing: border-box
-    color: #fff
-    cursor: pointer
+   .next
+      width: 100%
+      line-height: 20px
+      position: relative
+      font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif
+      margin-bottom: 15px
+      font-size: 13px
+      background-color: #4680fe
+      display: flex
+      justify-content: center
+      align-items: center
+      padding: 14px 12px 14px
+      border-radius: 25px
+      box-sizing: border-box
+      color: #fff
 
-  .before
-    @extend .next
-    color: #82848B
-    font-weight: 400
-    border: 1px solid #82848B
-    background-color: transparent
-    white-space: nowrap
+   .nextEnable
+      cursor: pointer
 
-    img
-      position: absolute
-      height: 15px
-      width: 15px
-      left: 20px
+   .nextDisable
+      opacity: 0.7
+
+   .before
+      @extend .next
+      cursor: pointer
+      color: #82848B
+      font-weight: 400
+      border: 1px solid #82848B
+      background-color: transparent
+      white-space: nowrap
+
+      img
+         position: absolute
+         height: 15px
+         width: 15px
+         left: 20px
 
 .createScenarioContainer
-  //max-width: 600px
-  width: 100%
-  border-radius: 6px
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16)
-  background-color: #ffffff
-  padding: 45px
+   //max-width: 600px
+   width: 100%
+   border-radius: 6px
+   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16)
+   background-color: #ffffff
+   padding: 45px
 
-  textarea
-    padding: 5px
-    word-wrap: break-word
-    display: block
-    font-size: 14px
-    line-height: 1.45
-    min-height: 86px
-    width: 100%
-    resize: none
-    outline: none
+   textarea
+      padding: 5px
+      word-wrap: break-word
+      display: block
+      font-size: 14px
+      line-height: 1.45
+      min-height: 86px
+      width: 100%
+      resize: none
+      outline: none
 
 .contentContainer
-  margin-left: 40px
-  width: 40%
+   margin-left: 40px
+   width: 40%
 
-  textarea
-    border: 1px solid #b5b5b5
+   textarea
+      border: 1px solid #b5b5b5
 
-  h2
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif
-    color: #444
-    font-weight: 400
-    font-size: 28px
-    margin-bottom: 32px
+   h2
+      font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif
+      color: #444
+      font-weight: 400
+      font-size: 28px
+      margin-bottom: 32px
 
 .newScenarioContainer
-  display: flex
-  min-width: 1100px
+   display: flex
+   min-width: 1100px
 
 
 .mainEditScenario
-  position: absolute
+   position: absolute
 
-  .editScenario
-    position: absolute
+   .editScenario
+      position: absolute

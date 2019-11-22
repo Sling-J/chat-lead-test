@@ -10,7 +10,8 @@ import {
    faPhoneAlt,
    faLink,
    faHandPointUp,
-   faChevronCircleLeft
+   faChevronCircleLeft,
+   faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import Select from 'react-select'
 import Controls from './controls/controls';
@@ -20,6 +21,8 @@ class ContextMenu extends Component {
       isSendTextBtn: false
    };
 
+   handleClickOutside = () => this.props.setIndexOpenButton(false);
+
    componentDidUpdate(prevProps, prevState, snapshot) {
       const {createdTriggerId, scenarioId, botScenarios} = this.props;
       const {isSendTextBtn} = this.state;
@@ -27,11 +30,11 @@ class ContextMenu extends Component {
       const changedScenario = botScenarios.filter(elem => elem.id === scenarioId)[0];
 
       if ((prevProps.createdTriggerId !== createdTriggerId) && isSendTextBtn) {
-         const createdTrigger = changedScenario.triggers.filter(trigger => trigger.id === createdTriggerId);
+         const createdTrigger = changedScenario.triggers.find(trigger => trigger.id === createdTriggerId);
 
          this.editButton({
             target: {
-               value: createdTrigger[0].caption
+               value: createdTrigger
             }
          });
 
@@ -127,17 +130,6 @@ class ContextMenu extends Component {
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
-                     <div
-                        className={style.closeButton}
-                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
-                           caption: ''
-                        }), indexButton, true)}
-                     >
-                        <p>
-                           <FontAwesomeIcon icon={faChevronCircleLeft}/>
-                        </p>
-                        <p className={style.closeButtonText}>назад</p>
-                     </div>
                   </div>
                   <div>
                      <input
@@ -163,7 +155,7 @@ class ContextMenu extends Component {
                   className={style.changerElement}
                >
                   <FontAwesomeIcon icon={faEnvelope} size="lg"/>
-                  Создать триггер
+                  Создать сообщение
                </div>
                <div
                   onClick={() => {
@@ -222,17 +214,6 @@ class ContextMenu extends Component {
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
-                     <div
-                        className={style.closeButton}
-                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
-                           caption: ''
-                        }), indexButton, true)}
-                     >
-                        <p>
-                           <FontAwesomeIcon icon={faChevronCircleLeft}/>
-                        </p>
-                        <p className={style.closeButtonText}>назад</p>
-                     </div>
                   </div>
                   <div>
                      <input
@@ -246,11 +227,24 @@ class ContextMenu extends Component {
 
                <div className={style.inputContainer}>
                   <div className={style.closedButton}>
-                     <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
+                     <div className={style.openedButtonText} onClick={() => this.props.changeTriggerId(buttonData.trigger_text.id)}>
+                        <div>
+                           <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
+                        </div>
 
-                     <div className={style.openedButton}>
-                        <p className={style.openedButtonTitle}>Отправить сообщение</p>
-                        <p className={style.openedButtonDesc}>{buttonData.trigger_text}</p>
+                        <div className={style.openedButton}>
+                           <p className={style.openedButtonTitle}>Отправить сообщение</p>
+                           <p className={style.openedButtonDesc}>{buttonData.trigger_text.caption || 'загрузка ...'}</p>
+                        </div>
+                     </div>
+
+                     <div
+                        className={style.openedButtonIcon}
+                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
+                           caption: ''
+                        }), indexButton, true)}
+                     >
+                        <FontAwesomeIcon icon={faTimes}/>
                      </div>
                   </div>
                </div>
@@ -270,17 +264,6 @@ class ContextMenu extends Component {
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
-                     <div
-                        className={style.closeButton}
-                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
-                           caption: ''
-                        }), indexButton, true)}
-                     >
-                        <p>
-                           <FontAwesomeIcon icon={faChevronCircleLeft}/>
-                        </p>
-                        <p className={style.closeButtonText}>назад</p>
-                     </div>
                   </div>
                   <div>
                      <input
@@ -293,11 +276,22 @@ class ContextMenu extends Component {
                </div>
                <div className={style.inputContainer}>
                   <div className={style.closedButton}>
-                     <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
+                     <div className={style.openedButtonText}>
+                        <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
 
-                     <div className={style.openedButton}>
-                        <p className={style.openedButtonTitle}>Открыть веб-сайт</p>
-                        <p className={style.openedButtonDesc}>Введите URL ниже</p>
+                        <div className={style.openedButton}>
+                           <p className={style.openedButtonTitle}>Открыть веб-сайт</p>
+                           <p className={style.openedButtonDesc}>Введите URL ниже</p>
+                        </div>
+                     </div>
+
+                     <div
+                        className={style.openedButtonIcon}
+                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
+                           caption: ''
+                        }), indexButton, true)}
+                     >
+                        <FontAwesomeIcon icon={faTimes}/>
                      </div>
                   </div>
                </div>
@@ -327,17 +321,6 @@ class ContextMenu extends Component {
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
-                     <div
-                        className={style.closeButton}
-                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
-                           caption: ''
-                        }), indexButton, true)}
-                     >
-                        <p>
-                           <FontAwesomeIcon icon={faChevronCircleLeft}/>
-                        </p>
-                        <p className={style.closeButtonText}>назад</p>
-                     </div>
                   </div>
                   <div>
                      <input
@@ -350,11 +333,22 @@ class ContextMenu extends Component {
                </div>
                <div className={style.inputContainer}>
                   <div className={style.closedButton}>
-                     <FontAwesomeIcon icon={faPhoneAlt} size="lg" color="limegreen"/>
+                     <div className={style.openedButtonText}>
+                        <FontAwesomeIcon icon={faPhoneAlt} size="lg" color="limegreen"/>
 
-                     <div className={style.openedButton}>
-                        <p className={style.openedButtonTitle}>Наберите номер</p>
-                        <p className={style.openedButtonDesc}>Введите номер ниже</p>
+                        <div className={style.openedButton}>
+                           <p className={style.openedButtonTitle}>Наберите номер</p>
+                           <p className={style.openedButtonDesc}>Введите номер ниже</p>
+                        </div>
+                     </div>
+
+                     <div
+                        className={style.openedButtonIcon}
+                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
+                           caption: ''
+                        }), indexButton, true)}
+                     >
+                        <FontAwesomeIcon icon={faTimes}/>
                      </div>
                   </div>
                </div>
@@ -381,11 +375,9 @@ class ContextMenu extends Component {
                ...styles,
                boxShadow: '0 !important',
                cursor: 'pointer',
-               '&:hover': {
-                  border: '1px solid #bdcadd !important'
-               },
                border: '1px dashed #bdcadd',
-               borderRadius: '10px',
+               borderRight: 'none',
+               borderRadius: '10px 0 0 10px',
                height: '100%',
                background: '#f1f3f5'
             }),
@@ -412,17 +404,6 @@ class ContextMenu extends Component {
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
-                     <div
-                        className={style.closeButton}
-                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
-                           caption: ''
-                        }), indexButton, true)}
-                     >
-                        <p>
-                           <FontAwesomeIcon icon={faChevronCircleLeft}/>
-                        </p>
-                        <p className={style.closeButtonText}>назад</p>
-                     </div>
                   </div>
                   <div>
                      <input
@@ -434,24 +415,35 @@ class ContextMenu extends Component {
                   </div>
                </div>
                <div className={style.inputContainer}>
-                  <Select
-                     placeholder={'Триггер'}
-                     options={this.getTriggers()}
-                     defaultValue={buttonData.payload.trigger_id && {
-                        value: buttonData.payload.trigger_id,
-                        label: changedTriggerInFastButton.caption
-                     }}
-                     onChange={(value) => this.editButton({
-                        target: {
-                           value: value.value
-                        }
-                     })}
-                     styles={stylesForSelector}
-                     className={style.selector}
-                     isSearchable={false}
-                     components={{DropdownIndicator: () => null}}
-                     // arrowRenderer={() => ''}
-                  />
+                  <div className={style.closedButton}>
+                     <Select
+                        placeholder={'Триггер'}
+                        options={this.getTriggers().filter(trigger => trigger.value !== buttonData.boundTriggerId)}
+                        defaultValue={buttonData.payload.trigger_id && {
+                           value: buttonData.payload.trigger_id,
+                           label: changedTriggerInFastButton.caption
+                        }}
+                        onChange={(value) => this.editButton({
+                           target: {
+                              value: value.value
+                           }
+                        })}
+                        styles={stylesForSelector}
+                        className={style.selector}
+                        isSearchable={false}
+                        components={{DropdownIndicator: () => null}}
+                        // arrowRenderer={() => ''}
+                     />
+
+                     <div
+                        className={style.openedButtonIcon}
+                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
+                           caption: ''
+                        }), indexButton, true)}
+                     >
+                        <FontAwesomeIcon icon={faTimes}/>
+                     </div>
+                  </div>
                </div>
                <Actions
                   {...this.props}
@@ -465,9 +457,7 @@ class ContextMenu extends Component {
    };
 
    render() {
-      const {setIndexOpenButton, styleForContextMenu} = this.props;
-
-      ContextMenu.handleClickOutside = () => setIndexOpenButton(0);
+      const {styleForContextMenu} = this.props;
 
       return (
          <div className={style.mainContainer} style={styleForContextMenu}>
@@ -476,10 +466,6 @@ class ContextMenu extends Component {
       )
    }
 }
-
-const clickOutsideConfig = {
-   handleClickOutside: () => ContextMenu.handleClickOutside
-};
 
 const mapStateToProps = ({singleBotReducers}) => ({
    changedScenarioId: singleBotReducers.changedScenarioId,
@@ -490,4 +476,4 @@ const mapStateToProps = ({singleBotReducers}) => ({
    error: singleBotReducers.error,
 });
 
-export default onClickOutside(connect(mapStateToProps)(ContextMenu), clickOutsideConfig);
+export default connect(mapStateToProps)(onClickOutside(ContextMenu));

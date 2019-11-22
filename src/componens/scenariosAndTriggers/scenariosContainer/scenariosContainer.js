@@ -19,11 +19,13 @@ import copy from "../../../images/duplicate.jpg";
 import trash from "../../../images/buttons/trash.png";
 import leftArrow from "../../../svg/db/left-arrow.svg";
 import ContextMenuForEditScenario from './contextMenuForEditScenario/contextMenuForEditScenario';
+import {text} from "@fortawesome/fontawesome-svg-core";
 
 
 const ScenariosContainer = (props) => {
    const {changeScenarioId, changedScenarioId} = props;
 
+   const [textArea, setTextArea] = useState("");
    const [scenariosDataInFilter, setScenariosDataInFilter] = useState([]);
    const [isOpenCreateScenarioFild, setStatusCreateScenarioFild] = useState(false);
    const [idEditTriggerText, setIdEditTriggerText] = useState(false);
@@ -33,8 +35,10 @@ const ScenariosContainer = (props) => {
    }, [props.scenariosForScenarioContainer]);
 
    const newScenarioHandler = () => {
-      props.addScenario(props.match.params.botId, destinationScenario.default, isOpenCreateScenarioFild);
-      setStatusCreateScenarioFild(false);
+      if (textArea.length !== 0) {
+         props.addScenario(props.match.params.botId, destinationScenario.default, isOpenCreateScenarioFild);
+         setStatusCreateScenarioFild(false);
+      }
    };
 
    const copyScenario = (id) => {
@@ -42,6 +46,7 @@ const ScenariosContainer = (props) => {
       Object.assign(copyedScenario, {
          managerId: props.match.params.botId
       });
+
       props.copyScenario(copyedScenario);
    };
 
@@ -65,15 +70,19 @@ const ScenariosContainer = (props) => {
                   <img src={leftArrow} alt={'back'}/>
                   Назад к списку
                </div>
-               <div className={style.next} onClick={newScenarioHandler}>Далее</div>
+               <div className={`${style.next} ${textArea.length !== 0 ? style.nextEnable : style.nextDisable}`} onClick={newScenarioHandler}>
+                  Далее
+               </div>
             </div>
             <div className={style.contentContainer}>
                <h2>Команда</h2>
+
                <div className={style.createScenarioContainer}>
-                       <textarea
-                          placeholder={'Введите ключевое слово'}
-                          onInput={(e) => setStatusCreateScenarioFild(e.target.value)}
-                       />
+                  <textarea
+                     value={textArea}
+                     onChange={e => setTextArea(e.target.value)}
+                     placeholder={'Введите ключевое слово'}
+                  />
                </div>
             </div>
          </div>

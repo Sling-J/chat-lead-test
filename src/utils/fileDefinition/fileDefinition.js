@@ -10,7 +10,7 @@ import TextArea from '../../componens/messages/textArea/textArea';
 import TypeProcessing from '../../componens/messages/typeProcessing/typeProcessing';
 
 
-export const fileDefinition = (key, value, handler, index, deleteHandler, changedTrigger, changedScenario) => {
+export const fileDefinition = (key, value, handler, index, deleteHandler, changedTrigger, changedScenario, changeTriggerId) => {
    if (key === 'text') {
       return (
          <TextArea
@@ -21,6 +21,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedTrigger={changedTrigger}
             key={key}
             changedScenario={changedScenario}
+            changeTriggerId={changeTriggerId}
          />
       )
    } else if (key === 'audio') {

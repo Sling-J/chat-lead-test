@@ -99,7 +99,7 @@ const TriggersContainer = (props) => {
                changedScenario={changedScenario}
                changedTriggerId={changedTriggerId}
             />
-            <div onClick={newTriggerHandler} className={style.newTriggerContainer}>+ Новый триггер</div>
+            <div onClick={newTriggerHandler} className={style.newTriggerContainer}>+ Новое сообщение</div>
          </div>
          <div className={style.triggerConstructor}>
             <div className={style.contentContainer}>
@@ -122,6 +122,7 @@ const TriggersContainer = (props) => {
                {changedTrigger && (
                   <>
                      <MessagesContainer
+                        changeTriggerId={changeTriggerId}
                         changedTrigger={changedTrigger}
                         changedScenario={changedScenario}
                         updateTriggerUpdateMessageHandler={updateTriggerUpdateMessageHandler}

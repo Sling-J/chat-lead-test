@@ -12,10 +12,10 @@ import {
 import {signUpErrors} from "../constants/errors/user";
 import {destinationScenario} from "../constants/defaultValues";
 
-const localStorageToken = () => localStorage.getItem('token');
+import {userAccessToken} from "../utils/utils";
 
 export function* getManagerSaga({idBot}) {
-   if (localStorageToken()) {
+   if (userAccessToken()) {
       yield put({type: ACTION.BOT_SETUP_REQUEST});
 
       const formData = new FormData();
@@ -33,7 +33,7 @@ export function* getManagerSaga({idBot}) {
 }
 
 export function* editManagerSaga({setupData}) {
-   if (localStorageToken()) {
+   if (userAccessToken()) {
       const formData = new FormData();
       formData.append('user_token', localStorage.getItem('token'));
       formData.append('manager_id', setupData.idBot);
@@ -55,7 +55,7 @@ export function* editManagerSaga({setupData}) {
 }
 
 export function* facebookAuthSaga() {
-   if (localStorageToken()) {
+   if (userAccessToken()) {
       while (true) {
          const action = yield take(ACTION.GET_FACEBOOK_AUTH_URL_REQUEST);
 
@@ -79,7 +79,7 @@ export function* facebookAuthSaga() {
 }
 
 export function* vkAuthSaga() {
-   if (localStorageToken()) {
+   if (userAccessToken()) {
       while (true) {
          const action = yield take(ACTION.GET_VK_AUTH_URL_REQUEST);
 
@@ -103,7 +103,7 @@ export function* vkAuthSaga() {
 }
 
 export function* getQRCodeSaga() {
-   if (localStorageToken()) {
+   if (userAccessToken()) {
       while (true) {
          const action = yield take(ACTION.GET_WA_QR_URL_REQUEST);
 
@@ -127,7 +127,7 @@ export function* getQRCodeSaga() {
 }
 
 export function* updateBotReactionsSaga({reactionsData}) {
-   if (localStorageToken()) {
+   if (userAccessToken()) {
       yield put({type: ACTION.BOT_SETUP_REQUEST});
 
       const formData = new FormData();

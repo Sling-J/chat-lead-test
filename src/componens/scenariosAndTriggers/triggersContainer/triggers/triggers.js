@@ -115,7 +115,10 @@ const Triggers = (props) => {
                         <p
                            className={style.penIcon}
                            style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '50px'}}
-                           onClick={() => setTriggerIdEdit(index)}
+                           onClick={e => {
+                              e.stopPropagation();
+                              setTriggerIdEdit(index)
+                           }}
                         >
                            <FontAwesomeIcon icon={faPen}/>
                         </p>
@@ -126,7 +129,8 @@ const Triggers = (props) => {
                         <p
                            className={style.trash}
                            style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '10px'}}
-                           onClick={() => {
+                           onClick={(e) => {
+                              e.stopPropagation();
                               deleteHandler(trigger.id, index);
                            }}
                         >

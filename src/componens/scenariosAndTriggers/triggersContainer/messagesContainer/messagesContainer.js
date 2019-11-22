@@ -6,7 +6,11 @@ import {connect} from "react-redux";
 
 
 const MessagesContainer = (props) => {
-   const {changedTrigger, updateTriggerUpdateMessageHandler, updateTriggerDeleteMessageHandler, changedScenario} = props;
+   const {
+      changedTrigger, updateTriggerUpdateMessageHandler,
+      updateTriggerDeleteMessageHandler, changedScenario,
+      changeTriggerId
+   } = props;
 
    // const reorder = (list, startIndex, endIndex) => {
    //     const result = Array.from(list);
@@ -59,7 +63,8 @@ const MessagesContainer = (props) => {
                         index,
                         updateTriggerDeleteMessageHandler,
                         changedTrigger,
-                        changedScenario
+                        changedScenario,
+                        changeTriggerId
                      )
                   }
                </div>

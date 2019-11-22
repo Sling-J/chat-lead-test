@@ -7,23 +7,23 @@
 .createTagBtnBox
    margin-bottom: 20px
 
-   .createTagBtn
-      width: 100%
-      padding: 3px 0
-      background: #4680FE
-      color: #fff
-      font-weight: 400
-      font-size: 12px !important
+.createTagBtn
+   width: 100%
+   padding: 3px 0
+   background: #4680FE !important
+   color: #fff !important
+   font-weight: 400
+   font-size: 12px !important
 
-      &:hover
-         background: darken(#4680FE, 10%)
+   &:hover
+      background: darken(#4680FE, 10%)
 
 .tagsListBtn
    text-align: center
    margin-bottom: 15px
 
    button
-      width: 40%
+      width: 100%
       text-transform: inherit !important
 
 .actionsContainer
@@ -60,17 +60,24 @@
     margin-top: 5px
 
 .tagsListBox
-   ul
-      width: 277px
-
    li, ul, button
+      font-size: 16px
       outline: none
       padding: 0
 
    li
       div
          width: 100%
-         padding: 0 20px
+
+         input
+            padding: 10px 20px
+            background: darken(#fff, 10%)
+            font-size: 15px
+            outline: none
+            border: 1px solid #e0e6ed
+
+         p
+            padding: 0 20px
 
    button
       width: auto

@@ -8,9 +8,7 @@ import ContextMenu from './contextMenu/contextMenu';
 import {ScenarioIdContext} from "../../../utils/Contexts";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircle} from "@fortawesome/free-regular-svg-icons";
-// import {faCircle} from "@fortawesome/free-solid-svg-icons";
 import {markForButton} from "../../../constants/markForButon";
-
 
 const ButtonsContainer = (props) => {
    const [indexOpenButton, setIndexOpenButton] = useState(false);
@@ -24,7 +22,8 @@ const ButtonsContainer = (props) => {
       styleForControls,
       styleForButton,
       styleForCaption,
-      styleForContextMenu
+      styleForContextMenu,
+      changeTriggerId
    } = props;
 
    const appendNewButton = () => {
@@ -40,6 +39,7 @@ const ButtonsContainer = (props) => {
 
       buttons.push({
          caption: 'Новая Кнопка',
+         boundTriggerId: changedTrigger.id,
          isEmpty: true,
          type: buttonsTypes.text_buttons
       });
@@ -57,11 +57,10 @@ const ButtonsContainer = (props) => {
 
    const allButtonsInMessage = () => {
       const messagesCopy = changedTrigger.messages;
-      const buttonsArray = changedSlideOrElement || changedSlideOrElement === 0 ?
+
+      return changedSlideOrElement || changedSlideOrElement === 0 ?
          messagesCopy[props.changedSocial][index][type][changedSlideOrElement].keyboard
          : messagesCopy[props.changedSocial][index].keyboard;
-
-      return buttonsArray;
    };
 
    const editButton = (typeButton, buttonData, indexButton, isEmpty, isCreateTrigger) => {
@@ -104,6 +103,7 @@ const ButtonsContainer = (props) => {
                      <ScenarioIdContext.Consumer>
                         {scenarioId => (
                            <ContextMenu
+                              changeTriggerId={changeTriggerId}
                               buttonEditHandler={editButton}
                               typeButton={elem.isEmpty ? 'empty' : elem.type}
                               scenarioId={scenarioId}
