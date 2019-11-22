@@ -1,26 +1,19 @@
-import React, {useEffect} from 'react';
-import style from './setupContainer.module.sass';
-import {connect} from 'react-redux';
+import React from 'react';
 import SetupSidebar from './setupSidebar/setupSidebar';
 import SetupWideColumn from './setupWideColumn/setupWideColumn';
 
-import {withRouter} from "react-router-dom";
+import style from './setupContainer.module.sass';
 
-
-
-const SetupContainer = (props) => {
-
-
-
-    return(
-        <section className={style.settingsBodyColumn+ " "+style.settingsBodyColumn__page} style={{marginTop: "10px;"}}>
-                <div className={style.container+" "+style.columnsContainer}>
-                    <div className={style.menuTriggerBtn} id="faq-menu-trigger"> </div>
-                    <SetupSidebar />
-                    <SetupWideColumn />
-                </div>
-            </section>
-    )
+const SetupContainer = () => {
+   return (
+      <section className={style.settingsBodyColumn + " " + style.settingsBodyColumn__page} style={{marginTop: "10px;"}}>
+         <div className={style.container + " " + style.columnsContainer}>
+            <div className={style.menuTriggerBtn} id="faq-menu-trigger"/>
+            <SetupSidebar/>
+            <SetupWideColumn/>
+         </div>
+      </section>
+   )
 };
 
-export default withRouter(SetupContainer);
+export default SetupContainer
