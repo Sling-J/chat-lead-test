@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './hoverBarForMessage.module.sass';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowsAltV, faLongArrowAltDown, faLongArrowAltUp, faTimes} from "@fortawesome/free-solid-svg-icons";
+import {faLongArrowAltDown, faLongArrowAltUp, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {faClone} from "@fortawesome/free-regular-svg-icons";
 import {connect} from 'react-redux';
 import {updateTrigger} from "../../../actions/actionCreator";
@@ -9,7 +9,7 @@ import {withRouter} from "react-router-dom";
 
 
 const HoverBarForMessage = (props) => {
-   const {styleForBar, statusDraggable, index, changedTrigger} = props;
+   const {styleForBar, index, changedTrigger} = props;
 
    const deleteMessage = () => {
       const messagesCopy = changedTrigger.messages;

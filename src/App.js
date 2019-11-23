@@ -1,6 +1,5 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
-import './App.sass';
 import SignUp from './pages/signUp/signUp';
 import Auth from './pages/auth/auth';
 import Bots from './pages/bots/bots';

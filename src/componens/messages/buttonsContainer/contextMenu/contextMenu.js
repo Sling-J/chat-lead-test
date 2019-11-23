@@ -51,7 +51,9 @@ class ContextMenu extends Component {
             })
          } else {
             Object.assign(buttonData, {
-               trigger_text: e.target.value
+               payload: {
+                  trigger_text: e.target.value
+               }
             })
          }
 
@@ -63,7 +65,9 @@ class ContextMenu extends Component {
             })
          } else {
             Object.assign(buttonData, {
-               url: e.target.value
+               payload: {
+                  url: e.target.value
+               }
             })
          }
 
@@ -89,7 +93,9 @@ class ContextMenu extends Component {
             })
          } else {
             Object.assign(buttonData, {
-               call: e.target.value
+               payload: {
+                  call: e.target.value
+               }
             })
          }
 
@@ -226,14 +232,14 @@ class ContextMenu extends Component {
 
                <div className={style.inputContainer}>
                   <div className={style.closedButton}>
-                     <div className={style.openedButtonText} onClick={() => this.props.changeTriggerId(buttonData.trigger_text.id)}>
+                     <div className={style.openedButtonText} onClick={() => this.props.changeTriggerId(buttonData.payload.trigger_text.id)}>
                         <div>
                            <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
                         </div>
 
                         <div className={style.openedButton}>
                            <p className={style.openedButtonTitle}>Отправить сообщение</p>
-                           <p className={style.openedButtonDesc}>{buttonData.trigger_text.caption || 'загрузка ...'}</p>
+                           <p className={style.openedButtonDesc}>{buttonData.payload.trigger_text.caption || 'загрузка ...'}</p>
                         </div>
                      </div>
 
@@ -300,7 +306,7 @@ class ContextMenu extends Component {
                <input
                   type={'text'}
                   placeholder={'URL'}
-                  defaultValue={buttonData.url}
+                  defaultValue={buttonData.payload.url}
                   onInput={this.editButton}
                />
 
@@ -356,7 +362,7 @@ class ContextMenu extends Component {
                <input
                   type={'tel'}
                   placeholder={'+7'}
-                  defaultValue={buttonData.call}
+                  defaultValue={buttonData.payload.call}
                   onInput={this.editButton}
                />
 
