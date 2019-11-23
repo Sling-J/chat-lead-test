@@ -10,8 +10,12 @@ const FancyInput = (props) => {
       type,
       placeholder,
       onClick,
-      isValidation = true,
-      meta: {asyncValidating, touched, error}
+      // isValidation = true,
+      meta: {
+         // asyncValidating,
+         touched,
+         error
+      }
    } = props;
 
    const [isFocusInInput, setStatusForFocus] = useState(false);

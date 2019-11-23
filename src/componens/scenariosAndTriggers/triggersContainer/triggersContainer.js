@@ -17,12 +17,16 @@ import leftArrow from "../../../svg/db/left-arrow.svg";
 import Triggers from './triggers/triggers';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClone} from "@fortawesome/free-regular-svg-icons";
+import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 
 const TriggersContainer = (props) => {
    const changedScenario = props.botScenarios.filter(elem => elem.id === props.scenarioId)[0];
    const triggers = changedScenario && changedScenario.triggers;
+
    const [activeStepCaptionEditor, setActiveStepCaptionEditor] = useState(false);
    const [changedTriggerId, changeTriggerId] = useState(triggers && triggers[0].id);
+   const [editedTriggerText, setEditedTriggerText] = useState('');
+
    const changedTrigger = triggers && triggers.filter(elem => elem.id === changedTriggerId)[0];
    const activeStep = changedScenario && changedScenario.triggers.find(el => el.id === changedTriggerId);
 
@@ -31,6 +35,10 @@ const TriggersContainer = (props) => {
          changeTriggerId(triggers[0].id)
       }
    }, [triggers]);
+
+   useEffect(() => {
+      setEditedTriggerText(activeStep.caption);
+   }, [activeStep.caption]);
 
    const newTriggerHandler = () => {
       const triggerData = {
@@ -68,10 +76,12 @@ const TriggersContainer = (props) => {
    };
 
    const editTriggerText = (e, id) => {
+      e.preventDefault();
+
       props.updateTriggerCaption({
          id,
          botId: props.match.params.botId,
-         caption: e.target.value
+         caption: editedTriggerText
       });
 
       setActiveStepCaptionEditor(false);
@@ -105,17 +115,23 @@ const TriggersContainer = (props) => {
             <div className={style.contentContainer}>
                <div
                   className={style.contentHeader}
-                  onDoubleClick={() => setActiveStepCaptionEditor(true)}
+                  onClick={() => setActiveStepCaptionEditor(true)}
                >
                   {activeStepCaptionEditor ?
-                     <input
-                        type={'text'}
-                        autoFocus={true}
-                        onBlur={e => editTriggerText(e, activeStep.id)}
-                        defaultValue={activeStep.caption}
-                     />
+                     <form onSubmit={e => editTriggerText(e, activeStep.id)}>
+                        <input
+                           type={'text'}
+                           autoFocus={true}
+                           onBlur={e => editTriggerText(e, activeStep.id)}
+                           onChange={e => setEditedTriggerText(e.target.value)}
+                           value={editedTriggerText}
+                        />
+                     </form>
                      :
-                     <p>{activeStep && activeStep.caption}</p>
+                     <p className={style.contentHeaderText}>
+                        {activeStep && activeStep.caption}
+                        <span><FontAwesomeIcon icon={faPencilAlt}/></span>
+                     </p>
                   }
                </div>
 

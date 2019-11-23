@@ -10,7 +10,6 @@ import {
    faPhoneAlt,
    faLink,
    faHandPointUp,
-   faChevronCircleLeft,
    faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import Select from 'react-select'

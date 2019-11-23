@@ -6,7 +6,7 @@ import HoverBarForMessage from "../../messages/hoverBarForMessage/hoverBarForMes
 
 
 const FancyFileInput = (props) => {
-   const {type, accept, onChange, index, pictureForLabel, value, changedTrigger} = props;
+   const { accept, onChange, index, pictureForLabel, value} = props;
    const pathFile = Object.values(value)[0];
    let nameFile = pathFile.split('/')[pathFile.split('/').length - 1];
 

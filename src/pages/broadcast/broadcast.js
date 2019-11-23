@@ -11,37 +11,37 @@ import {connect} from "react-redux";
 
 const BroadCast = (props) => {
 
-    useEffect(() => {
-        props.getBroadCasts(props.match.params.botId);
-    }, []);
+   useEffect(() => {
+      props.getBroadCasts(props.match.params.botId);
+   }, []);
 
 
-    return (
-        <div className={style.mainContainer}>
-            <MainHeader
-                isMainHeader={false}
-            />
-            <NavBar/>
-            <div className={style.contentBlock}>
-                    <BroadCastContainer/>
-            </div>
-        </div>
-    )
+   return (
+      <div className={style.mainContainer}>
+         <MainHeader
+            isMainHeader={false}
+         />
+         <NavBar/>
+         <div className={style.contentBlock}>
+            <BroadCastContainer/>
+         </div>
+      </div>
+   )
 };
 
 const mapStateToProps = state => {
-    const {broadCastData, isFetching, error} = state.broadCastReducers;
-    const {changedScenarioId} = state.singleBotReducers;
+   const {broadCastData, isFetching, error} = state.broadCastReducers;
+   const {changedScenarioId} = state.singleBotReducers;
 
 
-    return {
-        broadCastData, isFetching, error, changedScenarioId
-    }
+   return {
+      broadCastData, isFetching, error, changedScenarioId
+   }
 };
 
 const mapDispatchToProps = dispatch => ({
-    getBroadCasts: (botId) => dispatch(getAllBroadCasts(botId)),
-    changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId)),
+   getBroadCasts: (botId) => dispatch(getAllBroadCasts(botId)),
+   changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId)),
 
 });
 

@@ -155,7 +155,7 @@ export function* updateBotReactionsSaga({reactionsData}) {
             }
          } else {
             formData.append(reactionsData.typeReaction, null);
-            const {data} = yield call(editManager, formData);
+            // const {data} = yield call(editManager, formData);
          }
 
       } else {
@@ -174,7 +174,7 @@ export function* updateBotReactionsSaga({reactionsData}) {
 
             if (reactionsData.statusChecked) {
                formData.append(reactionsData.typeReaction, data.scenario.id);
-               const statusEdit = yield call(editManager, formData);
+               // const statusEdit = yield call(editManager, formData);
                yield put({type: ACTION.CHANGE_SCENARIO_ID, scenarioId: data.scenario.id})
             }
          }

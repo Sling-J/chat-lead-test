@@ -431,21 +431,6 @@ class SetupWideColumn extends Component {
                               </div>
 
                               <div className={style.inputGr}>
-                                 <label>Способ подключения</label>
-                                 <div className={style.checkboxs}>
-                                    <input type="checkbox" name="checkbox" checked=""/>
-                                    <label for="checkbox">Веб-хук (рекомендуется) Современный способ,
-                                       максимум
-                                       возможностей (передача UTM-меток в нативные поля).</label>
-                                 </div>
-                                 <div className={style.checkboxs}>
-                                    <input type="checkbox" name="checkbox"/>
-                                    <label for="checkbox">Старое API Передача UTM-меток в нативные поля не
-                                       поддерживается.</label>
-                                 </div>
-                              </div>
-
-                              <div className={style.inputGr}>
                                  <label for="webhook">Код веб-хука*</label>
                                  <input type="text" name="webhook" placeholder="xxxxxxxxxxxxxxxx"/>
                                  <small>Код активации веб-хука, например: 82te1pjdphsa9u19.</small>

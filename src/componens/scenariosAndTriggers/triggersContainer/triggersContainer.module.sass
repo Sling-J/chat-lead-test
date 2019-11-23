@@ -1,195 +1,205 @@
 .mainContainer
-  display: flex
-  min-width: 1100px
-  margin: 0 auto
-  justify-content: space-between
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif
+   display: flex
+   min-width: 1100px
+   margin: 0 auto
+   justify-content: space-between
+   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif
 
 
 .contentContainer
-  width: 380px
-  background: #fff
-  box-shadow: 0 2px 77px rgba(132,146,166,.21)
-  display: flex
-  flex-direction: column
-  align-items: center
+   width: 380px
+   background: #fff
+   box-shadow: 0 2px 77px rgba(132, 146, 166, .21)
+   display: flex
+   flex-direction: column
+   align-items: center
 
 
 .controls
-  padding-bottom: 50px
-  h2
-    cursor: pointer
+   padding-bottom: 50px
 
-    &:hover
-      background: green
+   h2
+      cursor: pointer
+
+      &:hover
+         background: green
 
 
 .triggerElement
-  position: relative
-  width: 100%
-  padding: 0 20px 0 20px
-  height: 44px
-  border: 1px solid #e0e6ed
-  border-radius: 4px
-  background: #fff
-  cursor: pointer
-  display: flex
-  justify-content: center
-  box-sizing: border-box
-  align-items: center
-  margin-top: 10px
+   position: relative
+   width: 100%
+   padding: 0 20px 0 20px
+   height: 44px
+   border: 1px solid #e0e6ed
+   border-radius: 4px
+   background: #fff
+   cursor: pointer
+   display: flex
+   justify-content: center
+   box-sizing: border-box
+   align-items: center
+   margin-top: 10px
 
 .newTriggerContainer
-  padding: 0 20px
-  width: 100%
-  height: 44px
-  border: 1px dashed #8492a6
-  border-radius: 4px
-  color: #8492a6
-  line-height: 42px
-  cursor: pointer
-  display: flex
-  justify-content: center
-  align-items: center
-  margin-top: 10px
+   padding: 0 20px
+   width: 100%
+   height: 44px
+   border: 1px dashed #8492a6
+   border-radius: 4px
+   color: #8492a6
+   line-height: 42px
+   cursor: pointer
+   display: flex
+   justify-content: center
+   align-items: center
+   margin-top: 10px
 
-  &:hover
-    color: #0084FF
-    border-color: #0084ff
+   &:hover
+      color: #0084FF
+      border-color: #0084ff
 
 .newFirstTrigger
-  @extend .newTriggerContainer
-  width: 20%
+   @extend .newTriggerContainer
+   width: 20%
 
 .contentHeader
-  background: #e0e6ed
-  width: 100%
-  display: flex
-  justify-content: center
-  align-items: center
-  height: 60px
-  position: relative
-  border: 1px solid transparent
-  color: #3c4858
-  text-overflow: ellipsis
-  white-space: nowrap
-  cursor: pointer
-  font-size: 20px
-  font-weight: 400
-  line-height: 24px
-  padding: 20px
+   background: #e0e6ed
+   width: 100%
+   display: flex
+   justify-content: center
+   align-items: center
+   height: 60px
+   position: relative
+   border: 1px solid transparent
+   color: #3c4858
+   text-overflow: ellipsis
+   white-space: nowrap
+   cursor: pointer
+   font-size: 20px
+   font-weight: 400
+   line-height: 24px
+   padding: 20px
 
-  input
-    background: #fff
-    height: 30px
-    border: none
-    outline: none
-    font-size: 20px
-    font-weight: 400
+   .contentHeaderText
+      position: relative
+
+      span
+         position: absolute
+         top: -2px
+         left: 105%
+         font-size: 12px
+
+   input
+      background: #fff
+      height: 30px
+      border: none
+      outline: none
+      font-size: 20px
+      font-weight: 400
 
 .emptyContentContainer
-  width: 100%
-  display: flex
-  justify-content: center
-  align-items: center
+   width: 100%
+   display: flex
+   justify-content: center
+   align-items: center
 
 
 .emptySideContainer
-  width: 100%
-  display: flex
-  flex-direction: column
-  align-items: center
-  margin-top: 100px
+   width: 100%
+   display: flex
+   flex-direction: column
+   align-items: center
+   margin-top: 100px
 
-  h2
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif
-    font-size: 20px
-    font-weight: 400
-    color: #8492a6
+   h2
+      font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif
+      font-size: 20px
+      font-weight: 400
+      color: #8492a6
 
 
 .emptyMainContainer
-  display: flex
-  width: 100%
+   display: flex
+   width: 100%
 
 .broadCastMenu
-  width: 100%
+   width: 100%
 
 .triggerConstructor
-  display: flex
-  flex-direction: column
-  align-items: center
+   display: flex
+   flex-direction: column
+   align-items: center
 
 .saveDataStatus
-  color: #8492a6
-  font-size: 15px
-  margin-bottom: 10px
+   color: #8492a6
+   font-size: 15px
+   margin-bottom: 10px
 
 .sideContainer
-  display: flex
-  flex-direction: column
-  align-items: center
-  width: 20%
+   display: flex
+   flex-direction: column
+   align-items: center
+   width: 20%
 
 .buttonsContainer
-  width: 100%
-  display: flex
-  flex-direction: column
-  align-items: center
-  box-sizing: border-box
+   width: 100%
+   display: flex
+   flex-direction: column
+   align-items: center
+   box-sizing: border-box
 
-  .next
-    width: 100%
-    //height: 52px
-    line-height: 20px
-    position: relative
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif
-    margin-bottom: 15px
-    font-size: 13px
-    background-color: #4680fe
-    display: flex
-    justify-content: center
-    align-items: center
-    padding: 14px 12px 14px
-    border-radius: 25px
-    box-sizing: border-box
-    color: #fff
-    cursor: pointer
+   .next
+      width: 100%
+      //height: 52px
+      line-height: 20px
+      position: relative
+      font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif
+      margin-bottom: 15px
+      font-size: 13px
+      background-color: #4680fe
+      display: flex
+      justify-content: center
+      align-items: center
+      padding: 14px 12px 14px
+      border-radius: 25px
+      box-sizing: border-box
+      color: #fff
+      cursor: pointer
 
-  .before
-    @extend .next
-    color: #82848B
-    font-weight: 400
-    border: 1px solid #82848B
-    background-color: transparent
-    white-space: nowrap
+   .before
+      @extend .next
+      color: #82848B
+      font-weight: 400
+      border: 1px solid #82848B
+      background-color: transparent
+      white-space: nowrap
 
 
-    img
-      position: absolute
-      height: 15px
-      width: 15px
-      left: 20px
+      img
+         position: absolute
+         height: 15px
+         width: 15px
+         left: 20px
 
 
 .singleTriggerContainer
-  width: 100%
+   width: 100%
 
 
 .linkContainer
-  a
-    color: #4680fe
-    text-decoration: none
+   a
+      color: #4680fe
+      text-decoration: none
 
-  .linkButton
-    display: flex
-    justify-content: center
-    padding: 4px 2px
-    border: 2px solid #e5e5e5
-    color: #9b9b9b
-    border-radius: 5px
-    cursor: pointer
-    margin-top: 10px
+   .linkButton
+      display: flex
+      justify-content: center
+      padding: 4px 2px
+      border: 2px solid #e5e5e5
+      color: #9b9b9b
+      border-radius: 5px
+      cursor: pointer
+      margin-top: 10px
 
-    p
-      margin-right: 15px
+      p
+         margin-right: 15px

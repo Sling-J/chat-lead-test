@@ -9,39 +9,38 @@ import MainHeader from "../../componens/mainHeader/mainHeader";
 
 
 const Autoride = (props) => {
+   useEffect(() => {
+      props.getAutorides(props.match.params.botId);
+   }, []);
 
-    useEffect(() => {
-        props.getAutorides(props.match.params.botId);
-    }, []);
-
-    return (
-        <div className={style.mainContainer}>
-            <MainHeader
-                isMainHeader={false}
-            />
-            <NavBar/>
-            <div className={style.contentBlock}>
-                <AutorideContainer/>
-            </div>
-        </div>
-    )
+   return (
+      <div className={style.mainContainer}>
+         <MainHeader
+            isMainHeader={false}
+         />
+         <NavBar/>
+         <div className={style.contentBlock}>
+            <AutorideContainer/>
+         </div>
+      </div>
+   )
 };
 
 
 const mapStateToProps = state => {
-    const {autoridesData, isFetching, error} = state.autoridesReducers;
-    const {changedScenarioId} = state.singleBotReducers;
+   const {autoridesData, isFetching, error} = state.autoridesReducers;
+   const {changedScenarioId} = state.singleBotReducers;
 
 
-    return {
-        autoridesData, isFetching, error, changedScenarioId
-    }
+   return {
+      autoridesData, isFetching, error, changedScenarioId
+   }
 };
 
 const mapDispatchToProps = dispatch => ({
-    getAutorides: (botId) => dispatch(getAllAutorides(botId)),
-    getScenaries: (botId) => dispatch(getAllScenariesForBot(botId)),
-    changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId))
+   getAutorides: (botId) => dispatch(getAllAutorides(botId)),
+   getScenaries: (botId) => dispatch(getAllScenariesForBot(botId)),
+   changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId))
 
 });
 
