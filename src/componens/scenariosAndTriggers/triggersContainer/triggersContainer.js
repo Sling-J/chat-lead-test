@@ -22,9 +22,10 @@ import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 const TriggersContainer = (props) => {
    const changedScenario = props.botScenarios.filter(elem => elem.id === props.scenarioId)[0];
    const triggers = changedScenario && changedScenario.triggers;
+   const mainTriggerIdx = triggers.length - 1;
 
    const [activeStepCaptionEditor, setActiveStepCaptionEditor] = useState(false);
-   const [changedTriggerId, changeTriggerId] = useState(triggers && triggers[0].id);
+   const [changedTriggerId, changeTriggerId] = useState(triggers && triggers[mainTriggerIdx].id);
    const [editedTriggerText, setEditedTriggerText] = useState('');
 
    const changedTrigger = triggers && triggers.filter(elem => elem.id === changedTriggerId)[0];
@@ -32,7 +33,7 @@ const TriggersContainer = (props) => {
 
    useEffect(() => {
       if (triggers && triggers.length === 1) {
-         changeTriggerId(triggers[0].id)
+         changeTriggerId(triggers[mainTriggerIdx].id)
       }
    }, [triggers]);
 

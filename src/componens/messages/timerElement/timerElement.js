@@ -12,15 +12,13 @@ import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 import ru from "date-fns/locale/ru";
 import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons"; // the locale you want
 import CalendarSelectTime from './calendarSelectTime/calendarSelectTime';
-import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 
-import {DatePicker as MaterialDatePicker} from "@material-ui/pickers";
+import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 
 registerLocale("ru", ru);
 
 
 const TimerElement = (props) => {
-   const [selectedDate, handleDateChange] = useState(new Date());
    const [isOpenWindow, setStatusIsOpenWindow] = useState(false);
    const {type, index, value, changedTrigger} = props;
 
@@ -152,58 +150,49 @@ const TimerElement = (props) => {
    } else if (Object.keys(valuesForTimer)[0] === 'activity_lost') {
       return (
          <div className={style.mainContentContainer}>
-            <MaterialDatePicker
-               disableToolbar
-               variant="inline"
-               label="Only calendar"
-               helperText="No year selection"
-               value={selectedDate}
-               onChange={handleDateChange}
-            />
+            <div className={style.hoverBar}>
+               <HoverBarForMessage
+                  {...props}
+                  styleForBar={{top: '-25px', left: '320px'}}
+               />
+            </div>
+            <div className={style.mainContainer} onClick={() => setStatusIsOpenWindow(true)}>
+               {
+                  <ClickOutsideHandler onClickedOutside={() => setStatusIsOpenWindow(false)}>
+                     <div className={style.container}>
+                        <div
+                           className={style.timerContainer}
+                           onClick={() => setStatusIsOpenWindow(true)}
+                        >
+                           Ожидать
+                           до {formatUnixToDate(valuesForTimer[Object.keys(valuesForTimer)[0]], 'activity_lost') || 0}
+                        </div>
+                        {
+                           isOpenWindow && (
+                              <div className={style.messageContainer}>
+                                 <div className={style.header}>
+                                    Ждать до
+                                 </div>
+                                 <div className={style.controlsContainer}>
+                                    <label>Ждать до:</label>
+                                    <div className={style.inputContainer}>
+                                       <CalendarSelectTime
+                                          {...props}
+                                          valuesForTimer={valuesForTimer}
+                                          updateTrigger={updateTrigger}
+                                       />
+                                    </div>
 
-            {/*<div className={style.hoverBar}>*/}
-            {/*   <HoverBarForMessage*/}
-            {/*      {...props}*/}
-            {/*      styleForBar={{top: '-25px', left: '320px'}}*/}
-            {/*   />*/}
-            {/*</div>*/}
-            {/*<div className={style.mainContainer} onClick={() => setStatusIsOpenWindow(true)}>*/}
-            {/*   {*/}
-            {/*      <ClickOutsideHandler onClickedOutside={() => setStatusIsOpenWindow(false)}>*/}
-            {/*         <div className={style.container}>*/}
-            {/*            <div*/}
-            {/*               className={style.timerContainer}*/}
-            {/*               onClick={() => setStatusIsOpenWindow(true)}*/}
-            {/*            >*/}
-            {/*               Ожидать*/}
-            {/*               до {formatUnixToDate(valuesForTimer[Object.keys(valuesForTimer)[0]], 'activity_lost') || 0}*/}
-            {/*            </div>*/}
-            {/*            {*/}
-            {/*               isOpenWindow && (*/}
-            {/*                  <div className={style.messageContainer}>*/}
-            {/*                     <div className={style.header}>*/}
-            {/*                        Ждать до*/}
-            {/*                     </div>*/}
-            {/*                     <div className={style.controlsContainer}>*/}
-            {/*                        <label>Ждать до:</label>*/}
-            {/*                        <div className={style.inputContainer}>*/}
-            {/*                           <CalendarSelectTime*/}
-            {/*                              {...props}*/}
-            {/*                              valuesForTimer={valuesForTimer}*/}
-            {/*                              updateTrigger={updateTrigger}*/}
-            {/*                           />*/}
-            {/*                        </div>*/}
+                                 </div>
 
-            {/*                     </div>*/}
+                              </div>
+                           )
+                        }
 
-            {/*                  </div>*/}
-            {/*               )*/}
-            {/*            }*/}
-
-            {/*         </div>*/}
-            {/*      </ClickOutsideHandler>*/}
-            {/*   }*/}
-            {/*</div>*/}
+                     </div>
+                  </ClickOutsideHandler>
+               }
+            </div>
          </div>
       )
    } else {

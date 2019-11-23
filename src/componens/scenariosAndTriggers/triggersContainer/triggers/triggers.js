@@ -35,6 +35,8 @@ const Triggers = (props) => {
       })
    };
 
+   const mainTriggerIdx = changedScenario.triggers.length - 1;
+
    return (
       <div className={style.mainContainer}>
          <h2>Начальный шаг</h2>
@@ -44,38 +46,38 @@ const Triggers = (props) => {
                   className={style.singleTriggerContainer}
                >
                   <div
-                     style={changedScenario.triggers[0].id === changedTriggerId ?
+                     style={changedScenario.triggers[mainTriggerIdx].id === changedTriggerId ?
                         {border: '1px solid #13ce66', color: '#13ce66'} : {}}
                      className={style.triggerElement}
-                     onClick={() => changeTriggerId(changedScenario.triggers[0].id)}
+                     onClick={() => changeTriggerId(changedScenario.triggers[mainTriggerIdx].id)}
                   >
                      <p className={style.comentIcon}>
                         <FontAwesomeIcon icon={faCommentDots}/>
                      </p>
                      <p className={style.caption}>
                         {
-                           triggerIdEdit === '0' ?
+                           triggerIdEdit === mainTriggerIdx ?
                               <input
-                                 onBlur={(e) => editTrigger(e, changedScenario.triggers[0].id)}
+                                 onBlur={(e) => editTrigger(e, changedScenario.triggers[mainTriggerIdx].id)}
                                  type={'text'}
-                                 defaultValue={changedScenario.triggers[0].caption}
+                                 defaultValue={changedScenario.triggers[mainTriggerIdx].caption}
                                  autoFocus={true}
                                  className={style.editInput}
                               />
-                              : changedScenario.triggers[0].caption
+                              : changedScenario.triggers[mainTriggerIdx].caption
                         }
                         {/*{changedScenario.triggers[0].caption}*/}
                      </p>
                      <p
                         className={style.penIcon}
-                        style={triggerIdEdit === '0' ? {visibility: 'hidden'} : {right: '30px'}}
-                        onClick={() => setTriggerIdEdit('0')}
+                        style={triggerIdEdit === mainTriggerIdx ? {visibility: 'hidden'} : {right: '30px'}}
+                        onClick={() => setTriggerIdEdit(mainTriggerIdx)}
                      >
                         <FontAwesomeIcon icon={faPen}/>
                      </p>
                      <p
                         className={style.cloneIcon}
-                        style={triggerIdEdit === '0' ? {visibility: 'hidden'} : {right: '10px'}}
+                        style={triggerIdEdit === mainTriggerIdx ? {visibility: 'hidden'} : {right: '10px'}}
                      >
                         <FontAwesomeIcon icon={faClone}/>
                      </p>
@@ -87,7 +89,7 @@ const Triggers = (props) => {
          <h2>Привязанные шаги</h2>
          {
             changedScenario && changedScenario.triggers.map((trigger, index) => (
-               index > 0 && (
+               index < mainTriggerIdx && (
                   <div
                      className={style.singleTriggerContainer}
                   >
