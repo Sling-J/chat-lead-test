@@ -40,10 +40,10 @@ const TriggersContainer = (props) => {
    }, [triggers]);
 
    useEffect(() => {
-      if (activeStep !== undefined) {
-         setEditedTriggerText(activeStep.caption);
-      } else {
+      if (activeStep === undefined) {
          changeTriggerId(triggers[mainTriggerIdx].id)
+      } else {
+         setEditedTriggerText(activeStep.caption);
       }
    }, [activeStep]);
 
