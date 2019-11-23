@@ -31,8 +31,6 @@ const TriggersContainer = (props) => {
    const changedTrigger = triggers && triggers.filter(elem => elem.id === changedTriggerId)[0];
    const activeStep = changedScenario && changedScenario.triggers.find(el => el.id === changedTriggerId);
 
-   console.log(activeStep);
-
    useEffect(() => {
       if (triggers && triggers.length === 1) {
          changeTriggerId(triggers[mainTriggerIdx].id)

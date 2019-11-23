@@ -1,35 +1,42 @@
 .mainContainer
-  display: flex
-  flex-wrap: wrap
-  margin-top: 40px
+   display: flex
+   flex-wrap: wrap
+   margin-top: 40px
 
-  .buttonElement
-    display: flex
-    flex-direction: column
-    align-items: center
-    justify-content: center
-    position: relative
-    overflow: hidden
-    box-sizing: border-box
-    margin: 4px
-    width: 86px
-    height: 79px
-    border: 2px dashed #e0e6ed
-    border-radius: 15px
-    background-color: #fff
-    color: #8492a6
-    text-align: center
-    cursor: pointer
-    transition: border-color .15s,color .15s
+   .buttonElement
+      display: flex
+      flex-direction: column
+      align-items: center
+      justify-content: center
+      position: relative
+      overflow: hidden
+      margin: 4px
+      width: 86px
+      height: 85px
+      border: 2px dashed #e0e6ed
+      border-radius: 15px
+      background-color: #fff
+      color: #8492a6
+      text-align: center
+      cursor: pointer
+      transition: border-color .15s, color .15s
 
-    p
-      margin-top: 10px
-      font-size: 12px
+      div
+         width: 36px
+         height: 31px
+         object-fit: contain
+         font-size: 0
+         margin-bottom: 5px
 
-    img
-      width: 40px
-      height: 35px
-      object-fit: contain
+         img
+            width: 100%
+            object-fit: contain
 
-    &:hover
-      border-color: #0084ff
+      p
+         height: 25px
+         display: flex
+         align-items: center
+         font-size: 12px
+
+      &:hover
+         border-color: #0084ff

@@ -36,7 +36,9 @@ const ButtonsForAddNewMessage = (props) => {
                   onClick={() => updateTriggerNewMessageHandler(elem.type, elem.optionalType)}
                   className={style.buttonElement}
                >
-                  {elem.icon}
+                  <div>
+                     {elem.icon}
+                  </div>
                   <p>{elem.label}</p>
                </div>
             ))
