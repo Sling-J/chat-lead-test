@@ -14,9 +14,9 @@ export const formatUnixToDate = (date, type, isCalendar) => {
     if (typeof date === 'number') {
         // type of format to display
         const formatType =
-            (type === 'activity_lost') ? 'YYYY-MM-DD, h:mm' :
-            (type === 'send_time')     ? 'YYYY-MM-DD' :
-                'YYYY-MM-DD';
+            type 
+                ? 'YYYY-MM-DD, h:mm' 
+                : 'YYYY-MM-DD';
 
         return isCalendar ?
             new Date(date * 1000) :

@@ -14,11 +14,16 @@ import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons"; // the locale
 import CalendarSelectTime from './calendarSelectTime/calendarSelectTime';
 
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
+import locale from 'antd/es/date-picker/locale/ru_RU';
+
+import { DatePicker as AntdDatePicker } from 'antd';
+import moment from 'moment';
+import 'moment/locale/ru';
 
 registerLocale("ru", ru);
 
 
-const TimerElement = (props) => {
+const TimerElement = props => {
    const [isOpenWindow, setStatusIsOpenWindow] = useState(false);
    const {type, index, value, changedTrigger} = props;
 
@@ -75,7 +80,6 @@ const TimerElement = (props) => {
          props.updateTrigger(triggerData, null, props.changedSocial);
       }
    };
-
 
    if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
       return (
@@ -156,42 +160,31 @@ const TimerElement = (props) => {
                   styleForBar={{top: '-25px', left: '320px'}}
                />
             </div>
-            <div className={style.mainContainer} onClick={() => setStatusIsOpenWindow(true)}>
-               {
-                  <ClickOutsideHandler onClickedOutside={() => setStatusIsOpenWindow(false)}>
-                     <div className={style.container}>
-                        <div
-                           className={style.timerContainer}
-                           onClick={() => setStatusIsOpenWindow(true)}
-                        >
-                           Ожидать
-                           до {formatUnixToDate(valuesForTimer[Object.keys(valuesForTimer)[0]], 'activity_lost') || 0}
-                        </div>
-                        {
-                           isOpenWindow && (
-                              <div className={style.messageContainer}>
-                                 <div className={style.header}>
-                                    Ждать до
-                                 </div>
-                                 <div className={style.controlsContainer}>
-                                    <label>Ждать до:</label>
-                                    <div className={style.inputContainer}>
-                                       <CalendarSelectTime
-                                          {...props}
-                                          valuesForTimer={valuesForTimer}
-                                          updateTrigger={updateTrigger}
-                                       />
-                                    </div>
-
-                                 </div>
-
-                              </div>
-                           )
+            <div className={style.datePickerContainer}>
+               <div className={style.datePickerTitle}>
+                  <p>Ждать до</p>
+                  <p>Дата / Время</p>
+               </div>
+               <AntdDatePicker 
+                  showTime 
+                  locale={locale}
+                  className={style.datePickerAntd}
+                  placeholder="Выберите время" 
+                  defaultValue={
+                     moment(formatUnixToDate(valuesForTimer[Object.keys(valuesForTimer)[0]], true), 'YYYY-MM-DD, h:mm')
+                  }
+                  onChange={(value) => {
+                     const dateObject = {
+                        target: {
+                           value: formatDateToUnix(value)
                         }
+                     };
 
-                     </div>
-                  </ClickOutsideHandler>
-               }
+                     updateTrigger(dateObject, 'activity_lost')
+                  }}
+
+                  disabledDate={(current) => current && current < moment().endOf('day')}
+               />
             </div>
          </div>
       )
@@ -204,7 +197,34 @@ const TimerElement = (props) => {
                   styleForBar={{top: '-25px', left: '320px'}}
                />
             </div>
-            <div className={style.mainContainer} onClick={() => setStatusIsOpenWindow(true)}>
+
+            <div className={style.datePickerContainer}>
+               <div className={style.datePickerTitle}>
+                  <p>Потеря активности</p>
+                  <p>Дата / Время</p>
+               </div>
+               <AntdDatePicker 
+                  showTime 
+                  locale={locale}
+                  className={style.datePickerAntd}
+                  placeholder="Выберите время" 
+                  defaultValue={
+                     moment(formatUnixToDate(valuesForTimer[Object.keys(valuesForTimer)[0]], true), 'YYYY-MM-DD, h:mm')
+                  }
+                  onChange={(value) => {
+                     const dateObject = {
+                        target: {
+                           value: formatDateToUnix(value)
+                        }
+                     };
+
+                     updateTrigger(dateObject, 'send_time')
+                  }}
+
+                  disabledDate={(current) => current && current < moment().endOf('day')}
+               />
+            </div>
+            {/* <div className={style.mainContainer} onClick={() => setStatusIsOpenWindow(true)}>
                {
                   <ClickOutsideHandler onClickedOutside={() => setStatusIsOpenWindow(false)}>
                      <div className={style.container}>
@@ -255,7 +275,7 @@ const TimerElement = (props) => {
                      </div>
                   </ClickOutsideHandler>
                }
-            </div>
+            </div> */}
          </div>
       )
    }

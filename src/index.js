@@ -4,6 +4,9 @@ import './index.sass';
 import App from './boot/store';
 import * as serviceWorker from './serviceWorker';
 
+import 'antd/dist/antd.css';
+import './App.sass'
+
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
