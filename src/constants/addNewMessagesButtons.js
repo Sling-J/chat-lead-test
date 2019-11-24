@@ -12,6 +12,7 @@ import form from '../images/buttons/form.png';
 import sendTime from '../images/buttons/warn.png';
 import print from '../images/buttons/print.png';
 import location from '../images/buttons/location.png'
+import payment from '../images/buttons/payment.png'
 import contact from '../images/buttons/contact.png'
 
 export const addNewMessagesButtons = {
@@ -78,6 +79,16 @@ export const addNewMessagesButtons = {
          label: '+Печать',
          icon: <img src={print} alt={'typing'}/>,
          type: 'type_processing'
+      },
+      {
+         label: '+Геоданные',
+         icon: <img src={location} alt={'location'}/>,
+         type: 'location'
+      },
+      {
+         label: '+Оплата ',
+         icon: <img src={payment} alt={'payment'}/>,
+         type: 'payment'
       }
    ],
    telegram: [
@@ -133,6 +144,16 @@ export const addNewMessagesButtons = {
          label: '+Печать',
          icon: <img src={print} alt={'typing'}/>,
          type: 'type_processing'
+      },
+      {
+         label: '+Геоданные',
+         icon: <img src={location} alt={'location'}/>,
+         type: 'location'
+      },
+      {
+         label: '+Оплата ',
+         icon: <img src={payment} alt={'payment'}/>,
+         type: 'payment'
       }
    ],
    vk: [
@@ -188,6 +209,16 @@ export const addNewMessagesButtons = {
          label: '+Печать',
          icon: <img src={print} alt={'typing'}/>,
          type: 'type_processing'
+      },
+      {
+         label: '+Геоданные',
+         icon: <img src={location} alt={'location'}/>,
+         type: 'location'
+      },
+      {
+         label: '+Оплата ',
+         icon: <img src={payment} alt={'payment'}/>,
+         type: 'payment'
       }
    ],
    whatsapp: [
@@ -238,6 +269,21 @@ export const addNewMessagesButtons = {
          icon: <img src={sendTime} alt={'sendTime'}/>,
          type: 'timer',
          optionalType: 'send_time'
+      },
+      {
+         label: '+Геоданные',
+         icon: <img src={location} alt={'location'}/>,
+         type: 'location'
+      },
+      {
+         label: '+Оплата ',
+         icon: <img src={payment} alt={'payment'}/>,
+         type: 'payment'
+      },
+      {
+         label: '+Отправть контакт ',
+         icon: <img src={contact} alt={'contact'}/>,
+         type: 'contact'
       }
    ]
 };

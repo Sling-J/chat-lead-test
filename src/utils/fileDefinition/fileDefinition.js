@@ -152,6 +152,42 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             onChange={(e) => handler(e, index, key)}
          />
       )
+   } else if (key === 'location') {
+      return (
+         <FormElement
+            soon
+            type={'form'}
+            index={index}
+            changedTrigger={changedTrigger}
+            value={value}
+            onChange={(e) => handler(e, index, key)}
+            changedScenario
+         />
+      )
+   } else if (key === 'contact') {
+      return (
+         <FormElement
+            soon
+            type={'form'}
+            index={index}
+            changedTrigger={changedTrigger}
+            value={value}
+            onChange={(e) => handler(e, index, key)}
+            changedScenario
+         />
+      )
+   } else if (key === 'payment') {
+      return (
+         <FormElement
+            soon
+            type={'form'}
+            index={index}
+            changedTrigger={changedTrigger}
+            value={value}
+            onChange={(e) => handler(e, index, key)}
+            changedScenario
+         />
+      )
    } else {
       return (
          <FancyFileInput

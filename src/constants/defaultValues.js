@@ -11,9 +11,12 @@ export const defaultValuesForNewMessages = {
    gallery: {gallery: [{photo: '', title: '', text: '', keyboard: []}]},
    list: {list: [{photo: '', title: '', text: '', keyboard: []}, {photo: '', title: '', text: '', keyboard: []}]},
    pause_delay: {timer: {pause_delay: ''}, keyboard: []},
-   activity_lost: {timer: {activity_lost: moment().format('YYYY-MM-DD')}, keyboard: []},
-   send_time: {timer: {send_time: moment().format('YYYY-MM-DD')}, keyboard: []},
-   form: {form: [""], keyboard: []}
+   activity_lost: {timer: {activity_lost: moment().format('YYYY-MM-DD, h:mm')}, keyboard: []},
+   send_time: {timer: {send_time: moment().format('YYYY-MM-DD, h:mm')}, keyboard: []},
+   form: {form: [""], keyboard: []},
+   location: {location: [""], keyboard: []},
+   payment: {payment: [""], keyboard: []},
+   contact: {contact: [""], keyboard: []},
 };
 
 export const buttonsTypes = {

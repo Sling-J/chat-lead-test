@@ -109,7 +109,18 @@ const FormElement = (props) => {
     };
 
 
-    return (
+    return props.soon ? (
+        <div className={style.mainContainer}>
+            <h1>Скоро!</h1>
+            <div className={style.hoverBar}>
+                <HoverBarForMessage
+                    {...props}
+                    styleForBar={{top: '-20px', left: '328px'}}
+                    // statusDraggable={(status) => setStatusDragable(status)}
+                />
+            </div>
+        </div>
+    ) : (
         <div className={style.mainContainer}>
             <div className={style.hoverBar}>
                 <HoverBarForMessage
