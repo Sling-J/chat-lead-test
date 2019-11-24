@@ -10,6 +10,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircle} from "@fortawesome/free-regular-svg-icons";
 import {markForButton} from "../../../constants/markForButon";
 
+import uid from 'uid';
+
 const ButtonsContainer = (props) => {
    const [indexOpenButton, setIndexOpenButton] = useState(false);
 
@@ -28,7 +30,6 @@ const ButtonsContainer = (props) => {
 
    const appendNewButton = () => {
       const messagesCopy = changedTrigger.messages;
-
       let buttons = null;
 
       if (changedSlideOrElement || changedSlideOrElement === 0) {
@@ -38,10 +39,12 @@ const ButtonsContainer = (props) => {
       }
 
       buttons.push({
-         caption: 'Новая Кнопка',
-         boundTriggerId: changedTrigger.id,
+         uid: uid(6),
          isEmpty: true,
-         type: buttonsTypes.text_buttons
+         caption: 'Новая Кнопка',
+         type: buttonsTypes.text_buttons,
+         secondType: buttonsTypes.text_buttons,
+         boundTriggerId: changedTrigger.id
       });
 
       const triggerData = {
@@ -55,24 +58,18 @@ const ButtonsContainer = (props) => {
       props.updateTrigger(triggerData, null, props.changedSocial);
    };
 
-   const allButtonsInMessage = () => {
-      const messagesCopy = changedTrigger.messages;
-
-      return changedSlideOrElement || changedSlideOrElement === 0 ?
-         messagesCopy[props.changedSocial][index][type][changedSlideOrElement].keyboard
-         : messagesCopy[props.changedSocial][index].keyboard;
-   };
-
    const editButton = (typeButton, buttonData, indexButton, isEmpty, isCreateTrigger) => {
       const messagesCopy = changedTrigger.messages;
-      const buttonsValues = allButtonsInMessage();
+      const allButtonsValues = allButtonsInMessage(true);
 
-      Object.assign(buttonsValues[indexButton], buttonData, {
+      const idx = allButtonsValues.findIndex(item => item.uid === indexButton);
+
+      Object.assign(allButtonsValues[idx], buttonData, {
          isEmpty: isEmpty || false,
          type: typeButton
       });
 
-      messagesCopy[props.changedSocial][index].keyboard = buttonsValues;
+      messagesCopy[props.changedSocial][index].keyboard = allButtonsValues;
 
       const triggerData = {
          ...changedTrigger,
@@ -94,12 +91,24 @@ const ButtonsContainer = (props) => {
       props.updateTrigger(triggerData, null, props.changedSocial);
    };
 
+   const allButtonsInMessage = noFilter => {
+      const messagesCopy = changedTrigger.messages;
+
+      const buttons = changedSlideOrElement || changedSlideOrElement === 0 ?
+         messagesCopy[props.changedSocial][index][type][changedSlideOrElement].keyboard
+         : messagesCopy[props.changedSocial][index].keyboard;
+
+      return noFilter 
+         ? buttons 
+         : buttons.filter(button => button.type !== buttonsTypes.fast_buttons)
+   };
+
    return (
       <div className={style.mainContainer}>
          {allButtonsInMessage().map((elem, indexArr) => (
-            <div className={style.buttonElement} onClick={() => setIndexOpenButton(indexArr)}>
+            <div className={style.buttonElement} onClick={() => setIndexOpenButton(elem.uid)} key={elem.uid}>
                <div>
-                  {indexOpenButton === indexArr && (
+                  {elem.uid === indexOpenButton && (
                      <ScenarioIdContext.Consumer>
                         {scenarioId => (
                            <ContextMenu
@@ -107,7 +116,7 @@ const ButtonsContainer = (props) => {
                               buttonEditHandler={editButton}
                               typeButton={elem.isEmpty ? 'empty' : elem.type}
                               scenarioId={scenarioId}
-                              indexButton={indexArr}
+                              indexButton={elem.uid}
                               buttonData={elem}
                               setIndexOpenButton={setIndexOpenButton}
                               changedTrigger={changedTrigger}
@@ -119,13 +128,13 @@ const ButtonsContainer = (props) => {
                   )}
                   <div className={style.button} style={styleForButton}>
                      <div className={style.captionContainer} style={styleForCaption}>
-                        {elem.caption || 'Новая Кнопка'}
-                        <span>
+                        <p className={style.captionContainerText}>{elem.caption || 'Новая Кнопка'}</p>
+                        <p className={style.captionContainerIcon}>
                            {elem.isEmpty
-                              ? <FontAwesomeIcon icon={faCircle}/>
+                              ? <FontAwesomeIcon icon={faCircle} color="red"/>
                               : markForButton[elem.type]
                            }
-                        </span>
+                        </p>
                      </div>
                   </div>
                </div>
@@ -155,13 +164,9 @@ const ButtonsContainer = (props) => {
       </div>
    )
 };
-const mapStateToProps = state => {
-   const {changedSocial} = state.singleBotReducers;
-
-   return {
-      changedSocial
-   }
-};
+const mapStateToProps = ({singleBotReducers}) => ({
+   changedSocial: singleBotReducers.changedSocial
+});
 
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData, updationData, social) => dispatch(updateTrigger(triggerData, updationData, social)),

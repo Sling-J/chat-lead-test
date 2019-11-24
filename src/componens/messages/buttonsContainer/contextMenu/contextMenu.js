@@ -52,7 +52,7 @@ class ContextMenu extends Component {
          } else {
             Object.assign(buttonData, {
                payload: {
-                  trigger_text: e.target.value
+                  trigger: e.target.value
                }
             })
          }
@@ -72,7 +72,7 @@ class ContextMenu extends Component {
          }
 
          buttonEditHandler(typeButton, buttonData, indexButton);
-      } else if (typeButton === buttonsTypes.fast_buttons) {
+      } else if (typeButton === buttonsTypes.trigger_buttons) {
          if (forCaption) {
             Object.assign(buttonData, {
                caption: e.target.value
@@ -192,8 +192,8 @@ class ContextMenu extends Component {
                <div
                   onClick={() => {
                      buttonEditHandler(
-                        buttonsTypes.fast_buttons,
-                        defaultValuesForNewButtons[buttonsTypes.fast_buttons],
+                        buttonsTypes.trigger_buttons,
+                        defaultValuesForNewButtons[buttonsTypes.trigger_buttons],
                         indexButton
                      )
                   }}
@@ -232,14 +232,16 @@ class ContextMenu extends Component {
 
                <div className={style.inputContainer}>
                   <div className={style.closedButton}>
-                     <div className={style.openedButtonText} onClick={() => this.props.changeTriggerId(buttonData.payload.trigger_text.id)}>
+                     <div className={style.openedButtonText} onClick={() =>
+                        buttonData.payload.trigger.length !== 0 ? this.props.changeTriggerId(buttonData.payload.trigger.id) : {}
+                     }>
                         <div>
                            <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
                         </div>
 
                         <div className={style.openedButton}>
                            <p className={style.openedButtonTitle}>Отправить сообщение</p>
-                           <p className={style.openedButtonDesc}>{buttonData.payload.trigger_text.caption || 'загрузка ...'}</p>
+                           <p className={style.openedButtonDesc}>{buttonData.payload.trigger.length !== 0 ? buttonData.payload.trigger.caption : 'загрузка ...'}</p>
                         </div>
                      </div>
 
@@ -374,7 +376,7 @@ class ContextMenu extends Component {
                />
             </div>
          )
-      } else if (typeButton === buttonsTypes.fast_buttons) {
+      } else if (typeButton === buttonsTypes.trigger_buttons) {
          const stylesForSelector = {
             control: (styles) => ({
                ...styles,
@@ -398,7 +400,7 @@ class ContextMenu extends Component {
          };
 
          const changedScenario = this.props.botScenarios.filter(elem => elem.id === this.props.scenarioId)[0];
-         const changedTriggerInFastButton = typeButton === buttonsTypes.fast_buttons && (
+         const changedTriggerInTriggerButton = typeButton === buttonsTypes.trigger_buttons && (
             changedScenario.triggers.filter(elem => elem.id === buttonData.payload.trigger_id)[0]
          );
 
@@ -426,7 +428,7 @@ class ContextMenu extends Component {
                         options={this.getTriggers().filter(trigger => trigger.value !== buttonData.boundTriggerId)}
                         defaultValue={buttonData.payload.trigger_id && {
                            value: buttonData.payload.trigger_id,
-                           label: changedTriggerInFastButton.caption
+                           label: changedTriggerInTriggerButton.caption
                         }}
                         onChange={(value) => this.editButton({
                            target: {

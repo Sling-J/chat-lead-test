@@ -10,14 +10,13 @@ const Controls = (props) => {
     const deleteButton = () => {
 
         const messagesCopy = changedTrigger.messages;
-
-        messagesCopy[props.changedSocial][index].keyboard.splice(indexButton, 1);
+        messagesCopy[props.changedSocial][index].keyboard = messagesCopy[props.changedSocial][index].keyboard.filter(item => item.uid !== indexButton);
 
         const triggerData = {
             ...changedTrigger,
             index,
             type: typeButton,
-            messages: messagesCopy,
+            messages:  messagesCopy,
             botId: props.match.params.botId
         };
 

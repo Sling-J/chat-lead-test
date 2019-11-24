@@ -1,5 +1,9 @@
 .mainContainer
    margin-top: 40px
+   display: flex
+   align-items: center
+   flex-wrap: wrap
+   justify-content: center
 
 .fastBtn
    padding: 3px 0
@@ -7,21 +11,47 @@
    font-weight: 400
    font-size: 12px !important
 
-.newFastButton
-   margin-right: 7px
-   margin-bottom: 10px
-   height: 34px
-   border: 1px dashed #8492a6
+.fastButtonCommon
    border-radius: 17px
-   color: #8492a6
-   padding: 10px
+   height: 34px
    display: flex
    justify-content: center
    align-items: center
-   font-size: 15px
+   padding: 0 12px
+   font-size: 14px
    line-height: 32px
    cursor: pointer
-   width: 100%
+   margin-bottom: 10px
+
+.appendedFastButton
+   border: 1px solid #0084ff
+   color: #0084ff
+   margin-right: 7px
+   padding: 0
+   display: flex
+   overflow: hidden
+   justify-content: space-between
+
+   .appendedFastButtonText
+      padding: 0 12px
+      border-right: 1px solid #0084ff
+
+   .appendedFastButtonIcon
+      padding: 0 12px
+      box-sizing: border-box
+      display: flex
+      align-items: center
+      justify-content: center
+      transition: all 0.3s
+      height: 100%
+
+      &:hover
+         background: #0084ff
+         color: #fff
+
+.newFastButton
+   border: 1px dashed #8492a6
+   color: #8492a6
    transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out
 
    &:hover
@@ -43,5 +73,9 @@
       color: #13ce66
       font-weight: 200
 
+.appendFastBtnContainer
+   .newFastButton
+      width: auto
+
 .contextMenuContainer
-   position: absolute
+   position: relative

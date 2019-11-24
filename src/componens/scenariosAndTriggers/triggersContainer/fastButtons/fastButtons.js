@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import style from './fastButtons.module.sass';
 import ContextMenu from './contextMenu/contextMenu';
-import {updateTrigger} from "../../../../actions/actionCreator";
+import {addNewTrigger, updateTrigger} from "../../../../actions/actionCreator";
 import {connect} from 'react-redux';
 import {ScenarioIdContext} from "../../../../utils/Contexts";
 import {buttonsTypes} from "../../../../constants/defaultValues";
 import {withRouter} from "react-router-dom";
-
-import Button from '@material-ui/core/Button';
+import {markForButton} from "../../../../constants/markForButon";
+import uid from 'uid';
 
 const FastButtons = (props) => {
    const [indexOpenButton, setIndexOpenButton] = useState(false);
@@ -15,10 +15,11 @@ const FastButtons = (props) => {
    const {
       type,
       index,
+      changedScenario,
       changedTrigger,
       changedSlideOrElement,
-      styleForButton,
-      styleForContextMenu
+      styleForContextMenu,
+      changeTriggerId
    } = props;
 
    const appendFastButton = () => {
@@ -32,12 +33,12 @@ const FastButtons = (props) => {
       }
 
       buttons.push({
-         caption: 'Новая Кнопка',
+         uid: uid(10),
          isEmpty: true,
+         caption: 'Новая Кнопка',
          type: buttonsTypes.fast_buttons,
-         payload: {
-            trigger_id: changedTrigger.id
-         },
+         secondType: buttonsTypes.text_buttons,
+         boundTriggerId: changedTrigger.id,
       });
 
       const triggerData = {
@@ -51,16 +52,19 @@ const FastButtons = (props) => {
       props.updateTrigger(triggerData, null, props.changedSocial);
    };
 
-   const editButton = (typeButton, buttonData, indexButton, isEmpty) => {
+   const editButton = (typeButton, buttonData, indexButton, isEmpty, isCreateTrigger) => {
       const messagesCopy = changedTrigger.messages;
-      const buttonsValues = allFastButtonsInMessage();
+      const allButtonsValues = allFastButtonsInMessage(true);
 
-      Object.assign(buttonsValues[indexButton], buttonData, {
+      const idx = allButtonsValues.findIndex(item => item.uid === indexButton);
+
+      Object.assign(allButtonsValues[idx], buttonData, {
          isEmpty: isEmpty || false,
-         type: typeButton
+         type: buttonsTypes.fast_buttons,
+         secondType: typeButton
       });
 
-      messagesCopy[props.changedSocial][index].keyboard = buttonsValues;
+      messagesCopy[props.changedSocial][index].keyboard = allButtonsValues;
 
       const triggerData = {
          ...changedTrigger,
@@ -70,94 +74,92 @@ const FastButtons = (props) => {
          botId: props.match.params.botId
       };
 
+      if (isCreateTrigger) {
+         const trigger = {
+            scenario_id: changedScenario.id,
+            manager_id: props.match.params.botId,
+         };
+
+         props.appendTrigger(trigger);
+      }
+
       props.updateTrigger(triggerData, null, props.changedSocial);
    };
 
-   const allFastButtonsInMessage = () => {
+   const allFastButtonsInMessage = noFilter => {
       const messagesCopy = changedTrigger.messages;
       const buttonsArray = changedSlideOrElement || changedSlideOrElement === 0 ?
          messagesCopy[props.changedSocial][index][type][changedSlideOrElement].keyboard
          : messagesCopy[props.changedSocial][index].keyboard;
 
 
-      return buttonsArray.filter(button => button.type === buttonsTypes.fast_buttons);
+      return noFilter
+         ? buttonsArray
+         : buttonsArray.filter(button => button.type === buttonsTypes.fast_buttons);
    };
 
    return (
       <div className={style.mainContainer}>
          {allFastButtonsInMessage().map((elem, indexArr) => (
-            <div onClick={() => setIndexOpenButton(indexArr)}>
-               <div className={style.contextMenuContainer}>
-                  {indexOpenButton === indexArr && (
-                     <ScenarioIdContext.Consumer>
-                        {scenarioId => (
+            <div className={style.contextMenuContainer} onClick={() => setIndexOpenButton(elem.uid)} key={indexArr}>
+               {elem.uid === indexOpenButton && (
+                  <ScenarioIdContext.Consumer>
+                     {scenarioId => {
+                        return (
                            <ContextMenu
+                              changeTriggerId={changeTriggerId}
                               buttonEditHandler={editButton}
-                              typeButton={elem.type}
+                              typeButton={elem.isEmpty ? 'empty' : elem.secondType}
                               scenarioId={scenarioId}
-                              indexButton={indexArr}
+                              indexButton={elem.uid}
                               buttonData={elem}
                               setIndexOpenButton={setIndexOpenButton}
                               changedTrigger={changedTrigger}
                               styleForContextMenu={styleForContextMenu}
                               index={index}
                            />
-                        )}
-                     </ScenarioIdContext.Consumer>
-                  )}
-               </div>
-               <div style={styleForButton}>
-                  <div className={style.newFastButton}>
-                     {elem.caption || 'Быстрый ответ'}
-                  </div>
+                        )
+                     }}
+                  </ScenarioIdContext.Consumer>
+               )}
+
+               <div className={style.appendedFastButton + ' ' + style.fastButtonCommon}>
+                  <p className={style.appendedFastButtonText}>{elem.caption || 'Быстрый ответ'}</p>
+                  {elem.isEmpty
+                     ? null
+                     : (
+                        <p 
+                           onClick={e => {
+                              if (elem.secondType === buttonsTypes.text_buttons) {
+                                 e.stopPropagation();
+                                 changeTriggerId(elem.payload.trigger.id)
+                              }
+                           }}
+                           className={style.appendedFastButtonIcon}
+                        >
+                           {markForButton[elem.secondType]}
+                        </p>
+                     )
+                  }
                </div>
             </div>
          ))}
 
-         {changedSlideOrElement || changedSlideOrElement === 0 ?
-            allFastButtonsInMessage().length === 0 && (
-               <Button className={style.fastBtn} variant="outlined" onClick={appendFastButton}>
-                  + Добавить быстрый ответ
-               </Button>
-            )
-            :
-            allFastButtonsInMessage().length < 4 && (
-               <Button className={style.fastBtn} variant="outlined" onClick={appendFastButton}>
-                  + Добавить быстрый ответ
-               </Button>
-            )
-         }
-
-         {/*{*/}
-         {/*    isFocusInNewButton ?*/}
-         {/*        (*/}
-         {/*            <div className={style.inputContainer}>*/}
-         {/*                <input*/}
-         {/*                    className={style.openNewFastButton}*/}
-         {/*                    type={'text'}*/}
-         {/*                    autoFocus={true}*/}
-         {/*                    placeholder={'Название'}*/}
-         {/*                    // onBlur={() => focusInNewButton(false)}*/}
-         {/*                />*/}
-         {/*                <div className={style.contextMenuContainer}>*/}
-
-         {/*                    <ScenarioIdContext.Consumer>*/}
-         {/*                        {scenarioId => (*/}
-         {/*                            <ContextMenu*/}
-         {/*                                scenarioId={scenarioId}*/}
-         {/*                            />*/}
-         {/*                        )}*/}
-         {/*                    </ScenarioIdContext.Consumer>*/}
-         {/*                </div>*/}
-         {/*            </div>*/}
-         {/*        ) : (*/}
-         {/*            <div*/}
-         {/*                className={style.newFastButton}*/}
-         {/*            >*/}
-         {/*                + Быстрый ответ*/}
-         {/*            </div>*/}
-         {/*        )*/}
-         {/*}*/}
+         <div className={style.appendFastBtnContainer}>
+            {changedSlideOrElement || changedSlideOrElement === 0 ?
+               allFastButtonsInMessage().length === 0 && (
+                  <div className={style.newFastButton + ' ' + style.fastButtonCommon} onClick={appendFastButton}>
+                     + Быстрый ответ
+                  </div>
+               )
+               :
+               allFastButtonsInMessage().length < 4 && (
+                  <div className={style.newFastButton + ' ' + style.fastButtonCommon} onClick={appendFastButton}>
+                     + Быстрый ответ
+                  </div>
+               )
+            }
+         </div>
       </div>
    )
 };
@@ -166,9 +168,9 @@ const mapStateToProps = ({singleBotReducers}) => ({
    changedSocial: singleBotReducers.changedSocial
 });
 
-
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData, updationData, changedSocial) => dispatch(updateTrigger(triggerData, updationData, changedSocial)),
+   appendTrigger: triggerData => dispatch(addNewTrigger(triggerData)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FastButtons));

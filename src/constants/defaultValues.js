@@ -19,15 +19,17 @@ export const defaultValuesForNewMessages = {
 export const buttonsTypes = {
    text_buttons: 'text_buttons',
    url_buttons: 'url_buttons',
+   call_buttons: 'call_buttons',
    fast_buttons: 'fast_buttons',
-   call_buttons: 'call_buttons'
+   trigger_buttons: 'trigger_buttons',
 };
 
 export const defaultValuesForNewButtons = {
-   text_buttons: {caption: 'Новая кнопка', trigger_text: '', type: 'text_buttons'},
-   url_buttons: {caption: 'Новая кнопка', url: '', type: 'url_buttons'},
+   text_buttons: {caption: 'Новая кнопка', payload: {trigger: ''}, type: 'text_buttons'},
+   url_buttons: {caption: 'Новая кнопка', payload: {url: ''}, type: 'url_buttons'},
    fast_buttons: {caption: 'Новая кнопка', payload: {trigger_id: ''}, type: 'fast_buttons'},
-   call_buttons: {caption: 'Новая кнопка', tel: '', type: 'call_buttons'}
+   call_buttons: {caption: 'Новая кнопка', payload: {tel: ''}, type: 'call_buttons'},
+   trigger_buttons: {caption: 'Новая кнопка', payload: {trigger_id: ''}, type: 'trigger_buttons'},
 };
 
 export const tagsTypes = {

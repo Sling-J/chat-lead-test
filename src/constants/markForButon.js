@@ -5,6 +5,6 @@ import {faAngleRight, faLink, faPhoneAlt} from "@fortawesome/free-solid-svg-icon
 export const markForButton = {
     text_buttons: <FontAwesomeIcon icon={faAngleRight}/>,
     url_buttons: <FontAwesomeIcon icon={faLink}/>,
-    fast_buttons: <FontAwesomeIcon icon={faAngleRight}/>,
+    trigger_buttons: <FontAwesomeIcon icon={faAngleRight}/>,
     call_buttons: <FontAwesomeIcon icon={faPhoneAlt}/> 
 };

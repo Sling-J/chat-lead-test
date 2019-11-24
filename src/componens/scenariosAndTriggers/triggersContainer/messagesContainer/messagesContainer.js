@@ -54,7 +54,7 @@ const MessagesContainer = (props) => {
       <>
          {
             changedTrigger.messages[props.changedSocial].map((elem, index) => (
-               <div className={style.message}>
+               <div className={style.message} key={index}>
                   {
                      fileDefinition(
                         Object.keys(elem)[0],

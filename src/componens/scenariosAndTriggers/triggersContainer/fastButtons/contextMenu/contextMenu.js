@@ -1,57 +1,72 @@
-import React from 'react';
+import React, {Component} from 'react';
 import style from './contextMenu.module.sass';
 import Select from 'react-select'
 import Actions from '../../../../messages/buttonsContainer/actions/actions';
 import Controls from '../../../../messages/buttonsContainer/contextMenu/controls/controls';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTimes} from "@fortawesome/free-solid-svg-icons";
+import {faEnvelope, faHandPointUp, faLink, faPhoneAlt, faTimes} from "@fortawesome/free-solid-svg-icons";
 import onClickOutside from "react-onclickoutside";
 import {connect} from "react-redux";
-import {buttonsTypes} from "../../../../../constants/defaultValues";
+import {buttonsTypes, defaultValuesForNewButtons} from "../../../../../constants/defaultValues";
 
-const ContextMenu = (props) => {
-   const {
-      setIndexOpenButton,
-      scenarioId,
-      buttonEditHandler,
-      typeButton,
-      indexButton,
-      buttonData,
-   } = props;
-
-   const changedScenario = props.botScenarios.filter(elem => elem.id === scenarioId)[0];
-   const changedTriggerInFastButton = typeButton === buttonsTypes.fast_buttons && (
-      changedScenario.triggers.filter(elem => elem.id === buttonData.payload.trigger_id)[0]
-   );
-
-   ContextMenu.handleClickOutside = () => setIndexOpenButton(false);
-
-   const stylesForSelector = {
-      control: (styles, state) => ({
-         ...styles,
-         boxShadow: '0 !important',
-         cursor: 'pointer',
-         '&:hover': {
-            border: '2px solid #bdcadd !important'
-         },
-         border: '2px solid #bdcadd',
-         borderRadius: '10px 0 0 10px',
-         height: '100%',
-         background: '#f1f3f5'
-      }),
-      option: (styles, {data, isDisabled, isFocused, isSelected}) => {
-         return {
-            ...styles,
-            color: '#000',
-            backgroundColor: isSelected ? '#f4f3f5' : 'white',
-            cursor: 'pointer',
-            borderRadius: '0'
-         };
-      }
+class ContextMenu extends Component {
+   state = {
+      isSendTextBtn: false,
    };
 
-   const editButton = (e, forCaption) => {
-      if (typeButton === buttonsTypes.fast_buttons) {
+   handleClickOutside = () => this.props.setIndexOpenButton(false);
+
+   componentDidUpdate(prevProps, prevState, snapshot) {
+      const {createdTriggerId, scenarioId, botScenarios} = this.props;
+      const {isSendTextBtn} = this.state;
+
+      const changedScenario = botScenarios.filter(elem => elem.id === scenarioId)[0];
+
+      if ((prevProps.createdTriggerId !== createdTriggerId) && isSendTextBtn) {
+         const createdTrigger = changedScenario.triggers.find(trigger => trigger.id === createdTriggerId);
+
+         this.editButton({
+            target: {
+               value: createdTrigger
+            }
+         });
+
+         this.setState({isSendTextBtn: false});
+      }
+   }
+
+   editButton = (e, forCaption) => {
+      const {typeButton, buttonData, buttonEditHandler, indexButton} = this.props;
+
+      if (typeButton === buttonsTypes.text_buttons) {
+         if (forCaption) {
+            Object.assign(buttonData, {
+               caption: e.target.value
+            })
+         } else {
+            Object.assign(buttonData, {
+               payload: {
+                  trigger: e.target.value
+               }
+            })
+         }
+
+         buttonEditHandler(typeButton, buttonData, indexButton);
+      } else if (typeButton === buttonsTypes.url_buttons) {
+         if (forCaption) {
+            Object.assign(buttonData, {
+               caption: e.target.value
+            })
+         } else {
+            Object.assign(buttonData, {
+               payload: {
+                  url: e.target.value
+               }
+            })
+         }
+
+         buttonEditHandler(typeButton, buttonData, indexButton);
+      } else if (typeButton === buttonsTypes.trigger_buttons) {
          if (forCaption) {
             Object.assign(buttonData, {
                caption: e.target.value
@@ -65,85 +80,316 @@ const ContextMenu = (props) => {
          }
 
          buttonEditHandler(typeButton, buttonData, indexButton);
+      } else if (typeButton === 'empty') {
+         Object.assign(buttonData, {
+            caption: e.target.value
+         });
+
+         buttonEditHandler(typeButton, buttonData, indexButton, true);
       }
    };
 
-   const getTriggers = () => {
+   getTriggers = () => {
+      const {scenarioId} = this.props;
+      const changedScenario = this.props.botScenarios.filter(elem => elem.id === scenarioId)[0];
       const triggers = [];
 
-      changedScenario.triggers.forEach(trigger =>
+      changedScenario.triggers.forEach(trigger => {
          triggers.push({
             value: trigger.id,
             label: trigger.caption
          })
-      );
+      });
 
       return triggers;
    };
 
-   return (
-      <div className={style.mainContainer}>
-         <div className={style.header}>
-            Редактировать кнопку
-         </div>
-         <div className={style.buttonChanger}>
-            <h2>Заголовок кнопки</h2>
-            <input
-               type={'text'}
-               defaultValue={buttonData.caption}
-               title={'title'}
-               onInput={(e) => editButton(e, true)}
-            />
-            <div className={style.inputContainer}>
-               <Select
-                  placeholder={'Триггер'}
-                  options={getTriggers()}
-                  defaultValue={buttonData.payload.trigger_id && {
-                     value: buttonData.payload.trigger_id,
-                     label: changedTriggerInFastButton.caption
-                  }}
-                  onChange={(value) => editButton({
-                     target: {
-                        value: value.value
-                     }
-                  })}
-                  styles={stylesForSelector}
-                  className={style.selector}
-                  isSearchable={false}
-                  components={{DropdownIndicator: () => null}}
-                  arrowRenderer={() => ''}
-               />
-               <div
-                  className={style.closeButton}
-                  onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
-                     caption: ''
-                  }), indexButton, true)}
-               >
-                  <FontAwesomeIcon icon={faTimes}/>
+   buttonChanger = () => {
+      const {typeButton, buttonEditHandler, indexButton, buttonData} = this.props;
+
+      if (typeButton === 'empty') {
+         return (
+            <div className={style.buttonChanger}>
+               <div className={style.headerContainer}>
+                  <div className={style.headerDesc}>
+                     <div>
+                        <h2>Название кнопки</h2>
+                     </div>
+                  </div>
+                  <div>
+                     <input
+                        type={'text'}
+                        defaultValue={buttonData.caption}
+                        placeholder={'title'}
+                        onInput={e => this.editButton(e, true)}
+                     />
+                  </div>
                </div>
+               <div
+                  onClick={() => {
+                     this.setState({isSendTextBtn: true});
+
+                     buttonEditHandler(
+                        buttonsTypes.text_buttons,
+                        defaultValuesForNewButtons[buttonsTypes.text_buttons],
+                        indexButton,
+                        false,
+                        true
+                     )
+                  }}
+                  className={style.changerElement}
+               >
+                  <FontAwesomeIcon icon={faEnvelope} size="lg"/>
+                  Создать сообщение
+               </div>
+               <div
+                  onClick={() => {
+                     buttonEditHandler(
+                        buttonsTypes.url_buttons,
+                        defaultValuesForNewButtons[buttonsTypes.url_buttons],
+                        indexButton
+                     )
+                  }}
+                  className={style.changerElement}
+               >
+                  <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
+                  Открыть веб-сайт
+               </div>
+               <div
+                  onClick={() => {
+                     buttonEditHandler(
+                        buttonsTypes.trigger_buttons,
+                        defaultValuesForNewButtons[buttonsTypes.trigger_buttons],
+                        indexButton
+                     )
+                  }}
+                  className={style.changerElement}
+               >
+                  <FontAwesomeIcon icon={faHandPointUp} size="lg" color="limegreen"/>
+                  Выберите существующий шаг
+               </div>
+
+               <Actions
+                  {...this.props}
+               />
+               <Controls
+                  {...this.props}
+               />
             </div>
-            <Actions
-               {...props}
-            />
-            <Controls
-               {...props}
-            />
+         )
+      } else if (typeButton === buttonsTypes.text_buttons) {
+         return (
+            <div className={style.buttonChanger}>
+               <div className={style.headerContainer}>
+                  <div className={style.headerDesc}>
+                     <div>
+                        <h2>Название кнопки</h2>
+                     </div>
+                  </div>
+                  <div>
+                     <input
+                        type={'text'}
+                        defaultValue={buttonData.caption}
+                        placeholder={'title'}
+                        onInput={e => this.editButton(e, true)}
+                     />
+                  </div>
+               </div>
+
+               <div className={style.inputContainer}>
+                  <div className={style.closedButton}>
+                     <div className={style.openedButtonText} onClick={() =>
+                        buttonData.payload.trigger.length !== 0 ? this.props.changeTriggerId(buttonData.payload.trigger.id) : {}
+                     }>
+                        <div>
+                           <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
+                        </div>
+
+                        <div className={style.openedButton}>
+                           <p className={style.openedButtonTitle}>Отправить сообщение</p>
+                           <p className={style.openedButtonDesc}>{buttonData.payload.trigger !== 0 ? buttonData.payload.trigger.caption : 'загрузка ...'}</p>
+                        </div>
+                     </div>
+
+                     <div
+                        className={style.openedButtonIcon}
+                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
+                           caption: ''
+                        }), indexButton, true)}
+                     >
+                        <FontAwesomeIcon icon={faTimes}/>
+                     </div>
+                  </div>
+               </div>
+               <Actions
+                  {...this.props}
+               />
+               <Controls
+                  {...this.props}
+               />
+            </div>
+         )
+      } else if (typeButton === buttonsTypes.url_buttons) {
+         return (
+            <div className={style.buttonChanger}>
+               <div className={style.headerContainer}>
+                  <div className={style.headerDesc}>
+                     <div>
+                        <h2>Название кнопки</h2>
+                     </div>
+                  </div>
+                  <div>
+                     <input
+                        type={'text'}
+                        defaultValue={buttonData.caption}
+                        placeholder={'title'}
+                        onInput={e => this.editButton(e, true)}
+                     />
+                  </div>
+               </div>
+               <div className={style.inputContainer}>
+                  <div className={style.closedButton}>
+                     <div className={style.openedButtonText}>
+                        <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
+
+                        <div className={style.openedButton}>
+                           <p className={style.openedButtonTitle}>Открыть веб-сайт</p>
+                           <p className={style.openedButtonDesc}>Введите URL ниже</p>
+                        </div>
+                     </div>
+
+                     <div
+                        className={style.openedButtonIcon}
+                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
+                           caption: ''
+                        }), indexButton, true)}
+                     >
+                        <FontAwesomeIcon icon={faTimes}/>
+                     </div>
+                  </div>
+               </div>
+
+               <h2 className={style.descColor}>Адрес веб-сайта</h2>
+
+               <input
+                  type={'text'}
+                  placeholder={'URL'}
+                  defaultValue={buttonData.payload.url}
+                  onFocus={this.editButton}
+               />
+
+               <Actions
+                  {...this.props}
+               />
+               <Controls
+                  {...this.props}
+               />
+            </div>
+         )
+      } else if (typeButton === buttonsTypes.trigger_buttons) {
+         const stylesForSelector = {
+            control: (styles) => ({
+               ...styles,
+               boxShadow: '0 !important',
+               cursor: 'pointer',
+               border: '1px dashed #bdcadd',
+               borderRight: 'none',
+               borderRadius: '10px 0 0 10px',
+               height: '100%',
+               background: '#f1f3f5'
+            }),
+            option: (styles, {data, isDisabled, isFocused, isSelected}) => {
+               return {
+                  ...styles,
+                  color: '#000',
+                  backgroundColor: isSelected ? '#f4f3f5' : 'white',
+                  cursor: 'pointer',
+                  borderRadius: '0'
+               };
+            }
+         };
+
+         const changedScenario = this.props.botScenarios.filter(elem => elem.id === this.props.scenarioId)[0];
+         const changedTriggerInTriggerButton = typeButton === buttonsTypes.trigger_buttons && (
+            changedScenario.triggers.filter(elem => elem.id === buttonData.payload.trigger_id)[0]
+         );
+
+         return (
+            <div className={style.buttonChanger}>
+               <div className={style.headerContainer}>
+                  <div className={style.headerDesc}>
+                     <div>
+                        <h2>Название кнопки</h2>
+                     </div>
+                  </div>
+                  <div>
+                     <input
+                        type={'text'}
+                        defaultValue={buttonData.caption}
+                        placeholder={'title'}
+                        onInput={(e) => this.editButton(e, true)}
+                     />
+                  </div>
+               </div>
+               <div className={style.inputContainer}>
+                  <div className={style.closedButton}>
+                     <Select
+                        placeholder={'Триггер'}
+                        options={this.getTriggers().filter(trigger => trigger.value !== buttonData.boundTriggerId)}
+                        defaultValue={buttonData.payload.trigger_id && {
+                           value: buttonData.payload.trigger_id,
+                           label: changedTriggerInTriggerButton.caption
+                        }}
+                        onChange={(value) => this.editButton({
+                           target: {
+                              value: value.value
+                           }
+                        })}
+                        styles={stylesForSelector}
+                        className={style.selector}
+                        isSearchable={false}
+                        components={{DropdownIndicator: () => null}}
+                        // arrowRenderer={() => ''}
+                     />
+
+                     <div
+                        className={style.openedButtonIcon}
+                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
+                           caption: ''
+                        }), indexButton, true)}
+                     >
+                        <FontAwesomeIcon icon={faTimes}/>
+                     </div>
+                  </div>
+               </div>
+               <Actions
+                  {...this.props}
+               />
+               <Controls
+                  {...this.props}
+               />
+            </div>
+         )
+      }
+   };
+
+   render() {
+      console.log(this.props.buttonData);
+      return (
+         <div className={style.mainContainer}>
+            {this.buttonChanger()}
          </div>
-      </div>
-   )
-
-
-};
+      )
+   }
+}
 
 const mapStateToProps = ({singleBotReducers}) => ({
    changedScenarioId: singleBotReducers.changedScenarioId,
+   createdTriggerId: singleBotReducers.createdTriggerId,
+   changedSocial: singleBotReducers.changedSocial,
    botScenarios: singleBotReducers.botScenarios,
    isFetching: singleBotReducers.isFetching,
    error: singleBotReducers.error,
 });
 
-const clickOutsideConfig = {
-   handleClickOutside: () => ContextMenu.handleClickOutside
-};
-
-export default onClickOutside(connect(mapStateToProps, null)(ContextMenu), clickOutsideConfig);
+export default connect(mapStateToProps)(onClickOutside(ContextMenu))

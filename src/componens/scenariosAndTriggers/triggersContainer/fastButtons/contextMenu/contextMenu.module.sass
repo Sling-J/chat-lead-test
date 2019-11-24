@@ -1,169 +1,172 @@
 .mainContainer
-  width: 300px
-  border: 1px solid #e0e6ed
-  background-color: #fff
-  box-shadow: 0 0 10px 0 rgba(77,77,77,.2)
-  position: absolute
-  left: 215px
-  top: -40px
-  z-index: 1000
-  padding: 10px 0
-  font-family: "Lato", sans-serif
+   width: 300px
+   border: 1px solid #e0e6ed
+   background-color: #fff
+   box-shadow: 0 0 10px 0 rgba(77,77,77,.2)
+   position: absolute
+   left: 100%
+   top: -50px
+   z-index: 1000
+   padding: 10px 0
+   font-family: "Lato", sans-serif
 
+   h2
+      font-size: 15px
+      font-weight: 600
+      line-height: 20px
+      color: #3c4858
+      padding: 10px 0 10px 0
 
-  &:before
-    border-bottom: 10px solid #e5e5e5
-    border-left: 10px solid transparent
-    border-right: 10px solid transparent
-    content: ""
-    height: 0
-    position: absolute
-    transform: rotate(-90deg)
-    left: -15px
-    top: 10px
-    width: 0
-    background: #fff
+.headerContainer
+   border-bottom: 1px solid #e0e6ed
+   padding: 0 0 10px
+   font-size: 15px
 
-  h2
-    font-size: 15px
-    font-weight: 600
-    line-height: 20px
-    color: #3c4858
-    padding: 10px 0 10px 0
-//margin: 24px 10px 8px
+   .headerDesc
+      display: flex
+      justify-content: space-between
+      align-items: center
 
+   input
+      width: 100%
 
 .header
-  border-bottom: 1px solid #e0e6ed
-  font-family: 'Lato', sans-serif
-  font-size: 15px
-  line-height: 20px
-  color: #3c4858
-  padding: 0 10px 10px
-
+   font-family: 'Lato', sans-serif
+   line-height: 20px
+   color: #3c4858
 
 .buttonChanger
-  display: flex
-  flex-direction: column
-  padding: 0 10px
+   display: flex
+   flex-direction: column
+   padding: 0 10px
 
 
-  select
-    background: #f1f3f5
-    overflow: hidden
-    height: 72px
-    border: 2px solid #bdcadd
-    border-radius: 10px
-    min-width: 100px
-    outline: none
-    cursor: pointer
+   select
+      background: #f1f3f5
+      overflow: hidden
+      height: 52px
+      border: 1px dashed #bdcadd
+      border-radius: 10px
+      min-width: 100px
+      outline: none
+      cursor: pointer
 
 
-  .changerElement
-    position: relative
-    height: 60px
-    border: 2px dashed #e0e6ed
-    border-radius: 10px
-    cursor: pointer
-    font-family: 'Lato', sans-serif
-    font-size: 15px
-    line-height: 20px
-    color: #3c4858
-    font-weight: 600
-    display: flex
-    justify-content: center
-    align-items: center
-    margin-top: 10px
+   .changerElement
+      transition: background-color 0.2s
+      position: relative
+      height: 50px
+      border: 1px dashed #82848B
+      border-radius: 10px
+      cursor: pointer
+      font-family: 'Lato', sans-serif
+      font-size: 15px
+      line-height: 20px
+      color: #3c4858
+      font-weight: 400
+      display: flex
+      align-items: center
+      margin-top: 14px
 
-    &:hover
-      background: #e5e5e5
-      border-color: #0084ff
+      &:hover
+         background-color: darken(#fff, 5%)
+         border-color: #000
 
-  input
-    margin: 0
-    padding: 5px 9px
-    width: 100%
-    outline: none!important
-    border: 1px solid rgba(0,0,0,.12)
-    border-radius: 3px
-    background: transparent none
-    //background-color: #fff
-    box-shadow: none
-    color: rgba(0,0,0,.87)
-    font-size: .9rem
-    box-sizing: border-box
-    margin-bottom: 10px
+      & svg
+         width: 25px
+         height: 25px
+         margin: 0 10px 0 15px
+
+   input
+      margin: 0 0 10px 0
+      padding: 5px 9px
+      width: 100%
+      outline: none !important
+      border: 1px solid rgba(0, 0, 0, .12)
+      border-radius: 3px
+      background: transparent none
+      //background-color: #fff
+      box-shadow: none
+      color: rgba(0, 0, 0, .87)
+      font-size: .9rem
+      box-sizing: border-box
 
 label
-  position: relative
+   position: relative
 
 .inputContainer
-  display: flex
-  width: 100%
-  align-items: center
+   display: flex
+   width: 100%
+   align-items: center
+   margin: 7px 0
 
-  .closedButton
-    width: 100%
-    border-radius: 10px 0 0 10px
-    border: 2px solid #bdcadd
-    border-right: 1px solid #bdcadd
-    background: #f1f3f5
-    box-sizing: border-box
-    height: 72px
-    display: flex
-    align-items: center
-    padding: 10px
-    color: #000
+   .closedButton
+      width: 100%
+      border-radius: 10px
+      border: 1px dashed #bdcadd
+      background: #f1f3f5
+      box-sizing: border-box
+      height: 52px
+      display: flex
+      justify-content: space-between
+      align-items: center
+      color: #000
 
+      .openedButtonText
+         display: flex
+         align-items: center
+         transition: background 0.3s
+         width: 85%
+         padding: 10px
+         box-sizing: border-box
+         border-radius: 10px 0 0 10px
 
-//select
-//  width: 100%
-//  border-radius: 10px 0 0 10px
-//  border-right: 1px solid #bdcadd
-//  -webkit-appearance: none
-//  -moz-appearance: none
-//  appearance: none
-//  background: #f1f3f5
-//  font-family: 'Lato', sans-serif
-//  font-size: 14px
-//  font-weight: 500
-//  line-height: 20px
-//  color: #3c4858
-//
-//  &:hover
-//    background: #e5e7e9
-//
-//  select::-ms-expand
-//    display: none
-//
-//  option
-//    font-size: 14px
-//    height: 40px
-//    padding: 0
+         &:hover
+            padding: 9px 10px
+            background: #E1E5EA
+
+      .openedButtonIcon
+         transition: background 0.3s
+         border-radius: 0 10px 10px 0
+         padding: 19px 10px
+         box-sizing: border-box
+         border-left: 1px dashed #bdcadd
+         width: 15%
+         text-align: center
+
+         &:hover
+            background: #E1E5EA
 
 .selector
-  width: 100%
-  height: 72px
-  background: #f1f3f5
+   width: 100%
+   height: 52px
+   font-size: 14px
+   background: #f1f3f5
 
 
 .closeButton
-  width: 50px
-  border-radius: 0 10px 10px 0
-  display: flex
-  justify-content: center
-  align-items: center
-  background: #f1f3f5
-  overflow: hidden
-  color: #bdcadd
-  font-size: 20px
-  height: 72px
-  box-sizing: border-box
-  border: 2px solid #bdcadd
-  border-left: none
+   color: #3c4858
+   display: flex
+   align-items: center
+   font-size: 18px
 
-  &:hover
-    background-color: #f8fafc
-    color: #ff6249
+   .closeButtonText
+      margin: 0 0 5px 5px
 
+   &:hover
+      color: darken(#3c4858, 30%)
 
+.openedButton
+   margin-left: 10px
+
+   .openedButtonTitle
+      font-size: 15px
+      margin-bottom: 5px
+
+   .openedButtonDesc
+      font-size: 13px
+      color: #82848B
+
+.descColor
+   color: #82848B !important
+   font-weight: 400 !important
