@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import style from './timerTextArea.module.sass';
 import ButtonsContainer from "../../buttonsContainer/buttonsContainer";
+import FastButtons from "../../../scenariosAndTriggers/triggersContainer/fastButtons/fastButtons"
 import {connect} from "react-redux";
 
 const TimerTextArea = (props) => {
@@ -64,6 +65,9 @@ const TimerTextArea = (props) => {
             <div/>
          </div>
          <ButtonsContainer
+            {...props}
+         />
+         <FastButtons
             {...props}
          />
       </div>
