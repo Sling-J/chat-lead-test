@@ -146,19 +146,9 @@ const FastButtons = (props) => {
          ))}
 
          <div className={style.appendFastBtnContainer}>
-            {changedSlideOrElement || changedSlideOrElement === 0 ?
-               allFastButtonsInMessage().length === 0 && (
-                  <div className={style.newFastButton + ' ' + style.fastButtonCommon} onClick={appendFastButton}>
-                     + Быстрый ответ
-                  </div>
-               )
-               :
-               allFastButtonsInMessage().length < 4 && (
-                  <div className={style.newFastButton + ' ' + style.fastButtonCommon} onClick={appendFastButton}>
-                     + Быстрый ответ
-                  </div>
-               )
-            }
+            <div className={style.newFastButton + ' ' + style.fastButtonCommon} onClick={appendFastButton}>
+               + Быстрый ответ
+            </div>
          </div>
       </div>
    )

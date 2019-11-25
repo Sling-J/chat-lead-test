@@ -141,26 +141,13 @@ const ButtonsContainer = (props) => {
             </div>
          ))}
 
-         {changedSlideOrElement || changedSlideOrElement === 0 ?
-            allButtonsInMessage().length === 0 && (
-               <div
-                  className={style.variable}
-                  style={styleForControls || {}}
-                  onClick={() => appendNewButton()}
-               >
-                  <h2>+ Добавить кнопку</h2>
-               </div>
-            )
-            : allButtonsInMessage().length < 3 && (
-            <div
-               className={style.variable}
-               style={styleForControls || {}}
-               onClick={() => appendNewButton()}
-            >
-               <h2>+ Добавить кнопку</h2>
-            </div>
-         )}
-
+         <div
+            className={style.variable}
+            style={styleForControls || {}}
+            onClick={() => appendNewButton()}
+         >
+            <h2>+ Добавить кнопку</h2>
+         </div>
       </div>
    )
 };

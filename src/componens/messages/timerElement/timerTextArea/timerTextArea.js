@@ -15,7 +15,7 @@ const TimerTextArea = (props) => {
    const [isTextAreaHovering, setIsTextAreaHovering] = useState(false);
 
    const addName = () => {
-      let myField = document.querySelector("#insertVariable");
+      let myField = document.querySelector("#insertVariable2");
       let myValue = " {first_name}";
       let input = myField.value;
       input += myValue;
@@ -23,7 +23,7 @@ const TimerTextArea = (props) => {
    };
 
    const addLastName = () => {
-      let myField = document.querySelector("#insertVariable");
+      let myField = document.querySelector("#insertVariable2");
       let myValue = " {last_name}";
       let input = myField.value;
       input += myValue;
@@ -32,13 +32,12 @@ const TimerTextArea = (props) => {
 
    const handleMouseHover = () => {
       setIsTextAreaHovering(!isTextAreaHovering);
-      console.log(isTextAreaHovering);
    };
 
    return (
       <div className={style.textArea} key={Object.values(value)[2]}>
          <textarea
-            id="insertVariable"
+            id="insertVariable2"
             onBlur={(e) => handler(e, index, optionalType)}
             defaultValue={Object.values(value)[2]}
          />

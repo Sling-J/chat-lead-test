@@ -35,7 +35,6 @@ const TextArea = (props) => {
 
    const handleMouseHover = () => {
       setIsTextAreaHovering(!isTextAreaHovering);
-      console.log(isTextAreaHovering);
    };
 
 
