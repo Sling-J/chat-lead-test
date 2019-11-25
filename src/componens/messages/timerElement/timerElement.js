@@ -4,14 +4,13 @@ import {updateTrigger} from "../../../actions/actionCreator";
 import "react-datepicker/dist/react-datepicker.css";
 import './calendarStyle.sass';
 import {connect} from "react-redux";
-import DatePicker, {registerLocale} from 'react-datepicker';
+import {registerLocale} from 'react-datepicker';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {withRouter} from "react-router-dom";
 import ClickOutsideHandler from "../../hoc/clickOutside";
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 import ru from "date-fns/locale/ru";
-import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons"; // the locale you want
-import CalendarSelectTime from './calendarSelectTime/calendarSelectTime';
+import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
 
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import locale from 'antd/es/date-picker/locale/ru_RU';
