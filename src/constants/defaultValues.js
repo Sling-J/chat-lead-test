@@ -12,7 +12,7 @@ export const defaultValuesForNewMessages = {
    list: {list: [{photo: '', title: '', text: '', keyboard: []}, {photo: '', title: '', text: '', keyboard: []}]},
    pause_delay: {timer: {pause_delay: ''}, keyboard: []},
    activity_lost: {timer: {activity_lost: moment().format('YYYY-MM-DD, h:mm')}, keyboard: []},
-   send_time: {timer: {send_time: moment().format('YYYY-MM-DD, h:mm')}, keyboard: []},
+   send_time: {timer: {send_time: {day: '', hours: '', min: ''}}, keyboard: [], text: ""},
    form: {form: [""], keyboard: []},
    location: {location: [""], keyboard: []},
    payment: {payment: [""], keyboard: []},

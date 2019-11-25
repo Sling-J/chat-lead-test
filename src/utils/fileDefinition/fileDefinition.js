@@ -137,7 +137,11 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <TimerElement
             type={'timer'}
             index={index}
+            handler={handler}
             changedTrigger={changedTrigger}
+            key={key}
+            changedScenario={changedScenario}
+            changeTriggerId={changeTriggerId}
             value={value}
             onChange={(e) => handler(e, index, key)}
          />

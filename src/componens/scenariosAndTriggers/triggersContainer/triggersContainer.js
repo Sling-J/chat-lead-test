@@ -66,6 +66,8 @@ const TriggersContainer = (props) => {
 
       if (typeFile === 'text') {
          Object.assign(updationData, {text: e.target.value})
+      } else if (typeFile === 'send_time') {
+         messagesCopy[props.changedSocial][index].text = e.target.value;
       } else {
          Object.assign(updationData, {file: e.target.files[0]})
       }

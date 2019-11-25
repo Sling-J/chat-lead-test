@@ -17,6 +17,7 @@ import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import locale from 'antd/es/date-picker/locale/ru_RU';
 
 import { DatePicker as AntdDatePicker } from 'antd';
+import TimerTextArea from "./timerTextArea/timerTextArea";
 import moment from 'moment';
 import 'moment/locale/ru';
 
@@ -25,6 +26,9 @@ registerLocale("ru", ru);
 
 const TimerElement = props => {
    const [isOpenWindow, setStatusIsOpenWindow] = useState(false);
+   const [dayField, setDayField] = useState('');
+   const [hoursField, setHoursField] = useState('');
+   const [minField, setMinField] = useState('');
    const {type, index, value, changedTrigger} = props;
 
    const valuesForTimer = Object.values(value)[0];
@@ -81,13 +85,31 @@ const TimerElement = props => {
       }
    };
 
+   const handleSendTime = event => {
+      event.preventDefault();
+
+      if (dayField.length !== 0 || hoursField.length !== 0 || minField.length !== 0) {
+         const dateObject = {
+            target: {
+               value: {
+                  day: dayField,
+                  hours: hoursField,
+                  min: minField,
+               }
+            }
+         };
+
+         updateTrigger(dateObject, 'send_time')
+      }
+   };
+
    if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
       return (
          <div className={style.mainContentContainer}>
             <div className={style.hoverBar}>
                <HoverBarForMessage
                   {...props}
-                  styleForBar={{top: '-25px', left: '320px'}}
+                  styleForBar={{top: '-25px', left: '330px'}}
                />
             </div>
             <div className={style.mainContainer} onClick={() => setStatusIsOpenWindow(true)}>
@@ -157,7 +179,7 @@ const TimerElement = props => {
             <div className={style.hoverBar}>
                <HoverBarForMessage
                   {...props}
-                  styleForBar={{top: '-25px', left: '320px'}}
+                  styleForBar={{top: '-25px', left: '330px'}}
                />
             </div>
             <div className={style.datePickerContainer}>
@@ -165,11 +187,11 @@ const TimerElement = props => {
                   <p>Ждать до</p>
                   <p>Дата / Время</p>
                </div>
-               <AntdDatePicker 
-                  showTime 
+               <AntdDatePicker
+                  showTime
                   locale={locale}
                   className={style.datePickerAntd}
-                  placeholder="Выберите время" 
+                  placeholder="Выберите время"
                   defaultValue={
                      moment(formatUnixToDate(valuesForTimer[Object.keys(valuesForTimer)[0]], true), 'YYYY-MM-DD, h:mm')
                   }
@@ -194,35 +216,62 @@ const TimerElement = props => {
             <div className={style.hoverBar}>
                <HoverBarForMessage
                   {...props}
-                  styleForBar={{top: '-25px', left: '320px'}}
+                  styleForBar={{top: '0px', left: '330px'}}
                />
             </div>
 
-            <div className={style.datePickerContainer}>
+            <div className={style.datePickerContainerAuto}>
                <div className={style.datePickerTitle}>
-                  <p>Потеря активности</p>
-                  <p>Дата / Время</p>
+                  <p>Если нет активности через:</p>
                </div>
-               <AntdDatePicker 
-                  showTime 
-                  locale={locale}
-                  className={style.datePickerAntd}
-                  placeholder="Выберите время" 
-                  defaultValue={
-                     moment(formatUnixToDate(valuesForTimer[Object.keys(valuesForTimer)[0]], true), 'YYYY-MM-DD, h:mm')
-                  }
-                  onChange={(value) => {
-                     const dateObject = {
-                        target: {
-                           value: formatDateToUnix(value)
-                        }
-                     };
+               <div>
+                  <form>
+                     <div className={style.datePickerBox}>
+                        <div className={style.datePickerItem}>
+                           <div>
+                              <input
+                                 type="number"
+                                 placeholder="день"
+                                 defaultValue={valuesForTimer.send_time.day}
+                                 onBlur={handleSendTime}
+                                 onChange={e => setDayField(e.target.value)}
+                              />
+                           </div>
+                           <p>Дней</p>
+                        </div>
 
-                     updateTrigger(dateObject, 'send_time')
-                  }}
+                        <div className={style.datePickerItem}>
+                           <div>
+                              <input
+                                 type="number"
+                                 placeholder="час"
+                                 defaultValue={valuesForTimer.send_time.hours}
+                                 onBlur={handleSendTime}
+                                 onChange={e => setHoursField(e.target.value)}
+                              />
+                           </div>
+                           <p>Часов</p>
+                        </div>
 
-                  disabledDate={(current) => current && current < moment().endOf('day')}
-               />
+                        <div className={style.datePickerItem}>
+                           <div>
+                              <input
+                                 type="number"
+                                 placeholder="минуты"
+                                 defaultValue={valuesForTimer.send_time.min}
+                                 onBlur={handleSendTime}
+                                 onChange={e => setMinField(e.target.value)}
+                              />
+                           </div>
+                           <p>Минуты</p>
+                        </div>
+                     </div>
+
+                     <p className={style.datePickerTextAreaTitle}>Тогда надо отправить сообщение:</p>
+
+                     <TimerTextArea optionalType="send_time" {...props}/>
+                  </form>
+               </div>
             </div>
             {/* <div className={style.mainContainer} onClick={() => setStatusIsOpenWindow(true)}>
                {

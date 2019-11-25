@@ -8,7 +8,7 @@ import FastButtons from "../../scenariosAndTriggers/triggersContainer/fastButton
 
 
 const TextArea = (props) => {
-   const {value, handler, index, type, changedTrigger} = props;
+   const {value, handler, index, type} = props;
    const [valueTextArea, setValueTextArea] = useState({
       target: {
          value: Object.values(value)[0]
@@ -48,17 +48,6 @@ const TextArea = (props) => {
                // statusDraggable={(status) => setStatusDragable(status)}
             />
          </div>
-         {/*<ContentEditable*/}
-         {/*// innerRef={this.contentEditable}*/}
-         {/*html={valueTextArea.target.value} // innerHTML of the editable div*/}
-         {/*disabled={false}       // use true to disable editing*/}
-         {/*onChange={(e) => setValueTextArea(e)} // handle innerHTML change*/}
-         {/*// onInput={() => console.log(value)}*/}
-         {/*onBlur={() => console.log(valueTextArea.target.value)}*/}
-         {/*className={style.editable}*/}
-         {/*tagName='article' // Use a custom HTML tag (uses a div by default)*/}
-         {/*/>*/}
-         {/*<p onInput={(e) => console.log(e.target)} tabIndex={1} contentEditable={true}>{valueTextArea}</p>*/}
          <textarea
             id="insertVariable"
             onBlur={(e) => handler(e, index, type)}
