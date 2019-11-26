@@ -15,7 +15,7 @@ const TimerTextArea = (props) => {
    const [isTextAreaHovering, setIsTextAreaHovering] = useState(false);
 
    const addName = () => {
-      let myField = document.querySelector("#insertVariable2");
+      let myField = document.querySelector(`#insertVariable2${index}`);
       let myValue = " {first_name}";
       let input = myField.value;
       input += myValue;
@@ -23,7 +23,7 @@ const TimerTextArea = (props) => {
    };
 
    const addLastName = () => {
-      let myField = document.querySelector("#insertVariable2");
+      let myField = document.querySelector(`#insertVariable2${index}`);
       let myValue = " {last_name}";
       let input = myField.value;
       input += myValue;
@@ -37,7 +37,7 @@ const TimerTextArea = (props) => {
    return (
       <div className={style.textArea} key={Object.values(value)[2]}>
          <textarea
-            id="insertVariable2"
+            id={`insertVariable2${index}`}
             onBlur={(e) => handler(e, index, optionalType)}
             defaultValue={Object.values(value)[2]}
          />
@@ -66,9 +66,11 @@ const TimerTextArea = (props) => {
          <ButtonsContainer
             {...props}
          />
-         <FastButtons
-            {...props}
-         />
+         {(props.changedSocial === 'facebook' || props.changedSocial === 'telegram') && (
+            <FastButtons
+               {...props}
+            />
+         )}
       </div>
    )
 };

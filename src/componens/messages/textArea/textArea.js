@@ -18,7 +18,7 @@ const TextArea = (props) => {
    const [isTextAreaHovering, setIsTextAreaHovering] = useState(false);
 
    const addName = () => {
-      let myField = document.querySelector("#insertVariable");
+      let myField = document.querySelector(`#insertVariable${index}`);
       let myValue = " {first_name}";
       let input = myField.value;
       input += myValue;
@@ -26,7 +26,7 @@ const TextArea = (props) => {
    };
 
    const addLastName = () => {
-      let myField = document.querySelector("#insertVariable");
+      let myField = document.querySelector(`#insertVariable${index}`);
       let myValue = " {last_name}";
       let input = myField.value;
       input += myValue;
@@ -48,7 +48,7 @@ const TextArea = (props) => {
             />
          </div>
          <textarea
-            id="insertVariable"
+            id={`insertVariable${index}`}
             onBlur={(e) => handler(e, index, type)}
             defaultValue={Object.values(value)[0]}
          />
