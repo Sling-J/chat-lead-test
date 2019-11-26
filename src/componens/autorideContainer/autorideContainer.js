@@ -3,7 +3,6 @@ import style from './autorideContainer.module.sass';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import {connect} from "react-redux";
-import trashImage from "../../images/trash.png";
 import {ScenarioIdContext} from "../../utils/Contexts";
 import TriggersContainer from "../scenariosAndTriggers/triggersContainer/triggersContainer";
 import {

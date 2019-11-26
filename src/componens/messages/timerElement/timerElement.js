@@ -1,39 +1,66 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import style from './timerElement.module.sass';
 import {updateTrigger} from "../../../actions/actionCreator";
 import "react-datepicker/dist/react-datepicker.css";
 import './calendarStyle.sass';
 import {connect} from "react-redux";
 import {registerLocale} from 'react-datepicker';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {withRouter} from "react-router-dom";
-import ClickOutsideHandler from "../../hoc/clickOutside";
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 import ru from "date-fns/locale/ru";
-import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
 
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import locale from 'antd/es/date-picker/locale/ru_RU';
 
-import { DatePicker as AntdDatePicker } from 'antd';
-import { Select, InputNumber } from 'antd';
+import {DatePicker as AntdDatePicker} from 'antd';
+import {Select, InputNumber} from 'antd';
 import TimerTextArea from "./timerTextArea/timerTextArea";
 import moment from 'moment';
 import 'moment/locale/ru';
 
+import {timeToSeconds, secondsToTime} from "../../../utils/formatSecond";
+
 registerLocale("ru", ru);
 
-const { Option } = Select;
+const {Option} = Select;
 
 const TimerElement = props => {
-   const [isOpenWindow, setStatusIsOpenWindow] = useState(false);
    const [dayField, setDayField] = useState('');
    const [hoursField, setHoursField] = useState('');
    const [minField, setMinField] = useState('');
-   
+
+   const [pauseKeyField, setPauseKeyField] = useState({
+      keyValue: '',
+      key: ''
+   });
+
+   const [pauseDayField, setPauseDayField] = useState('');
+   const [pauseHoursField, setPauseHoursField] = useState('');
+   const [pauseMinField, setPauseMinField] = useState('');
+   const [pauseSecField, setPauseSecField] = useState('');
+
    const {type, index, value, changedTrigger} = props;
 
    const valuesForTimer = Object.values(value)[0];
+
+   useEffect(() => {
+      if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
+         if (valuesForTimer.pause_delay.key === 'day') {
+            setPauseDayField(timeToSeconds(value, valuesForTimer.pause_delay.key))
+         } else if (valuesForTimer.pause_delay.key === 'hours') {
+            setPauseHoursField(timeToSeconds(value, valuesForTimer.pause_delay.key))
+         } else if (valuesForTimer.pause_delay.key === 'min') {
+            setPauseMinField(timeToSeconds(value, valuesForTimer.pause_delay.key))
+         } else if (valuesForTimer.pause_delay.key === 'sec') {
+            setPauseSecField(timeToSeconds(value, valuesForTimer.pause_delay.key))
+         }
+
+         setPauseKeyField({
+            keyValue: valuesForTimer.pause_delay.keyValue,
+            key: valuesForTimer.pause_delay.key
+         })
+      }
+   }, []);
 
    const updateTrigger = (e, typeInput) => {
       const messagesCopy = changedTrigger.messages;
@@ -84,17 +111,14 @@ const TimerElement = props => {
       }
    };
 
-   const handleSendTime = (valuesForTimer) => {
-
-      console.log(dayField, hoursField, minField)
-
+   const handleSendTime = valuesForTimer => {
       if (dayField.length !== 0 || hoursField.length !== 0 || minField.length !== 0) {
          const dateObject = {
             target: {
                value: {
-                  day: (dayField === '') ? valuesForTimer.send_time.day : dayField,
-                  hours: (hoursField === '') ? valuesForTimer.send_time.hours : hoursField,
-                  min: (minField === '') ? valuesForTimer.send_time.min : minField,
+                  day: (dayField === '') ? timeToSeconds(valuesForTimer.send_time.day) : dayField,
+                  hours: (hoursField === '') ? timeToSeconds(valuesForTimer.send_time.hours) : hoursField,
+                  min: (minField === '') ? timeToSeconds(valuesForTimer.send_time.min) : minField,
                }
             }
          };
@@ -103,33 +127,19 @@ const TimerElement = props => {
       }
    };
 
-   const handleSendPause = (isValue, data, valuesForTimer) => {
-      let pauseObject;
-
-      if (isValue) {
-         pauseObject = {
-            target: {
-               value: {
-                  value: data,
-                  key: valuesForTimer.pause_delay.key,
-                  keyValue: valuesForTimer.pause_delay.keyValue,  
-               }
+   const handleSendPause = time => {
+      const pauseObject = {
+         target: {
+            value: {
+               value: time,
+               keyValue: pauseKeyField.keyValue,
+               key: pauseKeyField.key,
             }
          }
-      } else {
-         pauseObject = {
-            target: {
-               value: {
-                  value: valuesForTimer.pause_delay.value,
-                  key: data.value,
-                  keyValue: data.children,
-               }
-            }
-         }
-      }
+      };
 
       updateTrigger(pauseObject, 'pause_delay');
-   }
+   };
 
    if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
       return (
@@ -145,12 +155,37 @@ const TimerElement = props => {
 
                <form>
                   <div className={style.pauseContainer}>
-                     <InputNumber 
+                     <InputNumber
                         min={1}
-                        max={10}
                         type="number"
-                        defaultValue={valuesForTimer.pause_delay.value}
-                        onChange={(value) => handleSendPause(true, value, valuesForTimer)}
+                        defaultValue={secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key)}
+                        onBlur={() => {
+                           if (pauseKeyField.key === 'day') {
+                              handleSendPause(pauseDayField)
+                           } else if (pauseKeyField.key === 'hours') {
+                              handleSendPause(pauseHoursField)
+                           } else if (pauseKeyField.key === 'min') {
+                              handleSendPause(pauseMinField)
+                           } else if (pauseKeyField.key === 'sec') {
+                              handleSendPause(pauseSecField)
+                           }
+                        }}
+                        onChange={value => {
+                           if (pauseKeyField.key === 'day') {
+                              setPauseDayField(timeToSeconds(value, pauseKeyField.key))
+                           } else if (pauseKeyField.key === 'hours') {
+                              setPauseHoursField(timeToSeconds(value, pauseKeyField.key))
+                           } else if (pauseKeyField.key === 'min') {
+                              setPauseMinField(timeToSeconds(value, pauseKeyField.key))
+                           } else if (pauseKeyField.key === 'sec') {
+                              setPauseSecField(timeToSeconds(value, pauseKeyField.key))
+                           }
+
+                           setPauseKeyField({
+                              keyValue: valuesForTimer.pause_delay.keyValue,
+                              key: valuesForTimer.pause_delay.key,
+                           });
+                        }}
                         className={style.pauseContainerInput}
                      />
 
@@ -158,7 +193,45 @@ const TimerElement = props => {
                         className={style.pauseContainerSelect}
                         placeholder="Выберите время"
                         defaultValue={valuesForTimer.pause_delay.keyValue}
-                        onChange={(value, {props}) => handleSendPause(false, {children: props.children, value: props.value}, valuesForTimer)}
+                        onBlur={() => {
+                           if (pauseKeyField.key === 'day') {
+                              handleSendPause(pauseDayField)
+                           } else if (pauseKeyField.key === 'hours') {
+                              handleSendPause(pauseHoursField)
+                           } else if (pauseKeyField.key === 'min') {
+                              handleSendPause(pauseMinField)
+                           } else if (pauseKeyField.key === 'sec') {
+                              handleSendPause(pauseSecField)
+                           }
+                        }}
+                        onChange={(value, {props}) => {
+                           if (props.value === 'day') {
+                              setPauseDayField(timeToSeconds(
+                                 secondsToTime(valuesForTimer.pause_delay.value, props.value),
+                                 props.value
+                              ))
+                           } else if (props.value === 'hours') {
+                              setPauseHoursField(timeToSeconds(
+                                 secondsToTime(valuesForTimer.pause_delay.value, props.value),
+                                 props.value
+                              ))
+                           } else if (props.value === 'min') {
+                              setPauseMinField(timeToSeconds(
+                                 secondsToTime(valuesForTimer.pause_delay.value, props.value),
+                                 props.value
+                              ));
+                           } else if (props.value === 'sec') {
+                              setPauseSecField(timeToSeconds(
+                                 secondsToTime(valuesForTimer.pause_delay.value, props.value),
+                                 props.value
+                              ))
+                           }
+
+                           setPauseKeyField({
+                              keyValue: props.children,
+                              key: props.value,
+                           });
+                        }}
                      >
                         <Option value="sec">Секунд</Option>
                         <Option value="min">Минут</Option>
@@ -208,7 +281,6 @@ const TimerElement = props => {
          </div>
       )
    } else {
-      console.log(valuesForTimer.send_time)
       return (
          <div className={style.mainContentContainer}>
             <div className={style.hoverBar}>
@@ -231,13 +303,18 @@ const TimerElement = props => {
                                  min={0}
                                  className={style.datePickerItemBox}
                                  type="number"
-                                 defaultValue={valuesForTimer.send_time.day}
+                                 defaultValue={valuesForTimer.send_time.day === ''
+                                    ? 0
+                                    : secondsToTime(valuesForTimer.send_time.day, 'day')
+                                 }
                                  onBlur={() => handleSendTime(valuesForTimer)}
-                                 onChange={value => setDayField(
-                                    ((value === null) || (value === '')) 
-                                       ? 0 
-                                       : value
-                                 )}
+                                 onChange={value => {
+                                    setDayField(
+                                       ((value === null) || (value === ''))
+                                          ? 0
+                                          : timeToSeconds(value, 'day')
+                                    )
+                                 }}
                               />
                            </div>
                            <p>День</p>
@@ -249,13 +326,18 @@ const TimerElement = props => {
                                  min={0}
                                  className={style.datePickerItemBox}
                                  type="number"
-                                 defaultValue={valuesForTimer.send_time.hours}
+                                 defaultValue={valuesForTimer.send_time.hours === ''
+                                    ? 0
+                                    : secondsToTime(valuesForTimer.send_time.hours, 'hours')
+                                 }
                                  onBlur={() => handleSendTime(valuesForTimer)}
-                                 onChange={value => setHoursField(
-                                    ((value === null) || (value === '')) 
-                                       ? 0 
-                                       : value
-                                 )}
+                                 onChange={value => {
+                                    setHoursField(
+                                       ((value === null) || (value === ''))
+                                          ? 0
+                                          : timeToSeconds(value, 'hours')
+                                    )
+                                 }}
                               />
                            </div>
                            <p>Час</p>
@@ -267,13 +349,18 @@ const TimerElement = props => {
                                  min={0}
                                  className={style.datePickerItemBox}
                                  type="number"
-                                 defaultValue={valuesForTimer.send_time.min}
+                                 defaultValue={valuesForTimer.send_time.min === ''
+                                    ? 0
+                                    : secondsToTime(valuesForTimer.send_time.min, 'min')
+                                 }
                                  onBlur={() => handleSendTime(valuesForTimer)}
-                                 onChange={value => setMinField(
-                                    ((value === null) || (value === '')) 
-                                       ? 0 
-                                       : value
-                                 )}
+                                 onChange={value => {
+                                    setMinField(
+                                       ((value === null) || (value === ''))
+                                          ? 0
+                                          : timeToSeconds(value, 'min')
+                                    )
+                                 }}
                               />
                            </div>
                            <p>Минут</p>
