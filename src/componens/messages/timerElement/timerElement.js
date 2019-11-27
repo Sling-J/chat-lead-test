@@ -43,16 +43,18 @@ const TimerElement = props => {
 
    const valuesForTimer = Object.values(value)[0];
 
+   console.log(valuesForTimer.pause_delay);
+
    useEffect(() => {
       if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
          if (valuesForTimer.pause_delay.key === 'day') {
-            setPauseDayField(timeToSeconds(value, valuesForTimer.pause_delay.key))
+            setPauseDayField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
          } else if (valuesForTimer.pause_delay.key === 'hours') {
-            setPauseHoursField(timeToSeconds(value, valuesForTimer.pause_delay.key))
+            setPauseHoursField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
          } else if (valuesForTimer.pause_delay.key === 'min') {
-            setPauseMinField(timeToSeconds(value, valuesForTimer.pause_delay.key))
+            setPauseMinField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
          } else if (valuesForTimer.pause_delay.key === 'sec') {
-            setPauseSecField(timeToSeconds(value, valuesForTimer.pause_delay.key))
+            setPauseSecField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
          }
 
          setPauseKeyField({
@@ -111,14 +113,14 @@ const TimerElement = props => {
       }
    };
 
-   const handleSendTime = valuesForTimer => {
+   const handleSendTime = (valuesForTimer, key) => {
       if (dayField.length !== 0 || hoursField.length !== 0 || minField.length !== 0) {
          const dateObject = {
             target: {
                value: {
-                  day: (dayField === '') ? timeToSeconds(valuesForTimer.send_time.day) : dayField,
-                  hours: (hoursField === '') ? timeToSeconds(valuesForTimer.send_time.hours) : hoursField,
-                  min: (minField === '') ? timeToSeconds(valuesForTimer.send_time.min) : minField,
+                  day: (dayField === '') ? timeToSeconds(valuesForTimer.send_time.day, key) : dayField,
+                  hours: (hoursField === '') ? timeToSeconds(valuesForTimer.send_time.hours, key) : hoursField,
+                  min: (minField === '') ? timeToSeconds(valuesForTimer.send_time.min, key) : minField,
                }
             }
          };
@@ -131,7 +133,7 @@ const TimerElement = props => {
       const pauseObject = {
          target: {
             value: {
-               value: time,
+               value: timeToSeconds(time, pauseKeyField.key),
                keyValue: pauseKeyField.keyValue,
                key: pauseKeyField.key,
             }
@@ -172,19 +174,18 @@ const TimerElement = props => {
                         }}
                         onChange={value => {
                            if (pauseKeyField.key === 'day') {
-                              setPauseDayField(timeToSeconds(value, pauseKeyField.key))
+                              const result = secondsToTime(value, pauseKeyField.key);
+                              setPauseDayField(result)
                            } else if (pauseKeyField.key === 'hours') {
-                              setPauseHoursField(timeToSeconds(value, pauseKeyField.key))
+                              const result = secondsToTime(value, pauseKeyField.key);
+                              setPauseHoursField(result)
                            } else if (pauseKeyField.key === 'min') {
-                              setPauseMinField(timeToSeconds(value, pauseKeyField.key))
+                              const result = secondsToTime(value, pauseKeyField.key);
+                              setPauseMinField(result)
                            } else if (pauseKeyField.key === 'sec') {
-                              setPauseSecField(timeToSeconds(value, pauseKeyField.key))
+                              const result = secondsToTime(value, pauseKeyField.key);
+                              setPauseSecField(result)
                            }
-
-                           setPauseKeyField({
-                              keyValue: valuesForTimer.pause_delay.keyValue,
-                              key: valuesForTimer.pause_delay.key,
-                           });
                         }}
                         className={style.pauseContainerInput}
                      />
@@ -205,28 +206,6 @@ const TimerElement = props => {
                            }
                         }}
                         onChange={(value, {props}) => {
-                           if (props.value === 'day') {
-                              setPauseDayField(timeToSeconds(
-                                 secondsToTime(valuesForTimer.pause_delay.value, props.value),
-                                 props.value
-                              ))
-                           } else if (props.value === 'hours') {
-                              setPauseHoursField(timeToSeconds(
-                                 secondsToTime(valuesForTimer.pause_delay.value, props.value),
-                                 props.value
-                              ))
-                           } else if (props.value === 'min') {
-                              setPauseMinField(timeToSeconds(
-                                 secondsToTime(valuesForTimer.pause_delay.value, props.value),
-                                 props.value
-                              ));
-                           } else if (props.value === 'sec') {
-                              setPauseSecField(timeToSeconds(
-                                 secondsToTime(valuesForTimer.pause_delay.value, props.value),
-                                 props.value
-                              ))
-                           }
-
                            setPauseKeyField({
                               keyValue: props.children,
                               key: props.value,
@@ -307,12 +286,14 @@ const TimerElement = props => {
                                     ? 0
                                     : secondsToTime(valuesForTimer.send_time.day, 'day')
                                  }
-                                 onBlur={() => handleSendTime(valuesForTimer)}
+                                 onBlur={() => handleSendTime(valuesForTimer, 'day')}
                                  onChange={value => {
+                                    const result = secondsToTime(value, 'day');
+
                                     setDayField(
                                        ((value === null) || (value === ''))
                                           ? 0
-                                          : timeToSeconds(value, 'day')
+                                          : timeToSeconds(secondsToTime(result, 'day'), 'day')
                                     )
                                  }}
                               />
@@ -330,12 +311,14 @@ const TimerElement = props => {
                                     ? 0
                                     : secondsToTime(valuesForTimer.send_time.hours, 'hours')
                                  }
-                                 onBlur={() => handleSendTime(valuesForTimer)}
+                                 onBlur={() => handleSendTime(valuesForTimer, 'hours')}
                                  onChange={value => {
+                                    const result = secondsToTime(value, 'hours');
+
                                     setHoursField(
                                        ((value === null) || (value === ''))
                                           ? 0
-                                          : timeToSeconds(value, 'hours')
+                                          : timeToSeconds(secondsToTime(result, 'hours'), 'hours')
                                     )
                                  }}
                               />
@@ -353,12 +336,14 @@ const TimerElement = props => {
                                     ? 0
                                     : secondsToTime(valuesForTimer.send_time.min, 'min')
                                  }
-                                 onBlur={() => handleSendTime(valuesForTimer)}
+                                 onBlur={() => handleSendTime(valuesForTimer, 'min')}
                                  onChange={value => {
+                                    const result = secondsToTime(value, 'min');
+
                                     setMinField(
                                        ((value === null) || (value === ''))
                                           ? 0
-                                          : timeToSeconds(value, 'min')
+                                          : timeToSeconds(result, 'min')
                                     )
                                  }}
                               />
