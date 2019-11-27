@@ -116,7 +116,7 @@ const Triggers = (props) => {
                         </p>
                         <p
                            className={style.penIcon}
-                           style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '50px'}}
+                           style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '30px'}}
                            onClick={e => {
                               e.stopPropagation();
                               setTriggerIdEdit(index)
@@ -124,10 +124,10 @@ const Triggers = (props) => {
                         >
                            <FontAwesomeIcon icon={faPen}/>
                         </p>
-                        <p className={style.cloneIcon}
-                           style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '30px'}}>
-                           <FontAwesomeIcon icon={faClone}/>
-                        </p>
+                        {/*<p className={style.cloneIcon}*/}
+                        {/*   style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '30px'}}>*/}
+                        {/*   <FontAwesomeIcon icon={faClone}/>*/}
+                        {/*</p>*/}
                         <p
                            className={style.trash}
                            style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '10px'}}

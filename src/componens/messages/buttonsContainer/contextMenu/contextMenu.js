@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import style from './contextMenu.module.sass';
 import {buttonsTypes, defaultValuesForNewButtons} from "../../../../constants/defaultValues";
 import {connect} from "react-redux";
@@ -125,7 +125,7 @@ class ContextMenu extends Component {
    };
 
    buttonChanger = () => {
-      const {typeButton, buttonEditHandler, indexButton, buttonData} = this.props;
+      const {typeButton, buttonEditHandler, indexButton, buttonData, changedSocial} = this.props;
 
       if (typeButton === 'empty') {
          return (
@@ -162,32 +162,37 @@ class ContextMenu extends Component {
                   <FontAwesomeIcon icon={faEnvelope} size="lg"/>
                   Создать сообщение
                </div>
-               <div
-                  onClick={() => {
-                     buttonEditHandler(
-                        buttonsTypes.url_buttons,
-                        defaultValuesForNewButtons[buttonsTypes.url_buttons],
-                        indexButton
-                     )
-                  }}
-                  className={style.changerElement}
-               >
-                  <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
-                  Открыть веб-сайт
-               </div>
-               <div
-                  onClick={() => {
-                     buttonEditHandler(
-                        buttonsTypes.call_buttons,
-                        defaultValuesForNewButtons[buttonsTypes.call_buttons],
-                        indexButton
-                     )
-                  }}
-                  className={style.changerElement}
-               >
-                  <FontAwesomeIcon icon={faPhoneAlt} size="lg" color="limegreen"/>
-                  Добавить вызов
-               </div>
+
+               {(changedSocial === 'facebook' || changedSocial === 'telegram') && (
+                  <Fragment>
+                     <div
+                        onClick={() => {
+                           buttonEditHandler(
+                              buttonsTypes.url_buttons,
+                              defaultValuesForNewButtons[buttonsTypes.url_buttons],
+                              indexButton
+                           )
+                        }}
+                        className={style.changerElement}
+                     >
+                        <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
+                        Открыть веб-сайт
+                     </div>
+                     <div
+                        onClick={() => {
+                           buttonEditHandler(
+                              buttonsTypes.call_buttons,
+                              defaultValuesForNewButtons[buttonsTypes.call_buttons],
+                              indexButton
+                           )
+                        }}
+                        className={style.changerElement}
+                     >
+                        <FontAwesomeIcon icon={faPhoneAlt} size="lg" color="limegreen"/>
+                        Добавить вызов
+                     </div>
+                  </Fragment>
+               )}
 
                <div
                   onClick={() => {
