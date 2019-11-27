@@ -14,9 +14,9 @@ export const defaultValuesForNewMessages = {
    activity_lost: {timer: {activity_lost: moment().format('YYYY-MM-DD, h:mm')}, keyboard: []},
    send_time: {timer: {send_time: {day: '', hours: '', min: ''}}, keyboard: [], text: ""},
    form: {form: [""], keyboard: []},
-   location: {location: [""], keyboard: []},
-   payment: {payment: [""], keyboard: []},
-   contact: {contact: [""], keyboard: []},
+   location: {location: "", keyboard: []},
+   payment: {payment: "", keyboard: []},
+   contact: {contact: "", keyboard: []},
 };
 
 export const buttonsTypes = {
