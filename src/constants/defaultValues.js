@@ -10,7 +10,7 @@ export const defaultValuesForNewMessages = {
    card: {card: [{photo: '', title: '', text: '', keyboard: []}]},
    gallery: {gallery: [{photo: '', title: '', text: '', keyboard: []}]},
    list: {list: [{photo: '', title: '', text: '', keyboard: []}, {photo: '', title: '', text: '', keyboard: []}]},
-   pause_delay: {timer: {pause_delay: {value: 1, key: 'sec', keyValue: 'Секунды'}}, keyboard: []},
+   pause_delay: {timer: {pause_delay: {value: 0, key: 'sec', keyValue: 'Секунды'}}, keyboard: []},
    activity_lost: {timer: {activity_lost: moment().format('YYYY-MM-DD, h:mm')}, keyboard: []},
    send_time: {timer: {send_time: {day: '', hours: '', min: ''}}, keyboard: [], text: ""},
    form: {form: [""], keyboard: []},

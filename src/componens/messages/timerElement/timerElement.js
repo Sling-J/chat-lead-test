@@ -43,7 +43,21 @@ const TimerElement = props => {
 
    const valuesForTimer = Object.values(value)[0];
 
-   console.log(valuesForTimer.pause_delay);
+   console.log(pauseHoursField, pauseMinField);
+
+   useEffect(() => {
+      if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
+         if (pauseKeyField.key === 'day') {
+            setPauseDayField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
+         } else if (pauseKeyField.key === 'hours') {
+            setPauseHoursField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
+         } else if (pauseKeyField.key === 'min') {
+            setPauseMinField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
+         } else if (pauseKeyField.key === 'sec') {
+            setPauseSecField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
+         }
+      }
+   }, [pauseKeyField]);
 
    useEffect(() => {
       if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
@@ -158,7 +172,7 @@ const TimerElement = props => {
                <form>
                   <div className={style.pauseContainer}>
                      <InputNumber
-                        min={1}
+                        min={0}
                         type="number"
                         defaultValue={secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key)}
                         onBlur={() => {
@@ -175,16 +189,16 @@ const TimerElement = props => {
                         onChange={value => {
                            if (pauseKeyField.key === 'day') {
                               const result = secondsToTime(value, pauseKeyField.key);
-                              setPauseDayField(result)
+                              setPauseDayField(result);
                            } else if (pauseKeyField.key === 'hours') {
                               const result = secondsToTime(value, pauseKeyField.key);
-                              setPauseHoursField(result)
+                              setPauseHoursField(result);
                            } else if (pauseKeyField.key === 'min') {
                               const result = secondsToTime(value, pauseKeyField.key);
-                              setPauseMinField(result)
+                              setPauseMinField(result);
                            } else if (pauseKeyField.key === 'sec') {
                               const result = secondsToTime(value, pauseKeyField.key);
-                              setPauseSecField(result)
+                              setPauseSecField(result);
                            }
                         }}
                         className={style.pauseContainerInput}
