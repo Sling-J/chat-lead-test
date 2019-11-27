@@ -1,26 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import style from './timerElement.module.sass';
 import {updateTrigger} from "../../../actions/actionCreator";
-import "react-datepicker/dist/react-datepicker.css";
-import './calendarStyle.sass';
 import {connect} from "react-redux";
-import {registerLocale} from 'react-datepicker';
 import {withRouter} from "react-router-dom";
+
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
-import ru from "date-fns/locale/ru";
-
+import flatpickr from "flatpickr";
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
-import locale from 'antd/es/date-picker/locale/ru_RU';
-
-import {DatePicker as AntdDatePicker} from 'antd';
+// import locale from 'antd/es/date-picker/locale/ru_RU';
+// import {DatePicker as AntdDatePicker} from 'antd';
 import {Select, InputNumber} from 'antd';
+
 import TimerTextArea from "./timerTextArea/timerTextArea";
+import style from './timerElement.module.sass';
 import moment from 'moment';
 import 'moment/locale/ru';
+import CustomFlatPicker from './customFlatPicker/customFlatPicker';
 
 import {timeToSeconds, secondsToTime} from "../../../utils/formatSecond";
-
-registerLocale("ru", ru);
 
 const {Option} = Select;
 
@@ -42,8 +38,6 @@ const TimerElement = props => {
    const {type, index, value, changedTrigger} = props;
 
    const valuesForTimer = Object.values(value)[0];
-
-   console.log(pauseHoursField, pauseMinField);
 
    useEffect(() => {
       if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
@@ -157,6 +151,12 @@ const TimerElement = props => {
       updateTrigger(pauseObject, 'pause_delay');
    };
 
+
+   flatpickr('#main-flat-picker', {
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+   });
+
    if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
       return (
          <div className={style.mainContentContainer}>
@@ -250,25 +250,19 @@ const TimerElement = props => {
                   <p>Ждать до</p>
                   <p>Дата / Время</p>
                </div>
-               <AntdDatePicker
-                  showTime
-                  locale={locale}
-                  className={style.datePickerAntd}
-                  placeholder="Выберите время"
+               <CustomFlatPicker
                   defaultValue={
-                     moment(formatUnixToDate(valuesForTimer[Object.keys(valuesForTimer)[0]], true), 'YYYY-MM-DD, h:mm')
+                     formatUnixToDate(valuesForTimer[Object.keys(valuesForTimer)[0]], true)
                   }
                   onChange={(value) => {
                      const dateObject = {
                         target: {
-                           value: formatDateToUnix(value)
+                           value: formatDateToUnix(value[0])
                         }
                      };
 
-                     updateTrigger(dateObject, 'activity_lost')
+                     updateTrigger(dateObject, 'activity_lost');
                   }}
-
-                  disabledDate={(current) => current && current < moment().endOf('day')}
                />
             </div>
          </div>
