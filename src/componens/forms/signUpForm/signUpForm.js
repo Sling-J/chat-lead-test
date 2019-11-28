@@ -11,7 +11,6 @@ import {signUp, auth} from "../../../actions/actionCreator";
 
 const SignUpForm = (props) => {
    const {registration} = props;
-   console.log(props);
    const [isError, setError] = useState(false);
    const data = registration && {
       ...registration.values,
@@ -21,7 +20,9 @@ const SignUpForm = (props) => {
       ]
    };
 
-   const submit = () => {
+   const submit = event => {
+      event.preventDefault();
+
       if (registration.syncErrors) {
          setError(true);
       } else {
@@ -29,7 +30,6 @@ const SignUpForm = (props) => {
          props.authAction(data, props.history);
       }
    };
-
 
    return (
       <form autoComplete={'off'} className={style.mainContainer} onSubmit={submit}>
