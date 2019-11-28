@@ -65,7 +65,6 @@ const ListElements = (props) => {
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}
-               styleForBar={{top: '0', left: '164px'}}
             />
          </div>
          {

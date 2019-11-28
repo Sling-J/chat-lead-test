@@ -28,7 +28,6 @@ const TextArea = props => {
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}
-               styleForBar={{bottom: '0', left: '163px'}}
             />
          </div>
          <textarea

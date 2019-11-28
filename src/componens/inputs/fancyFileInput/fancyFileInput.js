@@ -14,13 +14,11 @@ const FancyFileInput = (props) => {
       nameFile = <img src={staticMedia + pathFile} alt={nameFile}/>
    }
 
-
    return (
       <div className={style.mainContainer}>
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}
-               styleForBar={{top: '0', left: '328px'}}
             />
          </div>
          <input type={'file'} accept={accept} name={index} id={index} onChange={onChange} className={style.inputFile}/>

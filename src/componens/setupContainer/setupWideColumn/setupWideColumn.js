@@ -153,8 +153,7 @@ class SetupWideColumn extends Component {
          <div className={style.wideСolumn}>
             <article>
                <header>
-                  <h1 className={style.mainPageTitle}>Реакции бота
-                  </h1>
+                  <h1 className={style.mainPageTitle}>Реакции бота</h1>
 
                   <div className={style.table + " " + style.table__settings}>
                      <div className={style.table_row}>
@@ -166,9 +165,7 @@ class SetupWideColumn extends Component {
                            </div>
                            <div className={
                               `${style.inputGroup}
-                                 ${(isWelcomeMessageEmpty && isWelcomeMessageEmpty[0])
-                                    ? style.inputGroupCheck
-                                    : style.inputGroupDanger}
+                                 ${(isWelcomeMessageEmpty && isWelcomeMessageEmpty[0]) && style.inputGroupCheck}
                                `
                            }>
                               <input
@@ -196,9 +193,7 @@ class SetupWideColumn extends Component {
 
                            <div className={
                               `${style.inputGroup}
-                                 ${(isSubscriptionMessageEmpty && isSubscriptionMessageEmpty[0])
-                                    ? style.inputGroupCheck
-                                    : style.inputGroupDanger}
+                                 ${(isSubscriptionMessageEmpty && isSubscriptionMessageEmpty[0]) && style.inputGroupCheck}
                                `
                            }>
                               <input
@@ -245,9 +240,7 @@ class SetupWideColumn extends Component {
                            </div>
                            <div className={
                               `${style.inputGroup}
-                                 ${(isDefaultResponseEmpty && isDefaultResponseEmpty[0])
-                                    ? style.inputGroupCheck
-                                    : style.inputGroupDanger}
+                                 ${(isDefaultResponseEmpty && isDefaultResponseEmpty[0]) && style.inputGroupCheck}
                                `
                            }>
                               <input

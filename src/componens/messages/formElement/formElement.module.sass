@@ -1,61 +1,71 @@
 .mainContainer
-  display: flex
-  flex-direction: column
-  font-family: 'Lato', sans-serif
+   display: flex
+   flex-direction: column
+   font-family: 'Lato', sans-serif
 
-  &:hover
-    .hoverBar
-      display: block
+   &:hover
+      .hoverBar
+         display: block
 
-  textarea
-    padding: .5rem
-    border-radius: 15px
-    background-color: #f1f0f0
-    transition: border-color .15s,background-color .15s
-    will-change: border-color,background-color,box-shadow
-    resize: none
-    border: none
-    outline: none
-    white-space: pre-wrap
-    overflow-wrap: break-word
-    -webkit-user-modify: read-write-plaintext-only
-    min-height: 38px
-    font-size: 15px
-    width: 70%
+   textarea
+      padding: .5rem
+      border-radius: 15px
+      background-color: #f1f0f0
+      transition: border-color .15s, background-color .15s
+      will-change: border-color, background-color, box-shadow
+      resize: none
+      border: none
+      outline: none
+      white-space: pre-wrap
+      overflow-wrap: break-word
+      -webkit-user-modify: read-write-plaintext-only
+      min-height: 38px
+      font-size: 15px
+      width: 70%
 
-    &:hover
-      box-shadow: inset 0 0 0 2px #0084ff
+      &:hover
+         box-shadow: inset 0 0 0 2px #0084ff
 
-    &::placeholder
-      font-family: 'Lato', sans-serif
+      &::placeholder
+         font-family: 'Lato', sans-serif
 
 .hoverBar
-  display: none
-  position: absolute
+   position: absolute
+   right: -27px
+   top: 0
+   display: none
+
+.soon
+   text-align: center
+   margin-bottom: 10px
+   padding: 30px 0
+   border: 1px solid #e0e6ed
+   border-radius: 7px
 
 .addInputButton
-  padding: .5rem
-  border: 2px dashed #e0e6ed
-  color: #8492a6
-  text-align: center
-  cursor: pointer
-  font-size: 15px
+   padding: .5rem
+   border: 2px dashed #e0e6ed
+   color: #8492a6
+   text-align: center
+   cursor: pointer
+   font-size: 15px
 
-  &:hover
-    border-color: #0084ff
+   &:hover
+      border-color: #0084ff
 
 .textareaFlex
-  display: flex
-  flex-direction: row
-  justify-content: center
-  margin: 7.5px
+   display: flex
+   flex-direction: row
+   justify-content: center
+   margin: 7.5px
 
-  & select
-    width: 30%
-    height: 52px
-    margin: 0 10px
-    padding: 0 5px
-    font-size: 14px
-    background-color: #f1f0f0
-    & option 
-      font-size: 12px
+   & select
+      width: 30%
+      height: 52px
+      margin: 0 10px
+      padding: 0 5px
+      font-size: 14px
+      background-color: #f1f0f0
+
+      & option
+         font-size: 12px

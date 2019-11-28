@@ -1,5 +1,4 @@
 .textArea
-   position: relative
    width: 100%
    display: flex
    flex-direction: column
@@ -12,25 +11,6 @@
    &:hover
       .hoverBar
          display: block
-
-   //.editable
-   //  padding: .5rem
-   //  box-sizing: border-box
-   //  border-top-left-radius: 15px
-   //  border-top-right-radius: 15px
-   //  background-color: #f1f0f0
-   //  transition: border-color .15s,background-color .15s
-   //  will-change: border-color,background-color,box-shadow
-   //  resize: none
-   //  border: none
-   //  width: 100%
-   //  outline: none
-   //  color: #3c4858
-   //  font-size: 15px
-   //  height: 150px
-   //
-   //  &:hover
-   //    box-shadow: inset 0 0 0 2px #0084ff
 
    textarea
       padding: .5rem
@@ -52,8 +32,10 @@
          box-shadow: inset 0 0 0 2px #0084ff
 
 .hoverBar
-   display: none
    position: absolute
+   right: -27px
+   top: 0
+   display: none
 
 .actionNav
    position: relative
@@ -65,7 +47,6 @@
 .actionButtons
    height: 30px
    width: 80px
-   //box-shadow: rgba(9,30,66,.25) 0 10px 15px 0px
    background: #fff
    border: 1px solid #dcdee0
    border-bottom-left-radius: 5px
