@@ -4,11 +4,9 @@ import {Field, reduxForm} from "redux-form";
 import BotCreateInput from '../../inputs/botCreateInput/botCreateInput';
 import {connect} from "react-redux";
 import {createBot} from "../../../actions/actionCreator";
-import {withRouter} from 'react-router';
+import {withRouter} from 'react-router-dom';
 
 const CreateBotForm = (props) => {
-
-
    return (
       <form autoComplete={'off'} className={style.mainContainer} onSubmit={(e) => {
          e.preventDefault();

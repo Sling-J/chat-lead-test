@@ -4,11 +4,9 @@ import {staticMedia} from "../../../api/baseURL";
 import {withRouter} from "react-router-dom";
 import {connect} from 'react-redux';
 import {updateTrigger} from "../../../actions/actionCreator";
-import {defaultValuesForNewMessages} from "../../../constants/defaultValues";
 import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
 import MiniImagesForSlider from './miniImagesForSlider/miniImagesForSlider';
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
-
 
 const CardOrGalleryElement = (props) => {
    const {type, index, pictureForLabel, value, changedTrigger} = props;
@@ -18,10 +16,10 @@ const CardOrGalleryElement = (props) => {
    const updateTrigger = (e, typeInput) => {
       const messagesCopy = changedTrigger.messages;
 
-
       const updationData = {
          type: 'text'
       };
+
       if (typeInput === 'text' || typeInput === 'title') {
          Object.assign(messagesCopy[props.changedSocial][index][type][changedSlide], {
             [typeInput]: e.target.value
@@ -54,7 +52,6 @@ const CardOrGalleryElement = (props) => {
    const newSlideOrNextSlide = () => {
       const messagesCopy = changedTrigger.messages;
 
-
       if (messagesCopy[props.changedSocial][index][type].length === changedSlide + 1) {
          messagesCopy[props.changedSocial][index][type].push({photo: '', title: '', text: '', keyboard: []});
          const triggerData = {
@@ -70,7 +67,6 @@ const CardOrGalleryElement = (props) => {
          changeSlide(changedSlide + 1);
       }
    };
-
 
    return (
       <div className={style.mainContainer}>
@@ -139,7 +135,6 @@ const CardOrGalleryElement = (props) => {
       </div>
    )
 };
-
 
 const mapStateToProps = state => {
    const {changedSocial} = state.singleBotReducers;

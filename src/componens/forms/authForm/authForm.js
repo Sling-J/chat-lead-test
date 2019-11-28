@@ -4,16 +4,13 @@ import {Field, reduxForm} from "redux-form";
 import FancyInput from "../../inputs/fancyInput";
 import {connect} from "react-redux";
 import {auth} from "../../../actions/actionCreator";
-import {withRouter} from 'react-router';
-import {Link} from "react-router-dom";
+import {withRouter, Link} from "react-router-dom";
 
 const AuthForm = (props) => {
-
    const submitHandler = (e) => {
       e.preventDefault();
       props.authAction(props.auth.values, props.history);
    };
-
 
    return (
       <form autoComplete={'off'} className={style.mainContainer} onSubmit={submitHandler}>

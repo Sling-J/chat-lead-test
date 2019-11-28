@@ -19,8 +19,7 @@ const FancyInput = (props) => {
    } = props;
 
    const [isFocusInInput, setStatusForFocus] = useState(false);
-
-
+   
    return (
       <div className={style.mainContainer}>
 

@@ -16,7 +16,6 @@ import bitrix_logo from '../../../images/bitrix-24-logo.png';
 import {getFilledStatus} from "../../../utils/socialFilledStatus";
 import {destinationScenario} from "../../../constants/defaultValues";
 
-
 class SetupWideColumn extends Component {
    state = {
       willSend: false,

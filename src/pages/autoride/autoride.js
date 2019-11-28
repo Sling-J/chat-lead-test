@@ -8,7 +8,6 @@ import {withRouter} from "react-router-dom";
 import AutorideContainer from '../../componens/autorideContainer/autorideContainer';
 import MainHeader from "../../componens/mainHeader/mainHeader";
 
-
 const Autoride = (props) => {
    useEffect(() => {
       props.getAutorides(props.match.params.botId);
@@ -39,7 +38,6 @@ const mapDispatchToProps = dispatch => ({
    getAutorides: (botId) => dispatch(getAllAutorides(botId)),
    getScenaries: (botId) => dispatch(getAllScenariesForBot(botId)),
    changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId))
-
 });
 
 export default compose(

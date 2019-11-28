@@ -199,7 +199,7 @@ const SetupSidebar = (props) => {
          </div>
       </aside>
    )
-}
+};
 
 const mapStateToProps = ({botSetupReducers}) => ({
    botSetupData: botSetupReducers.botSetupData,

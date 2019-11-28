@@ -10,10 +10,8 @@ import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 const ListElements = (props) => {
    const {type, index, pictureForLabel, value, changedTrigger} = props;
 
-
    const updateTrigger = (e, typeInput, indexListElement) => {
       const messagesCopy = changedTrigger.messages;
-
 
       const updationData = {
          type: 'text'
@@ -58,8 +56,7 @@ const ListElements = (props) => {
       };
       props.updateTrigger(triggerData, null, props.changedSocial);
    };
-
-
+   
    return (
       <div className={style.mainContainer}>
          <div className={style.hoverBar}>

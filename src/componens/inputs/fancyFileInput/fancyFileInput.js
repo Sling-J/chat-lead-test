@@ -1,9 +1,7 @@
 import React from 'react';
 import style from './fancyFileInput.module.sass';
 import {staticMedia} from "../../../api/baseURL";
-// import ButtonsContainer from "../../messages/hoverBarForMessage/hoverBarForMessage";
 import HoverBarForMessage from "../../messages/hoverBarForMessage/hoverBarForMessage";
-
 
 const FancyFileInput = (props) => {
    const { accept, onChange, index, pictureForLabel, value} = props;
@@ -28,9 +26,6 @@ const FancyFileInput = (props) => {
                <p>{pathFile.length === 0 && pictureForLabel.label}</p>
             </div>
          </label>
-         {/*<ButtonsContainer*/}
-         {/*{...props}*/}
-         {/*/>*/}
       </div>
    )
 };

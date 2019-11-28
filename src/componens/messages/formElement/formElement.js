@@ -5,25 +5,9 @@ import {withRouter} from "react-router-dom";
 import {updateTrigger} from "../../../actions/actionCreator";
 import ButtonsContainer from '../../messages/buttonsContainer/buttonsContainer';
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
-import punycode from 'punycode';
 
 const FormElement = (props) => {
    const {type, index, value, changedTrigger} = props;
-
-   // function toUnicode(theString) {
-   //     let unicodeString = '';
-   //     for (let i = 0; i < theString.length; i++) {
-   //         let theUnicode = theString.charCodeAt(i).toString(16).toUpperCase();
-   //
-   //         while (theUnicode.length < 4) {
-   //             theUnicode = '0' + theUnicode;
-   //         }
-   //
-   //         theUnicode = '\\u' + theUnicode;
-   //         unicodeString += theUnicode;
-   //     }
-   //     return unicodeString;
-   // }
 
    const updateTrigger = (e, inputIndex) => {
       const messagesCopy = changedTrigger.messages;
@@ -93,8 +77,6 @@ const FormElement = (props) => {
       messagesCopy[props.changedSocial][index].form.push({
          type: "", caption: ""
       });
-
-      // const filteredForms = messagesCopy[props.changedSocial][index].form.filter(item => item !== '');
 
       const triggerData = {
          ...changedTrigger,

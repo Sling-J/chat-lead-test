@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import style from './singleBot.module.sass';
 import {getAllScenariesForBot} from "../../actions/actionCreator";
 import {connect} from 'react-redux';
@@ -6,12 +6,10 @@ import ScenariosContainer from '../../componens/scenariosAndTriggers/scenariosCo
 import NavBar from '../../componens/navbar/navbar';
 import MainHeader from "../../componens/mainHeader/mainHeader";
 
-
 const SingleBot = (props) => {
    useEffect(() => {
       props.getScenaries(props.match.params.botId)
    }, [props.match.params.botId]);
-
 
    return (
       <div className={style.mainContainer}>
@@ -29,7 +27,6 @@ const SingleBot = (props) => {
 const mapStateToProps = state => {
    const {botScenarios, isFetching, error} = state.singleBotReducers;
    const {changedScenarioId} = state.singleBotReducers;
-
 
    return {
       botScenarios, isFetching, error, changedScenarioId
