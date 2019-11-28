@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import style from './broadCastContainer.module.sass';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import {connect} from "react-redux";
@@ -8,6 +7,7 @@ import TriggersContainer from "../scenariosAndTriggers/triggersContainer/trigger
 import {appendBroadCast, changeScenarioId} from "../../actions/actionCreator";
 import {withRouter} from "react-router-dom";
 import moment from 'moment';
+import Button from "@material-ui/core/Button";
 
 
 const BroadCastContainer = (props) => {
@@ -34,10 +34,9 @@ const BroadCastContainer = (props) => {
       }
    }, [changedScenarioId]);
 
-   console.log(props.broadCastData);
    if (changedScenarioId && (changedBroadCastId || changedBroadCastId === 0)) {
       return (
-         <div className={style.triggersContainer}>
+         <div>
             <ScenarioIdContext.Provider value={changedScenarioId}>
                <ScenarioIdContext.Consumer>
                   {scenarioId => (
@@ -57,116 +56,140 @@ const BroadCastContainer = (props) => {
    const broadCastData = () => {
       if (chanedTypeBroadcast === 'sended') {
          return (
-            props.broadCastData.filter(elem => elem.sent).length > 0 ? (
-               props.broadCastData.map((elem, index) => {
-                  if (elem.sent) {
-                     return (
-                        <tr>
-                           <td className={style.keyWord} onClick={() => {
-                              changeScenarioId(elem.scenario.id);
-                              // changeBroadCastId(index);
-                           }}>
-                              Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
-                           </td>
-                           <td>
-                              {elem.users_count}
-                           </td>
-                           <td className={style.controlsImages}>
-                              {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
-                           </td>
-                        </tr>
-                     )
-                  }
-               })
-            ) : (
-               <tr>
-                  <td className={style.keyWord}>
-                     Тут пока пусто
-                  </td>
-                  <td/>
-                  <td className={style.controlsImages}/>
-               </tr>
-            )
-         );
+            <tbody className="main-table-content__body">
+               {props.broadCastData.filter(elem => elem.sent).length > 0 ? (
+                  props.broadCastData.map((elem, index) => {
+                     if (elem.sent) {
+                        return (
+                           <tr>
+                              <td className="main-table-content-body__key-words" onClick={() => {
+                                 changeScenarioId(elem.scenario.id);
+                                 // changeBroadCastId(index);
+                              }}>
+                                 Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
+                              </td>
+                              <td>
+                                 {elem.users_count}
+                              </td>
+                              <td>
+                                 {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
+                              </td>
+                           </tr>
+                        )
+                     }
+                  })
+               ) : (
+                  <tr>
+                     <td className="main-table-content-body__key-words">
+                        Тут пока пусто
+                     </td>
+                     <td/>
+                     <td/>
+                  </tr>
+               )}
+            </tbody>
+         )
       } else {
          return (
-            props.broadCastData.filter(elem => !elem.sent).length > 0 ? (
-               props.broadCastData.map((elem, index) => {
-                  if (!elem.sent) {
-                     return (
-                        <tr>
-                           <td className={style.keyWord} onClick={() => {
-                              changeScenarioId(elem.scenario.id);
-                              // changeBroadCastId(index);
-                           }}>
-                              Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
-                           </td>
-                           <td>
-                              {elem.users_count}
-                           </td>
-                           <td className={style.controlsImages}>
-                              {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
-                           </td>
-                        </tr>
-                     )
-                  }
-               })
-            ) : (
-               <tr>
-                  <td className={style.keyWord}>
-                     Тут пока пусто
-                  </td>
-                  <td/>
-                  <td className={style.controlsImages}/>
-               </tr>
-            )
+            <tbody className="main-table-content__body">
+               {props.broadCastData.filter(elem => !elem.sent).length > 0 ? (
+                  props.broadCastData.map((elem, index) => {
+                     if (!elem.sent) {
+                        return (
+                           <tr>
+                              <td className="main-table-content-body__key-words" onClick={() => {
+                                 changeScenarioId(elem.scenario.id);
+                                 // changeBroadCastId(index);
+                              }}>
+                                 Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
+                              </td>
+                              <td>
+                                 {elem.users_count}
+                              </td>
+                              <td>
+                                 {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
+                              </td>
+                           </tr>
+                        )
+                     }
+                  })
+               ) : (
+                  <tr>
+                     <td className="main-table-content-body__key-words">
+                        Тут пока пусто
+                     </td>
+                     <td/>
+                     <td/>
+                  </tr>
+               )}
+            </tbody>
          );
       }
    };
 
 
    return (
-      <div className={style.mainContainer}>
-         <div className={style.controls}>
-            <div className={style.createButton} onClick={appendBroadcastHandler}>Создать рассылку</div>
-            <div className={style.hardLine}/>
-            <div className={style.infoBlock}>
+      <div className="main-container pv1-flex pv1-j-sb">
+         <div className="main-container-controls pv1-flex">
+            <Button
+               variant="contained"
+               className="main-container-controls__button main-theme-button"
+               onClick={appendBroadcastHandler}
+            >
+               Создать рассылку
+            </Button>
+            <div className="main-container-controls__divider"/>
+            <div className="main-container__info pv1-flex">
                <FontAwesomeIcon icon={faInfoCircle} size="lg"/>
-               <div className={style.infoText}>
-                  <p>Ответы на популярные вопросы и уроки по настройке бота находятся в Руководстве.</p>
-                  <span>Перейти в руководство</span>
+               <div className="main-container-info__text">
+                  <p className="main-container-info-text__desc">
+                     Ответы на популярные вопросы и уроки по настройке бота находятся в Руководстве.
+                  </p>
+                  <span className="main-container-info-text__link">
+                     Перейти в руководство
+                  </span>
                </div>
             </div>
          </div>
-         <div className={style.scenariosContainer}>
-            <div className={style.inputContainer}>
-               <div className={style.flexLeft}>
-                  <h2>Рассылка</h2>
-                  <div className={style.icon}>
-                     <span className={style.tooltipText}>Рассылка</span>
+         <div className="main-table">
+            <div className="main-table__search">
+               <div className="pv1-flex">
+                  <h2 className="main-table__title">Рассылка</h2>
+                  <div className="main-table__icon">
+                     <span className="main-table__tooltip table-tooltip">Рассылка</span>
                      <FontAwesomeIcon icon={faInfoCircle} size="lg"/>
                   </div>
                </div>
-               <ul className={style.navbar}>
+               <ul className="main-table-search__nav">
                   <li
                      onClick={() => changeTypeBroadcast('sended')}
-                     className={chanedTypeBroadcast === 'sended' ? style.navElementActive : style.navElement}
+                     className={
+                        chanedTypeBroadcast === 'sended'
+                           ? "main-table-search-nav__item-active"
+                           : "main-table-search-nav__item"
+                     }
                   >
                      Отправленные
                   </li>
                   <li
                      onClick={() => changeTypeBroadcast('ordered')}
-                     className={chanedTypeBroadcast === 'sended' ? style.navElement : style.navElementActive}>
+                     className={
+                        chanedTypeBroadcast === 'sended'
+                           ? "main-table-search-nav__item"
+                           : "main-table-search-nav__item-active"
+                     }>
                      Отложенные
                   </li>
                </ul>
             </div>
-            <table>
+            <table className="main-table-content">
+               <thead className="main-table-content__head">
                <tr>
                   <td>Сообщение</td>
                   <td>Получателей</td>
                   <td>Дата</td>
                </tr>
+               </thead>
                {broadCastData()}
             </table>
 

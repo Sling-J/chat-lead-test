@@ -5,12 +5,7 @@ import FastButtons from "../../../scenariosAndTriggers/triggersContainer/fastBut
 import {connect} from "react-redux";
 
 const TimerTextArea = (props) => {
-   const {value, handler, index, type, changedTrigger, optionalType} = props;
-   const [valueTextArea, setValueTextArea] = useState({
-      target: {
-         value: Object.values(value)[0]
-      }
-   });
+   const {value, handler, index, optionalType} = props;
 
    const [isTextAreaHovering, setIsTextAreaHovering] = useState(false);
 

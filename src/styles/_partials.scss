@@ -1,0 +1,108 @@
+$font_size: 14px;
+
+// Colors
+$main__bg-color: #fafafa;
+$theme__bg-color: #4680fe;
+$main__hover-color: #EEF2F5;
+$highlighted__font-color: #161616;
+$tooltip__bg-color: rgba(32, 35, 38, .98);
+$tooltip__font-color: #fff;
+$main__border-color: #e1e1e1;
+$white__color: #fff;
+$secondary__color: #82848B;
+
+.pv1-flex {
+   display: -webkit-box;
+   display: -ms-flexbox;
+   display: flex;
+}
+
+.pv1-flex-wrap {
+   -ms-flex-wrap: wrap;
+   flex-wrap: wrap;
+}
+
+.pv1-j-sb {
+   -webkit-box-pack: justify;
+   -ms-flex-pack: justify;
+   justify-content: space-between;
+}
+
+.pv1-j-se {
+   justify-content: space-evenly;
+}
+
+.pv1-j-center {
+   -webkit-box-pack: center;
+   -ms-flex-pack: center;
+   justify-content: center;
+}
+
+.pv1-flex-align-center {
+   -webkit-box-align: center;
+   -ms-flex-align: center;
+   align-items: center;
+}
+
+.pv1-flex-align-bottom {
+   -webkit-box-align: end;
+   -ms-flex-align: end;
+   align-items: flex-end;
+}
+
+body {
+   .ant-calendar-footer-btn {
+      a {
+         &:first-child {
+            display: none;
+         }
+      }
+   }
+
+   .main-theme-button,
+   .main-theme-button-back {
+      height: 50px;
+      line-height: 20px;
+      border-radius: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 400;
+      text-transform: inherit;
+   }
+
+   .main-theme-button {
+      background-color: $theme__bg-color;
+      color: $white__color;
+
+      &:hover {
+         background-color: darken($theme__bg-color, 5%);
+      }
+   }
+
+   .main-theme-button-back {
+      color: $secondary__color;
+      font-weight: 400;
+      border: 1px solid $secondary__color;
+      background-color: transparent;
+      white-space: nowrap;
+
+      &:hover {
+         background-color: darken($main__bg-color, 3%);
+      }
+   }
+
+   p, h1, h2, h3,
+   h4, h5, h6, ul,
+   li, button, span {
+      margin: 0;
+      padding: 0;
+   }
+
+   p, h1, h2, h3,
+   h4, h5, h6, span {
+      line-height: 1.5em;
+   }
+}

@@ -12,6 +12,8 @@ import svr_r3 from '../../../svg/db/settings/301-close.svg';
 import svr_r4 from '../../../svg/db/settings/301-idea-1.svg';
 import amocrm_logo from '../../../images/amocrm-logo-rect.png';
 import bitrix_logo from '../../../images/bitrix-24-logo.png';
+
+import {getFilledStatus} from "../../../utils/socialFilledStatus";
 import {destinationScenario} from "../../../constants/defaultValues";
 
 
@@ -137,15 +139,10 @@ class SetupWideColumn extends Component {
       const {default_response, welcome_message, subscription_message} = botSetupData;
       const botId = botSetupData.id;
 
-      const isEmptyCheck = (message) => {
+      const isEmptyCheck = message => {
          const filteredMessage = botScenarios.find(scenario => scenario.id === parseInt(message));
 
-         return filteredMessage && filteredMessage.triggers.map(trigger =>
-            trigger.messages.vk.length !== 0 ||
-            trigger.messages.facebook.length !== 0 ||
-            trigger.messages.telegram.length !== 0 ||
-            trigger.messages.whatsapp.length !== 0
-         );
+         return filteredMessage && getFilledStatus(filteredMessage.triggers);
       };
 
       const isWelcomeMessageEmpty = isEmptyCheck(welcome_message);

@@ -12,7 +12,7 @@ import {
 import {signUpErrors} from "../constants/errors/user";
 import {destinationScenario} from "../constants/defaultValues";
 
-import {userAccessToken} from "../utils/utils";
+import {userAccessToken} from "../utils/userToken";
 
 export function* getManagerSaga({idBot}) {
    if (userAccessToken()) {

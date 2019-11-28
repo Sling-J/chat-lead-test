@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import style from './scenariosContainer.module.sass';
+import {compose} from "redux";
 import {connect} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import TriggersContainer from '../../scenariosAndTriggers/triggersContainer/triggersContainer';
@@ -80,7 +80,7 @@ const ScenariosContainer = (props) => {
 
    const TextAreaSnackBar = () => (
       <Snackbar
-         className={style.snackBar}
+         className="snackBar"
          anchorOrigin={{
             vertical: 'top',
             horizontal: 'center',
@@ -112,28 +112,28 @@ const ScenariosContainer = (props) => {
 
    if (isOpenCreateScenarioFild) {
       return (
-         <div className={style.newScenarioContainer}>
+         <div className="new-scenario-container pv1-flex">
             <TextAreaSnackBar/>
-            <div className={style.buttonsContainer}>
-               <div
-                  className={style.before}
+            <div className="new-scenario-container-buttons">
+               <Button
+                  className="new-scenario-container-buttons__item main-theme-button-back"
                   onClick={() => setStatusCreateScenarioFild(false)}
                >
                   <img src={leftArrow} alt={'back'}/>
                   Назад к списку
-               </div>
+               </Button>
                <Button
-                  variant="contained" color="primary"
-                  className={`${style.next} ${style.nextEnable}`}
+                  variant="contained"
+                  className="new-scenario-container-buttons__item main-theme-button"
                   onClick={newScenarioHandler}
                >
                   Далее
                </Button>
             </div>
-            <div className={style.contentContainer}>
-               <h2>Команда</h2>
+            <div className="new-scenario-form">
+               <h2 className="new-scenario-form__title">Команда</h2>
 
-               <div className={style.createScenarioContainer}>
+               <div className="new-scenario-form__textarea">
                   <textarea
                      value={textArea}
                      onChange={e => {
@@ -150,7 +150,7 @@ const ScenariosContainer = (props) => {
 
    if (changedScenarioId) {
       return (
-         <div className={style.triggersContainer}>
+         <div>
             <ScenarioIdContext.Provider value={changedScenarioId}>
                <ScenarioIdContext.Consumer>
                   {scenarioId => (
@@ -166,7 +166,7 @@ const ScenariosContainer = (props) => {
       )
    }
 
-   const dynamicSearhData = (searchString) => {
+   const dynamicSearchData = (searchString) => {
       const scenariosData = [];
 
       props.scenariosForScenarioContainer.forEach(elem => {
@@ -184,43 +184,44 @@ const ScenariosContainer = (props) => {
 
 
    return (
-      <div className={style.mainContainer}>
-         <div className={style.controls}>
-            <div
-               className={style.createButton}
+      <div className="main-container pv1-flex pv1-j-sb">
+         <div className="main-container-controls pv1-flex">
+            <Button
+               variant="contained"
+               className="main-container-controls__button main-theme-button"
                onClick={() => setStatusCreateScenarioFild(true)}
             >
                Создать команду
-            </div>
-            <div className={style.hardLine}/>
-            <div className={style.infoBlock}>
+            </Button>
+            <div className="main-container-controls__divider"/>
+            <div className="main-container__info pv1-flex">
                <FontAwesomeIcon icon={faInfoCircle} size="lg"/>
-               <div className={style.infoText}>
-                  <p>
+               <div className="main-container-info__text">
+                  <p className="main-container-info-text__desc">
                      Ответы на популярные вопросы и уроки по настройке бота находятся в Руководстве.
                   </p>
-                  <span>
+                  <span className="main-container-info-text__link">
                      Перейти в руководство
                   </span>
                </div>
             </div>
          </div>
-         <div className={style.scenariosContainer}>
-            <div className={style.inputContainer}>
-               <div className={style.flexLeft}>
-                  <h2>Команды бота</h2>
-                  <div className={style.icon}>
-                     <span className={style.tooltipText}>Команды бота</span>
+         <div className="main-table">
+            <div className="main-table__search">
+               <div className="pv1-flex">
+                  <h2 className="main-table__title">Команды бота</h2>
+                  <div className="main-table__icon">
+                     <span className="main-table__tooltip table-tooltip">Команды бота</span>
                      <FontAwesomeIcon icon={faInfoCircle} size="lg"/>
                   </div>
                </div>
-               <div className={style.searchContainer}>
+               <div className="main-table-search__container pv1-flex">
                   <input
                      type={'text'}
-                     className={style.searchString}
+                     className="main-table-search-container__input"
                      placeholder={'Найти команду'}
                      onInput={(e) => {
-                        dynamicSearhData(e.target.value)
+                        dynamicSearchData(e.target.value)
                      }}
                   />
                   <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512"
@@ -235,77 +236,92 @@ const ScenariosContainer = (props) => {
                   </svg>
                </div>
             </div>
-            <table>
-               <tr>
-                  <td>Правило</td>
-                  <td>Содержимое</td>
-                  <td/>
-               </tr>
-               {scenariosDataInFilter.length > 0 ? (
-                  scenariosDataInFilter.map((elem, index) => (
-                     <tr key={index}>
-                        <td
-                           className={style.keyWord}
-                           onClick={
-                              idEditTriggerText === elem.id ?
-                                 null : () => changeScenarioId(elem.id)
-                           }
-                        >
-                           Сообщение в точности совпадает с <span>{elem.trigger_text}</span>
-                           <div className={style.mainEditScenario}>
-                              {
-                                 idEditTriggerText === elem.id && (
+            <table className="main-table-content">
+               <thead className="main-table-content__head">
+                  <tr>
+                     <td>Правило</td>
+                     <td>Содержимое</td>
+                     <td/>
+                  </tr>
+               </thead>
+
+               <tbody className="main-table-content__body">
+                  {scenariosDataInFilter.length > 0 ? (
+                     scenariosDataInFilter.map((elem, index) => (
+                        <tr key={index}>
+                           <td
+                              className="main-table-content-body__key-words"
+                              onClick={
+                                 idEditTriggerText === elem.id ?
+                                    null : () => changeScenarioId(elem.id)
+                              }
+                           >
+                              Сообщение в точности совпадает с <span>{elem.trigger_text}</span>
+
+                              <div className="main-table-content-body__editor">
+                                 {idEditTriggerText === elem.id && (
                                     <ContextMenuForEditScenario
                                        onInput={(e) => editScenario(e, elem.id)}
                                        defaultValue={elem.trigger_text}
                                        setIdEditTriggerText={(id) => setIdEditTriggerText(id)}
                                     />
-                                 )
-                              }
-                           </div>
-                        </td>
-                        <td>
-                           {elem.triggers.length} ответ
-                        </td>
-                        <td className={style.controlsImages}>
-                           <div
-                              className={style.icon}
-                              // title={'Редактировать'}
-                              onClick={() => setIdEditTriggerText(elem.id)}
-                           >
-                              <span className={style.tooltipText}>Редактировать</span>
-                              <img src={edit} alt={'edit'}/>
-                           </div>
+                                 )}
+                              </div>
+                           </td>
+                           <td>
+                              {elem.triggers.length} ответ
+                           </td>
+                           <td className="main-table-content-body__controls">
+                              <div
+                                 className="main-table-content-body__icon"
+                                 onClick={() => setIdEditTriggerText(elem.id)}
+                              >
+                                 <span className="main-table-content-body__tooltip table-tooltip">Редактировать</span>
+                                 <img
+                                    className="main-table-content-body__img"
+                                    src={edit}
+                                    alt={'edit'}
+                                 />
+                              </div>
 
-                           <div
-                              className={style.icon}
-                              onClick={() => copyScenario(elem.id)}
-                           >
-                              <span className={style.tooltipText}>Копировать</span>
-                              <img src={copy} alt={'copy'}/>
-                           </div>
-                           <div
-                              className={style.icon}
-                              onClick={() => props.deleteScenario({
-                                 botId: props.match.params.botId,
-                                 idScenario: elem.id
-                              })}
-                           >
-                              <span className={style.tooltipText}>Удалить</span>
-                              <img src={trash} alt={'trash'}/>
-                           </div>
+                              <div
+                                 className="main-table-content-body__icon"
+                                 onClick={() => copyScenario(elem.id)}
+                              >
+                                 <span className="main-table-content-body__tooltip table-tooltip">Копировать</span>
+                                 <img
+                                    className="main-table-content-body__img"
+                                    src={copy}
+                                    alt={'copy'}
+                                 />
+                              </div>
+                              <div
+                                 className="main-table-content-body__icon"
+                                 onClick={() => props.deleteScenario({
+                                    botId: props.match.params.botId,
+                                    idScenario: elem.id
+                                 })}
+                              >
+                                 <span className="main-table-content-body__tooltip table-tooltip">Удалить</span>
+                                 <img
+                                    className="main-table-content-body__img"
+                                    src={trash}
+                                    alt={'trash'}
+                                 />
+                              </div>
+                           </td>
+                        </tr>
+                     ))
+                  ) : (
+                     <tr>
+                        <td className="main-table-content-body__key-words">
+                           Ничего не найдено
                         </td>
+                        <td/>
+                        <td className="main-table-content-body__controls"/>
                      </tr>
-                  ))
-               ) : (
-                  <tr>
-                     <td className={style.keyWord}>
-                        Ничего не найдено
-                     </td>
-                     <td/>
-                     <td className={style.controlsImages}/>
-                  </tr>
-               )}
+                  )}
+               </tbody>
             </table>
          </div>
       </div>
@@ -328,4 +344,7 @@ const mapDispatchToProps = dispatch => ({
    changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId))
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ScenariosContainer));
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(ScenariosContainer);

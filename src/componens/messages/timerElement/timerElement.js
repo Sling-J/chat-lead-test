@@ -163,7 +163,7 @@ const TimerElement = props => {
             <div className={style.hoverBar}>
                <HoverBarForMessage
                   {...props}
-                  styleForBar={{top: '-10px', left: '330px'}}
+                  styleForBar={{top: '-10px', left: '325px'}}
                />
             </div>
             <div className={style.mainContainer}>
@@ -242,7 +242,7 @@ const TimerElement = props => {
             <div className={style.hoverBar}>
                <HoverBarForMessage
                   {...props}
-                  styleForBar={{top: '-25px', left: '330px'}}
+                  styleForBar={{top: '-25px', left: '325px'}}
                />
             </div>
             <div className={style.datePickerContainer}>
@@ -273,7 +273,7 @@ const TimerElement = props => {
             <div className={style.hoverBar}>
                <HoverBarForMessage
                   {...props}
-                  styleForBar={{top: '0px', left: '330px'}}
+                  styleForBar={{top: '0px', left: '325px'}}
                />
             </div>
 

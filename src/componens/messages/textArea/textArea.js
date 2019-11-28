@@ -2,32 +2,18 @@ import React, {useState} from 'react';
 import style from './textArea.module.sass';
 import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
-import ContentEditable from 'react-contenteditable';
 import {connect} from "react-redux";
 import FastButtons from "../../scenariosAndTriggers/triggersContainer/fastButtons/fastButtons";
 
-
-const TextArea = (props) => {
-   const {value, handler, index, type} = props;
-   const [valueTextArea, setValueTextArea] = useState({
-      target: {
-         value: Object.values(value)[0]
-      }
-   });
-
+const TextArea = props => {
    const [isTextAreaHovering, setIsTextAreaHovering] = useState(false);
+   const {value, handler, index, type} = props;
 
-   const addName = () => {
+   const addFullName = name => {
       let myField = document.querySelector(`#insertVariable${index}`);
-      let myValue = " {first_name}";
-      let input = myField.value;
-      input += myValue;
-      myField.value = input;
-   };
-
-   const addLastName = () => {
-      let myField = document.querySelector(`#insertVariable${index}`);
-      let myValue = " {last_name}";
+      let myValue = name === 'first_name'
+         ? " {first_name}"
+         : " {last_name}";
       let input = myField.value;
       input += myValue;
       myField.value = input;
@@ -37,14 +23,12 @@ const TextArea = (props) => {
       setIsTextAreaHovering(!isTextAreaHovering);
    };
 
-
    return (
       <div className={style.textArea} key={Object.values(value)[0]}>
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}
                styleForBar={{bottom: '0', left: '163px'}}
-               // statusDraggable={(status) => setStatusDragable(status)}
             />
          </div>
          <textarea
@@ -67,8 +51,8 @@ const TextArea = (props) => {
                   <div className={style.actionNavVarsMenu}>
                      <h3>Макросы</h3>
                      <ul>
-                        <li onClick={addName}>Имя</li>
-                        <li onClick={addLastName}>Фамилия</li>
+                        <li onClick={() => addFullName('first_name')}>Имя</li>
+                        <li onClick={() => addFullName('last_name')}>Фамилия</li>
                      </ul>
                   </div>}
                </div>
@@ -88,12 +72,6 @@ const TextArea = (props) => {
    )
 };
 
-const mapStateToProps = state => {
-   const {changedSocial} = state.singleBotReducers;
-
-   return {
-      changedSocial
-   }
-};
-
-export default connect(mapStateToProps)(TextArea);
+export default connect(({singleBotReducers}) => ({
+   changedSocial: singleBotReducers.changedSocial
+}))(TextArea);

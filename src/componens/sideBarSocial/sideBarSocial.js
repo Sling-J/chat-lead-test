@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './sideBarSocial.module.sass';
+import {compose} from "redux";
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 import {updateSocialInTrigger, changeSocial} from "../../actions/actionCreator";
@@ -8,6 +9,10 @@ import telegram from '../../images/telegram-icon-big.png';
 import vk from '../../images/vk-logo-big.png';
 import whatsApp from '../../images/whatsapp-big.png';
 
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faExclamationCircle, faCheckCircle, faCircle} from "@fortawesome/free-solid-svg-icons";
+
+import {getFilledStatus} from "../../utils/socialFilledStatus";
 
 const SideBarSocial = props => {
    // const updateSocialInTriggerHandler = (e) => {
@@ -20,42 +25,15 @@ const SideBarSocial = props => {
    //
    // };
 
-   const getFilledStatus = social => {
-      const checkedSocial = (social === 'facebook') ? props.changedTrigger.messages.facebook :
-         (social === 'telegram') ? props.changedTrigger.messages.telegram :
-            (social === 'vk') ? props.changedTrigger.messages.vk :
-               (social === 'whatsapp') ? props.changedTrigger.messages.whatsapp : false;
-
-      let status = false;
-
-      checkedSocial.forEach(item => {
-         status = !!((item.text && item.text.length !== 0) ||
-            (item.photo && item.photo.length !== 0) ||
-            (item.audio && item.audio.length !== 0) ||
-            (item.video && item.video.length !== 0) ||
-            (item.file && item.file.length !== 0) ||
-            (item.type_processing && item.type_processing.length !== 0) ||
-            (item.card && item.card.length !== 0) ||
-            (item.gallery && item.gallery.length !== 0) ||
-            (item.list && item.list.length !== 0) ||
-            (item.timer && item.timer.length !== 0) ||
-            (item.form && item.form.length !== 0) ||
-            (item.location && item.location.length !== 0) ||
-            (item.payment && item.payment.length !== 0) ||
-            (item.contact && item.contact.length !== 0));
-      });
-
-      return status;
-   };
-
-
    return (
       <div className={style.mainContainer}>
          <h2>Каналы</h2>
 
+         <p>Все каналы создаются отдельно</p>
+
          <div className={style.inputGroup}>
             <input
-               className={style.inputGroupField + ' ' + getFilledStatus('facebook') ? style.inputGroupFieldFilled : style.inputGroupFieldUnfilled }
+               className={style.inputGroupField}
                type="radio"
                id="Facebook Messenger"
                name="social"
@@ -66,11 +44,22 @@ const SideBarSocial = props => {
             <label htmlFor={'Facebook Messenger'}>
                <img src={faceBookMassanger} alt={'facebook'}/>
                Facebook Messenger
+               <FontAwesomeIcon
+                  className={style.inputGroupIcon}
+                  color={
+                     props.changedSocial === 'facebook' ? 'blue' :
+                        getFilledStatus('facebook', props.changedTrigger) ? 'green' : '#e57373'
+                  }
+                  icon={
+                     props.changedSocial === 'facebook' ? faCircle :
+                        getFilledStatus('facebook', props.changedTrigger) ? faCheckCircle : faExclamationCircle
+                  }
+               />
             </label>
          </div>
          <div className={style.inputGroup}>
             <input
-               className={style.inputGroupField + ' ' + getFilledStatus('telegram') ? style.inputGroupFieldFilled : style.inputGroupFieldUnfilled }
+               className={style.inputGroupField}
                type="radio"
                id="Telegram"
                name="social"
@@ -81,11 +70,22 @@ const SideBarSocial = props => {
             <label htmlFor={'Telegram'}>
                <img src={telegram} alt={'telegram'}/>
                Telegram
+               <FontAwesomeIcon
+                  className={style.inputGroupIcon}
+                  color={
+                     props.changedSocial === 'telegram' ? 'blue' :
+                        getFilledStatus('telegram', props.changedTrigger) ? 'green' : '#e57373'
+                  }
+                  icon={
+                     props.changedSocial === 'telegram' ? faCircle :
+                        getFilledStatus('telegram', props.changedTrigger) ? faCheckCircle : faExclamationCircle
+                  }
+               />
             </label>
          </div>
          <div className={style.inputGroup}>
             <input
-               className={style.inputGroupField + ' ' + getFilledStatus('vk') ? style.inputGroupFieldFilled : style.inputGroupFieldUnfilled }
+               className={style.inputGroupField}
                type="radio"
                id="vk"
                name={'social'}
@@ -96,11 +96,22 @@ const SideBarSocial = props => {
             <label htmlFor={'vk'}>
                <img src={vk} alt={'vk'}/>
                ВКонтакте
+               <FontAwesomeIcon
+                  className={style.inputGroupIcon}
+                  color={
+                     props.changedSocial === 'vk' ? 'blue' :
+                        getFilledStatus('vk', props.changedTrigger) ? 'green' : '#e57373'
+                  }
+                  icon={
+                     props.changedSocial === 'vk' ? faCircle :
+                        getFilledStatus('vk', props.changedTrigger) ? faCheckCircle : faExclamationCircle
+                  }
+               />
             </label>
          </div>
          <div className={style.inputGroup}>
             <input
-               className={style.inputGroupField + ' ' + getFilledStatus('whatsapp') ? style.inputGroupFieldFilled : style.inputGroupFieldUnfilled }
+               className={style.inputGroupField}
                type="radio"
                id="WhatsApp"
                name={'social'}
@@ -111,19 +122,26 @@ const SideBarSocial = props => {
             <label htmlFor={'WhatsApp'}>
                <img src={whatsApp} alt={'whatsApp'}/>
                WhatsApp
+               <FontAwesomeIcon
+                  className={style.inputGroupIcon}
+                  color={
+                     props.changedSocial === 'whatsapp' ? 'blue' :
+                        getFilledStatus('whatsapp', props.changedTrigger) ? 'green' : '#e57373'
+                  }
+                  icon={
+                     props.changedSocial === 'whatsapp' ? faCircle :
+                        getFilledStatus('whatsapp', props.changedTrigger) ? faCheckCircle : faExclamationCircle
+                  }
+               />
             </label>
          </div>
       </div>
    )
 };
 
-const mapStateToProps = state => {
-   const {changedSocial} = state.singleBotReducers;
-
-   return {
-      changedSocial
-   }
-};
+const mapStateToProps = ({singleBotReducers}) => ({
+   changedSocial: singleBotReducers.changedSocial
+});
 
 const mapDispatchToProps = dispatch => ({
    updateSocialInTrigger: (triggerData) => dispatch(updateSocialInTrigger(triggerData)),
@@ -131,4 +149,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SideBarSocial));
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(SideBarSocial);

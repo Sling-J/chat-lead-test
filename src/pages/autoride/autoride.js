@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {compose} from "redux";
 import style from './autoride.module.sass';
 import NavBar from '../../componens/navbar/navbar';
 import {connect} from "react-redux";
@@ -27,15 +28,12 @@ const Autoride = (props) => {
 };
 
 
-const mapStateToProps = state => {
-   const {autoridesData, isFetching, error} = state.autoridesReducers;
-   const {changedScenarioId} = state.singleBotReducers;
-
-
-   return {
-      autoridesData, isFetching, error, changedScenarioId
-   }
-};
+const mapStateToProps = ({autoridesReducers, singleBotReducers}) => ({
+   autoridesData: autoridesReducers.autoridesData,
+   isFetching: autoridesReducers.isFetching,
+   error: autoridesReducers.error,
+   changedScenarioId: singleBotReducers.changedScenarioId
+});
 
 const mapDispatchToProps = dispatch => ({
    getAutorides: (botId) => dispatch(getAllAutorides(botId)),
@@ -44,5 +42,7 @@ const mapDispatchToProps = dispatch => ({
 
 });
 
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Autoride));
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(Autoride);

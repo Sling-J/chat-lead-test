@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import style from './autorideContainer.module.sass';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import {connect} from "react-redux";
@@ -24,6 +23,9 @@ import copy from '../../images/duplicate.jpg';
 import leftArrow from '../../svg/db/left-arrow.svg';
 import ContextMenuForEditAutoride from "./contextMenuForEditAutoride/contextMenuForEditAutoride";
 import {destinationScenario} from "../../constants/defaultValues";
+import {compose} from "redux";
+
+import Button from '@material-ui/core/Button';
 
 
 const AutorideContainer = (props) => {
@@ -80,24 +82,30 @@ const AutorideContainer = (props) => {
 
    if (isOpenCreateScenarioFild) {
       return (
-         <div className={style.newScenarioContainer}>
-            <div className={style.buttonsContainer}>
-               <div
-                  className={style.before}
+         <div className="new-scenario-container pv1-flex">
+            <div className="new-scenario-container-buttons">
+               <Button
+                  className="new-scenario-container-buttons__item main-theme-button-back"
                   onClick={() => setStatusCreateScenarioFild(false)}
                >
                   <img src={leftArrow} alt={'back'}/>
                   Назад к списку
-               </div>
-               <div className={style.next} onClick={newAutorideHandler}>Далее</div>
+               </Button>
+               <Button
+                  variant="contained"
+                  className="new-scenario-container-buttons__item main-theme-button"
+                  onClick={newAutorideHandler}
+               >
+                  Далее
+               </Button>
             </div>
-            <div className={style.contentContainer}>
-               <h2>Воронка</h2>
-               <div className={style.createScenarioContainer}>
-                       <textarea
-                          placeholder={'Введите ключевое слово'}
-                          onInput={(e) => setStatusCreateScenarioFild(e.target.value)}
-                       />
+            <div className="new-scenario-form">
+               <h2 className="new-scenario-form__title">Воронка</h2>
+               <div className="new-scenario-form__textarea">
+                  <textarea
+                     placeholder={'Введите ключевое слово'}
+                     onInput={(e) => setStatusCreateScenarioFild(e.target.value)}
+                  />
                </div>
             </div>
          </div>
@@ -107,7 +115,7 @@ const AutorideContainer = (props) => {
 
    if (changedScenarioId && props.botScenarios.length > 0 && scenariosForAutoride.indexOf(changedScenarioId) !== -1) {
       return (
-         <div className={style.triggersContainer}>
+         <div>
             <ScenarioIdContext.Provider value={changedScenarioId}>
                <ScenarioIdContext.Consumer>
                   {scenarioId => (
@@ -129,7 +137,7 @@ const AutorideContainer = (props) => {
       const scenariosData = [];
       props.autoridesData.forEach(elem => {
          if (searchString) {
-            if (elem.scenario.trigger_text.toLowerCase().indexOf(searchString.toLowerCase()) != -1) {
+            if (elem.scenario.trigger_text.toLowerCase().indexOf(searchString.toLowerCase()) !== -1) {
                scenariosData.push(elem);
             }
          } else if (!searchString) {
@@ -141,33 +149,41 @@ const AutorideContainer = (props) => {
 
 
    return (
-      <div className={style.mainContainer}>
-         <div className={style.controls}>
-            <div className={style.createButton} onClick={() => setStatusCreateScenarioFild(true)}>
-               Создать автоворонку
-            </div>
-            <div className={style.hardLine}/>
-            <div className={style.infoBlock}>
+      <div className="main-container pv1-flex pv1-j-sb">
+         <div className="main-container-controls pv1-flex">
+            <Button
+               variant="contained"
+               className="main-container-controls__button main-theme-button"
+               onClick={() => setStatusCreateScenarioFild(true)}
+            >
+               Создать команду
+            </Button>
+            <div className="main-container-controls__divider"/>
+            <div className="main-container__info pv1-flex">
                <FontAwesomeIcon icon={faInfoCircle} size="lg"/>
-               <div className={style.infoText}>
-                  <p>Ответы на популярные вопросы и уроки по настройке бота находятся в Руководстве.</p>
-                  <span>Перейти в руководство</span>
+               <div className="main-container-info__text">
+                  <p className="main-container-info-text__desc">
+                     Ответы на популярные вопросы и уроки по настройке бота находятся в Руководстве.
+                  </p>
+                  <span className="main-container-info-text__link">
+                     Перейти в руководство
+                  </span>
                </div>
             </div>
          </div>
-         <div className={style.scenariosContainer}>
-            <div className={style.inputContainer}>
-               <div className={style.flexLeft}>
-                  <h2>Автоворонка</h2>
-                  <div className={style.icon}>
-                     <span className={style.tooltipText}>Автоворонка</span>
+         <div className="main-table">
+            <div className="main-table__search">
+               <div className="pv1-flex">
+                  <h2 className="main-table__title">Автоворонка</h2>
+                  <div className="main-table__icon">
+                     <span className="main-table__tooltip table-tooltip">Автоворонка</span>
                      <FontAwesomeIcon icon={faInfoCircle} size="lg"/>
                   </div>
                </div>
-               <div className={style.searchContainer}>
+               <div className="main-table-search__container pv1-flex">
                   <input
                      type={'text'}
-                     className={style.searchString}
+                     className="main-table-search-container__input"
                      placeholder={'Найти автоворонку'}
                      onInput={(e) => dynamicSearchData(e.target.value)}
                   />
@@ -183,18 +199,21 @@ const AutorideContainer = (props) => {
                   </svg>
                </div>
             </div>
-            <table>
-               <tr>
-                  <td>Название</td>
-                  <td>Каналы</td>
-                  <td/>
-               </tr>
-               {
-                  autoridesDataInFilter.length > 0 ? (
+            <table className="main-table-content">
+               <thead className="main-table-content__head">
+                  <tr>
+                     <td>Название</td>
+                     <td>Каналы</td>
+                     <td/>
+                  </tr>
+               </thead>
+
+               <tbody className="main-table-content__body">
+                  {autoridesDataInFilter.length > 0 ? (
                      autoridesDataInFilter.map(elem => (
                         <tr>
                            <td
-                              className={style.keyWord}
+                              className="main-table-content-body__key-words"
                               // onClick={() => changeScenarioId(elem.scenario.id)}
                               onClick={
                                  idEditTriggerText === elem.scenario.id ?
@@ -203,7 +222,7 @@ const AutorideContainer = (props) => {
                               }
                            >
                               Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
-                              <div className={style.mainEditScenario}>
+                              <div className="main-table-content-body__editor">
                                  {
                                     idEditTriggerText === elem.scenario.id && (
                                        <ContextMenuForEditAutoride
@@ -216,43 +235,43 @@ const AutorideContainer = (props) => {
                               </div>
                            </td>
                            <td>
-                              <img src={vk} alt={'vk'}/>
-                              <img src={telegram} alt={'tg'}/>
-                              <img src={facebook} alt={'fb'}/>
-                              <img src={viber} alt={'viber'}/>
+                              <img className="social-icons" src={vk} alt={'vk'}/>
+                              <img className="social-icons" src={telegram} alt={'tg'}/>
+                              <img className="social-icons" src={facebook} alt={'fb'}/>
+                              <img className="social-icons" src={viber} alt={'viber'}/>
                            </td>
-                           <td className={style.controlsImages}>
+                           <td className="main-table-content-body__controls">
                               <div
-                                 className={style.icon}
+                                 className="main-table-content-body__icon"
                                  onClick={() => setIdEditTriggerText(elem.scenario.id)}
                               >
-                                 <span className={style.tooltipText}>Редактировать</span>
-                                 <img src={edit} alt={'edit'}/>
+                                 <span className="main-table-content-body__tooltip table-tooltip">Редактировать</span>
+                                 <img className="main-table-content-body__img" src={edit} alt={'edit'}/>
                               </div>
-                              <div className={style.icon}>
-                                 <span className={style.tooltipText}>Копировать</span>
-                                 <img src={copy} alt={'copy'}/>
+                              <div className="main-table-content-body__icon">
+                                 <span className="main-table-content-body__tooltip table-tooltip">Копировать</span>
+                                 <img className="main-table-content-body__img" src={copy} alt={'copy'}/>
                               </div>
                               <div
-                                 className={style.icon}
+                                 className="main-table-content-body__icon"
                                  onClick={() => props.deleteAutoride(props.match.params.botId, elem.id)}
                               >
-                                 <span className={style.tooltipText}>Удалить</span>
-                                 <img src={trash} alt={'trash'}/>
+                                 <span className="main-table-content-body__tooltip table-tooltip">Удалить</span>
+                                 <img className="main-table-content-body__img" src={trash} alt={'trash'}/>
                               </div>
                            </td>
                         </tr>
                      ))
                   ) : (
                      <tr>
-                        <td className={style.keyWord}>
+                        <td className="main-table-content-body__key-words">
                            Ничего не найдено
                         </td>
                         <td/>
-                        <td className={style.controlsImages}/>
+                        <td className="main-table-content-body__controls"/>
                      </tr>
-                  )
-               }
+                  )}
+               </tbody>
             </table>
 
          </div>
@@ -279,4 +298,8 @@ const mapDispatchToProps = dispatch => ({
    getAllScenariesForBot: (idBot) => dispatch(getAllScenariesForBot(idBot))
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AutorideContainer));
+
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(AutorideContainer);
