@@ -2,19 +2,16 @@ import React, {useState} from 'react';
 import style from './broadCastMenu.module.sass';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import DatePicker, {registerLocale} from 'react-datepicker';
 import './calendarStyle.sass';
 import {updateBroadCasts} from "../../../actions/actionCreator";
-import ClickOutsideHandler from "../../hoc/clickOutside";
 import "react-datepicker/dist/react-datepicker.css";
-import ru from "date-fns/locale/ru"; // the locale you want
-registerLocale("ru", ru);
-
+import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
+import CustomFlatPicker from "../../messages/timerElement/customFlatPicker/customFlatPicker"; // the locale you want
+import {Dropdown} from 'antd';
 
 const BroadCastMenu = (props) => {
    const {broadCastId, changedTrigger} = props;
    const [isOpenTestTab, openTestTab] = useState(false);
-   const [isOpenCalendar, openCalendar] = useState(false);
    const oldDate = new Date(2015, 0, 1).getTime();
    const futureTime = new Date().setFullYear(new Date().getFullYear() + 1);
 
@@ -41,6 +38,27 @@ const BroadCastMenu = (props) => {
 
       props.updateBroadcast(broadCastDataCopy[broadCastId]);
    };
+
+   const DatePickerMenu = (
+      <div className={style.delayContainer}>
+         <div className={style.calendarContainer}>
+            <h2>Отложить рассылку</h2>
+
+            <CustomFlatPicker
+               styleForPicker={{
+                  width: '80%',
+                  padding: "8px 15px"
+               }}
+               defaultValue={
+                  formatUnixToDate(props.broadCastData[broadCastId].time, true)
+               }
+               onChange={value => updateBroadCast({
+                  time: formatDateToUnix(value[0])
+               })}
+            />
+         </div>
+      </div>
+   );
 
    const sendBroadCastTab = () => (
       <div className={style.contentContainer}>
@@ -89,35 +107,11 @@ const BroadCastMenu = (props) => {
                Начать рассылку
             </div>
             <p>или</p>
-            <div className={style.putOffButton} onClick={() => openCalendar(true)}>
-               Отложить рассылку
-            </div>
-            <ClickOutsideHandler onClickedOutside={() => openCalendar(false)}>
-               <div className={style.delayContainer}>
-                  {
-                     isOpenCalendar && (
-                        <div className={style.calendarContainer}>
-                           <h2>Отложить рассылку</h2>
-                           <DatePicker
-                              selected={new Date(props.broadCastData[broadCastId].time * 1000)}
-                              dateFormat={'yyyy-MM-dd'}
-                              locale={ru}
-                              onChange={(date) => {
-                                 const dateData = new Date(date);
-                                 updateBroadCast({
-                                    time: dateData.getTime() / 1000,
-                                    // sent: 'False'*/
-                                 });
-                                 // console.log(date.getTime() / 1000);
-                              }}
-                              minDate={new Date()}
-                              className={style.datePickerInput}
-                           />
-                        </div>
-                     )
-                  }
+            <Dropdown className={style.datePickerMenu} overlay={DatePickerMenu} trigger={['click']}>
+               <div className={style.putOffButton}>
+                  Отложить рассылку
                </div>
-            </ClickOutsideHandler>
+            </Dropdown>
          </div>
       </div>
    );
@@ -152,20 +146,21 @@ const BroadCastMenu = (props) => {
                Тест рассылки
             </li>
          </ul>
-         {
-            props.broadCastData[broadCastId].sent ?
-               (
-                  <div className={style.completeMessage}>
-                     Рассылка разослана!
-                     <div className={style.submitButton} onClick={() => updateBroadCast({
-                        sent: 'False',
-                        time: futureTime / 1000
-                     })}>
-                        Запустить новую рассылку
-                     </div>
+         {props.broadCastData[broadCastId].sent ?
+            (
+               <div className={style.completeMessage}>
+                  Рассылка разослана!
+                  <div className={style.submitButton} onClick={() => updateBroadCast({
+                     sent: 'False',
+                     time: futureTime / 1000
+                  })}>
+                     Запустить новую рассылку
                   </div>
-               ) :
-               (isOpenTestTab ? testTab() : sendBroadCastTab())
+               </div>
+            ) :
+            (
+               isOpenTestTab ? testTab() : sendBroadCastTab()
+            )
          }
       </div>
    )

@@ -250,6 +250,10 @@ const TimerElement = props => {
                   <p>Дата / Время</p>
                </div>
                <CustomFlatPicker
+                  styleForPicker={{
+                     marginTop: "15px",
+                     padding: "8px 15px"
+                  }}
                   defaultValue={
                      formatUnixToDate(valuesForTimer[Object.keys(valuesForTimer)[0]], true)
                   }

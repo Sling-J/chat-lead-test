@@ -58,26 +58,22 @@ const BroadCastContainer = (props) => {
          return (
             <tbody className="main-table-content__body">
                {props.broadCastData.filter(elem => elem.sent).length > 0 ? (
-                  props.broadCastData.map((elem, index) => {
-                     if (elem.sent) {
-                        return (
-                           <tr>
-                              <td className="main-table-content-body__key-words" onClick={() => {
-                                 changeScenarioId(elem.scenario.id);
-                                 // changeBroadCastId(index);
-                              }}>
-                                 Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
-                              </td>
-                              <td>
-                                 {elem.users_count}
-                              </td>
-                              <td>
-                                 {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
-                              </td>
-                           </tr>
-                        )
-                     }
-                  })
+                  props.broadCastData.map((elem, index) => elem.sent && (
+                     <tr key={index}>
+                        <td className="main-table-content-body__key-words" onClick={() => {
+                           changeScenarioId(elem.scenario.id);
+                           // changeBroadCastId(index);
+                        }}>
+                           Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
+                        </td>
+                        <td>
+                           {elem.users_count}
+                        </td>
+                        <td>
+                           {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
+                        </td>
+                     </tr>
+                  ))
                ) : (
                   <tr>
                      <td className="main-table-content-body__key-words">
@@ -93,26 +89,22 @@ const BroadCastContainer = (props) => {
          return (
             <tbody className="main-table-content__body">
                {props.broadCastData.filter(elem => !elem.sent).length > 0 ? (
-                  props.broadCastData.map((elem, index) => {
-                     if (!elem.sent) {
-                        return (
-                           <tr>
-                              <td className="main-table-content-body__key-words" onClick={() => {
-                                 changeScenarioId(elem.scenario.id);
-                                 // changeBroadCastId(index);
-                              }}>
-                                 Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
-                              </td>
-                              <td>
-                                 {elem.users_count}
-                              </td>
-                              <td>
-                                 {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
-                              </td>
-                           </tr>
-                        )
-                     }
-                  })
+                  props.broadCastData.map((elem, index) => !elem.sent && (
+                     <tr key={index}>
+                        <td className="main-table-content-body__key-words" onClick={() => {
+                           changeScenarioId(elem.scenario.id);
+                           // changeBroadCastId(index);
+                        }}>
+                           Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
+                        </td>
+                        <td>
+                           {elem.users_count}
+                        </td>
+                        <td>
+                           {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
+                        </td>
+                     </tr>
+                  ))
                ) : (
                   <tr>
                      <td className="main-table-content-body__key-words">

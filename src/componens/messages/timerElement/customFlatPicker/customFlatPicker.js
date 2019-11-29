@@ -26,10 +26,10 @@ export default class CustomFlatPicker extends Component {
    }
 
    render() {
-      const {defaultValue} = this.props;
+      const {defaultValue, styleForPicker} = this.props;
 
       return (
-         <div className={style.flatPickerContainer} ref={this.ref}>
+         <div className={style.flatPickerContainer} style={styleForPicker} ref={this.ref}>
             <p>{defaultValue}</p>
             <p>
                <FontAwesomeIcon icon={faChevronDown}/>
