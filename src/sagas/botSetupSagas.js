@@ -114,6 +114,8 @@ export function* getQRCodeSaga() {
 
             const {data} = yield call(getQRCodeUrl, formData);
 
+            console.log(data);
+
             if (data.ok || data.url.length !== 0) {
                yield put({type: ACTION.GET_WA_QR_URL_SUCCESS, payload: data.url})
             } else {

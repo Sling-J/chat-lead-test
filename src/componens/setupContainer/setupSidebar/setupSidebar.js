@@ -4,12 +4,7 @@ import {connect} from 'react-redux';
 import {
    editManager
 } from '../../../actions/actionCreator';
-import {
-   getFacebookAuthUrl,
-   getVkAuthUrl,
-   getQRCodeUrl
-} from "../../../api/rest/restContoller";
-import {facebookAuthUrl, vkAuth} from "../../../actions/actionCreator";
+import {facebookAuthUrl, vkAuth, QRCodeUrl, resetUrl} from "../../../actions/actionCreator";
 import {InputControler} from './inputControler';
 
 import Button from '@material-ui/core/Button';
@@ -23,6 +18,11 @@ const SetupSidebar = (props) => {
          InputControler();
       }
    });
+
+   useEffect(() => {
+      props.resetUrl();
+      console.log('reset');
+   }, []);
 
    useEffect(() => {
       if (props.url.length !== 0) {
@@ -176,17 +176,16 @@ const SetupSidebar = (props) => {
                   <p className={style.ui_vmenu__item_p}>ШАГ 1: Откройте WhatsApp Web, наведите свой телефон чтобы
                      считать код</p>
                   <Button
-                     onClick={(e) => {
-                        e.preventDefault();
-                        const formData = new FormData();
-                        formData.append('user_token', localStorage.getItem('token'));
-                        formData.append('manager_id', botId);
-                        getQRCodeUrl(formData).then(result => {
-                           if (result.data.ok) {
-                              props.qrcodeurl = result.data.url
-                           }
-                        });
-                     }}
+                     onClick={() => props.QRCodeUrl(botId)}
+                     // e.preventDefault();
+                     // const formData = new FormData();
+                     // formData.append('user_token', localStorage.getItem('token'));
+                     // formData.append('manager_id', botId);
+                     // getQRCodeUrl(formData).then(result => {
+                     //    if (result.data.ok) {
+                     //       props.qrcodeurl = result.data.url
+                     //    }
+                     // });
                      type="button"
                      variant="contained"
                      className={style.ui_vmenu_sep_button}
@@ -213,7 +212,9 @@ const mapStateToProps = ({botSetupReducers}) => ({
 const mapDispatchToProps = dispatch => ({
    editManager: setupData => dispatch(editManager(setupData)),
    facebookAuthUrl: botId => dispatch(facebookAuthUrl(botId)),
-   vkAuth: botId => dispatch(vkAuth(botId))
+   QRCodeUrl: botId => dispatch(QRCodeUrl(botId)),
+   vkAuth: botId => dispatch(vkAuth(botId)),
+   resetUrl: () => dispatch(resetUrl()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetupSidebar);

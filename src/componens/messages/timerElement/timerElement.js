@@ -77,7 +77,8 @@ const TimerElement = props => {
 
       if (typeInput === 'pause_delay') {
          Object.assign(messagesCopy[props.changedSocial][index].timer, {
-            [typeInput]: e.target.value
+            [typeInput]: e.target.value,
+            format: e.target.format
          });
 
          const triggerData = {
@@ -140,8 +141,8 @@ const TimerElement = props => {
    const handleSendPause = time => {
       const pauseObject = {
          target: {
-            value: {
-               value: timeToSeconds(time, pauseKeyField.key),
+            value: timeToSeconds(time, pauseKeyField.key),
+            format: {
                keyValue: pauseKeyField.keyValue,
                key: pauseKeyField.key,
             }
@@ -150,12 +151,6 @@ const TimerElement = props => {
 
       updateTrigger(pauseObject, 'pause_delay');
    };
-
-
-   flatpickr('#main-flat-picker', {
-      enableTime: true,
-      dateFormat: "Y-m-d H:i",
-   });
 
    if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
       return (
@@ -173,7 +168,7 @@ const TimerElement = props => {
                      <InputNumber
                         min={0}
                         type="number"
-                        defaultValue={secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key)}
+                        defaultValue={secondsToTime(valuesForTimer.pause_delay, valuesForTimer.format.key)}
                         onBlur={() => {
                            if (pauseKeyField.key === 'day') {
                               handleSendPause(pauseDayField)
@@ -206,7 +201,7 @@ const TimerElement = props => {
                      <Select
                         className={style.pauseContainerSelect}
                         placeholder="Выберите время"
-                        defaultValue={valuesForTimer.pause_delay.keyValue}
+                        defaultValue={valuesForTimer.format.keyValue}
                         onBlur={() => {
                            if (pauseKeyField.key === 'day') {
                               handleSendPause(pauseDayField)

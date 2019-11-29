@@ -267,8 +267,10 @@ class SetupWideColumn extends Component {
                         <h3>Оповещение</h3>
                         <div className={style.switcher}>
                            <label className={style.switch}>
-                              <input type="checkbox" checked={willSend}
-                                     onClick={(e) => this.setState(() => ({willSend: !willSend}))}/>
+                              <input
+                                 type="checkbox" checked={willSend}
+                                 onClick={(e) => this.setState(() => ({willSend: !willSend}))}
+                              />
                               <span className={style.slider + " " + style.round}/>
                            </label>
                            <p>Получать уведомления о заявках</p>
@@ -307,7 +309,6 @@ class SetupWideColumn extends Component {
                                     value={email}
                                  />
                               </div>
-
                            </div>
 
                            <div className={style.switcherContainer}>
@@ -316,7 +317,10 @@ class SetupWideColumn extends Component {
                                     <div>
                                        {tel}
                                        <span
-                                          onClick={() => this.deleteNotificationElement("tel", index)}>×</span>
+                                          onClick={() => this.deleteNotificationElement("tel", index)}
+                                       >
+                                          ×
+                                       </span>
                                     </div>
                                  )}
                                  <input
@@ -373,7 +377,7 @@ class SetupWideColumn extends Component {
                      <div className={style.display} id="menu_amo">
                         <form action="">
                            <div className={style.inputGr}>
-                              <label for="domain">Домен в AmoCRM*</label>
+                              <label htmlFor="domain">Домен в AmoCRM*</label>
                               <input type="text" name="domain" placeholder="mycompany.amocrm.ru"/>
                               <small>Адрес (домен) Вашей CRM, обычно это ??????.amocrm.ru<br/>Вводите его
                                  целиком
@@ -381,12 +385,12 @@ class SetupWideColumn extends Component {
                            </div>
 
                            <div className={style.inputGr}>
-                              <label for="login">Логин*</label>
+                              <label htmlFor="login">Логин*</label>
                               <input type="text" name="login" placeholder="myname@mycompany.ru"/>
                               <small>Код активации веб-хука, например: 82te1pjdphsa9u19.</small>
                            </div>
                            <div className={style.inputGr}>
-                              <label for="api">Ключ API*</label>
+                              <label htmlFor="api">Ключ API*</label>
                               <input type="text" name="api" placeholder="a751f80701dae35cf334d648dc7352d7"/>
                               <small>Ключ для доступа к API. Смотрите его в личном кабинете AmoCRM, в разделе
                                  Настройки - API - Ваш API ключ.</small>
@@ -412,7 +416,7 @@ class SetupWideColumn extends Component {
                         <div className={style.display} id="menu_bitrix">
                            <form action="">
                               <div className={style.inputGr}>
-                                 <label for="domain">Домен в Bitrix24*</label>
+                                 <label htmlFor="domain">Домен в Bitrix24*</label>
                                  <input type="text" name="domain" placeholder="mycompany.bitrix24.ru"/>
                                  <small>Адрес (домен) Вашей CRM, обычно это ??????.bitrix24.ru<br/>Вводите
                                     его
@@ -420,12 +424,12 @@ class SetupWideColumn extends Component {
                               </div>
 
                               <div className={style.inputGr}>
-                                 <label for="webhook">Код веб-хука*</label>
+                                 <label htmlFor="webhook">Код веб-хука*</label>
                                  <input type="text" name="webhook" placeholder="xxxxxxxxxxxxxxxx"/>
                                  <small>Код активации веб-хука, например: 82te1pjdphsa9u19.</small>
                               </div>
                               <div className={style.inputGr}>
-                                 <label for="userId">Номер пользователя*</label>
+                                 <label htmlFor="userId">Номер пользователя*</label>
                                  <input type="text" name="usedId" placeholder="1"/>
                                  <small>
                                     Номер пользователя, которому принадлежит веб-хук (по-умолчанию:
@@ -469,9 +473,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-   getManager: (botId) => dispatch(getManager(botId)),
-   editManager: (setupData) => dispatch(editManager(setupData)),
-   updateBotReactions: (reactionsData) => dispatch(updateBotReactions(reactionsData))
+   getManager: botId => dispatch(getManager(botId)),
+   editManager: setupData => dispatch(editManager(setupData)),
+   updateBotReactions: reactionsData => dispatch(updateBotReactions(reactionsData))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetupWideColumn);

@@ -11,8 +11,17 @@ const initialState = {
 
 export default function (state = initialState, action) {
    switch (action.type) {
+      case ACTION.RESET_URL:
+         return {
+            ...state,
+            setupLoading: false,
+            url: '',
+            errorOfSocial: null
+         };
+
       case ACTION.GET_FACEBOOK_AUTH_URL_REQUEST:
       case ACTION.GET_VK_AUTH_URL_REQUEST:
+      case ACTION.GET_WA_QR_URL_REQUEST:
          return {
             ...state,
             setupLoading: true,
@@ -21,6 +30,7 @@ export default function (state = initialState, action) {
 
       case ACTION.GET_FACEBOOK_AUTH_URL_SUCCESS:
       case ACTION.GET_VK_AUTH_URL_SUCCESS:
+      case ACTION.GET_WA_QR_URL_SUCCESS:
          return {
             ...state,
             setupLoading: false,
@@ -30,6 +40,7 @@ export default function (state = initialState, action) {
 
       case ACTION.GET_FACEBOOK_AUTH_URL_FAILURE:
       case ACTION.GET_VK_AUTH_URL_FAILURE:
+      case ACTION.GET_WA_QR_URL_FAILURE:
          return {
             ...state,
             setupLoading: false,
