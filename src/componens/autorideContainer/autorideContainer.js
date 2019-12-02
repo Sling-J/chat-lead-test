@@ -25,6 +25,9 @@ import ContextMenuForEditAutoride from "./contextMenuForEditAutoride/contextMenu
 import {destinationScenario} from "../../constants/defaultValues";
 import {compose} from "redux";
 
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
 
 
@@ -33,6 +36,11 @@ const AutorideContainer = (props) => {
 
    // const [changedScenarioId, changeScenarioId] = useState(false);
    const [autoridesDataInFilter, setautoridesDataInFilter] = useState([]);
+
+   const [textArea, setTextArea] = useState('');
+   const [snackOpen, setSnackOpen] = useState(false);
+   const [textAreaErrMsg, setTextAreaErrMsg] = useState("");
+
    const [isOpenCreateScenarioFild, setStatusCreateScenarioFild] = useState(false);
    const [idEditTriggerText, setIdEditTriggerText] = useState(false);
    const scenariosForAutoride = [];
@@ -66,10 +74,55 @@ const AutorideContainer = (props) => {
    }, [props.autoridesData]);
 
    const newAutorideHandler = () => {
-      props.appendAutoride(props.match.params.botId, isOpenCreateScenarioFild);
-      // // props.addScenario(props.match.params.botId, destinationScenario.default, isOpenCreateScenarioFild);
-      setStatusCreateScenarioFild(false);
+      if (textArea.length !== 0) {
+         props.appendAutoride(props.match.params.botId, textArea);
+         setStatusCreateScenarioFild(false);
+         setTextArea('');
+      } else {
+         setSnackOpen(true);
+         setTextAreaErrMsg('Заполните хотя бы одно ключевое слово');
+      }
    };
+
+   const snackClose = (event, reason) => {
+      if (reason === 'clickaway') {
+         return;
+      }
+
+      setSnackOpen(false);
+      setTextAreaErrMsg('');
+   };
+
+   const TextAreaSnackBar = () => (
+      <Snackbar
+         className="snackBar"
+         anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+         }}
+         open={snackOpen}
+         autoHideDuration={6000}
+         onClose={snackClose}
+         ContentProps={{
+            'aria-describedby': 'message-id',
+         }}
+         message={
+            <span id="message-id">
+               {textAreaErrMsg}
+            </span>
+         }
+         action={[
+            <IconButton
+               key="close"
+               aria-label="close"
+               color="inherit"
+               onClick={snackClose}
+            >
+               <CloseIcon/>
+            </IconButton>,
+         ]}
+      />
+   );
 
    const editScenario = (e, scenarioId) => {
       props.editScenario({
@@ -83,6 +136,7 @@ const AutorideContainer = (props) => {
    if (isOpenCreateScenarioFild) {
       return (
          <div className="new-scenario-container pv1-flex">
+            <TextAreaSnackBar/>
             <div className="new-scenario-container-buttons">
                <Button
                   className="new-scenario-container-buttons__item main-theme-button-back"
@@ -102,9 +156,15 @@ const AutorideContainer = (props) => {
             <div className="new-scenario-form">
                <h2 className="new-scenario-form__title">Воронка</h2>
                <div className="new-scenario-form__textarea">
+                  <p>Введите одно ключевое</p>
+
                   <textarea
                      placeholder={'Введите ключевое слово'}
-                     onInput={(e) => setStatusCreateScenarioFild(e.target.value)}
+                     value={textArea}
+                     onChange={e => {
+                        setSnackOpen(false);
+                        setTextArea(e.target.value);
+                     }}
                   />
                </div>
             </div>

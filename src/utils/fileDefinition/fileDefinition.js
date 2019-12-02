@@ -9,7 +9,6 @@ import TimerElement from '../../componens/messages/timerElement/timerElement';
 import TextArea from '../../componens/messages/textArea/textArea';
 import TypeProcessing from '../../componens/messages/typeProcessing/typeProcessing';
 
-
 export const fileDefinition = (key, value, handler, index, deleteHandler, changedTrigger, changedScenario, changeTriggerId) => {
    if (key === 'text') {
       return (

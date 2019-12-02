@@ -10,7 +10,7 @@ export const defaultValuesForNewMessages = {
    card: {card: [{photo: '', title: '', text: '', keyboard: []}]},
    gallery: {gallery: [{photo: '', title: '', text: '', keyboard: []}]},
    list: {list: [{photo: '', title: '', text: '', keyboard: []}, {photo: '', title: '', text: '', keyboard: []}]},
-   pause_delay: {timer: {pause_delay: 0, format: {key: 'sec', keyValue: 'Секунды'}}, keyboard: []},
+   pause_delay: {timer: {pause_delay: '', format: {value: 0, key: 'sec', keyValue: 'Секунды'}}, keyboard: []},
    activity_lost: {timer: {activity_lost: moment().format('YYYY-MM-DD, h:mm')}, keyboard: []},
    send_time: {timer: {send_time: {day: '', hours: '', min: ''}}, keyboard: [], text: ""},
    form: {form: [""], keyboard: []},
@@ -28,11 +28,10 @@ export const buttonsTypes = {
 };
 
 export const defaultValuesForNewButtons = {
-   text_buttons: {caption: 'Новая кнопка', payload: {trigger: ''}, type: 'text_buttons'},
+   text_buttons: {caption: 'Новая кнопка', payload: {trigger_id: ''}, type: 'text_buttons', createdTrigger: {}},
    url_buttons: {caption: 'Новая кнопка', payload: {url: ''}, type: 'url_buttons'},
    fast_buttons: {caption: 'Новая кнопка', payload: {trigger_id: ''}, type: 'fast_buttons'},
-   call_buttons: {caption: 'Новая кнопка', payload: {tel: ''}, type: 'call_buttons'},
-   trigger_buttons: {caption: 'Новая кнопка', payload: {trigger_id: ''}, type: 'trigger_buttons'},
+   call_buttons: {caption: 'Новая кнопка', payload: {tel: ''}, type: 'call_buttons'}
 };
 
 export const tagsTypes = {

@@ -13,10 +13,9 @@ export default function (state = initialState, action) {
    switch (action.type) {
       case ACTION.RESET_URL:
          return {
-            ...state,
             setupLoading: false,
-            url: '',
-            errorOfSocial: null
+            errorOfSocial: null,
+            url: ''
          };
 
       case ACTION.GET_FACEBOOK_AUTH_URL_REQUEST:
@@ -25,7 +24,8 @@ export default function (state = initialState, action) {
          return {
             ...state,
             setupLoading: true,
-            errorOfSocial: null
+            errorOfSocial: null,
+            url: ''
          };
 
       case ACTION.GET_FACEBOOK_AUTH_URL_SUCCESS:

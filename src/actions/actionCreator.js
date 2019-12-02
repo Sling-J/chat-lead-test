@@ -176,11 +176,11 @@ export const QRCodeUrl = (idBot) => ({
    idBot
 });
 
+export const resetUrl = () => ({
+   type: ACTION.RESET_URL
+});
+
 export const editFastButtonName = (idBtn) => ({
    type: ACTION.EDIT_FAST_BUTTON_NAME,
    idBtn
-});
-
-export const resetUrl = () => ({
-   type: ACTION.RESET_URL
 });

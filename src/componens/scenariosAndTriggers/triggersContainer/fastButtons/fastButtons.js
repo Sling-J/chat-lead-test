@@ -52,7 +52,7 @@ const FastButtons = (props) => {
       props.updateTrigger(triggerData, null, props.changedSocial);
    };
 
-   const editButton = (typeButton, buttonData, indexButton, isEmpty, isCreateTrigger) => {
+   const editButton = (typeButton, buttonData, indexButton, isEmpty, isCreateTrigger, mType) => {
       const messagesCopy = changedTrigger.messages;
       const allButtonsValues = allFastButtonsInMessage(true);
 
@@ -61,7 +61,7 @@ const FastButtons = (props) => {
       Object.assign(allButtonsValues[idx], buttonData, {
          isEmpty: isEmpty || false,
          type: buttonsTypes.fast_buttons,
-         secondType: typeButton
+         secondType: typeButton,
       });
 
       messagesCopy[props.changedSocial][index].keyboard = allButtonsValues;
@@ -132,7 +132,7 @@ const FastButtons = (props) => {
                            onClick={e => {
                               if (elem.secondType === buttonsTypes.text_buttons) {
                                  e.stopPropagation();
-                                 changeTriggerId(elem.payload.trigger.id)
+                                 changeTriggerId(elem.payload.trigger_id)
                               }
                            }}
                            className={style.appendedFastButtonIcon}

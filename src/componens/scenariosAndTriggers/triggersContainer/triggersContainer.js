@@ -172,32 +172,33 @@ const TriggersContainer = (props) => {
          </div>
          <div className={style.social}>
             <div className={style.linkContainer}>
-               {
-                  props.autoridesLinks && (
-                     <>
-                        <div className={style.autorideLink}>
-                           <a
-                              href={props.autoridesLinks[props.changedSocial]}
-                           >
-                              {
-                                 props.autoridesLinks[props.changedSocial].length && (
-                                    props.autoridesLinks[props.changedSocial].length > 28 ?
-                                       `${props.autoridesLinks[props.changedSocial].slice(0, 28)}...` :
-                                       props.autoridesLinks[props.changedSocial]
-                                 )
-                              }
-                           </a>
-                        </div>
+               {props.autoridesLinks && (
+                  <>
+                     <div className={style.autorideLink}>
+                        <a
+                           href={props.autoridesLinks[props.changedSocial].includes('http') ?
+                              `${props.autoridesLinks[props.changedSocial]}` :
+                              `https://${props.autoridesLinks[props.changedSocial]}`
+                           }
+                           target="_blank"
+                           rel="noopener noreferrens"
+                        >
+                           {props.autoridesLinks[props.changedSocial].length && (
+                              props.autoridesLinks[props.changedSocial].length > 28 ?
+                                 `${props.autoridesLinks[props.changedSocial].slice(0, 28)}...` :
+                                 props.autoridesLinks[props.changedSocial]
+                           )}
+                        </a>
+                     </div>
 
-                        <div className={style.linkButton} onClick={() => {
-                           navigator.clipboard.writeText(props.autoridesLinks[props.changedSocial])
-                        }}>
-                           <p><FontAwesomeIcon icon={faClone}/></p>
-                           Копировать ссылку
-                        </div>
-                     </>
-                  )
-               }
+                     <div className={style.linkButton} onClick={() => {
+                        navigator.clipboard.writeText(props.autoridesLinks[props.changedSocial])
+                     }}>
+                        <p><FontAwesomeIcon icon={faClone}/></p>
+                        Копировать ссылку
+                     </div>
+                  </>
+               )}
 
             </div>
             <SideBarSocial

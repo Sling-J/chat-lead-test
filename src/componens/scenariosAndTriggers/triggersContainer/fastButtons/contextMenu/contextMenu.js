@@ -27,7 +27,8 @@ class ContextMenu extends Component {
 
          this.editButton({
             target: {
-               value: createdTrigger
+               value: createdTrigger.id,
+               trigger: createdTrigger,
             }
          });
 
@@ -45,8 +46,9 @@ class ContextMenu extends Component {
             })
          } else {
             Object.assign(buttonData, {
+               createdTrigger: e.target.trigger,
                payload: {
-                  trigger: e.target.value
+                  trigger_id: e.target.value
                }
             })
          }
@@ -192,7 +194,7 @@ class ContextMenu extends Component {
                   onClick={() => {
                      buttonEditHandler(
                         buttonsTypes.trigger_buttons,
-                        defaultValuesForNewButtons[buttonsTypes.trigger_buttons],
+                        defaultValuesForNewButtons[buttonsTypes.fast_buttons],
                         indexButton
                      )
                   }}
@@ -232,7 +234,7 @@ class ContextMenu extends Component {
                <div className={style.inputContainer}>
                   <div className={style.closedButton}>
                      <div className={style.openedButtonText} onClick={() =>
-                        buttonData.payload.trigger.length !== 0 ? this.props.changeTriggerId(buttonData.payload.trigger.id) : {}
+                        buttonData.payload.trigger_id.length !== 0 ? this.props.changeTriggerId(buttonData.payload.trigger_id) : {}
                      }>
                         <div>
                            <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
@@ -240,7 +242,7 @@ class ContextMenu extends Component {
 
                         <div className={style.openedButton}>
                            <p className={style.openedButtonTitle}>Отправить сообщение</p>
-                           <p className={style.openedButtonDesc}>{buttonData.payload.trigger.length !== 0 ? buttonData.payload.trigger.caption : 'загрузка ...'}</p>
+                           <p className={style.openedButtonDesc}>{buttonData.createdTrigger.length !== 0 ? buttonData.createdTrigger.caption : 'загрузка ...'}</p>
                         </div>
                      </div>
 
@@ -463,6 +465,7 @@ class ContextMenu extends Component {
    };
 
    render() {
+      console.log(this.props.buttonData)
       return (
          <div className={style.mainContainer}>
             {this.buttonChanger()}

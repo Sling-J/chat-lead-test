@@ -33,7 +33,8 @@ class ContextMenu extends Component {
 
          this.editButton({
             target: {
-               value: createdTrigger
+               value: createdTrigger.id,
+               trigger: createdTrigger
             }
          });
 
@@ -51,13 +52,14 @@ class ContextMenu extends Component {
             })
          } else {
             Object.assign(buttonData, {
+               createdTrigger: e.target.trigger,
                payload: {
-                  trigger: e.target.value
+                  trigger_id: e.target.value,
                }
             })
          }
 
-         buttonEditHandler(typeButton, buttonData, indexButton);
+         buttonEditHandler(buttonsTypes.text_buttons, buttonData, indexButton, false, false, buttonsTypes.text_buttons);
       } else if (typeButton === buttonsTypes.url_buttons) {
          if (forCaption) {
             Object.assign(buttonData, {
@@ -71,21 +73,7 @@ class ContextMenu extends Component {
             })
          }
 
-         buttonEditHandler(typeButton, buttonData, indexButton);
-      } else if (typeButton === buttonsTypes.trigger_buttons) {
-         if (forCaption) {
-            Object.assign(buttonData, {
-               caption: e.target.value
-            })
-         } else {
-            Object.assign(buttonData, {
-               payload: {
-                  trigger_id: e.target.value
-               }
-            })
-         }
-
-         buttonEditHandler(typeButton, buttonData, indexButton);
+         buttonEditHandler(buttonsTypes.url_buttons, buttonData, indexButton, false, false, buttonsTypes.url_buttons);
       } else if (typeButton === buttonsTypes.call_buttons) {
          if (forCaption) {
             Object.assign(buttonData, {
@@ -99,13 +87,28 @@ class ContextMenu extends Component {
             })
          }
 
-         buttonEditHandler(typeButton, buttonData, indexButton);
+         buttonEditHandler(buttonsTypes.call_buttons, buttonData, indexButton, false, false, buttonsTypes.call_buttons);
+      } else if (typeButton === buttonsTypes.trigger_buttons) {
+         if (forCaption) {
+            Object.assign(buttonData, {
+               caption: e.target.value
+            })
+         } else {
+            Object.assign(buttonData, {
+               createdTrigger: e.target.trigger,
+               payload: {
+                  trigger_id: e.target.value,
+               }
+            })
+         }
+
+         buttonEditHandler(buttonsTypes.text_buttons, buttonData, indexButton, false, false, buttonsTypes.trigger_buttons);
       } else if (typeButton === 'empty') {
          Object.assign(buttonData, {
             caption: e.target.value
          });
 
-         buttonEditHandler(typeButton, buttonData, indexButton, true);
+         buttonEditHandler(buttonsTypes.text_buttons, buttonData, indexButton, true, false, buttonsTypes.text_buttons);
       }
    };
 
@@ -154,7 +157,8 @@ class ContextMenu extends Component {
                         defaultValuesForNewButtons[buttonsTypes.text_buttons],
                         indexButton,
                         false,
-                        true
+                        true,
+                        buttonsTypes.text_buttons,
                      )
                   }}
                   className={style.changerElement}
@@ -170,7 +174,10 @@ class ContextMenu extends Component {
                            buttonEditHandler(
                               buttonsTypes.url_buttons,
                               defaultValuesForNewButtons[buttonsTypes.url_buttons],
-                              indexButton
+                              indexButton,
+                              false,
+                              false,
+                              buttonsTypes.url_buttons,
                            )
                         }}
                         className={style.changerElement}
@@ -183,7 +190,10 @@ class ContextMenu extends Component {
                            buttonEditHandler(
                               buttonsTypes.call_buttons,
                               defaultValuesForNewButtons[buttonsTypes.call_buttons],
-                              indexButton
+                              indexButton,
+                              false,
+                              false,
+                              buttonsTypes.call_buttons,
                            )
                         }}
                         className={style.changerElement}
@@ -197,9 +207,12 @@ class ContextMenu extends Component {
                <div
                   onClick={() => {
                      buttonEditHandler(
-                        buttonsTypes.trigger_buttons,
-                        defaultValuesForNewButtons[buttonsTypes.trigger_buttons],
-                        indexButton
+                        buttonsTypes.text_buttons,
+                        defaultValuesForNewButtons[buttonsTypes.text_buttons],
+                        indexButton,
+                        false,
+                        false,
+                        buttonsTypes.trigger_buttons
                      )
                   }}
                   className={style.changerElement}
@@ -238,7 +251,7 @@ class ContextMenu extends Component {
                <div className={style.inputContainer}>
                   <div className={style.closedButton}>
                      <div className={style.openedButtonText} onClick={() =>
-                        buttonData.payload.trigger.length !== 0 ? this.props.changeTriggerId(buttonData.payload.trigger.id) : {}
+                        buttonData.payload.trigger_id.length !== 0 ? this.props.changeTriggerId(buttonData.payload.trigger_id) : {}
                      }>
                         <div>
                            <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
@@ -246,7 +259,7 @@ class ContextMenu extends Component {
 
                         <div className={style.openedButton}>
                            <p className={style.openedButtonTitle}>Отправить сообщение</p>
-                           <p className={style.openedButtonDesc}>{buttonData.payload.trigger.length !== 0 ? buttonData.payload.trigger.caption : 'загрузка ...'}</p>
+                           <p className={style.openedButtonDesc}>{buttonData.createdTrigger.length !== 0 ? buttonData.createdTrigger.caption : 'загрузка ...'}</p>
                         </div>
                      </div>
 
@@ -254,7 +267,7 @@ class ContextMenu extends Component {
                         className={style.openedButtonIcon}
                         onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
                            caption: ''
-                        }), indexButton, true)}
+                        }), indexButton, true, false, buttonsTypes.text_buttons)}
                      >
                         <FontAwesomeIcon icon={faTimes}/>
                      </div>
@@ -301,7 +314,7 @@ class ContextMenu extends Component {
                         className={style.openedButtonIcon}
                         onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
                            caption: ''
-                        }), indexButton, true)}
+                        }), indexButton, true, false, buttonsTypes.url_buttons)}
                      >
                         <FontAwesomeIcon icon={faTimes}/>
                      </div>
@@ -358,7 +371,7 @@ class ContextMenu extends Component {
                         className={style.openedButtonIcon}
                         onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
                            caption: ''
-                        }), indexButton, true)}
+                        }), indexButton, true, false, buttonsTypes.call_buttons)}
                      >
                         <FontAwesomeIcon icon={faTimes}/>
                      </div>
@@ -449,9 +462,9 @@ class ContextMenu extends Component {
 
                      <div
                         className={style.openedButtonIcon}
-                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
+                        onClick={() => buttonEditHandler(buttonsTypes.text_buttons, Object.assign(buttonData, {
                            caption: ''
-                        }), indexButton, true)}
+                        }), indexButton, true, false, buttonsTypes.trigger_buttons)}
                      >
                         <FontAwesomeIcon icon={faTimes}/>
                      </div>
@@ -470,6 +483,8 @@ class ContextMenu extends Component {
 
    render() {
       const {styleForContextMenu} = this.props;
+
+      console.log(this.props.buttonData);
 
       return (
          <div className={style.mainContainer} style={styleForContextMenu}>

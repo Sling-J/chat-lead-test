@@ -4,15 +4,11 @@ import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
-import flatpickr from "flatpickr";
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
-// import locale from 'antd/es/date-picker/locale/ru_RU';
-// import {DatePicker as AntdDatePicker} from 'antd';
 import {Select, InputNumber} from 'antd';
 
 import TimerTextArea from "./timerTextArea/timerTextArea";
 import style from './timerElement.module.sass';
-import moment from 'moment';
 import 'moment/locale/ru';
 import CustomFlatPicker from './customFlatPicker/customFlatPicker';
 
@@ -42,32 +38,32 @@ const TimerElement = props => {
    useEffect(() => {
       if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
          if (pauseKeyField.key === 'day') {
-            setPauseDayField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
+            setPauseDayField(secondsToTime(valuesForTimer.pause_delay, valuesForTimer.format.key))
          } else if (pauseKeyField.key === 'hours') {
-            setPauseHoursField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
+            setPauseHoursField(secondsToTime(valuesForTimer.pause_delay, valuesForTimer.format.key))
          } else if (pauseKeyField.key === 'min') {
-            setPauseMinField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
+            setPauseMinField(secondsToTime(valuesForTimer.pause_delay, valuesForTimer.format.key))
          } else if (pauseKeyField.key === 'sec') {
-            setPauseSecField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
+            setPauseSecField(secondsToTime(valuesForTimer.pause_delay, valuesForTimer.format.key))
          }
       }
    }, [pauseKeyField]);
 
    useEffect(() => {
       if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
-         if (valuesForTimer.pause_delay.key === 'day') {
-            setPauseDayField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
-         } else if (valuesForTimer.pause_delay.key === 'hours') {
-            setPauseHoursField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
-         } else if (valuesForTimer.pause_delay.key === 'min') {
-            setPauseMinField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
-         } else if (valuesForTimer.pause_delay.key === 'sec') {
-            setPauseSecField(secondsToTime(valuesForTimer.pause_delay.value, valuesForTimer.pause_delay.key))
+         if (valuesForTimer.format.key === 'day') {
+            setPauseDayField(secondsToTime(valuesForTimer.pause_delay, valuesForTimer.format.key))
+         } else if (valuesForTimer.format.key === 'hours') {
+            setPauseHoursField(secondsToTime(valuesForTimer.pause_delay, valuesForTimer.format.key))
+         } else if (valuesForTimer.format.key === 'min') {
+            setPauseMinField(secondsToTime(valuesForTimer.pause_delay, valuesForTimer.format.key))
+         } else if (valuesForTimer.format.key === 'sec') {
+            setPauseSecField(secondsToTime(valuesForTimer.pause_delay, valuesForTimer.format.key))
          }
 
          setPauseKeyField({
-            keyValue: valuesForTimer.pause_delay.keyValue,
-            key: valuesForTimer.pause_delay.key
+            keyValue: valuesForTimer.format.keyValue,
+            key: valuesForTimer.format.key
          })
       }
    }, []);

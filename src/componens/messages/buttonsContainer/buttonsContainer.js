@@ -58,7 +58,7 @@ const ButtonsContainer = (props) => {
       props.updateTrigger(triggerData, null, props.changedSocial);
    };
 
-   const editButton = (typeButton, buttonData, indexButton, isEmpty, isCreateTrigger) => {
+   const editButton = (typeButton, buttonData, indexButton, isEmpty, isCreateTrigger, secondTypeButton) => {
       const messagesCopy = changedTrigger.messages;
       const allButtonsValues = allButtonsInMessage(true);
 
@@ -66,7 +66,8 @@ const ButtonsContainer = (props) => {
 
       Object.assign(allButtonsValues[idx], buttonData, {
          isEmpty: isEmpty || false,
-         type: typeButton
+         type: typeButton,
+         secondType: secondTypeButton
       });
 
       messagesCopy[props.changedSocial][index].keyboard = allButtonsValues;
@@ -105,7 +106,7 @@ const ButtonsContainer = (props) => {
 
    return (
       <div className={style.mainContainer}>
-         {allButtonsInMessage().map((elem, indexArr) => (
+         {allButtonsInMessage().map((elem) => (
             <div className={style.buttonElement} onClick={() => setIndexOpenButton(elem.uid)} key={elem.uid}>
                <div>
                   {elem.uid === indexOpenButton && (
@@ -114,7 +115,7 @@ const ButtonsContainer = (props) => {
                            <ContextMenu
                               changeTriggerId={changeTriggerId}
                               buttonEditHandler={editButton}
-                              typeButton={elem.isEmpty ? 'empty' : elem.type}
+                              typeButton={elem.isEmpty ? 'empty' : elem.secondType}
                               scenarioId={scenarioId}
                               indexButton={elem.uid}
                               buttonData={elem}

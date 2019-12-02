@@ -132,21 +132,32 @@ class SetupWideColumn extends Component {
       }
    };
 
+   isEmptyCheck = message => {
+      const {botScenarios} = this.props;
+
+      if (message) {
+         const filteredMessage = botScenarios.find(scenario => scenario.id === parseInt(message));
+
+         const facebook = filteredMessage && getFilledStatus('facebook', filteredMessage.triggers[filteredMessage.triggers.length - 1]);
+         const telegram = filteredMessage && getFilledStatus('telegram', filteredMessage.triggers[filteredMessage.triggers.length - 1]);
+         const vk = filteredMessage && getFilledStatus('vk', filteredMessage.triggers[filteredMessage.triggers.length - 1]);
+         const whatsapp = filteredMessage && getFilledStatus('whatsapp', filteredMessage.triggers[filteredMessage.triggers.length - 1]);
+
+         return facebook && telegram && vk && whatsapp;
+      }
+
+      return false
+   };
+
    render() {
       const {telList, willSend, emailList, email, tel} = this.state;
-      const {editManager, botSetupData, botScenarios} = this.props;
+      const {editManager, botSetupData} = this.props;
       const {default_response, welcome_message, subscription_message} = botSetupData;
       const botId = botSetupData.id;
 
-      const isEmptyCheck = message => {
-         const filteredMessage = botScenarios.find(scenario => scenario.id === parseInt(message));
-
-         return filteredMessage && getFilledStatus(filteredMessage.triggers);
-      };
-
-      const isWelcomeMessageEmpty = isEmptyCheck(welcome_message);
-      const isDefaultResponseEmpty = isEmptyCheck(default_response);
-      const isSubscriptionMessageEmpty = isEmptyCheck(subscription_message);
+      const isWelcomeMessageEmpty = this.isEmptyCheck(welcome_message);
+      const isDefaultResponseEmpty = this.isEmptyCheck(default_response);
+      const isSubscriptionMessage = this.isEmptyCheck(subscription_message);
 
       return (
          <div className={style.wideСolumn}>
@@ -164,7 +175,7 @@ class SetupWideColumn extends Component {
                            </div>
                            <div className={
                               `${style.inputGroup}
-                                 ${(isWelcomeMessageEmpty && isWelcomeMessageEmpty[0]) && style.inputGroupCheck}
+                                 ${isWelcomeMessageEmpty && style.inputGroupCheck}
                                `
                            }>
                               <input
@@ -172,7 +183,7 @@ class SetupWideColumn extends Component {
                                  id={'welcome_message'}
                                  className={style.statusIcon}
                                  checked={welcome_message && welcome_message !== 'null'}
-                                 onChange={e => this.reactionBots(
+                                 onChange={() => this.reactionBots(
                                     destinationScenario.welcome_message,
                                     true
                                  )}
@@ -192,7 +203,7 @@ class SetupWideColumn extends Component {
 
                            <div className={
                               `${style.inputGroup}
-                                 ${(isSubscriptionMessageEmpty && isSubscriptionMessageEmpty[0]) && style.inputGroupCheck}
+                                 ${isSubscriptionMessage && style.inputGroupCheck}
                                `
                            }>
                               <input
@@ -200,7 +211,7 @@ class SetupWideColumn extends Component {
                                  className={style.statusIcon}
                                  id={'follow'}
                                  checked={subscription_message && subscription_message !== 'null'}
-                                 onChange={(e) => this.reactionBots(
+                                 onChange={() => this.reactionBots(
                                     destinationScenario.subscription_message,
                                     true
                                  )}
@@ -239,7 +250,7 @@ class SetupWideColumn extends Component {
                            </div>
                            <div className={
                               `${style.inputGroup}
-                                 ${(isDefaultResponseEmpty && isDefaultResponseEmpty[0]) && style.inputGroupCheck}
+                                 ${isDefaultResponseEmpty && style.inputGroupCheck}
                                `
                            }>
                               <input
@@ -247,9 +258,9 @@ class SetupWideColumn extends Component {
                                  id={'default_response'}
                                  className={style.statusIcon}
                                  checked={default_response && default_response !== 'null'}
-                                 onChange={(e) => this.reactionBots(
+                                 onChange={() => this.reactionBots(
                                     destinationScenario.default_response,
-                                    e.target.checked
+                                    true
                                  )}
                               />
                               <label htmlFor={'default_response'}/>
@@ -267,10 +278,8 @@ class SetupWideColumn extends Component {
                         <h3>Оповещение</h3>
                         <div className={style.switcher}>
                            <label className={style.switch}>
-                              <input
-                                 type="checkbox" checked={willSend}
-                                 onClick={(e) => this.setState(() => ({willSend: !willSend}))}
-                              />
+                              <input type="checkbox" checked={willSend}
+                                     onClick={(e) => this.setState(() => ({willSend: !willSend}))}/>
                               <span className={style.slider + " " + style.round}/>
                            </label>
                            <p>Получать уведомления о заявках</p>
@@ -309,6 +318,7 @@ class SetupWideColumn extends Component {
                                     value={email}
                                  />
                               </div>
+
                            </div>
 
                            <div className={style.switcherContainer}>
@@ -317,10 +327,7 @@ class SetupWideColumn extends Component {
                                     <div>
                                        {tel}
                                        <span
-                                          onClick={() => this.deleteNotificationElement("tel", index)}
-                                       >
-                                          ×
-                                       </span>
+                                          onClick={() => this.deleteNotificationElement("tel", index)}>×</span>
                                     </div>
                                  )}
                                  <input
@@ -377,7 +384,7 @@ class SetupWideColumn extends Component {
                      <div className={style.display} id="menu_amo">
                         <form action="">
                            <div className={style.inputGr}>
-                              <label htmlFor="domain">Домен в AmoCRM*</label>
+                              <label for="domain">Домен в AmoCRM*</label>
                               <input type="text" name="domain" placeholder="mycompany.amocrm.ru"/>
                               <small>Адрес (домен) Вашей CRM, обычно это ??????.amocrm.ru<br/>Вводите его
                                  целиком
@@ -385,12 +392,12 @@ class SetupWideColumn extends Component {
                            </div>
 
                            <div className={style.inputGr}>
-                              <label htmlFor="login">Логин*</label>
+                              <label for="login">Логин*</label>
                               <input type="text" name="login" placeholder="myname@mycompany.ru"/>
                               <small>Код активации веб-хука, например: 82te1pjdphsa9u19.</small>
                            </div>
                            <div className={style.inputGr}>
-                              <label htmlFor="api">Ключ API*</label>
+                              <label for="api">Ключ API*</label>
                               <input type="text" name="api" placeholder="a751f80701dae35cf334d648dc7352d7"/>
                               <small>Ключ для доступа к API. Смотрите его в личном кабинете AmoCRM, в разделе
                                  Настройки - API - Ваш API ключ.</small>
@@ -416,7 +423,7 @@ class SetupWideColumn extends Component {
                         <div className={style.display} id="menu_bitrix">
                            <form action="">
                               <div className={style.inputGr}>
-                                 <label htmlFor="domain">Домен в Bitrix24*</label>
+                                 <label for="domain">Домен в Bitrix24*</label>
                                  <input type="text" name="domain" placeholder="mycompany.bitrix24.ru"/>
                                  <small>Адрес (домен) Вашей CRM, обычно это ??????.bitrix24.ru<br/>Вводите
                                     его
@@ -424,12 +431,12 @@ class SetupWideColumn extends Component {
                               </div>
 
                               <div className={style.inputGr}>
-                                 <label htmlFor="webhook">Код веб-хука*</label>
+                                 <label for="webhook">Код веб-хука*</label>
                                  <input type="text" name="webhook" placeholder="xxxxxxxxxxxxxxxx"/>
                                  <small>Код активации веб-хука, например: 82te1pjdphsa9u19.</small>
                               </div>
                               <div className={style.inputGr}>
-                                 <label htmlFor="userId">Номер пользователя*</label>
+                                 <label for="userId">Номер пользователя*</label>
                                  <input type="text" name="usedId" placeholder="1"/>
                                  <small>
                                     Номер пользователя, которому принадлежит веб-хук (по-умолчанию:
@@ -473,9 +480,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-   getManager: botId => dispatch(getManager(botId)),
-   editManager: setupData => dispatch(editManager(setupData)),
-   updateBotReactions: reactionsData => dispatch(updateBotReactions(reactionsData))
+   getManager: (botId) => dispatch(getManager(botId)),
+   editManager: (setupData) => dispatch(editManager(setupData)),
+   updateBotReactions: (reactionsData) => dispatch(updateBotReactions(reactionsData))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetupWideColumn);

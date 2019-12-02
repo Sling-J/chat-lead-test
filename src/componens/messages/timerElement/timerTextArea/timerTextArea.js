@@ -11,7 +11,9 @@ const TimerTextArea = (props) => {
 
    const addName = () => {
       let myField = document.querySelector(`#insertVariable2${index}`);
-      let myValue = " {first_name}";
+      let myValue = props.changedSocial === 'whatsapp'
+         ? " {name}"
+         : " {first_name}";
       let input = myField.value;
       input += myValue;
       myField.value = input;
@@ -19,7 +21,9 @@ const TimerTextArea = (props) => {
 
    const addLastName = () => {
       let myField = document.querySelector(`#insertVariable2${index}`);
-      let myValue = " {last_name}";
+      let myValue = props.changedSocial === 'whatsapp'
+         ? " {phone}"
+         : " {last_name}";
       let input = myField.value;
       input += myValue;
       myField.value = input;
@@ -50,7 +54,11 @@ const TimerTextArea = (props) => {
                      <h3>Макросы</h3>
                      <ul>
                         <li onClick={addName}>Имя</li>
-                        <li onClick={addLastName}>Фамилия</li>
+                        {props.changedSocial === 'whatsapp' ? (
+                           <li onClick={addLastName}>Телефон</li>
+                        ) : (
+                           <li onClick={addLastName}>Фамилия</li>
+                        )}
                      </ul>
                   </div>}
                </div>

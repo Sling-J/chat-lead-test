@@ -4,7 +4,7 @@ export const InputControler = () => {
    document.querySelector(".for-whatsapp").style.display = "none";
    document.querySelector(".for-vk").style.display = "none";
 
-   const radiobtns = document.querySelectorAll('input[type=radio][name=radio]')
+   const radiobtns = document.querySelectorAll('input[type=radio][name=radio]');
 
    for (let radiobtn of radiobtns) {
       radiobtn.onchange = function () {

@@ -25,6 +25,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
 
+import {Select} from 'antd';
 
 const ScenariosContainer = (props) => {
    const {changeScenarioId, changedScenarioId} = props;
@@ -36,6 +37,10 @@ const ScenariosContainer = (props) => {
    const [scenariosDataInFilter, setScenariosDataInFilter] = useState([]);
    const [isOpenCreateScenarioFild, setStatusCreateScenarioFild] = useState(false);
    const [idEditTriggerText, setIdEditTriggerText] = useState(false);
+
+   function handleChange(value) {
+      setTextArea(value)
+   }
 
    useEffect(() => {
       setScenariosDataInFilter(props.scenariosForScenarioContainer)
@@ -134,14 +139,23 @@ const ScenariosContainer = (props) => {
                <h2 className="new-scenario-form__title">Команда</h2>
 
                <div className="new-scenario-form__textarea">
-                  <textarea
-                     value={textArea}
-                     onChange={e => {
-                        setSnackOpen(false);
-                        setTextArea(e.target.value);
-                     }}
-                     placeholder={'Введите ключевое слово'}
+                  <p>Введите ключевые слова через клавишу "enter"</p>
+
+                  <Select
+                     mode="tags"
+                     className="new-scenario-form__tags"
+                     style={{ width: '100%' }}
+                     placeholder="Введите ключевое слово"
+                     onChange={handleChange}
                   />
+                  {/*<textarea*/}
+                  {/*   value={textArea}*/}
+                  {/*   onChange={e => {*/}
+                  {/*      setSnackOpen(false);*/}
+                  {/*      setTextArea(e.target.value);*/}
+                  {/*   }}*/}
+                  {/*   placeholder={'Введите ключевое слово'}*/}
+                  {/*/>*/}
                </div>
             </div>
          </div>
@@ -238,89 +252,89 @@ const ScenariosContainer = (props) => {
             </div>
             <table className="main-table-content">
                <thead className="main-table-content__head">
-                  <tr>
-                     <td>Правило</td>
-                     <td>Содержимое</td>
-                     <td/>
-                  </tr>
+               <tr>
+                  <td>Правило</td>
+                  <td>Содержимое</td>
+                  <td/>
+               </tr>
                </thead>
 
                <tbody className="main-table-content__body">
-                  {scenariosDataInFilter.length > 0 ? (
-                     scenariosDataInFilter.map((elem, index) => (
-                        <tr key={index}>
-                           <td
-                              className="main-table-content-body__key-words"
-                              onClick={
-                                 idEditTriggerText === elem.id ?
-                                    null : () => changeScenarioId(elem.id)
-                              }
-                           >
-                              Сообщение в точности совпадает с <span>{elem.trigger_text}</span>
+               {scenariosDataInFilter.length > 0 ? (
+                  scenariosDataInFilter.map((elem, index) => (
+                     <tr key={index}>
+                        <td
+                           className="main-table-content-body__key-words"
+                           onClick={
+                              idEditTriggerText === elem.id ?
+                                 null : () => changeScenarioId(elem.id)
+                           }
+                        >
+                           Сообщение в точности совпадает с <span>{elem.trigger_text}</span>
 
-                              <div className="main-table-content-body__editor">
-                                 {idEditTriggerText === elem.id && (
-                                    <ContextMenuForEditScenario
-                                       onInput={(e) => editScenario(e, elem.id)}
-                                       defaultValue={elem.trigger_text}
-                                       setIdEditTriggerText={(id) => setIdEditTriggerText(id)}
-                                    />
-                                 )}
-                              </div>
-                           </td>
-                           <td>
-                              {elem.triggers.length} ответ
-                           </td>
-                           <td className="main-table-content-body__controls">
-                              <div
-                                 className="main-table-content-body__icon"
-                                 onClick={() => setIdEditTriggerText(elem.id)}
-                              >
-                                 <span className="main-table-content-body__tooltip table-tooltip">Редактировать</span>
-                                 <img
-                                    className="main-table-content-body__img"
-                                    src={edit}
-                                    alt={'edit'}
+                           <div className="main-table-content-body__editor">
+                              {idEditTriggerText === elem.id && (
+                                 <ContextMenuForEditScenario
+                                    onInput={(e) => editScenario(e, elem.id)}
+                                    defaultValue={elem.trigger_text}
+                                    setIdEditTriggerText={(id) => setIdEditTriggerText(id)}
                                  />
-                              </div>
-
-                              <div
-                                 className="main-table-content-body__icon"
-                                 onClick={() => copyScenario(elem.id)}
-                              >
-                                 <span className="main-table-content-body__tooltip table-tooltip">Копировать</span>
-                                 <img
-                                    className="main-table-content-body__img"
-                                    src={copy}
-                                    alt={'copy'}
-                                 />
-                              </div>
-                              <div
-                                 className="main-table-content-body__icon"
-                                 onClick={() => props.deleteScenario({
-                                    botId: props.match.params.botId,
-                                    idScenario: elem.id
-                                 })}
-                              >
-                                 <span className="main-table-content-body__tooltip table-tooltip">Удалить</span>
-                                 <img
-                                    className="main-table-content-body__img"
-                                    src={trash}
-                                    alt={'trash'}
-                                 />
-                              </div>
-                           </td>
-                        </tr>
-                     ))
-                  ) : (
-                     <tr>
-                        <td className="main-table-content-body__key-words">
-                           Ничего не найдено
+                              )}
+                           </div>
                         </td>
-                        <td/>
-                        <td className="main-table-content-body__controls"/>
+                        <td>
+                           {elem.triggers.length} ответ
+                        </td>
+                        <td className="main-table-content-body__controls">
+                           <div
+                              className="main-table-content-body__icon"
+                              onClick={() => setIdEditTriggerText(elem.id)}
+                           >
+                              <span className="main-table-content-body__tooltip table-tooltip">Редактировать</span>
+                              <img
+                                 className="main-table-content-body__img"
+                                 src={edit}
+                                 alt={'edit'}
+                              />
+                           </div>
+
+                           <div
+                              className="main-table-content-body__icon"
+                              onClick={() => copyScenario(elem.id)}
+                           >
+                              <span className="main-table-content-body__tooltip table-tooltip">Копировать</span>
+                              <img
+                                 className="main-table-content-body__img"
+                                 src={copy}
+                                 alt={'copy'}
+                              />
+                           </div>
+                           <div
+                              className="main-table-content-body__icon"
+                              onClick={() => props.deleteScenario({
+                                 botId: props.match.params.botId,
+                                 idScenario: elem.id
+                              })}
+                           >
+                              <span className="main-table-content-body__tooltip table-tooltip">Удалить</span>
+                              <img
+                                 className="main-table-content-body__img"
+                                 src={trash}
+                                 alt={'trash'}
+                              />
+                           </div>
+                        </td>
                      </tr>
-                  )}
+                  ))
+               ) : (
+                  <tr>
+                     <td className="main-table-content-body__key-words">
+                        Ничего не найдено
+                     </td>
+                     <td/>
+                     <td className="main-table-content-body__controls"/>
+                  </tr>
+               )}
                </tbody>
             </table>
          </div>

@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import './calendarStyle.sass';
 import {updateBroadCasts} from "../../../actions/actionCreator";
 import "react-datepicker/dist/react-datepicker.css";
+
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import CustomFlatPicker from "../../messages/timerElement/customFlatPicker/customFlatPicker"; // the locale you want
 import {Dropdown} from 'antd';
@@ -14,6 +15,27 @@ const BroadCastMenu = (props) => {
    const [isOpenTestTab, openTestTab] = useState(false);
    const oldDate = new Date(2015, 0, 1).getTime();
    const futureTime = new Date().setFullYear(new Date().getFullYear() + 1);
+
+   const DatePickerMenu = (
+      <div className={style.delayContainer}>
+         <div className={style.calendarContainer}>
+            <h2>Отложить рассылку</h2>
+
+            <CustomFlatPicker
+               styleForPicker={{
+                  width: '80%',
+                  padding: "8px 15px"
+               }}
+               defaultValue={
+                  formatUnixToDate(props.broadCastData[broadCastId].time, true)
+               }
+               onChange={value => updateBroadCast({
+                  time: formatDateToUnix(value[0])
+               })}
+            />
+         </div>
+      </div>
+   );
 
    const getAllTagsInTrigger = () => {
       const allTags = [];
@@ -38,27 +60,6 @@ const BroadCastMenu = (props) => {
 
       props.updateBroadcast(broadCastDataCopy[broadCastId]);
    };
-
-   const DatePickerMenu = (
-      <div className={style.delayContainer}>
-         <div className={style.calendarContainer}>
-            <h2>Отложить рассылку</h2>
-
-            <CustomFlatPicker
-               styleForPicker={{
-                  width: '80%',
-                  padding: "8px 15px"
-               }}
-               defaultValue={
-                  formatUnixToDate(props.broadCastData[broadCastId].time, true)
-               }
-               onChange={value => updateBroadCast({
-                  time: formatDateToUnix(value[0])
-               })}
-            />
-         </div>
-      </div>
-   );
 
    const sendBroadCastTab = () => (
       <div className={style.contentContainer}>
@@ -146,21 +147,20 @@ const BroadCastMenu = (props) => {
                Тест рассылки
             </li>
          </ul>
-         {props.broadCastData[broadCastId].sent ?
-            (
-               <div className={style.completeMessage}>
-                  Рассылка разослана!
-                  <div className={style.submitButton} onClick={() => updateBroadCast({
-                     sent: 'False',
-                     time: futureTime / 1000
-                  })}>
-                     Запустить новую рассылку
+         {
+            props.broadCastData[broadCastId].sent ?
+               (
+                  <div className={style.completeMessage}>
+                     Рассылка разослана!
+                     <div className={style.submitButton} onClick={() => updateBroadCast({
+                        sent: 'False',
+                        time: futureTime / 1000
+                     })}>
+                        Запустить новую рассылку
+                     </div>
                   </div>
-               </div>
-            ) :
-            (
-               isOpenTestTab ? testTab() : sendBroadCastTab()
-            )
+               ) :
+               (isOpenTestTab ? testTab() : sendBroadCastTab())
          }
       </div>
    )
