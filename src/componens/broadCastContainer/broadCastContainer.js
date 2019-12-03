@@ -8,7 +8,7 @@ import {appendBroadCast, changeScenarioId} from "../../actions/actionCreator";
 import {withRouter} from "react-router-dom";
 import moment from 'moment';
 import Button from "@material-ui/core/Button";
-
+import {sliceExtraText} from "../../utils/sliceExtraText";
 
 const BroadCastContainer = (props) => {
    const {changeScenarioId, changedScenarioId} = props;
@@ -23,8 +23,11 @@ const BroadCastContainer = (props) => {
 
    const deleteBroadcastHandler = event => {
       event.stopPropagation();
-
    };
+
+   useEffect(() => {
+      console.log(props.broadCastData);
+   }, [props.broadCastData]);
 
    useEffect(() => {
       if (changedScenarioId) {
@@ -63,13 +66,34 @@ const BroadCastContainer = (props) => {
             <tbody className="main-table-content__body broadcast-table-sent-body">
                {props.broadCastData.filter(elem => elem.sent).length > 0 ? (
                   props.broadCastData.map((elem, index) => {
+                     let text;
+
+                     if (elem.scenario) {
+                        const triggers = elem.scenario.triggers;
+
+                        const textFacebook = triggers[triggers.length - 1].messages.facebook.find(item => item.text && item.text.length !== 0);
+                        const textTelegram = triggers[triggers.length - 1].messages.telegram.find(item => item.text && item.text.length !== 0);
+                        const textVk = triggers[triggers.length - 1].messages.vk.find(item => item.text && item.text.length !== 0);
+                        const textWhatsapp = triggers[triggers.length - 1].messages.whatsapp.find(item => item.text && item.text.length !== 0);
+
+                        if (textFacebook) {
+                           text = textFacebook.text
+                        } else if (textTelegram) {
+                           text = textTelegram.text
+                        } else if (textVk) {
+                           text = textVk.text
+                        } else if (textWhatsapp) {
+                           text = textWhatsapp.text
+                        }
+                     }
+
                      return elem.sent && (
                         <tr key={index}>
                            <td className="main-table-content-body__key-words" onClick={() => {
                               changeScenarioId(elem.scenario.id);
                               // changeBroadCastId(index);
                            }}>
-                              Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
+                              <span>{sliceExtraText(text, 41) || elem.scenario.triggers[elem.scenario.triggers.length - 1].caption}</span>
                            </td>
                            <td>
                               {elem.users_count}
@@ -100,13 +124,34 @@ const BroadCastContainer = (props) => {
             <tbody className="main-table-content__body broadcast-table-not-sent-body">
                {props.broadCastData.filter(elem => !elem.sent).length > 0 ? (
                   props.broadCastData.map((elem, index) => {
+                     let text;
+
+                     if (elem.scenario) {
+                        const triggers = elem.scenario.triggers;
+
+                        const textFacebook = triggers[triggers.length - 1].messages.facebook.find(item => item.text && item.text.length !== 0);
+                        const textTelegram = triggers[triggers.length - 1].messages.telegram.find(item => item.text && item.text.length !== 0);
+                        const textVk = triggers[triggers.length - 1].messages.vk.find(item => item.text && item.text.length !== 0);
+                        const textWhatsapp = triggers[triggers.length - 1].messages.whatsapp.find(item => item.text && item.text.length !== 0);
+
+                        if (textFacebook) {
+                           text = textFacebook.text
+                        } else if (textTelegram) {
+                           text = textTelegram.text
+                        } else if (textVk) {
+                           text = textVk.text
+                        } else if (textWhatsapp) {
+                           text = textWhatsapp.text
+                        }
+                     }
+
                      return !elem.sent && (
                         <tr key={index} onClick={() => {
                            changeScenarioId(elem.scenario.id);
                            // changeBroadCastId(index);
                         }}>
                            <td className="main-table-content-body__key-words">
-                              Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
+                              <span>{sliceExtraText(text, 41) || elem.scenario.triggers[elem.scenario.triggers.length - 1].caption}</span>
                            </td>
                            <td>
                               {elem.users_count}

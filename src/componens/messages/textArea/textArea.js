@@ -1,9 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import style from './textArea.module.sass';
+import React, {useState} from 'react';
+import {connect} from "react-redux";
+
 import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
-import {connect} from "react-redux";
 import FastButtons from "../../scenariosAndTriggers/triggersContainer/fastButtons/fastButtons";
+
+import {getAllBroadCasts} from "../../../actions/actionCreator";
+
+import style from './textArea.module.sass';
 
 const TextArea = props => {
    const [isTextAreaHovering, setIsTextAreaHovering] = useState(false);
@@ -32,6 +36,12 @@ const TextArea = props => {
    const handleMouseHover = () => {
       setIsTextAreaHovering(!isTextAreaHovering);
    };
+   //
+   // useEffect(() => {
+   //    if (props.broadCastData) {
+   //       console.log(props.broadCastData)
+   //    }
+   // }, [props.broadCastData]);
 
    return (
       <div className={style.textArea} key={Object.values(value)[0]}>
@@ -85,6 +95,9 @@ const TextArea = props => {
    )
 };
 
-export default connect(({singleBotReducers}) => ({
-   changedSocial: singleBotReducers.changedSocial
-}))(TextArea);
+export default connect(({singleBotReducers, broadCastReducers}) => ({
+   changedSocial: singleBotReducers.changedSocial,
+   broadCastData: broadCastReducers.broadCastData
+}), {
+   getAllBroadCasts
+})(TextArea);

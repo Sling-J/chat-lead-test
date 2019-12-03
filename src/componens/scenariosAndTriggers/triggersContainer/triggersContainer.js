@@ -1,23 +1,30 @@
 import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
+
+import CopyToClipboard from "../../Containers/CopyToClipboard/CopyToClipboard";
+import ButtonsForAddNewMessage from '../../inputs/buttons/buttonsForAddNewMessages/buttonsForAddNewMessage';
+import SideBarSocial from '../../sideBarSocial/sideBarSocial';
+import MessagesContainer from './messagesContainer/messagesContainer';
+import BroadCastMenu from '../../broadCastContainer/broadCastMenu/broadCastMenu';
+import {destinationScenario} from "../../../constants/defaultValues";
+import Triggers from './triggers/triggers';
+
+import {Spin} from 'antd';
+import leftArrow from "../../../svg/db/left-arrow.svg";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faClone} from "@fortawesome/free-regular-svg-icons";
+import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
+
 import style from './triggersContainer.module.sass';
+
 import {
    addNewTrigger,
    updateTrigger,
    editScenario,
    editTriggerCaption
 } from "../../../actions/actionCreator";
-import {connect} from 'react-redux';
-import ButtonsForAddNewMessage from '../../inputs/buttons/buttonsForAddNewMessages/buttonsForAddNewMessage';
-import SideBarSocial from '../../sideBarSocial/sideBarSocial';
-import MessagesContainer from './messagesContainer/messagesContainer';
-import BroadCastMenu from '../../broadCastContainer/broadCastMenu/broadCastMenu';
-import {destinationScenario} from "../../../constants/defaultValues";
-import leftArrow from "../../../svg/db/left-arrow.svg";
-import Triggers from './triggers/triggers';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClone} from "@fortawesome/free-regular-svg-icons";
-import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
+import {sliceExtraText} from "../../../utils/sliceExtraText";
 
 const TriggersContainer = (props) => {
    const changedScenario = props.botScenarios.filter(elem => elem.id === props.scenarioId)[0];
@@ -172,7 +179,7 @@ const TriggersContainer = (props) => {
          </div>
          <div className={style.social}>
             <div className={style.linkContainer}>
-               {props.autoridesLinks && (
+               {props.isAutoRide ? props.autoridesLinks ? (
                   <>
                      <div className={style.autorideLink}>
                         <a
@@ -183,23 +190,27 @@ const TriggersContainer = (props) => {
                            target="_blank"
                            rel="noopener noreferrens"
                         >
-                           {props.autoridesLinks[props.changedSocial].length && (
-                              props.autoridesLinks[props.changedSocial].length > 28 ?
-                                 `${props.autoridesLinks[props.changedSocial].slice(0, 28)}...` :
-                                 props.autoridesLinks[props.changedSocial]
-                           )}
+                           {props.autoridesLinks[props.changedSocial].length && sliceExtraText(props.autoridesLinks[props.changedSocial], 27)}
                         </a>
                      </div>
 
-                     <div className={style.linkButton} onClick={() => {
-                        navigator.clipboard.writeText(props.autoridesLinks[props.changedSocial])
-                     }}>
-                        <p><FontAwesomeIcon icon={faClone}/></p>
-                        Копировать ссылку
-                     </div>
+                     <CopyToClipboard>
+                        {({copy}) => (
+                           <div
+                              className={style.linkButton}
+                              onClick={() => copy(props.autoridesLinks[props.changedSocial])}
+                           >
+                              <p><FontAwesomeIcon icon={faClone}/></p>
+                              <p>Копировать ссылку</p>
+                           </div>
+                        )}
+                     </CopyToClipboard>
                   </>
-               )}
-
+               ) : (
+                  <div className={style.autorideLinkSpin}>
+                     <Spin/>
+                  </div>
+               ) : null}
             </div>
             <SideBarSocial
                changedTrigger={changedTrigger}

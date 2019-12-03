@@ -184,6 +184,7 @@ const AutorideContainer = (props) => {
                         scenarioId={scenarioId}
                         changeScenarioId={changeScenarioId}
                         autoridesLinks={props.autoridesLinks}
+                        isAutoRide
                      />
                   )}
                </ScenarioIdContext.Consumer>

@@ -27,7 +27,10 @@ const BroadCastMenu = (props) => {
                   padding: "8px 15px"
                }}
                defaultValue={
-                  formatUnixToDate(props.broadCastData[broadCastId].time, true)
+                  formatUnixToDate(
+                     props.broadCastData[broadCastId]
+                        ? props.broadCastData[broadCastId].time : '',
+                     true)
                }
                onChange={value => updateBroadCast({
                   time: formatDateToUnix(value[0])
@@ -72,9 +75,9 @@ const BroadCastMenu = (props) => {
                      id={'allUsers'}
                      name={'tagsChacker'}
                      onChange={() => updateBroadCast({tag: ''})}
-                     defaultChecked={props.broadCastData[broadCastId].tag.length === 0}
+                     defaultChecked={props.broadCastData[broadCastId] && props.broadCastData[broadCastId].tag.length === 0}
                   />
-                  Все пользователи({props.broadCastData[broadCastId].users_count} пользователей)
+                  Все пользователи({props.broadCastData[broadCastId] && props.broadCastData[broadCastId].users_count} пользователей)
                </label>
                <label htmlFor={'allTags'}>
                   <input
@@ -82,9 +85,9 @@ const BroadCastMenu = (props) => {
                      id={'allTags'}
                      name={'tagsChacker'}
                      onChange={() => updateBroadCast({tag: getAllTagsInTrigger()})}
-                     defaultChecked={props.broadCastData[broadCastId].tag.length > 0}
+                     defaultChecked={props.broadCastData[broadCastId] && props.broadCastData[broadCastId].tag.length > 0}
                   />
-                  Все теги({props.broadCastData[broadCastId].users_count} пользователей)
+                  Все теги({props.broadCastData[broadCastId] && props.broadCastData[broadCastId].users_count} пользователей)
                </label>
             </div>
          </div>
@@ -147,7 +150,7 @@ const BroadCastMenu = (props) => {
                Тест рассылки
             </li>
          </ul>
-         {props.broadCastData[broadCastId].sent ?
+         {props.broadCastData[broadCastId] && props.broadCastData[broadCastId].sent ?
             (
                <div className={style.completeMessage}>
                   Рассылка разослана!

@@ -12,6 +12,7 @@
       "@material-ui/pickers": "^3.2.8",
       "antd": "^3.25.2",
       "axios": "^0.18.0",
+      "clipboard-copy": "^3.1.0",
       "date-fns": "latest",
       "emoji-mart": "^2.11.1",
       "flatpickr": "^4.6.3",
