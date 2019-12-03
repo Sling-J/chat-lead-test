@@ -147,20 +147,21 @@ const BroadCastMenu = (props) => {
                Тест рассылки
             </li>
          </ul>
-         {
-            props.broadCastData[broadCastId].sent ?
-               (
-                  <div className={style.completeMessage}>
-                     Рассылка разослана!
-                     <div className={style.submitButton} onClick={() => updateBroadCast({
-                        sent: 'False',
-                        time: futureTime / 1000
-                     })}>
-                        Запустить новую рассылку
-                     </div>
+         {props.broadCastData[broadCastId].sent ?
+            (
+               <div className={style.completeMessage}>
+                  Рассылка разослана!
+                  <div className={style.submitButton} onClick={() => updateBroadCast({
+                     sent: 'False',
+                     time: futureTime / 1000
+                  })}>
+                     Запустить новую рассылку
                   </div>
-               ) :
-               (isOpenTestTab ? testTab() : sendBroadCastTab())
+               </div>
+            ) :
+            (isOpenTestTab
+               ? testTab()
+               : sendBroadCastTab())
          }
       </div>
    )
@@ -177,7 +178,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-   updateBroadcast: (broadcastData) => dispatch(updateBroadCasts(broadcastData))
+   updateBroadcast: broadcastData => dispatch(updateBroadCasts(broadcastData))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BroadCastMenu));

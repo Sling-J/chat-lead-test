@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
+import {faInfoCircle, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {connect} from "react-redux";
 import {ScenarioIdContext} from "../../utils/Contexts";
 import TriggersContainer from "../scenariosAndTriggers/triggersContainer/triggersContainer";
@@ -17,9 +17,13 @@ const BroadCastContainer = (props) => {
    const [changedBroadCastId, changeBroadCastId] = useState(false);
    const [chanedTypeBroadcast, changeTypeBroadcast] = useState('sended');
 
-
    const appendBroadcastHandler = () => {
       props.appendBroadcast(props.match.params.botId)
+   };
+
+   const deleteBroadcastHandler = event => {
+      event.stopPropagation();
+
    };
 
    useEffect(() => {
@@ -56,33 +60,35 @@ const BroadCastContainer = (props) => {
    const broadCastData = () => {
       if (chanedTypeBroadcast === 'sended') {
          return (
-            <tbody className="main-table-content__body">
+            <tbody className="main-table-content__body broadcast-table-sent-body">
                {props.broadCastData.filter(elem => elem.sent).length > 0 ? (
                   props.broadCastData.map((elem, index) => {
-                     if (elem.sent) {
-                        return (
-                           <tr>
-                              <td className="main-table-content-body__key-words" onClick={() => {
-                                 changeScenarioId(elem.scenario.id);
-                                 // changeBroadCastId(index);
-                              }}>
-                                 Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
-                              </td>
-                              <td>
-                                 {elem.users_count}
-                              </td>
-                              <td>
-                                 {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
-                              </td>
-                           </tr>
-                        )
-                     }
+                     return elem.sent && (
+                        <tr key={index}>
+                           <td className="main-table-content-body__key-words" onClick={() => {
+                              changeScenarioId(elem.scenario.id);
+                              // changeBroadCastId(index);
+                           }}>
+                              Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
+                           </td>
+                           <td>
+                              {elem.users_count}
+                           </td>
+                           <td>
+                              {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
+                           </td>
+                           <td>
+                              <FontAwesomeIcon icon={faTrash}/>
+                           </td>
+                        </tr>
+                     )
                   })
                ) : (
                   <tr>
                      <td className="main-table-content-body__key-words">
                         Тут пока пусто
                      </td>
+                     <td/>
                      <td/>
                      <td/>
                   </tr>
@@ -91,33 +97,35 @@ const BroadCastContainer = (props) => {
          )
       } else {
          return (
-            <tbody className="main-table-content__body">
+            <tbody className="main-table-content__body broadcast-table-not-sent-body">
                {props.broadCastData.filter(elem => !elem.sent).length > 0 ? (
                   props.broadCastData.map((elem, index) => {
-                     if (!elem.sent) {
-                        return (
-                           <tr>
-                              <td className="main-table-content-body__key-words" onClick={() => {
-                                 changeScenarioId(elem.scenario.id);
-                                 // changeBroadCastId(index);
-                              }}>
-                                 Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
-                              </td>
-                              <td>
-                                 {elem.users_count}
-                              </td>
-                              <td>
-                                 {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
-                              </td>
-                           </tr>
-                        )
-                     }
+                     return !elem.sent && (
+                        <tr key={index} onClick={() => {
+                           changeScenarioId(elem.scenario.id);
+                           // changeBroadCastId(index);
+                        }}>
+                           <td className="main-table-content-body__key-words">
+                              Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
+                           </td>
+                           <td>
+                              {elem.users_count}
+                           </td>
+                           <td>
+                              {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
+                           </td>
+                           <td onClick={deleteBroadcastHandler}>
+                              <FontAwesomeIcon icon={faTrash}/>
+                           </td>
+                        </tr>
+                     )
                   })
                ) : (
                   <tr>
                      <td className="main-table-content-body__key-words">
                         Тут пока пусто
                      </td>
+                     <td/>
                      <td/>
                      <td/>
                   </tr>
@@ -188,6 +196,7 @@ const BroadCastContainer = (props) => {
                   <td>Сообщение</td>
                   <td>Получателей</td>
                   <td>Дата</td>
+                  <td/>
                </tr>
                </thead>
                {broadCastData()}

@@ -310,7 +310,7 @@ class ContextMenu extends Component {
                   type={'text'}
                   placeholder={'URL'}
                   defaultValue={buttonData.payload.url}
-                  onFocus={this.editButton}
+                  onChange={this.editButton}
                />
 
                <Actions

@@ -29,8 +29,6 @@ const SetupSidebar = (props) => {
       }
    }, [props.url]);
 
-   console.log(props.botSetupData)
-
    return (
       <aside id="sidebar" className={style.setupSidebar}>
          <div className={style.groupBlock}>
@@ -62,7 +60,7 @@ const SetupSidebar = (props) => {
                <div className="for-fb">
                   {props.botSetupData.facebook_name !== '' ? (
                      <>
-                        <p className={style.ui_vmenu__item_p}>{props.botSetupData.facebook_name}</p>
+                        <p className={style.socialBotName}>{props.botSetupData.facebook_name}</p>
                         <p className={style.ui_vmenu__item_p}>
                            Для переавторизации: <br/>ШАГ 1: Авторизуйтесь через ваш
                            Facebook аккаунт. Вы должны иметь права на управление страницами Facebook.
@@ -77,7 +75,7 @@ const SetupSidebar = (props) => {
                            onClick={() => props.facebookAuthUrl(botId)}
                            disabled={props.setupLoading}
                         >
-                           АВТОРИЗОВАТЬСЯ
+                           ПЕРЕАВТОРИЗАЦИЯ
                         </Button>
                      </>
                   ) : (
@@ -101,10 +99,10 @@ const SetupSidebar = (props) => {
                <div className={`for-telegram ${style.ui_vmenu__box}`}>
                   {props.botSetupData.telegram_name !== '' ? (
                      <>
-                        <p className={style.ui_vmenu__item_p}>{props.botSetupData.telegram_name}</p>
+                        <p className={style.socialBotName}>{props.botSetupData.telegram_name }</p>
                         <p className={style.ui_vmenu__item_p}>
                            ШАГ 1: Введите токен доступа скрипт ниже.
-                           <a href="">узнаете больше</a>
+                           <a href=""> Узнать больше </a>
                            о том, как получить токен.
                         </p>
                         <label className={style.ui_vmenu__item}>
@@ -126,15 +124,19 @@ const SetupSidebar = (props) => {
                      </>
                   ) : (
                      <div>
-                        <p className={style.ui_vmenu__item_p}>ШАГ 1: Введите токен доступа скрипт ниже. <a href="">узнаете
-                           больше</a> о том, как получить токен. </p>
+                        <p className={style.ui_vmenu__item_p}>
+                           ШАГ 1: Введите токен доступа скрипт ниже.
+                           <a href=""> Узнать больше </a>
+                           о том, как получить токен.
+                        </p>
                         <label className={style.ui_vmenu__item}>
                            <input type="text" name="token" placeholder="Token" className={style.telegram_input}/>
                         </label>
                         <Button
                            type="button"
-                           variant="contained" onClick={(e) => {
-                              e.preventDefault();
+                           variant="contained"
+                           onClick={() => {
+                              console.log('telegam');
                               props.editManager({
                                  idBot: botId,
                                  telegram_token: document.querySelector('input[name=token]').value,
@@ -151,7 +153,7 @@ const SetupSidebar = (props) => {
                <div className={`for-vk ${style.ui_vmenu__box}`}>
                   {props.botSetupData.vk_name !== '' ? (
                      <>
-                        <p className={style.ui_vmenu__item_p}>{props.botSetupData.vk_name}</p>
+                        <p className={style.socialBotName}>{props.botSetupData.vk_name}</p>
                         <Button
                            type="button"
                            variant="contained"
@@ -159,13 +161,15 @@ const SetupSidebar = (props) => {
                            className={style.ui_vmenu_sep_button}
                            disabled={props.setupLoading}
                         >
-                           {props.setupLoading ? <CircularProgress color="white"/> : 'АВТОРИЗОВАТЬСЯ'}
+                           {props.setupLoading ? <CircularProgress color="white"/> : 'ПЕРЕАВТОРИЗАЦИЯ'}
                         </Button>
                      </>
                   ) : (
                      <div>
-                        <p className={style.ui_vmenu__item_p}>ШАГ 1: Подключите свой аккаунт Вконтакте. Вам нужно иметь
-                           права администратора.</p>
+                        <p className={style.ui_vmenu__item_p}>
+                           ШАГ 1: Подключите свой аккаунт Вконтакте. Вам нужно иметь
+                           права администратора.
+                        </p>
                         <Button
                            type="button"
                            variant="contained"
@@ -179,10 +183,12 @@ const SetupSidebar = (props) => {
                   )}
                </div>
                <div className={`for-whatsapp ${style.ui_vmenu__box}`}>
-                  <p className={style.ui_vmenu__item_p}>ШАГ 1: Откройте WhatsApp Web, наведите свой телефон чтобы
-                     считать код</p>
+                  <p className={style.ui_vmenu__item_p}>
+                     ШАГ 1: Откройте WhatsApp Web, наведите свой телефон чтобы
+                     считать код
+                  </p>
                   <Button
-                     onClick={(e) => props.QRCodeUrl(botId)}
+                     onClick={() => props.QRCodeUrl(botId)}
                      type="button"
                      variant="contained"
                      className={style.ui_vmenu_sep_button}
@@ -197,14 +203,18 @@ const SetupSidebar = (props) => {
    )
 };
 
-const mapStateToProps = ({botSetupReducers}) => ({
-   botSetupData: botSetupReducers.botSetupData,
-   setupLoading: botSetupReducers.setupLoading,
-   isFetching: botSetupReducers.isFetching,
-   errorOfSocial: botSetupReducers.errorOfSocial,
-   error: botSetupReducers.error,
-   url: botSetupReducers.url
-});
+const mapStateToProps = ({botSetupReducers}) => {
+
+
+   return {
+      botSetupData: botSetupReducers.botSetupData,
+      setupLoading: botSetupReducers.setupLoading,
+      isFetching: botSetupReducers.isFetching,
+      errorOfSocial: botSetupReducers.errorOfSocial,
+      error: botSetupReducers.error,
+      url: botSetupReducers.url
+   }
+};
 
 const mapDispatchToProps = dispatch => ({
    editManager: setupData => dispatch(editManager(setupData)),
