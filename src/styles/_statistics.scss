@@ -1,0 +1,71 @@
+@import "partials";
+
+.statistics-container {
+   margin-top: 70px;
+   width: $container__width;
+
+   .statistics-info {
+      width: 20%;
+
+      .statistics-info-box {
+         .statistics-info-box__item {
+            border: 1px solid $main__border-color;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            padding: 7px 15px;
+
+            &:last-child {
+               margin-bottom: 0;
+            }
+
+            .statistics-info-box-item__icon {
+               margin-right: 15px;
+            }
+
+            .statistics-info-box-item-info__title {
+               color: $secondary__color;
+            }
+
+            .statistics-info-box-item-info__desc {
+               font-size: 20px;
+               font-weight: 500;
+               color: $highlighted__font-color;
+            }
+         }
+      }
+
+      .statistics-info-export {
+         margin-top: 35px;
+
+         .statistics-info-export__btn {
+            border: 1px solid $theme__bg-color;
+            color: $theme__bg-color;
+            font-weight: 400;
+            width: 100%;
+            border-radius: 4px;
+            text-transform: inherit;
+
+            &:hover {
+               background: none;
+            }
+
+            img {
+               width: 25px;
+               margin-left: 5px;
+            }
+         }
+
+         .statistics-info-export__social {
+            margin-top: 7px;
+            text-align: center;
+            font-size: 14.5px;
+         }
+      }
+   }
+
+   .statistics-schedule {
+      width: 77%;
+
+
+   }
+}

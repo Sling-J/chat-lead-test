@@ -29,7 +29,7 @@ import {sliceExtraText} from "../../../utils/sliceExtraText";
 const TriggersContainer = (props) => {
    const changedScenario = props.botScenarios.filter(elem => elem.id === props.scenarioId)[0];
    const triggers = changedScenario && changedScenario.triggers;
-   const mainTriggerIdx = triggers.length - 1;
+   const mainTriggerIdx = 0;
 
    const [activeStepCaptionEditor, setActiveStepCaptionEditor] = useState(false);
    const [changedTriggerId, changeTriggerId] = useState(triggers && triggers[mainTriggerIdx].id);

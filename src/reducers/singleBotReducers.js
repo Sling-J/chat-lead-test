@@ -22,8 +22,7 @@ export default function (state = initialState, action) {
       }
 
       case ACTION.SINGLE_BOT_DATA_RESPONSE: {
-         const scenariosForScenarioContainer
-            = action.dataScenarios.filter(elem => elem.destination === 'undefined');
+         const scenariosForScenarioContainer = action.dataScenarios.filter(elem => elem.destination === 'undefined');
 
          return {
             ...state,

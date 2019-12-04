@@ -4,7 +4,7 @@ import {faInfoCircle, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {connect} from "react-redux";
 import {ScenarioIdContext} from "../../utils/Contexts";
 import TriggersContainer from "../scenariosAndTriggers/triggersContainer/triggersContainer";
-import {appendBroadCast, changeScenarioId} from "../../actions/actionCreator";
+import {appendBroadCast, changeScenarioId, deleteBroadcast} from "../../actions/actionCreator";
 import {withRouter} from "react-router-dom";
 import moment from 'moment';
 import Button from "@material-ui/core/Button";
@@ -20,14 +20,6 @@ const BroadCastContainer = (props) => {
    const appendBroadcastHandler = () => {
       props.appendBroadcast(props.match.params.botId)
    };
-
-   const deleteBroadcastHandler = event => {
-      event.stopPropagation();
-   };
-
-   useEffect(() => {
-      console.log(props.broadCastData);
-   }, [props.broadCastData]);
 
    useEffect(() => {
       if (changedScenarioId) {
@@ -88,11 +80,13 @@ const BroadCastContainer = (props) => {
                      }
 
                      return elem.sent && (
-                        <tr key={index}>
-                           <td className="main-table-content-body__key-words" onClick={() => {
+                        <tr
+                           key={index}
+                           onClick={() => {
                               changeScenarioId(elem.scenario.id);
-                              // changeBroadCastId(index);
-                           }}>
+                           }}
+                        >
+                           <td className="main-table-content-body__key-words">
                               <span>{sliceExtraText(text, 41) || elem.scenario.triggers[elem.scenario.triggers.length - 1].caption}</span>
                            </td>
                            <td>
@@ -148,7 +142,6 @@ const BroadCastContainer = (props) => {
                      return !elem.sent && (
                         <tr key={index} onClick={() => {
                            changeScenarioId(elem.scenario.id);
-                           // changeBroadCastId(index);
                         }}>
                            <td className="main-table-content-body__key-words">
                               <span>{sliceExtraText(text, 41) || elem.scenario.triggers[elem.scenario.triggers.length - 1].caption}</span>
@@ -159,7 +152,10 @@ const BroadCastContainer = (props) => {
                            <td>
                               {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
                            </td>
-                           <td onClick={deleteBroadcastHandler}>
+                           <td onClick={e => {
+                              e.stopPropagation();
+                              props.deleteBroadCast(props.match.params.botId, elem.id)
+                           }}>
                               <FontAwesomeIcon icon={faTrash}/>
                            </td>
                         </tr>
@@ -264,7 +260,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
    appendBroadcast: (managerId) => dispatch(appendBroadCast(managerId)),
-   changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId))
+   changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId)),
+   deleteBroadCast: (managerId, broadCastId) => dispatch(deleteBroadcast(managerId, broadCastId)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BroadCastContainer));

@@ -24,45 +24,40 @@ const MainHeader = (props) => {
       props.getAllBots(props.match.params.botId);
    }, []);
 
-
    return (
       <header className={style.mainContainer}>
          {(props.isFetching || props.isFetchingSetup || props.isFetchingBot || props.isFetchingBroadCast || props.isFetchingAutorides) &&
-            <LinearProgress className={style.linearProgress}/>
+         <LinearProgress className={style.linearProgress}/>
          }
          <div className={style.leftSideContainer}>
-            {
-               isMainHeader ? (
-                  <Link to={'/bots'}><img src={Logo} alt={'logo'}/></Link>
-               ) : (
-                  <Link to={'/bots'}>
-                     <img src={chatLeadLogo} alt={'logo'} style={{width: '35px', height: '35px'}}/>
-                  </Link>
-               )
-            }
+            {isMainHeader ? (
+               <Link to={'/bots'}><img src={Logo} alt={'logo'}/></Link>
+            ) : (
+               <Link to={'/bots'}>
+                  <img src={chatLeadLogo} alt={'logo'} style={{width: '35px', height: '35px'}}/>
+               </Link>
+            )}
 
             <ClickOutSide onClickedOutside={() => setStatusBotContext(false)}>
                <>
-                  {
-                     !isMainHeader && (
-                        <div
-                           className={isOpenBotContext ? style.activeBotSelector : style.botSelector}
-                           onClick={() => setStatusBotContext(true)}
-                        >
-                           <div className={style.nameBot}>{changedBotData && changedBotData.name}</div>
-                           <img src={downArrow} alt={'downArrow'}/>
-                           <div className={style.contextBotContainer}>
-                              {
-                                 isOpenBotContext && (
-                                    <ContextMenuBots
-                                       setStatusBotContext={setStatusBotContext}
-                                    />
-                                 )
-                              }
-                           </div>
+                  {!isMainHeader && (
+                     <div
+                        className={isOpenBotContext ? style.activeBotSelector : style.botSelector}
+                        onClick={() => setStatusBotContext(true)}
+                     >
+                        <div className={style.nameBot}>{changedBotData && changedBotData.name}</div>
+                        <img src={downArrow} alt={'downArrow'}/>
+                        <div className={style.contextBotContainer}>
+                           {
+                              isOpenBotContext && (
+                                 <ContextMenuBots
+                                    setStatusBotContext={setStatusBotContext}
+                                 />
+                              )
+                           }
                         </div>
-                     )
-                  }
+                     </div>
+                  )}
                </>
             </ClickOutSide>
 
@@ -71,17 +66,15 @@ const MainHeader = (props) => {
             <div className={style.menuContainer} onClick={() => setStatusToOpenMenu(true)}>
                <img src={UserIcon} alt={'userIcon'}/>
                <FontAwesomeIcon icon={isOpenMenu ? faAngleUp : faAngleDown}/>
-               {
-                  isOpenMenu && (
-                     <ul className={style.contextMenuContainer}>
-                        <li>Аккаунт</li>
-                        <li>Тарифы</li>
-                        <li>Партнерам</li>
-                        <li>Панель</li>
-                        <li onClick={() => props.logout(props.history)}>Выйти</li>
-                     </ul>
-                  )
-               }
+               {isOpenMenu && (
+                  <ul className={style.contextMenuContainer}>
+                     <li>Аккаунт</li>
+                     <li>Тарифы</li>
+                     <li>Партнерам</li>
+                     <li>Панель</li>
+                     <li onClick={() => props.logout(props.history)}>Выйти</li>
+                  </ul>
+               )}
             </div>
          </ClickOutSide>
       </header>

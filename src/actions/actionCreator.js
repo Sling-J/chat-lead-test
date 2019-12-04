@@ -144,6 +144,12 @@ export const appendBroadCast = (managerId) => ({
    managerId
 });
 
+export const deleteBroadcast = (managerId, broadCastId) => ({
+   type: ACTION.DELETE_BROADCAST,
+   managerId,
+   broadCastId
+});
+
 // setup
 
 export const getManager = (idBot) => ({

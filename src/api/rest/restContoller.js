@@ -65,6 +65,10 @@ export const deleteAutoride = (data) => (
    axios.post(`${restURL}/DeleteAutoRide/`, data)
 );
 
+export const deleteBroadcast = (data) => (
+   axios.post(`${restURL}/DeleteBroadcast`, data)
+);
+
 export const getAutoridesLink = (data) => (
    axios.post(`${restURL}/GetAutoRideLink/`, data)
 );

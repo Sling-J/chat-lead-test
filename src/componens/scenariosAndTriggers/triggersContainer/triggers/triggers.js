@@ -35,7 +35,7 @@ const Triggers = (props) => {
       })
    };
 
-   const mainTriggerIdx = changedScenario.triggers.length - 1;
+   const mainTriggerIdx = 0;
 
    return (
       <div className={style.mainContainer}>
@@ -55,18 +55,16 @@ const Triggers = (props) => {
                         <FontAwesomeIcon icon={faCommentDots}/>
                      </p>
                      <p className={style.caption}>
-                        {
-                           triggerIdEdit === mainTriggerIdx ?
-                              <input
-                                 onBlur={(e) => editTrigger(e, changedScenario.triggers[mainTriggerIdx].id)}
-                                 type={'text'}
-                                 defaultValue={changedScenario.triggers[mainTriggerIdx].caption}
-                                 autoFocus={true}
-                                 className={style.editInput}
-                              />
-                              : changedScenario.triggers[mainTriggerIdx].caption
+                        {triggerIdEdit === mainTriggerIdx ?
+                           <input
+                              onBlur={(e) => editTrigger(e, changedScenario.triggers[mainTriggerIdx].id)}
+                              type={'text'}
+                              defaultValue={changedScenario.triggers[mainTriggerIdx].caption}
+                              autoFocus={true}
+                              className={style.editInput}
+                           />
+                           : changedScenario.triggers[mainTriggerIdx].caption
                         }
-                        {/*{changedScenario.triggers[0].caption}*/}
                      </p>
                      <p
                         className={style.penIcon}
@@ -87,62 +85,60 @@ const Triggers = (props) => {
             )
          }
          <h2>Привязанные шаги</h2>
-         {
-            changedScenario && changedScenario.triggers.map((trigger, index) => (
-               index < mainTriggerIdx && (
+         {changedScenario && changedScenario.triggers.map((trigger, index) => (
+            index > mainTriggerIdx && (
+               <div
+                  className={style.singleTriggerContainer}
+               >
                   <div
-                     className={style.singleTriggerContainer}
+                     style={trigger.id === changedTriggerId ?
+                        {border: '1px solid #13ce66', color: '#13ce66'} : {}}
+                     className={style.triggerElement}
+                     onClick={() => changeTriggerId(trigger.id)}
                   >
-                     <div
-                        style={trigger.id === changedTriggerId ?
-                           {border: '1px solid #13ce66', color: '#13ce66'} : {}}
-                        className={style.triggerElement}
-                        onClick={() => changeTriggerId(trigger.id)}
+                     <p className={style.comentIcon}>
+                        <FontAwesomeIcon icon={faCommentDots}/>
+                     </p>
+                     <p className={style.caption}>
+                        {triggerIdEdit === index ?
+                           <input
+                              onBlur={(e) => editTrigger(e, trigger.id)}
+                              type={'text'}
+                              defaultValue={trigger.caption}
+                              className={style.editInput}
+                           />
+                           :
+                           trigger.caption
+                        }
+                     </p>
+                     <p
+                        className={style.penIcon}
+                        style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '30px'}}
+                        onClick={e => {
+                           e.stopPropagation();
+                           setTriggerIdEdit(index)
+                        }}
                      >
-                        <p className={style.comentIcon}>
-                           <FontAwesomeIcon icon={faCommentDots}/>
-                        </p>
-                        <p className={style.caption}>
-                           {triggerIdEdit === index ?
-                              <input
-                                 onBlur={(e) => editTrigger(e, trigger.id)}
-                                 type={'text'}
-                                 defaultValue={trigger.caption}
-                                 className={style.editInput}
-                              />
-                              :
-                              trigger.caption
-                           }
-                        </p>
-                        <p
-                           className={style.penIcon}
-                           style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '30px'}}
-                           onClick={e => {
-                              e.stopPropagation();
-                              setTriggerIdEdit(index)
-                           }}
-                        >
-                           <FontAwesomeIcon icon={faPen}/>
-                        </p>
-                        {/*<p className={style.cloneIcon}*/}
-                        {/*   style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '30px'}}>*/}
-                        {/*   <FontAwesomeIcon icon={faClone}/>*/}
-                        {/*</p>*/}
-                        <p
-                           className={style.trash}
-                           style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '10px'}}
-                           onClick={(e) => {
-                              e.stopPropagation();
-                              deleteHandler(trigger.id, index);
-                           }}
-                        >
-                           <FontAwesomeIcon icon={faTrashAlt}/>
-                        </p>
-                     </div>
+                        <FontAwesomeIcon icon={faPen}/>
+                     </p>
+                     {/*<p className={style.cloneIcon}*/}
+                     {/*   style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '30px'}}>*/}
+                     {/*   <FontAwesomeIcon icon={faClone}/>*/}
+                     {/*</p>*/}
+                     <p
+                        className={style.trash}
+                        style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '10px'}}
+                        onClick={(e) => {
+                           e.stopPropagation();
+                           deleteHandler(trigger.id, index);
+                        }}
+                     >
+                        <FontAwesomeIcon icon={faTrashAlt}/>
+                     </p>
                   </div>
-               )
-            ))
-         }
+               </div>
+            )
+         ))}
       </div>
    )
 };

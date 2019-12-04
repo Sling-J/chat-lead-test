@@ -1,0 +1,9 @@
+@import "content-table";
+@import "index";
+@import "page";
+@import "statistics";
+
+body {
+   font-size: 15px;
+   color: $secondary__color;
+}
