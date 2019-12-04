@@ -1,44 +1,63 @@
 import React, {useState} from 'react';
 import {Line} from 'react-chartjs-2'
 
+import {DatePicker, Tabs} from 'antd';
+import moment from 'moment';
+
+import {dateFormat} from "../../../utils/formatDate";
+import Schedule from "./schedule";
+
+const {RangePicker} = DatePicker;
+const {TabPane} = Tabs;
+
 const StatisticsSchedule = () => {
    const [chartData] = useState({
-      labels: ['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge'],
+      labels: ['20 май', '21 май', '22 май', '23 май', '24 май', '25 май', '26 май'],
       datasets: [{
-         label: 'Population',
+         label: 'Подписчиков',
+         borderColor: '#0C9B00',
+         fill: false,
          data: [
-            302152,
-            181045,
-            153060,
-            106519,
-            105162
-         ],
-         backgroundColor: [
-            'rgba(255, 99, 132, 0.6)',
-            'rgba(54, 162, 235, 0.6)',
-            'rgba(255, 206, 86, 0.6)',
-            'rgba(75, 192, 192, 0.6)',
-            'rgba(153, 102, 255, 0.6)',
+            1,
+            2,
+            3,
+            4,
+            7,
+            5,
+            12,
          ]
       }]
    });
 
+   const datePicker = (
+      <RangePicker
+         defaultValue={[moment('2015.01.01', dateFormat), moment('2015.01.01', dateFormat)]}
+         format={dateFormat}
+      />
+   );
+
    return (
       <div className="statistics-schedule">
          <div className="chart">
-            <Line
-               data={chartData}
-               options={{
-                  title: {
-                     display: true,
-                     text: 'Largest Cities In Massachusetts',
-                     fontSize: 25
-                  },
-                  legend: {
-                     display: true,
-                  }
-               }}
-            />
+            <div>
+               <Tabs defaultActiveKey="1" tabBarExtraContent={datePicker}>
+                  <TabPane tab="Все" key="1">
+                     <Schedule chartData={chartData}/>
+                  </TabPane>
+                  <TabPane tab="Facebook" key="2">
+                     <Schedule chartData={chartData}/>
+                  </TabPane>
+                  <TabPane tab="Telegram" key="3">
+                     <Schedule chartData={chartData}/>
+                  </TabPane>
+                  <TabPane tab="Vk" key="4">
+                     <Schedule chartData={chartData}/>
+                  </TabPane>
+                  <TabPane tab="WhatsApp" key="5">
+                     <Schedule chartData={chartData}/>
+                  </TabPane>
+               </Tabs>
+            </div>
          </div>
       </div>
    )

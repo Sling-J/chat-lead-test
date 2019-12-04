@@ -9,7 +9,6 @@ import {Select, InputNumber} from 'antd';
 
 import TimerTextArea from "./timerTextArea/timerTextArea";
 import style from './timerElement.module.sass';
-import 'moment/locale/ru';
 import CustomFlatPicker from './customFlatPicker/customFlatPicker';
 
 import {timeToSeconds, secondsToTime} from "../../../utils/formatSecond";

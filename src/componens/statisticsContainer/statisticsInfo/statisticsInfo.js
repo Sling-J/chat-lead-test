@@ -21,7 +21,8 @@ const StatisticsInfo = () => {
                      Заявки
                   </h2>
                   <p className="statistics-info-box-item-info__desc">
-                     17 890
+                     {/*17 890*/}
+                     Скоро!
                   </p>
                </div>
             </div>
@@ -36,7 +37,8 @@ const StatisticsInfo = () => {
                      Подписок
                   </h2>
                   <p className="statistics-info-box-item-info__desc">
-                     29 870
+                     {/*29 870*/}
+                     Скоро!
                   </p>
                </div>
             </div>
@@ -51,7 +53,8 @@ const StatisticsInfo = () => {
                      Отписок
                   </h2>
                   <p className="statistics-info-box-item-info__desc">
-                     19
+                     {/*19*/}
+                     Скоро!
                   </p>
                </div>
             </div>

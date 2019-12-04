@@ -2,7 +2,9 @@ import React, {Component} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
 import flatpickr from "flatpickr";
+
 import {Russian} from "flatpickr/dist/l10n/ru.js"
+import {flatDateTimerFormat} from "../../../../utils/formatDate";
 
 import style from './customFlatPicker.module.sass'
 import "flatpickr/dist/themes/material_blue.css";
@@ -21,7 +23,7 @@ export default class CustomFlatPicker extends Component {
          time_24hr: true,
          minDate: "today",
          locale: Russian,
-         dateFormat: "Y-m-d H:i",
+         dateFormat: flatDateTimerFormat,
       });
    }
 

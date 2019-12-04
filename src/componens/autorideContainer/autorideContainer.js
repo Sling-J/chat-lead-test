@@ -196,6 +196,7 @@ const AutorideContainer = (props) => {
 
    const dynamicSearchData = (searchString) => {
       const scenariosData = [];
+
       props.autoridesData.forEach(elem => {
          if (searchString) {
             if (elem.scenario.trigger_text.toLowerCase().indexOf(searchString.toLowerCase()) !== -1) {
@@ -205,6 +206,7 @@ const AutorideContainer = (props) => {
             scenariosData.push(elem);
          }
       });
+
       setautoridesDataInFilter(scenariosData);
    };
 

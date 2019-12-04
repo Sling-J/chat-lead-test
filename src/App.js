@@ -71,7 +71,7 @@ const App = () => (
             <Route
                exact
                path={"/bots/:botId/statistics"}
-               component={onlyAutorizenUsers(NotFound)}
+               component={onlyAutorizenUsers(Statistics)}
             />
             <Route
                exact
