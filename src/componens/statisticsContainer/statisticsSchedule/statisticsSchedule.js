@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import {Line} from 'react-chartjs-2'
-
 import {DatePicker, Tabs} from 'antd';
 import moment from 'moment';
 
@@ -12,26 +10,30 @@ const {TabPane} = Tabs;
 
 const StatisticsSchedule = () => {
    const [chartData] = useState({
-      labels: ['20 май', '21 май', '22 май', '23 май', '24 май', '25 май', '26 май'],
+      labels: [
+         '20 май', '21 май', '22 май',
+         '23 май', '24 май', '25 май',
+         '26 май', '27 май', '28 май',
+         '29 май', '30 май', '31 май'
+      ],
       datasets: [{
          label: 'Подписчиков',
          borderColor: '#0C9B00',
          fill: false,
          data: [
-            1,
-            2,
-            3,
-            4,
-            7,
-            5,
-            12,
+            1, 2, 3,
+            4, 7, 5,
+            12, 16, 13,
+            19, 17, 22
          ]
       }]
    });
 
    const datePicker = (
       <RangePicker
-         defaultValue={[moment('2015.01.01', dateFormat), moment('2015.01.01', dateFormat)]}
+         onChange={(value, dateStrings) => {
+            console.log(value[1].unix() - value[0].unix())
+         }}
          format={dateFormat}
       />
    );

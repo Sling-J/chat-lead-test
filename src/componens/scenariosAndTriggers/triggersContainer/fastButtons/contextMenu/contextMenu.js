@@ -242,7 +242,7 @@ class ContextMenu extends Component {
 
                         <div className={style.openedButton}>
                            <p className={style.openedButtonTitle}>Отправить сообщение</p>
-                           <p className={style.openedButtonDesc}>{buttonData.createdTrigger.length !== 0 ? buttonData.createdTrigger.caption : 'загрузка ...'}</p>
+                           <p className={style.openedButtonDesc}>{buttonData.createdTrigger && buttonData.createdTrigger.length !== 0 ? buttonData.createdTrigger.caption : 'загрузка ...'}</p>
                         </div>
                      </div>
 
@@ -465,7 +465,6 @@ class ContextMenu extends Component {
    };
 
    render() {
-      console.log(this.props.buttonData)
       return (
          <div className={style.mainContainer}>
             {this.buttonChanger()}

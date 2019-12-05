@@ -8,7 +8,6 @@ import {tagsTypes} from "../../../../../constants/defaultValues";
 const ActionsContextMenu = (props) => {
    const {openContextMenu, editTagsInButton} = props;
 
-
    ActionsContextMenu.handleClickOutside = () => openContextMenu(false);
 
    return (

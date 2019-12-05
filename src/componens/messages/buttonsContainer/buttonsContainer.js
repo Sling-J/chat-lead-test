@@ -9,11 +9,21 @@ import {ScenarioIdContext} from "../../../utils/Contexts";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircle} from "@fortawesome/free-regular-svg-icons";
 import {markForButton} from "../../../constants/markForButon";
+import {Popover, Button} from 'antd';
 
 import uid from 'uid';
 
 const ButtonsContainer = (props) => {
    const [indexOpenButton, setIndexOpenButton] = useState(false);
+   const [visible, setVisible] = useState(false);
+
+   const hide = () => {
+      setVisible(false)
+   };
+
+   const handleVisibleChange = visible => {
+      setVisible(visible)
+   };
 
    const {
       type,
@@ -99,8 +109,8 @@ const ButtonsContainer = (props) => {
          messagesCopy[props.changedSocial][index][type][changedSlideOrElement].keyboard
          : messagesCopy[props.changedSocial][index].keyboard;
 
-      return noFilter 
-         ? buttons 
+      return noFilter
+         ? buttons
          : buttons.filter(button => button.type !== buttonsTypes.fast_buttons)
    };
 
@@ -149,6 +159,16 @@ const ButtonsContainer = (props) => {
          >
             <h2>+ Добавить кнопку</h2>
          </div>
+
+         <Popover
+            content={<a onClick={hide}>Close</a>}
+            title="Title"
+            trigger="click"
+            visible={visible}
+            onVisibleChange={handleVisibleChange}
+         >
+            <Button type="primary">Click me</Button>
+         </Popover>
       </div>
    )
 };
