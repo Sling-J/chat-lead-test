@@ -5,10 +5,9 @@ import {updateTrigger} from "../../../../../actions/actionCreator";
 import {withRouter} from "react-router-dom";
 
 const Controls = (props) => {
-   const {setIndexOpenButton, typeButton, changedTrigger, indexButton, index} = props;
+   const {handleCloseButtonMenu, typeButton, changedTrigger, indexButton, index} = props;
 
    const deleteButton = () => {
-
       const messagesCopy = changedTrigger.messages;
       messagesCopy[props.changedSocial][index].keyboard = messagesCopy[props.changedSocial][index].keyboard.filter(item => item.uid !== indexButton);
 
@@ -30,7 +29,7 @@ const Controls = (props) => {
          <div className={style.controlsButton} onClick={deleteButton}>Удалить</div>
          <div
             className={style.controlsButtonAccept}
-            onMouseDown={() => setIndexOpenButton(false)}
+            onClick={handleCloseButtonMenu}
          >
             Добавить
          </div>

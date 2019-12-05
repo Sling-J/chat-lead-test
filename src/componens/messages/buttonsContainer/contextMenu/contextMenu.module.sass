@@ -1,26 +1,9 @@
 .mainContainer
    width: 300px
-   border: 1px solid #e0e6ed !important
    background-color: #fff !important
-   box-shadow: 0 0 10px 0 rgba(77, 77, 77, .2) !important
-   position: absolute !important
-   left: 363px !important
    z-index: 1000 !important
    padding: 10px 0 !important
    font-family: "Lato", sans-serif !important
-
-
-   &:before
-      border-bottom: 10px solid #fff
-      border-left: 10px solid transparent
-      border-right: 10px solid transparent
-      content: ""
-      height: 0
-      position: absolute
-      transform: rotate(-90deg)
-      left: -15px
-      top: 5px
-      width: 0
 
    h2
       font-size: 15px
@@ -97,7 +80,6 @@
       border: 1px solid rgba(0, 0, 0, .12)
       border-radius: 3px
       background: transparent none
-      //background-color: #fff
       box-shadow: none
       color: rgba(0, 0, 0, .87)
       font-size: .9rem
@@ -125,6 +107,7 @@ label
       color: #000
 
       .openedButtonText
+         cursor: pointer
          display: flex
          align-items: center
          transition: background 0.3s
@@ -139,7 +122,8 @@ label
       .openedButtonIcon
          transition: background 0.3s
          border-radius: 0 10px 10px 0
-         padding: 15px 10px 14px
+         padding: 17px 10px 17px
+         cursor: pointer
          box-sizing: border-box
          border-left: 1px dashed #bdcadd
          width: 15%

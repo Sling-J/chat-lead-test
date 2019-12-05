@@ -8,18 +8,36 @@
    align-items: center
    font-family: 'Lato', sans-serif
 
+   .activeBtn
+      border-color: #0084ff !important
+      background: #EBEBEB !important
 
    .buttonElement
-      position: relative
+      text-transform: inherit
+      font-size: 14px
+      font-weight: 400
       width: 100%
       border: 1px solid #e0e6ed
+      border-radius: 0
       background-color: #fff
       color: #0084ff
       transition: border-color .15s, color .15s
-      height: 100%
+      padding: 0
+      text-align: center
+      display: flex
+      justify-content: space-between
+      align-items: center
 
       &:hover
          border-color: #0084ff
+
+      .captionContainerText
+         width: 85%
+
+      .captionContainerIcon
+         border-left: 1px solid #e0e6ed
+         padding: 7px 0 7px
+         width: 15%
 
 
    .controls
@@ -38,13 +56,15 @@
          border-color: #0084ff
          color: #0084ff
 
-   .variable
+   .appendNewButton
       border: 1px solid #e0e6ed
-      border-bottom-right-radius: 7px
-      border-bottom-left-radius: 7px
+      border-radius: 0 0 7px 7px
+      font-size: 14px
       color: #8492a6
       transition: border-color .15s, color .15s
-      padding: 10px 0
+      padding: 8px 0
+      text-transform: inherit
+      font-weight: 400
       width: 100%
       display: flex
       justify-content: center
@@ -54,22 +74,3 @@
          z-index: 2
          border-color: #0084ff
          color: #0084ff
-
-.button
-   font-size: 15px
-   font-weight: 400
-
-.captionContainer
-   text-align: center
-   height: 35px
-   display: flex
-   justify-content: space-between
-   align-items: center
-
-   .captionContainerText
-      width: 85%
-
-   .captionContainerIcon
-      border-left: 1px solid #e0e6ed
-      padding: 10px 0 8px
-      width: 15%

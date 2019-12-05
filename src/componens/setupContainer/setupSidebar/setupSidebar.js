@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 
 import {facebookAuthUrl, vkAuth, QRCodeUrl, resetUrl, editManager} from "../../../actions/actionCreator";
 import {InputControler} from './inputControler';
+import {Spin} from "antd";
 
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -29,10 +30,19 @@ const SetupSidebar = (props) => {
       }
    }, [props.url]);
 
+   const payedDate = props.botSetupData.length !== 0 &&
+      props.botSetupData.payed_end_date >= 5 ? `Ваш пробный период заканчивается через ${props.botSetupData.payed_end_date} дней.` :
+         props.botSetupData.payed_end_date >= 2 ? `Ваш пробный период заканчивается через ${props.botSetupData.payed_end_date} дня.` :
+            props.botSetupData.payed_end_date === 1 ? `Ваш пробный период заканчивается через ${props.botSetupData.payed_end_date} день.` :
+               props.botSetupData.payed_end_date === 0 ? 'Пробный период закончился.' :
+                  <Spin size="large"/>;
+
    return (
       <aside id="sidebar" className={style.setupSidebar}>
          <div className={style.groupBlock}>
-            <p className={style.groupBlock__text}>Ваш пробный период заканчивается через 14 дней.<br/>
+            <p className={style.groupBlock__text}>
+               {payedDate}
+               <br/>
                <a href="#">ВЫБРАТЬ ТАРИФ</a>
             </p>
          </div>
@@ -204,8 +214,6 @@ const SetupSidebar = (props) => {
 };
 
 const mapStateToProps = ({botSetupReducers}) => {
-
-
    return {
       botSetupData: botSetupReducers.botSetupData,
       setupLoading: botSetupReducers.setupLoading,

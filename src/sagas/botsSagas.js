@@ -97,7 +97,7 @@ export function* getAllBotsSagas({botId}) {
          const {data} = yield call(getAllBotsForUser, formData);
 
          if (botId) {
-            singleBotData = data.managers.filter(elem => elem.id == botId)[0];
+            singleBotData = data.managers.filter(elem => elem.id === botId)[0];
          }
 
          if (data.ok) {

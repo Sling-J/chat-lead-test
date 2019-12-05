@@ -1,28 +1,32 @@
 import React, {useState} from 'react';
-import style from './buttonsContainer.module.sass';
-import {buttonsTypes} from "../../../constants/defaultValues";
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
-import {addNewTrigger, updateTrigger} from "../../../actions/actionCreator";
-import ContextMenu from './contextMenu/contextMenu';
-import {ScenarioIdContext} from "../../../utils/Contexts";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircle} from "@fortawesome/free-regular-svg-icons";
-import {markForButton} from "../../../constants/markForButon";
-import {Popover, Button} from 'antd';
-
 import uid from 'uid';
 
+import MuiPopover from '@material-ui/core/Popover';
+import Button from '@material-ui/core/Button';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCircle} from "@fortawesome/free-regular-svg-icons";
+
+import {markForButton} from "../../../constants/markForButon";
+import {buttonsTypes} from "../../../constants/defaultValues";
+import {addNewTrigger, updateTrigger} from "../../../actions/actionCreator";
+import {ScenarioIdContext} from "../../../utils/Contexts";
+import ButtonsMenu from './buttonsMenu/buttonsMenu'
+
+import style from './buttonsContainer.module.sass';
+
 const ButtonsContainer = (props) => {
-   const [indexOpenButton, setIndexOpenButton] = useState(false);
-   const [visible, setVisible] = useState(false);
+   const [anchorEl, setAnchorEl] = React.useState({
+      el: null,
+      id: null
+   });
 
-   const hide = () => {
-      setVisible(false)
-   };
-
-   const handleVisibleChange = visible => {
-      setVisible(visible)
+   const handleCloseButtonMenu = () => {
+      setAnchorEl({
+         el: null,
+         id: null
+      });
    };
 
    const {
@@ -32,9 +36,6 @@ const ButtonsContainer = (props) => {
       changedTrigger,
       changedSlideOrElement,
       styleForControls,
-      styleForButton,
-      styleForCaption,
-      styleForContextMenu,
       changeTriggerId
    } = props;
 
@@ -116,59 +117,64 @@ const ButtonsContainer = (props) => {
 
    return (
       <div className={style.mainContainer}>
-         {allButtonsInMessage().map((elem) => (
-            <div className={style.buttonElement} onClick={() => setIndexOpenButton(elem.uid)} key={elem.uid}>
-               <div>
-                  {elem.uid === indexOpenButton && (
-                     <ScenarioIdContext.Consumer>
-                        {scenarioId => (
-                           <ContextMenu
-                              changeTriggerId={changeTriggerId}
-                              buttonEditHandler={editButton}
-                              typeButton={elem.isEmpty ? 'empty' : elem.secondType}
-                              scenarioId={scenarioId}
-                              indexButton={elem.uid}
-                              buttonData={elem}
-                              setIndexOpenButton={setIndexOpenButton}
-                              changedTrigger={changedTrigger}
-                              styleForContextMenu={styleForContextMenu}
-                              index={index}
-                           />
-                        )}
-                     </ScenarioIdContext.Consumer>
-                  )}
-                  <div className={style.button} style={styleForButton}>
-                     <div className={style.captionContainer} style={styleForCaption}>
-                        <p className={style.captionContainerText}>{elem.caption || 'Новая Кнопка'}</p>
-                        <p className={style.captionContainerIcon}>
-                           {elem.isEmpty
-                              ? <FontAwesomeIcon icon={faCircle} color="red"/>
-                              : markForButton[elem.type]
-                           }
-                        </p>
-                     </div>
-                  </div>
-               </div>
-            </div>
+         {allButtonsInMessage().map((elem, idx) => (
+            <>
+               <Button
+                  key={idx}
+                  onClick={e => setAnchorEl({
+                     el: e.currentTarget,
+                     id: elem.uid
+                  })}
+                  className={`${style.buttonElement} ${elem.uid === anchorEl.id && style.activeBtn}`}
+               >
+                  <p className={style.captionContainerText}>{elem.caption || 'Новая Кнопка'}</p>
+                  <p className={style.captionContainerIcon}>
+                     {elem.isEmpty
+                        ? <FontAwesomeIcon icon={faCircle} color="red"/>
+                        : markForButton[elem.type]
+                     }
+                  </p>
+               </Button>
+               <MuiPopover
+                  id={elem.uid === anchorEl.id ? 'simple-popover' : undefined}
+                  open={elem.uid === anchorEl.id}
+                  anchorEl={anchorEl.el}
+                  onClose={handleCloseButtonMenu}
+                  anchorOrigin={{
+                     vertical: 'top',
+                     horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                     vertical: 'top',
+                     horizontal: 'left',
+                  }}
+               >
+                  <ScenarioIdContext.Consumer>
+                     {scenarioId => (
+                        <ButtonsMenu
+                           changeTriggerId={changeTriggerId}
+                           handleCloseButtonMenu={handleCloseButtonMenu}
+                           buttonEditHandler={editButton}
+                           typeButton={elem.isEmpty ? 'empty' : elem.secondType}
+                           scenarioId={scenarioId}
+                           indexButton={elem.uid}
+                           buttonData={elem}
+                           changedTrigger={changedTrigger}
+                           index={index}
+                        />
+                     )}
+                  </ScenarioIdContext.Consumer>
+               </MuiPopover>
+            </>
          ))}
 
-         <div
-            className={style.variable}
+         <Button
+            className={style.appendNewButton}
             style={styleForControls || {}}
             onClick={() => appendNewButton()}
          >
-            <h2>+ Добавить кнопку</h2>
-         </div>
-
-         <Popover
-            content={<a onClick={hide}>Close</a>}
-            title="Title"
-            trigger="click"
-            visible={visible}
-            onVisibleChange={handleVisibleChange}
-         >
-            <Button type="primary">Click me</Button>
-         </Popover>
+            + Добавить кнопку
+         </Button>
       </div>
    )
 };
