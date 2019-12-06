@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 import uid from 'uid';
 
-import MuiPopover from '@material-ui/core/Popover';
+import {Popover} from 'antd';
 import Button from '@material-ui/core/Button';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircle} from "@fortawesome/free-regular-svg-icons";
@@ -14,17 +14,17 @@ import {addNewTrigger, updateTrigger} from "../../../actions/actionCreator";
 import {ScenarioIdContext} from "../../../utils/Contexts";
 import ButtonsMenu from './buttonsMenu/buttonsMenu'
 
-import style from './buttonsContainer.module.sass';
+import style from '../../../styles/messageButtons.module.scss';
 
 const ButtonsContainer = (props) => {
-   const [anchorEl, setAnchorEl] = React.useState({
-      el: null,
+   const [indexOpenButton, setIndexOpenButton] = useState({
+      open: false,
       id: null
    });
 
    const handleCloseButtonMenu = () => {
-      setAnchorEl({
-         el: null,
+      setIndexOpenButton({
+         open: false,
          id: null
       });
    };
@@ -35,7 +35,6 @@ const ButtonsContainer = (props) => {
       changedScenario,
       changedTrigger,
       changedSlideOrElement,
-      styleForControls,
       changeTriggerId
    } = props;
 
@@ -116,61 +115,52 @@ const ButtonsContainer = (props) => {
    };
 
    return (
-      <div className={style.mainContainer}>
+      <div className={style.keyboardButtonsContainer}>
          {allButtonsInMessage().map((elem, idx) => (
             <>
-               <Button
+               <Popover
                   key={idx}
-                  onClick={e => setAnchorEl({
-                     el: e.currentTarget,
-                     id: elem.uid
-                  })}
-                  className={`${style.buttonElement} ${elem.uid === anchorEl.id && style.activeBtn}`}
+                  trigger="click"
+                  visible={indexOpenButton.open && indexOpenButton.id === elem.uid}
+                  onVisibleChange={visible => setIndexOpenButton({open: visible, id: elem.uid})}
+                  placement="right"
+                  content={
+                     <ScenarioIdContext.Consumer>
+                        {scenarioId => (
+                           <ButtonsMenu
+                              changeTriggerId={changeTriggerId}
+                              handleCloseButtonMenu={handleCloseButtonMenu}
+                              buttonEditHandler={editButton}
+                              typeButton={elem.isEmpty ? 'empty' : elem.secondType}
+                              scenarioId={scenarioId}
+                              indexButton={elem.uid}
+                              buttonData={elem}
+                              changedTrigger={changedTrigger}
+                              index={index}
+                           />
+                        )}
+                     </ScenarioIdContext.Consumer>
+                  }
                >
-                  <p className={style.captionContainerText}>{elem.caption || 'Новая Кнопка'}</p>
-                  <p className={style.captionContainerIcon}>
-                     {elem.isEmpty
-                        ? <FontAwesomeIcon icon={faCircle} color="red"/>
-                        : markForButton[elem.type]
-                     }
-                  </p>
-               </Button>
-               <MuiPopover
-                  id={elem.uid === anchorEl.id ? 'simple-popover' : undefined}
-                  open={elem.uid === anchorEl.id}
-                  anchorEl={anchorEl.el}
-                  onClose={handleCloseButtonMenu}
-                  anchorOrigin={{
-                     vertical: 'top',
-                     horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                     vertical: 'top',
-                     horizontal: 'left',
-                  }}
-               >
-                  <ScenarioIdContext.Consumer>
-                     {scenarioId => (
-                        <ButtonsMenu
-                           changeTriggerId={changeTriggerId}
-                           handleCloseButtonMenu={handleCloseButtonMenu}
-                           buttonEditHandler={editButton}
-                           typeButton={elem.isEmpty ? 'empty' : elem.secondType}
-                           scenarioId={scenarioId}
-                           indexButton={elem.uid}
-                           buttonData={elem}
-                           changedTrigger={changedTrigger}
-                           index={index}
-                        />
-                     )}
-                  </ScenarioIdContext.Consumer>
-               </MuiPopover>
+                  <Button
+                     key={idx}
+                     className={`${style.keyboardButton} ${indexOpenButton.open && elem.uid === indexOpenButton.id && style.activeKeyboardBtn}`}
+                  >
+                     <p className={style.keyboardButtonText}>{elem.caption || 'Новая Кнопка'}</p>
+                     <p className={style.keyboardButtonIcon}>
+                        {elem.isEmpty
+                           ? <FontAwesomeIcon icon={faCircle} color="red"/>
+                           : markForButton[elem.type]
+                        }
+                     </p>
+                  </Button>
+
+               </Popover>
             </>
          ))}
 
          <Button
-            className={style.appendNewButton}
-            style={styleForControls || {}}
+            className={style.appendKeyboardButton}
             onClick={() => appendNewButton()}
          >
             + Добавить кнопку

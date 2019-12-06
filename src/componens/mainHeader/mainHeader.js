@@ -13,11 +13,11 @@ import {getAllBotsForUser, logout} from "../../actions/actionCreator";
 import downArrow from '../../svg/db/down-button.svg';
 import ContextMenuBots from './contextMenuBots/contextMenuBots';
 import LinearProgress from "@material-ui/core/LinearProgress";
+import {Spin} from 'antd';
 
 const MainHeader = (props) => {
    const [isOpenMenu, setStatusToOpenMenu] = useState(false);
-   const {isMainHeader} = props;
-   const {changedBotData} = props;
+   const {isMainHeader, changedBotData} = props;
    const [isOpenBotContext, setStatusBotContext] = useState(false);
 
    useEffect(() => {
@@ -45,22 +45,19 @@ const MainHeader = (props) => {
                         className={isOpenBotContext ? style.activeBotSelector : style.botSelector}
                         onClick={() => setStatusBotContext(true)}
                      >
-                        <div className={style.nameBot}>{changedBotData && changedBotData.name}</div>
+                        <div className={style.nameBot}>{(changedBotData && changedBotData.name) || <Spin/>}</div>
                         <img src={downArrow} alt={'downArrow'}/>
                         <div className={style.contextBotContainer}>
-                           {
-                              isOpenBotContext && (
-                                 <ContextMenuBots
-                                    setStatusBotContext={setStatusBotContext}
-                                 />
-                              )
-                           }
+                           {isOpenBotContext && (
+                              <ContextMenuBots
+                                 setStatusBotContext={setStatusBotContext}
+                              />
+                           )}
                         </div>
                      </div>
                   )}
                </>
             </ClickOutSide>
-
          </div>
          <ClickOutSide onClickedOutside={() => setStatusToOpenMenu(false)}>
             <div className={style.menuContainer} onClick={() => setStatusToOpenMenu(true)}>

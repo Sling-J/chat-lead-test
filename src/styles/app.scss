@@ -7,3 +7,14 @@ body {
    font-size: 15px;
    color: $secondary__color;
 }
+
+.messageButtons_selector__3gcXW.ant-select.ant-select-enabled {
+   .ant-select-selection.ant-select-selection--single {
+      height: 45px;
+      border-radius: 10px 0 0 10px;
+
+      .ant-select-selection__rendered {
+         line-height: 42px;
+      }
+   }
+}

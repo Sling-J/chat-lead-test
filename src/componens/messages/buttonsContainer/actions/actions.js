@@ -1,18 +1,17 @@
-import React, {useState} from 'react';
-import {connect} from "react-redux";
+import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 
-import {updateTrigger} from "../../../../actions/actionCreator";
 import {tagsTypes, tagsTranscription, buttonsTypes} from "../../../../constants/defaultValues";
 import ActionsContextMenu from './actionsContextMenu/actionsContextMenu';
 
-import style from './actions.module.sass';
+import Button from '@material-ui/core/Button';
+import {Popover} from "antd";
 
+import style from './actions.module.sass';
 
 const Actions = (props) => {
    const {buttonEditHandler, typeButton, indexButton, buttonData} = props;
-   const [isOpenContextMenu, openContextMenu] = useState(false);
 
    const editTagsInButton = (typeTag) => {
       if (!buttonData[typeTag]) {
@@ -30,7 +29,6 @@ const Actions = (props) => {
          false,
          typeButton
       );
-
    };
 
    const updateTag = (e, key, index) => {
@@ -57,6 +55,10 @@ const Actions = (props) => {
       );
    };
 
+   const content = (
+      <ActionsContextMenu editTagsInButton={editTagsInButton}/>
+   );
+
    return (
       <div className={style.actionsMainContainer}>
          <h2>Дополнительные действия: </h2>
@@ -75,29 +77,25 @@ const Actions = (props) => {
                      <input
                         type={'text'}
                         defaultValue={elem}
+                        placeholder="Введите тег"
                         onInput={(e) => updateTag(e, key, index)}
                      />
                   </div>
                ))
             )
          ))}
-         <div className={style.controlsContainer} onClick={() => openContextMenu(true)}>
-            {isOpenContextMenu && (
-               <ActionsContextMenu
-                  openContextMenu={openContextMenu}
-                  editTagsInButton={editTagsInButton}
-               />
-            )}
-            <div className={style.actionsContainer}>
+
+         <Popover
+            trigger="click"
+            placement="right"
+            content={content}
+         >
+            <Button className={style.actionsContainer}>
                + Действие
-            </div>
-         </div>
+            </Button>
+         </Popover>
       </div>
    )
 };
 
-const mapDispatchToProps = dispatch => ({
-   updateTrigger: (triggerData, updationData) => dispatch(updateTrigger(triggerData, updationData)),
-});
-
-export default connect(mapDispatchToProps)(Actions);
+export default Actions;

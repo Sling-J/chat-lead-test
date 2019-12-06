@@ -37,6 +37,7 @@
       "redux-devtools-extension": "2.13.8",
       "redux-form": "^8.2.3",
       "redux-saga": "^1.0.2",
+      "scroll-lock": "^2.1.2",
       "styled-components": "^4.3.2",
       "uid": "^0.0.2"
    },

@@ -25,6 +25,7 @@ import {signUpErrors} from "../constants/errors/user";
 import {destinationScenario} from "../constants/defaultValues";
 
 import {userAccessToken} from "../utils/userToken";
+import {parse} from "@fortawesome/fontawesome-svg-core";
 
 export function* createBotSaga({createBotData}) {
    if (userAccessToken()) {
@@ -96,11 +97,9 @@ export function* getAllBotsSagas({botId}) {
 
          const {data} = yield call(getAllBotsForUser, formData);
 
-         if (botId) {
-            singleBotData = data.managers.filter(elem => elem.id === botId)[0];
-         }
-
          if (data.ok) {
+            if (botId) singleBotData = data.managers.find(elem => elem.id === parseInt(botId));
+
             yield put({type: ACTION.BOTS_DATA_RESPONSE, data: data.managers, changedBotData: singleBotData});
          } else {
             yield put({type: ACTION.BOTS_DATA_ERROR, error: signUpErrors[data.desc]})

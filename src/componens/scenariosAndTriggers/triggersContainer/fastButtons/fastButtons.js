@@ -1,16 +1,29 @@
 import React, {useState} from 'react';
-import style from './fastButtons.module.sass';
-import ContextMenu from './contextMenu/contextMenu';
-import {addNewTrigger, updateTrigger} from "../../../../actions/actionCreator";
 import {connect} from 'react-redux';
-import {ScenarioIdContext} from "../../../../utils/Contexts";
-import {buttonsTypes} from "../../../../constants/defaultValues";
 import {withRouter} from "react-router-dom";
-import {markForButton} from "../../../../constants/markForButon";
 import uid from 'uid';
 
+import {Popover} from 'antd';
+import {addNewTrigger, updateTrigger} from "../../../../actions/actionCreator";
+import {ScenarioIdContext} from "../../../../utils/Contexts";
+import {buttonsTypes} from "../../../../constants/defaultValues";
+import {markForButton} from "../../../../constants/markForButon";
+import ButtonsMenu from './buttonsMenu/buttonsMenu'
+
+import mStyle from '../../../../styles/messageButtons.module.scss';
+
 const FastButtons = (props) => {
-   const [indexOpenButton, setIndexOpenButton] = useState(false);
+   const [indexOpenButton, setIndexOpenButton] = useState({
+      open: false,
+      id: null
+   });
+
+   const handleCloseButtonMenu = () => {
+      setIndexOpenButton({
+         open: false,
+         id: null
+      });
+   };
 
    const {
       type,
@@ -18,7 +31,6 @@ const FastButtons = (props) => {
       changedScenario,
       changedTrigger,
       changedSlideOrElement,
-      styleForContextMenu,
       changeTriggerId
    } = props;
 
@@ -99,56 +111,59 @@ const FastButtons = (props) => {
    };
 
    return (
-      <div className={style.mainContainer}>
-         {allFastButtonsInMessage().map((elem, indexArr) => (
-            <div className={style.contextMenuContainer} onClick={() => setIndexOpenButton(elem.uid)} key={indexArr}>
-               {elem.uid === indexOpenButton && (
+      <div className={mStyle.fastButtonsContainer}>
+         {allFastButtonsInMessage().map((elem, idx) => (
+            <Popover
+               key={idx}
+               trigger="click"
+               visible={indexOpenButton.open && indexOpenButton.id === elem.uid}
+               onVisibleChange={visible => setIndexOpenButton({open: visible, id: elem.uid})}
+               placement="right"
+               content={
                   <ScenarioIdContext.Consumer>
-                     {scenarioId => {
-                        return (
-                           <ContextMenu
-                              changeTriggerId={changeTriggerId}
-                              buttonEditHandler={editButton}
-                              typeButton={elem.isEmpty ? 'empty' : elem.secondType}
-                              scenarioId={scenarioId}
-                              indexButton={elem.uid}
-                              buttonData={elem}
-                              setIndexOpenButton={setIndexOpenButton}
-                              changedTrigger={changedTrigger}
-                              styleForContextMenu={styleForContextMenu}
-                              index={index}
-                           />
-                        )
-                     }}
+                     {scenarioId => (
+                        <ButtonsMenu
+                           changeTriggerId={changeTriggerId}
+                           buttonEditHandler={editButton}
+                           handleCloseButtonMenu={handleCloseButtonMenu}
+                           typeButton={elem.isEmpty ? 'empty' : elem.secondType}
+                           scenarioId={scenarioId}
+                           indexButton={elem.uid}
+                           buttonData={elem}
+                           changedTrigger={changedTrigger}
+                           index={index}
+                        />
+                     )}
                   </ScenarioIdContext.Consumer>
-               )}
-
-               <div className={style.appendedFastButton + ' ' + style.fastButtonCommon}>
-                  <p className={style.appendedFastButtonText}>{elem.caption || 'Быстрый ответ'}</p>
+               }
+            >
+               <div className={`${mStyle.appendedFastButton} ${mStyle.fastButton}`}>
+                  <p className={mStyle.appendedFastButtonText}>{elem.caption || 'Быстрый ответ'}</p>
                   {elem.isEmpty
                      ? null
                      : (
-                        <p 
+                        <p
                            onClick={e => {
                               if (elem.secondType === buttonsTypes.text_buttons) {
                                  e.stopPropagation();
                                  changeTriggerId(elem.payload.trigger_id)
                               }
                            }}
-                           className={style.appendedFastButtonIcon}
+                           className={mStyle.appendedFastButtonIcon}
                         >
                            {markForButton[elem.secondType]}
                         </p>
                      )
                   }
                </div>
-            </div>
+            </Popover>
          ))}
 
-         <div className={style.appendFastBtnContainer}>
-            <div className={style.newFastButton + ' ' + style.fastButtonCommon} onClick={appendFastButton}>
-               + Быстрый ответ
-            </div>
+         <div
+            className={`${mStyle.appendFastButton} ${mStyle.fastButton}`}
+            onClick={appendFastButton}
+         >
+            + Быстрый ответ
          </div>
       </div>
    )

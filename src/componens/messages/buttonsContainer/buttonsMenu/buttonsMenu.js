@@ -10,10 +10,13 @@ import {
    faHandPointUp,
    faTimes
 } from "@fortawesome/free-solid-svg-icons";
-import Select from 'react-select'
-import Controls from '../contextMenu/controls/controls';
 
-import style from '../contextMenu/contextMenu.module.sass';
+import {Select} from 'antd'
+import Controls from './controls/controls';
+
+import style from '../../../../styles/messageButtons.module.scss';
+
+const {Option} = Select;
 
 class ButtonsMenu extends Component {
    state = {
@@ -130,9 +133,9 @@ class ButtonsMenu extends Component {
 
       if (typeButton === 'empty') {
          return (
-            <div className={style.buttonChanger}>
-               <div className={style.headerContainer}>
-                  <div className={style.headerDesc}>
+            <div className={style.buttonBox}>
+               <div className={style.buttonBoxHeader}>
+                  <div className={style.buttonBoxHeaderDesc}>
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
@@ -159,7 +162,7 @@ class ButtonsMenu extends Component {
                         buttonsTypes.text_buttons,
                      )
                   }}
-                  className={style.changerElement}
+                  className={style.buttonBoxItem}
                >
                   <FontAwesomeIcon icon={faEnvelope} size="lg"/>
                   Создать сообщение
@@ -178,7 +181,7 @@ class ButtonsMenu extends Component {
                               buttonsTypes.url_buttons,
                            )
                         }}
-                        className={style.changerElement}
+                        className={style.buttonBoxItem}
                      >
                         <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
                         Открыть веб-сайт
@@ -194,7 +197,7 @@ class ButtonsMenu extends Component {
                               buttonsTypes.call_buttons,
                            )
                         }}
-                        className={style.changerElement}
+                        className={style.buttonBoxItem}
                      >
                         <FontAwesomeIcon icon={faPhoneAlt} size="lg" color="limegreen"/>
                         Добавить вызов
@@ -213,7 +216,7 @@ class ButtonsMenu extends Component {
                         buttonsTypes.trigger_buttons
                      )
                   }}
-                  className={style.changerElement}
+                  className={style.buttonBoxItem}
                >
                   <FontAwesomeIcon icon={faHandPointUp} size="lg" color="limegreen"/>
                   Выберите существующий шаг
@@ -229,9 +232,9 @@ class ButtonsMenu extends Component {
          )
       } else if (typeButton === buttonsTypes.text_buttons) {
          return (
-            <div className={style.buttonChanger}>
-               <div className={style.headerContainer}>
-                  <div className={style.headerDesc}>
+            <div className={style.buttonBox}>
+               <div className={style.buttonBoxHeader}>
+                  <div className={style.buttonBoxHeaderDesc}>
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
@@ -246,23 +249,23 @@ class ButtonsMenu extends Component {
                   </div>
                </div>
 
-               <div className={style.inputContainer}>
-                  <div className={style.closedButton}>
-                     <div className={style.openedButtonText} onClick={() =>
+               <div className={style.buttonBoxInfo}>
+                  <div className={style.buttonBoxInfoContainer}>
+                     <div className={style.buttonBoxInfoContainerText} onClick={() =>
                         buttonData.payload.trigger_id.length !== 0 ? this.props.changeTriggerId(buttonData.payload.trigger_id) : {}
                      }>
                         <div>
                            <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
                         </div>
 
-                        <div className={style.openedButton}>
-                           <p className={style.openedButtonTitle}>Отправить сообщение</p>
-                           <p className={style.openedButtonDesc}>{buttonData.createdTrigger && buttonData.createdTrigger.length !== 0 ? buttonData.createdTrigger.caption : 'загрузка ...'}</p>
+                        <div className={style.buttonBoxInfoContainerActions}>
+                           <p className={style.buttonBoxInfoContainerActionsTitle}>Отправить сообщение</p>
+                           <p className={style.buttonBoxInfoContainerActionsDesc}>{buttonData.createdTrigger && buttonData.createdTrigger.length !== 0 ? buttonData.createdTrigger.caption : 'загрузка ...'}</p>
                         </div>
                      </div>
 
                      <div
-                        className={style.openedButtonIcon}
+                        className={style.buttonBoxInfoContainerIcon}
                         onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
                            caption: ''
                         }), indexButton, true, false, buttonsTypes.text_buttons)}
@@ -281,9 +284,9 @@ class ButtonsMenu extends Component {
          )
       } else if (typeButton === buttonsTypes.url_buttons) {
          return (
-            <div className={style.buttonChanger}>
-               <div className={style.headerContainer}>
-                  <div className={style.headerDesc}>
+            <div className={style.buttonBox}>
+               <div className={style.buttonBoxHeader}>
+                  <div className={style.buttonBoxHeaderDesc}>
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
@@ -297,19 +300,19 @@ class ButtonsMenu extends Component {
                      />
                   </div>
                </div>
-               <div className={style.inputContainer}>
-                  <div className={style.closedButton}>
-                     <div className={style.openedButtonText}>
+               <div className={style.buttonBoxInfo}>
+                  <div className={style.buttonBoxInfoContainer}>
+                     <div className={style.buttonBoxInfoContainerText}>
                         <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
 
-                        <div className={style.openedButton}>
-                           <p className={style.openedButtonTitle}>Открыть веб-сайт</p>
-                           <p className={style.openedButtonDesc}>Введите URL ниже</p>
+                        <div className={style.buttonBoxInfoContainerActions}>
+                           <p className={style.buttonBoxInfoContainerActionsTitle}>Открыть веб-сайт</p>
+                           <p className={style.buttonBoxInfoContainerActionsDesc}>Введите URL ниже</p>
                         </div>
                      </div>
 
                      <div
-                        className={style.openedButtonIcon}
+                        className={style.buttonBoxInfoContainerIcon}
                         onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
                            caption: ''
                         }), indexButton, true, false, buttonsTypes.url_buttons)}
@@ -338,9 +341,9 @@ class ButtonsMenu extends Component {
          )
       } else if (typeButton === buttonsTypes.call_buttons) {
          return (
-            <div className={style.buttonChanger}>
-               <div className={style.headerContainer}>
-                  <div className={style.headerDesc}>
+            <div className={style.buttonBox}>
+               <div className={style.buttonBoxHeader}>
+                  <div className={style.buttonBoxHeaderDesc}>
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
@@ -354,19 +357,19 @@ class ButtonsMenu extends Component {
                      />
                   </div>
                </div>
-               <div className={style.inputContainer}>
-                  <div className={style.closedButton}>
-                     <div className={style.openedButtonText}>
+               <div className={style.buttonBoxInfo}>
+                  <div className={style.buttonBoxInfoContainer}>
+                     <div className={style.buttonBoxInfoContainerText}>
                         <FontAwesomeIcon icon={faPhoneAlt} size="lg" color="limegreen"/>
 
-                        <div className={style.openedButton}>
-                           <p className={style.openedButtonTitle}>Наберите номер</p>
-                           <p className={style.openedButtonDesc}>Введите номер ниже</p>
+                        <div className={style.buttonBoxInfoContainerActions}>
+                           <p className={style.buttonBoxInfoContainerActionsTitle}>Наберите номер</p>
+                           <p className={style.buttonBoxInfoContainerActionsDesc}>Введите номер ниже</p>
                         </div>
                      </div>
 
                      <div
-                        className={style.openedButtonIcon}
+                        className={style.buttonBoxInfoContainerIcon}
                         onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
                            caption: ''
                         }), indexButton, true, false, buttonsTypes.call_buttons)}
@@ -421,9 +424,9 @@ class ButtonsMenu extends Component {
          );
 
          return (
-            <div className={style.buttonChanger}>
-               <div className={style.headerContainer}>
-                  <div className={style.headerDesc}>
+            <div className={style.buttonBox}>
+               <div className={style.buttonBoxHeader}>
+                  <div className={style.buttonBoxHeaderDesc}>
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
@@ -437,29 +440,24 @@ class ButtonsMenu extends Component {
                      />
                   </div>
                </div>
-               <div className={style.inputContainer}>
-                  <div className={style.closedButton}>
+               <div className={style.buttonBoxInfo}>
+                  <div className={style.buttonBoxInfoSelectContainer}>
                      <Select
-                        placeholder={'Триггер'}
-                        options={this.getTriggers().filter(trigger => trigger.value !== buttonData.boundTriggerId)}
-                        defaultValue={buttonData.payload.trigger_id && {
-                           value: buttonData.payload.trigger_id,
-                           label: changedTriggerInTriggerButton.caption
-                        }}
+                        className={style.selector}
+                        defaultValue={(buttonData.payload.trigger_id && changedTriggerInTriggerButton.caption) || 'Выберите сообщение'}
+                        placeholder="Выберите сообщение"
                         onChange={(value) => this.editButton({
                            target: {
-                              value: value.value
+                              value: value
                            }
                         })}
-                        styles={stylesForSelector}
-                        className={style.selector}
-                        isSearchable={false}
-                        components={{DropdownIndicator: () => null}}
-                        // arrowRenderer={() => ''}
-                     />
-
+                     >
+                        {this.getTriggers().filter(trigger => trigger.value !== buttonData.boundTriggerId).map(item => (
+                           <Option value={item.value}>{item.label}</Option>
+                        ))}
+                     </Select>
                      <div
-                        className={style.openedButtonIcon}
+                        className={style.buttonBoxInfoContainerIcon}
                         onClick={() => buttonEditHandler(buttonsTypes.text_buttons, Object.assign(buttonData, {
                            caption: ''
                         }), indexButton, true, false, buttonsTypes.trigger_buttons)}
@@ -481,7 +479,7 @@ class ButtonsMenu extends Component {
 
    render() {
       return (
-         <div className={style.mainContainer}>
+         <div className={style.buttonMenu}>
             {this.buttonChanger()}
          </div>
       )
