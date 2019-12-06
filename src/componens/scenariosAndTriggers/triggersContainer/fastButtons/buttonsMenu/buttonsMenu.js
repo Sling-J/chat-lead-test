@@ -1,20 +1,21 @@
 import React, {Component, Fragment} from 'react';
-import style from './contextMenu.module.sass';
-import Select from 'react-select'
-import Actions from '../../../../messages/buttonsContainer/actions/actions';
-import Controls from '../../../../messages/buttonsContainer/contextMenu/controls/controls';
+import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faHandPointUp, faLink, faPhoneAlt, faTimes} from "@fortawesome/free-solid-svg-icons";
-import onClickOutside from "react-onclickoutside";
-import {connect} from "react-redux";
-import {buttonsTypes, defaultValuesForNewButtons} from "../../../../../constants/defaultValues";
 
-class ContextMenu extends Component {
+import {buttonsTypes, defaultValuesForNewButtons} from "../../../../../constants/defaultValues";
+import Actions from '../../../../messages/buttonsContainer/actions/actions';
+import Controls from '../../../../messages/buttonsContainer/buttonsMenu/controls/controls';
+
+import style from '../../../../../styles/messageButtons.module.scss';
+import {Select} from "antd";
+
+const {Option} = Select;
+
+class ButtonsMenu extends Component {
    state = {
       isSendTextBtn: false,
    };
-
-   handleClickOutside = () => this.props.setIndexOpenButton(false);
 
    componentDidUpdate(prevProps, prevState, snapshot) {
       const {createdTriggerId, scenarioId, botScenarios} = this.props;
@@ -125,9 +126,9 @@ class ContextMenu extends Component {
 
       if (typeButton === 'empty') {
          return (
-            <div className={style.buttonChanger}>
-               <div className={style.headerContainer}>
-                  <div className={style.headerDesc}>
+            <div className={style.buttonBox}>
+               <div className={style.buttonBoxHeader}>
+                  <div className={style.buttonBoxHeaderDesc}>
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
@@ -153,7 +154,7 @@ class ContextMenu extends Component {
                         true
                      )
                   }}
-                  className={style.changerElement}
+                  className={style.buttonBoxItem}
                >
                   <FontAwesomeIcon icon={faEnvelope} size="lg"/>
                   Создать сообщение
@@ -169,7 +170,7 @@ class ContextMenu extends Component {
                               indexButton
                            )
                         }}
-                        className={style.changerElement}
+                        className={style.buttonBoxItem}
                      >
                         <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
                         Открыть веб-сайт
@@ -182,7 +183,7 @@ class ContextMenu extends Component {
                               indexButton
                            )
                         }}
-                        className={style.changerElement}
+                        className={style.buttonBoxItem}
                      >
                         <FontAwesomeIcon icon={faPhoneAlt} size="lg" color="limegreen"/>
                         Добавить вызов
@@ -198,7 +199,7 @@ class ContextMenu extends Component {
                         indexButton
                      )
                   }}
-                  className={style.changerElement}
+                  className={style.buttonBoxItem}
                >
                   <FontAwesomeIcon icon={faHandPointUp} size="lg" color="limegreen"/>
                   Выберите существующий шаг
@@ -214,9 +215,9 @@ class ContextMenu extends Component {
          )
       } else if (typeButton === buttonsTypes.text_buttons) {
          return (
-            <div className={style.buttonChanger}>
-               <div className={style.headerContainer}>
-                  <div className={style.headerDesc}>
+            <div className={style.buttonBox}>
+               <div className={style.buttonBoxHeader}>
+                  <div className={style.buttonBoxHeaderDesc}>
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
@@ -231,23 +232,23 @@ class ContextMenu extends Component {
                   </div>
                </div>
 
-               <div className={style.inputContainer}>
-                  <div className={style.closedButton}>
-                     <div className={style.openedButtonText} onClick={() =>
+               <div className={style.buttonBoxInfo}>
+                  <div className={style.buttonBoxInfoContainer}>
+                     <div className={style.buttonBoxInfoContainerText} onClick={() =>
                         buttonData.payload.trigger_id.length !== 0 ? this.props.changeTriggerId(buttonData.payload.trigger_id) : {}
                      }>
                         <div>
                            <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
                         </div>
 
-                        <div className={style.openedButton}>
-                           <p className={style.openedButtonTitle}>Отправить сообщение</p>
-                           <p className={style.openedButtonDesc}>{buttonData.createdTrigger && buttonData.createdTrigger.length !== 0 ? buttonData.createdTrigger.caption : 'загрузка ...'}</p>
+                        <div className={style.buttonBoxInfoContainerActions}>
+                           <p className={style.buttonBoxInfoContainerActionsTitle}>Отправить сообщение</p>
+                           <p className={style.buttonBoxInfoContainerActionsDesc}>{buttonData.createdTrigger && buttonData.createdTrigger.length !== 0 ? buttonData.createdTrigger.caption : 'загрузка ...'}</p>
                         </div>
                      </div>
 
                      <div
-                        className={style.openedButtonIcon}
+                        className={style.buttonBoxInfoContainerIcon}
                         onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
                            caption: ''
                         }), indexButton, true)}
@@ -266,9 +267,9 @@ class ContextMenu extends Component {
          )
       } else if (typeButton === buttonsTypes.url_buttons) {
          return (
-            <div className={style.buttonChanger}>
-               <div className={style.headerContainer}>
-                  <div className={style.headerDesc}>
+            <div className={style.buttonBox}>
+               <div className={style.buttonBoxHeader}>
+                  <div className={style.buttonBoxHeaderDesc}>
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
@@ -282,19 +283,19 @@ class ContextMenu extends Component {
                      />
                   </div>
                </div>
-               <div className={style.inputContainer}>
-                  <div className={style.closedButton}>
-                     <div className={style.openedButtonText}>
+               <div className={style.buttonBoxInfo}>
+                  <div className={style.buttonBoxInfoContainer}>
+                     <div className={style.buttonBoxInfoContainerText}>
                         <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
 
-                        <div className={style.openedButton}>
-                           <p className={style.openedButtonTitle}>Открыть веб-сайт</p>
-                           <p className={style.openedButtonDesc}>Введите URL ниже</p>
+                        <div className={style.buttonBoxInfoContainerActions}>
+                           <p className={style.buttonBoxInfoContainerActionsTitle}>Открыть веб-сайт</p>
+                           <p className={style.buttonBoxInfoContainerActionsDesc}>Введите URL ниже</p>
                         </div>
                      </div>
 
                      <div
-                        className={style.openedButtonIcon}
+                        className={style.buttonBoxInfoContainerIcon}
                         onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
                            caption: ''
                         }), indexButton, true)}
@@ -323,9 +324,9 @@ class ContextMenu extends Component {
          )
       } else if (typeButton === buttonsTypes.call_buttons) {
          return (
-            <div className={style.buttonChanger}>
-               <div className={style.headerContainer}>
-                  <div className={style.headerDesc}>
+            <div className={style.buttonBox}>
+               <div className={style.buttonBoxHeader}>
+                  <div className={style.buttonBoxHeaderDesc}>
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
@@ -339,19 +340,19 @@ class ContextMenu extends Component {
                      />
                   </div>
                </div>
-               <div className={style.inputContainer}>
-                  <div className={style.closedButton}>
-                     <div className={style.openedButtonText}>
+               <div className={style.buttonBoxInfo}>
+                  <div className={style.buttonBoxInfoContainer}>
+                     <div className={style.buttonBoxInfoContainerText}>
                         <FontAwesomeIcon icon={faPhoneAlt} size="lg" color="limegreen"/>
 
-                        <div className={style.openedButton}>
-                           <p className={style.openedButtonTitle}>Наберите номер</p>
-                           <p className={style.openedButtonDesc}>Введите номер ниже</p>
+                        <div className={style.buttonBoxInfoContainerActions}>
+                           <p className={style.buttonBoxInfoContainerActionsTitle}>Наберите номер</p>
+                           <p className={style.buttonBoxInfoContainerActionsDesc}>Введите номер ниже</p>
                         </div>
                      </div>
 
                      <div
-                        className={style.openedButtonIcon}
+                        className={style.buttonBoxInfoContainerIcon}
                         onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
                            caption: ''
                         }), indexButton, true)}
@@ -378,37 +379,15 @@ class ContextMenu extends Component {
             </div>
          )
       } else if (typeButton === buttonsTypes.trigger_buttons) {
-         const stylesForSelector = {
-            control: (styles) => ({
-               ...styles,
-               boxShadow: '0 !important',
-               cursor: 'pointer',
-               border: '1px dashed #bdcadd',
-               borderRight: 'none',
-               borderRadius: '10px 0 0 10px',
-               height: '100%',
-               background: '#f1f3f5'
-            }),
-            option: (styles, {data, isDisabled, isFocused, isSelected}) => {
-               return {
-                  ...styles,
-                  color: '#000',
-                  backgroundColor: isSelected ? '#f4f3f5' : 'white',
-                  cursor: 'pointer',
-                  borderRadius: '0'
-               };
-            }
-         };
-
          const changedScenario = this.props.botScenarios.filter(elem => elem.id === this.props.scenarioId)[0];
          const changedTriggerInTriggerButton = typeButton === buttonsTypes.trigger_buttons && (
             changedScenario.triggers.filter(elem => elem.id === buttonData.payload.trigger_id)[0]
          );
 
          return (
-            <div className={style.buttonChanger}>
-               <div className={style.headerContainer}>
-                  <div className={style.headerDesc}>
+            <div className={style.buttonBox}>
+               <div className={style.buttonBoxHeader}>
+                  <div className={style.buttonBoxHeaderDesc}>
                      <div>
                         <h2>Название кнопки</h2>
                      </div>
@@ -422,29 +401,25 @@ class ContextMenu extends Component {
                      />
                   </div>
                </div>
-               <div className={style.inputContainer}>
-                  <div className={style.closedButton}>
+               <div className={style.buttonBoxInfo}>
+                  <div className={style.buttonBoxInfoSelectContainer}>
                      <Select
-                        placeholder={'Триггер'}
-                        options={this.getTriggers().filter(trigger => trigger.value !== buttonData.boundTriggerId)}
-                        defaultValue={buttonData.payload.trigger_id && {
-                           value: buttonData.payload.trigger_id,
-                           label: changedTriggerInTriggerButton.caption
-                        }}
+                        className={style.selector}
+                        defaultValue={(buttonData.payload.trigger_id && changedTriggerInTriggerButton.caption) || 'Выберите сообщение'}
+                        placeholder="Выберите сообщение"
                         onChange={(value) => this.editButton({
                            target: {
-                              value: value.value
+                              value: value
                            }
                         })}
-                        styles={stylesForSelector}
-                        className={style.selector}
-                        isSearchable={false}
-                        components={{DropdownIndicator: () => null}}
-                        // arrowRenderer={() => ''}
-                     />
+                     >
+                        {this.getTriggers().filter(trigger => trigger.value !== buttonData.boundTriggerId).map(item => (
+                           <Option value={item.value}>{item.label}</Option>
+                        ))}
+                     </Select>
 
                      <div
-                        className={style.openedButtonIcon}
+                        className={style.buttonBoxInfoContainerIcon}
                         onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
                            caption: ''
                         }), indexButton, true)}
@@ -466,7 +441,7 @@ class ContextMenu extends Component {
 
    render() {
       return (
-         <div className={style.mainContainer}>
+         <div className={style.buttonMenu}>
             {this.buttonChanger()}
          </div>
       )
@@ -482,4 +457,4 @@ const mapStateToProps = ({singleBotReducers}) => ({
    error: singleBotReducers.error,
 });
 
-export default connect(mapStateToProps)(onClickOutside(ContextMenu))
+export default connect(mapStateToProps)(ButtonsMenu)

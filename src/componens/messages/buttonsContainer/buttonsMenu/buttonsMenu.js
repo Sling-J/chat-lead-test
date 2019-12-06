@@ -396,28 +396,6 @@ class ButtonsMenu extends Component {
             </div>
          )
       } else if (typeButton === buttonsTypes.trigger_buttons) {
-         const stylesForSelector = {
-            control: (styles) => ({
-               ...styles,
-               boxShadow: '0 !important',
-               cursor: 'pointer',
-               border: '1px dashed #bdcadd',
-               borderRight: 'none',
-               borderRadius: '10px 0 0 10px',
-               height: '100%',
-               background: '#f1f3f5'
-            }),
-            option: (styles, {data, isDisabled, isFocused, isSelected}) => {
-               return {
-                  ...styles,
-                  color: '#000',
-                  backgroundColor: isSelected ? '#f4f3f5' : 'white',
-                  cursor: 'pointer',
-                  borderRadius: '0'
-               };
-            }
-         };
-
          const changedScenario = this.props.botScenarios.filter(elem => elem.id === this.props.scenarioId)[0];
          const changedTriggerInTriggerButton = typeButton === buttonsTypes.trigger_buttons && (
             changedScenario.triggers.filter(elem => elem.id === buttonData.payload.trigger_id)[0]
