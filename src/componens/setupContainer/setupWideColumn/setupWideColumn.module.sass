@@ -141,13 +141,6 @@ input[type=number]::-webkit-outer-spin-button
          background-color: #66bb6a
          background-image: url("../../../svg/db/check.svg")
 
-.inputGroupDanger
-   label
-      &:before
-         border-color: tomato
-         background-color: tomato
-         background-image: url("../../../svg/db/danger.svg")
-
 .inputGroup
    position: absolute
    right: 5%
@@ -166,14 +159,14 @@ input[type=number]::-webkit-outer-spin-button
       visibility: hidden
 
       &:checked ~
-      label
-         &:before
-            opacity: 1
-            z-index: 9
+         label
+            &:before
+               opacity: 1
+               z-index: 9
 
-         &:after
-            background-color: #fff
-            border-color: transparent
+            &:after
+               background-color: #fff
+               border-color: transparent
 
 
    label
@@ -277,11 +270,15 @@ input[type=number]::-webkit-outer-spin-button
          max-width: 340px
          min-width: 200px
          border: 1px solid #d0d0d0
+         border-left: none
          display: flex
          flex-direction: row
          flex-wrap: wrap
          background-color: #fff
          padding: 5px 0
+
+         &:first-child
+            border-left: 1px solid #d0d0d0
 
          .list
             display: flex
@@ -320,9 +317,9 @@ input[type=number]::-webkit-outer-spin-button
          padding-top: 0
          margin-left: 10px
 
-      input[type="text"]
+      input
          border: none
-         padding: 10px 5px
+         padding: 10px 0px
          margin: 0 15px
          -webkit-transition: .4s
          transition: .4s
@@ -404,7 +401,8 @@ input[type=number]::-webkit-outer-spin-button
          text-align: center
          margin: 10px
 
-      a
+      div
+         cursor: pointer
          color: #4680fe
          text-decoration: none
 

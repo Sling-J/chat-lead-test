@@ -42,8 +42,7 @@ const SetupSidebar = (props) => {
          <div className={style.groupBlock}>
             <p className={style.groupBlock__text}>
                {payedDate}
-               <br/>
-               <a href="#">ВЫБРАТЬ ТАРИФ</a>
+               <p>ВЫБРАТЬ ТАРИФ</p>
             </p>
          </div>
          <div className={style.ui_vmenu_sep}>

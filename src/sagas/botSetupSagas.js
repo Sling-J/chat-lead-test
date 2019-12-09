@@ -38,26 +38,24 @@ export function* getManagerSaga({idBot}) {
 
 export function* editManagerSaga({setupData}) {
    if (userAccessToken()) {
-      try {
-         const formData = new FormData();
-         formData.append('user_token', localStorage.getItem('token'));
-         formData.append('manager_id', setupData.idBot);
+      yield put({type: ACTION.BOT_SETUP_REQUEST});
 
-         if (setupData.optional_params !== undefined) {
-            for (let param of setupData.optional_params) {
-               formData.append(param, setupData[param]);
-            }
+      const formData = new FormData();
+      formData.append('user_token', localStorage.getItem('token'));
+      formData.append('manager_id', setupData.idBot);
+
+      if (setupData.optional_params !== undefined) {
+         for (let param of setupData.optional_params) {
+            formData.append(param, setupData[param]);
          }
+      }
 
-         const {data} = yield call(editManager, formData);
+      const {data} = yield call(editManager, formData);
 
-         if (data.ok) {
-            yield put({type: ACTION.BOT_SETUP_RESPONSE, data: data.manager});
-         } else {
-            yield put({type: ACTION.BOT_SETUP_ERROR, error: signUpErrors[data.desc]})
-         }
-      } catch (e) {
-         yield put({type: ACTION.BOT_SETUP_ERROR, error: e.message})
+      if (data.ok) {
+         yield put({type: ACTION.BOT_SETUP_RESPONSE, data: data.manager});
+      } else {
+         yield put({type: ACTION.BOT_SETUP_ERROR, error: signUpErrors[data.desc]})
       }
    }
 }

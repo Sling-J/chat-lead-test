@@ -26,7 +26,7 @@ const MainHeader = (props) => {
 
    return (
       <header className={style.mainContainer}>
-         {(props.isFetching || props.isFetchingSetup || props.isFetchingBot || props.isFetchingBroadCast || props.isFetchingAutorides) &&
+         {(props.isFetching || props.isFetchingSetup || props.isFetchingBot || props.isFetchingBroadCast || props.isFetchingAutorides || props.isFetchingBotsReducers) &&
          <LinearProgress className={style.linearProgress}/>
          }
          <div className={style.leftSideContainer}>
@@ -81,16 +81,18 @@ const MainHeader = (props) => {
 
 const mapStateToProps = state => {
    const {botsData, changedBotData, isFetching, error} = state.botsReducers;
+
    const isFetchingSetup = state.botSetupReducers.isFetching;
    const isFetchingBot = state.singleBotReducers.isFetching;
    const isFetchingBroadCast = state.broadCastReducers.isFetching;
    const isFetchingAutorides = state.autoridesReducers.isFetching;
+   const isFetchingBotsReducers = state.botsReducers.isFetching;
 
    return {
       botsData, isFetching, error,
       changedBotData, isFetchingSetup,
       isFetchingBot, isFetchingBroadCast,
-      isFetchingAutorides
+      isFetchingAutorides, isFetchingBotsReducers
    }
 };
 

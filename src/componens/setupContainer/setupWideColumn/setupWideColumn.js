@@ -19,8 +19,10 @@ import {destinationScenario} from "../../../constants/defaultValues";
 class SetupWideColumn extends Component {
    state = {
       willSend: false,
+      telegramList: [],
       emailList: [],
       telList: [],
+      telegram: '',
       email: '',
       tel: '',
    };
@@ -30,13 +32,16 @@ class SetupWideColumn extends Component {
 
       if (
          (prevProps.botSetupData.application_email !== botSetupData.application_email) ||
-         (prevProps.botSetupData.application_whatsapp_id !== botSetupData.application_whatsapp_id)
+         (prevProps.botSetupData.application_whatsapp_id !== botSetupData.application_whatsapp_id) ||
+         (prevProps.botSetupData.application_telegram_id !== botSetupData.application_telegram_id)
       ) {
+         let resTelegramList = botSetupData.application_telegram_id.split(",").filter(item => item.length !== 0);
          let resEmailList = botSetupData.application_email.split(",").filter(item => item.length !== 0);
          let resTelList = botSetupData.application_whatsapp_id.split(",").filter(item => item.length !== 0);
          let willSend = botSetupData.application_will_send;
 
          this.setState({
+            telegramList: resTelegramList,
             emailList: resEmailList,
             telList: resTelList,
             willSend: willSend
@@ -57,7 +62,7 @@ class SetupWideColumn extends Component {
    handleSubmit = event => {
       event.preventDefault();
 
-      const {email, tel, emailList, telList} = this.state;
+      const {email, tel, telegram, emailList, telList, telegramList} = this.state;
       const {botSetupData, editManager} = this.props;
 
       const botId = botSetupData.id;
@@ -75,7 +80,8 @@ class SetupWideColumn extends Component {
             application_will_send: true,
             application_email: newEmailList.toString(),
             application_whatsapp_id: telList.toString(),
-            optional_params: ["application_email", "application_whatsapp_id", "application_will_send"]
+            application_telegram_id: telegramList.toString(),
+            optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
          });
       }
 
@@ -90,18 +96,36 @@ class SetupWideColumn extends Component {
             application_will_send: true,
             application_email: emailList.toString(),
             application_whatsapp_id: newTelList.toString(),
-            optional_params: ["application_email", "application_whatsapp_id", "application_will_send"]
+            application_telegram_id: telegramList.toString(),
+            optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
+         });
+      }
+
+      if (telegram.length !== 0) {
+         const newTelegramList = [
+            ...telegramList,
+            telegram
+         ];
+
+         editManager({
+            idBot: botId,
+            application_will_send: true,
+            application_email: emailList.toString(),
+            application_whatsapp_id: telList.toString(),
+            application_telegram_id: newTelegramList.toString(),
+            optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
          });
       }
 
       this.setState({
+         telegram: '',
          email: '',
-         tel: ''
+         tel: '',
       })
    };
 
    deleteNotificationElement = (type, index) => {
-      const {emailList, telList, willSend} = this.state;
+      const {emailList, telList, willSend, telegramList} = this.state;
       const {editManager, botSetupData} = this.props;
       const botId = botSetupData.id;
 
@@ -114,7 +138,8 @@ class SetupWideColumn extends Component {
             application_will_send: willSend,
             application_email: emailList.length === 1 ? ',' : newEmailList.toString(),
             application_whatsapp_id: telList.toString(),
-            optional_params: ["application_email", "application_whatsapp_id", "application_will_send"]
+            application_telegram_id: telegramList.toString(),
+            optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
          });
       }
 
@@ -126,8 +151,23 @@ class SetupWideColumn extends Component {
             idBot: botId,
             application_will_send: willSend,
             application_email: emailList.toString(),
+            application_telegram_id: telegramList.toString(),
             application_whatsapp_id: telList.length === 1 ? ',' : newTelList.toString(),
-            optional_params: ["application_email", "application_whatsapp_id", "application_will_send"]
+            optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
+         });
+      }
+
+      if (type === "telegram") {
+         let newTelegramList = [...telegramList];
+         newTelegramList.splice(index, 1);
+
+         editManager({
+            idBot: botId,
+            application_will_send: willSend,
+            application_email: emailList.toString(),
+            application_whatsapp_id: telList.toString(),
+            application_telegram_id: telegramList.length === 1 ? ',' : newTelegramList.toString(),
+            optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
          });
       }
    };
@@ -138,19 +178,21 @@ class SetupWideColumn extends Component {
       if (message) {
          const filteredMessage = botScenarios.find(scenario => scenario.id === parseInt(message));
 
-         const facebook = filteredMessage && getFilledStatus('facebook', filteredMessage.triggers[filteredMessage.triggers.length - 1]);
-         const telegram = filteredMessage && getFilledStatus('telegram', filteredMessage.triggers[filteredMessage.triggers.length - 1]);
-         const vk = filteredMessage && getFilledStatus('vk', filteredMessage.triggers[filteredMessage.triggers.length - 1]);
-         const whatsapp = filteredMessage && getFilledStatus('whatsapp', filteredMessage.triggers[filteredMessage.triggers.length - 1]);
+         const facebook = filteredMessage && getFilledStatus('facebook', filteredMessage.triggers[0]);
+         const telegram = filteredMessage && getFilledStatus('telegram', filteredMessage.triggers[0]);
+         const vk = filteredMessage && getFilledStatus('vk', filteredMessage.triggers[0]);
+         const whatsApp = filteredMessage && getFilledStatus('whatsapp', filteredMessage.triggers[0]);
 
-         return facebook && telegram && vk && whatsapp;
+         if (facebook && telegram && vk && whatsApp) {
+            return true
+         }
       }
 
       return false
    };
 
    render() {
-      const {telList, willSend, emailList, email, tel} = this.state;
+      const {telList, willSend, emailList, email, tel, telegram, telegramList} = this.state;
       const {editManager, botSetupData} = this.props;
       const {default_response, welcome_message, subscription_message} = botSetupData;
       const botId = botSetupData.id;
@@ -158,6 +200,8 @@ class SetupWideColumn extends Component {
       const isWelcomeMessageEmpty = this.isEmptyCheck(welcome_message);
       const isDefaultResponseEmpty = this.isEmptyCheck(default_response);
       const isSubscriptionMessage = this.isEmptyCheck(subscription_message);
+
+      console.log(isWelcomeMessageEmpty);
 
       return (
          <div className={style.wideСolumn}>
@@ -173,11 +217,7 @@ class SetupWideColumn extends Component {
                               <div className={style.label}>Приветственные сообщения</div>
                               <p>Реакция на первое сообщение пользователя боту, срабатывает только 1 раз</p>
                            </div>
-                           <div className={
-                              `${style.inputGroup}
-                                 ${isWelcomeMessageEmpty && style.inputGroupCheck}
-                               `
-                           }>
+                           <div className={`${style.inputGroup} ${isWelcomeMessageEmpty && style.inputGroupCheck}`}>
                               <input
                                  type={'checkbox'}
                                  id={'welcome_message'}
@@ -201,11 +241,7 @@ class SetupWideColumn extends Component {
                               <p>Сработает, только если пользователь писал в сообщество</p>
                            </div>
 
-                           <div className={
-                              `${style.inputGroup}
-                                 ${isSubscriptionMessage && style.inputGroupCheck}
-                               `
-                           }>
+                           <div className={`${style.inputGroup} ${isSubscriptionMessage && style.inputGroupCheck}`}>
                               <input
                                  type={'checkbox'}
                                  className={style.statusIcon}
@@ -248,11 +284,7 @@ class SetupWideColumn extends Component {
                               <div className={style.label}>Реакция на неизвестную команду</div>
                               <p>Ответ на любое сообщение не по сценарию</p>
                            </div>
-                           <div className={
-                              `${style.inputGroup}
-                                 ${isDefaultResponseEmpty && style.inputGroupCheck}
-                               `
-                           }>
+                           <div className={`${style.inputGroup} ${isDefaultResponseEmpty && style.inputGroupCheck}`}>
                               <input
                                  type={'checkbox'}
                                  id={'default_response'}
@@ -283,25 +315,12 @@ class SetupWideColumn extends Component {
                               <span className={style.slider + " " + style.round}/>
                            </label>
                            <p>Получать уведомления о заявках</p>
-                           {/*<button className={style.default_btn+" "+style.default_btn__primary} onClick={(e) =>{*/}
-                           {/*    e.preventDefault();*/}
-                           {/*    console.log(document.querySelector('.'+style.notifyme+' input[type=checkbox]').checked)*/}
-                           {/*    props.editManager({*/}
-                           {/*        idBot: botId,*/}
-                           {/*        application_will_send: willSend,*/}
-                           {/*        application_email: document.querySelector('.'+style.notifyme+' input[name=mail]').value,*/}
-                           {/*        application_whatsapp_id: document.querySelector('.'+style.notifyme+' input[name=phone]').value,*/}
-                           {/*        optional_params: ["application_email", "application_whatsapp_id", "application_will_send"]*/}
-                           {/*    });*/}
-                           {/*}}>*/}
-                           {/*    Сохранить*/}
-                           {/*</button>*/}
                         </div>
                         {}
                         <div className={style.switcher + " "}>
                            <div className={style.switcherContainer}>
                               <div className={style.list}>
-                                 {emailList && emailList.map((email, index) =>
+                                 {emailList.map((email, index) =>
                                     <div>
                                        {email}
                                        <span
@@ -321,33 +340,52 @@ class SetupWideColumn extends Component {
 
                            </div>
 
+                           {/*<div className={style.switcherContainer}>*/}
+                           {/*   <div className={style.list}>*/}
+                           {/*      {telList.map((tel, index) =>*/}
+                           {/*         <div>*/}
+                           {/*            {tel}*/}
+                           {/*            <span*/}
+                           {/*               onClick={() => this.deleteNotificationElement("tel", index)}>×</span>*/}
+                           {/*         </div>*/}
+                           {/*      )}*/}
+                           {/*      <input*/}
+                           {/*         className={style.subscribeField}*/}
+                           {/*         id="notificationTel"*/}
+                           {/*         type="number"*/}
+                           {/*         name="phone"*/}
+                           {/*         placeholder="+7 ___ ___ __ __"*/}
+                           {/*         onChange={e => this.setState({tel: e.target.value})}*/}
+                           {/*         value={tel}*/}
+                           {/*      />*/}
+                           {/*   </div>*/}
+                           {/*</div>*/}
+
                            <div className={style.switcherContainer}>
                               <div className={style.list}>
-                                 {telList && telList.map((tel, index) =>
+                                 {telegramList.map((telegram, index) =>
                                     <div>
-                                       {tel}
+                                       {telegram}
                                        <span
-                                          onClick={() => this.deleteNotificationElement("tel", index)}>×</span>
+                                          onClick={() => this.deleteNotificationElement("telegram", index)}>×</span>
                                     </div>
                                  )}
                                  <input
                                     className={style.subscribeField}
-                                    id="notificationTel"
-                                    type="number"
+                                    id="notificationTelergam"
+                                    type="text"
                                     name="phone"
-                                    placeholder="+7 ___ ___ __ __"
-                                    onChange={e => this.setState({tel: e.target.value})}
-                                    value={tel}
+                                    placeholder="@telegramID"
+                                    onChange={e => this.setState({telegram: e.target.value})}
+                                    value={telegram}
                                  />
                               </div>
-
                            </div>
 
-                           {/*<input type="text" name="phone" placeholder="+7 ___ ___ __ __"/>*/}
                         </div>
                         <div className={style.switcher + " " + style.underinput}>
                            <span>Добавьте емейл, на который отправлять уведомления и нажмите Enter </span>
-                           <span>Или Напишите WhatsApp номер</span>
+                           <span>Или напишите Telegram ID</span>
                         </div>
                         <button className={style.default_btn + " " + style.default_btn__primary}>Сохранить
                         </button>
@@ -364,9 +402,9 @@ class SetupWideColumn extends Component {
                            document.getElementById('menu_bitrix').classList.remove(style.show);
                            document.getElementById('menu_amo').classList.add(style.show);
                         }}>
-                           <a href="javascript:void(0)" data-target="menu_amo">
+                           <div data-target="menu_amo">
                               <img src={amocrm_logo} alt=""/>
-                           </a>
+                           </div>
                         </li>
                         <li className="bitrix" id="bitrix-container" onClick={() => {
                            document.getElementById('bitrix-container').classList.add(style.activeContainer);
@@ -374,9 +412,9 @@ class SetupWideColumn extends Component {
                            document.getElementById('menu_amo').classList.remove(style.show);
                            document.getElementById('menu_bitrix').classList.add(style.show);
                         }}>
-                           <a href="javascript:void(0)" data-target="menu_bitrix">
+                           <div data-target="menu_bitrix">
                               <img src={bitrix_logo} alt=""/>
-                           </a>
+                           </div>
                         </li>
                      </ul>
                   </div>
