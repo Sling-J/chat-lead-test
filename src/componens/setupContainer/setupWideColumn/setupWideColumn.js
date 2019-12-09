@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import style from './setupWideColumn.module.sass';
 import {connect} from 'react-redux';
 import {
    getManager,
@@ -13,11 +12,16 @@ import svr_r4 from '../../../svg/db/settings/301-idea-1.svg';
 import amocrm_logo from '../../../images/amocrm-logo-rect.png';
 import bitrix_logo from '../../../images/bitrix-24-logo.png';
 
+import SetupWideColumnModal from "./setupWideColumnModal/setupWideColumnModal";
 import {getFilledStatus} from "../../../utils/socialFilledStatus";
 import {destinationScenario} from "../../../constants/defaultValues";
 
+import {Button} from 'antd';
+import style from './setupWideColumn.module.sass';
+
 class SetupWideColumn extends Component {
    state = {
+      visible: false,
       willSend: false,
       telegramList: [],
       emailList: [],
@@ -48,6 +52,26 @@ class SetupWideColumn extends Component {
          });
       }
    }
+
+   showModal = () => {
+      this.setState({
+         visible: true,
+      });
+   };
+
+   handleOk = e => {
+      console.log(e);
+      this.setState({
+         visible: false,
+      });
+   };
+
+   handleCancel = e => {
+      console.log(e);
+      this.setState({
+         visible: false,
+      });
+   };
 
    reactionBots = (typeReaction, statusChecked) => {
       const botId = this.props.botSetupData.id;
@@ -310,13 +334,16 @@ class SetupWideColumn extends Component {
                         <h3>Оповещение</h3>
                         <div className={style.switcher}>
                            <label className={style.switch}>
-                              <input type="checkbox" checked={willSend}
-                                     onClick={(e) => this.setState(() => ({willSend: !willSend}))}/>
+                              <input
+                                 type="checkbox"
+                                 checked={willSend}
+                                 onClick={() => this.setState(() => ({willSend: !willSend}))}
+                              />
                               <span className={style.slider + " " + style.round}/>
                            </label>
                            <p>Получать уведомления о заявках</p>
                         </div>
-                        {}
+
                         <div className={style.switcher + " "}>
                            <div className={style.switcherContainer}>
                               <div className={style.list}>
@@ -383,15 +410,35 @@ class SetupWideColumn extends Component {
                            </div>
 
                         </div>
+
                         <div className={style.switcher + " " + style.underinput}>
                            <span>Добавьте емейл, на который отправлять уведомления и нажмите Enter </span>
                            <span>Или напишите Telegram ID</span>
                         </div>
-                        <button className={style.default_btn + " " + style.default_btn__primary}>Сохранить
-                        </button>
+
+                        <div className={style.notifyBox}>
+                           <div style={style.notifyBoxItem}>
+                              <Button type="primary" onClick={this.showModal}>
+                                 Open Modal
+                              </Button>
+                           </div>
+
+                           <div style={style.notifyBoxItem}>
+                              <Button type="primary" onClick={this.showModal}>
+                                 Open Modal
+                              </Button>
+                           </div>
+                        </div>
+
+                        <SetupWideColumnModal
+                           visible={this.state.visible}
+                           handleOk={this.handleOk}
+                           handleCancel={this.handleCancel}
+                        />
                      </form>
                   </div>
                </section>
+
                <section>
                   <div className={style.integration}>
                      <h1>Интеграция</h1>

@@ -7,7 +7,9 @@ import alienSmileImg from '../../../images/statistics/alien_icon-icons.com_60286
 import alienSadImg from '../../../images/statistics/alien_sad_icon-icons.com_60288.png';
 import csvExport from '../../../images/statistics/export-csv.png';
 
-const StatisticsInfo = () => {
+const StatisticsInfo = ({tabs, activeTab}) => {
+   const exportedSocial = tabs[activeTab];
+
    return (
       <div className="statistics-info">
          <div className="statistics-info-box">
@@ -68,7 +70,7 @@ const StatisticsInfo = () => {
             </Button>
 
             <p className="statistics-info-export__social">
-               Facebook Messenger
+               {exportedSocial.name}
             </p>
          </div>
       </div>

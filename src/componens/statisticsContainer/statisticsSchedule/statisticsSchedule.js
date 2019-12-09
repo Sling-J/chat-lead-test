@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {DatePicker, Tabs} from 'antd';
-import moment from 'moment';
 
 import {dateFormat} from "../../../utils/formatDate";
 import Schedule from "./schedule";
@@ -8,58 +7,45 @@ import Schedule from "./schedule";
 const {RangePicker} = DatePicker;
 const {TabPane} = Tabs;
 
-const StatisticsSchedule = () => {
+const StatisticsSchedule = ({tabs, changeTab}) => {
    const [chartData] = useState({
       labels: [
-         '20 май', '21 май', '22 май',
-         '23 май', '24 май', '25 май',
-         '26 май', '27 май', '28 май',
-         '29 май', '30 май', '31 май'
+         '1 май', '2 май', '3 май',
+         '4 май', '5 май', '6 май',
+         '7 май', '8 май', '9 май',
       ],
       datasets: [{
          label: 'Подписчиков',
          borderColor: '#0C9B00',
          fill: false,
          data: [
-            1, 2, 3,
-            4, 7, 5,
-            12, 16, 13,
-            19, 17, 22
+            0, 0, 0,
+            0, 0, 0,
+            0, 0, 0,
          ]
       }]
    });
 
    const datePicker = (
       <RangePicker
+         disabled
+         format={dateFormat}
          onChange={(value, dateStrings) => {
             console.log(value[1].unix() - value[0].unix())
          }}
-         format={dateFormat}
       />
    );
 
    return (
       <div className="statistics-schedule">
          <div className="chart">
-            <div>
-               <Tabs defaultActiveKey="1" tabBarExtraContent={datePicker}>
-                  <TabPane tab="Все" key="1">
+            <Tabs defaultActiveKey="2" tabBarExtraContent={datePicker} onChange={activeKey => changeTab(activeKey - 1)}>
+               {tabs.map(tab => (
+                  <TabPane tab={tab.name} key={tab.key}>
                      <Schedule chartData={chartData}/>
                   </TabPane>
-                  <TabPane tab="Facebook" key="2">
-                     <Schedule chartData={chartData}/>
-                  </TabPane>
-                  <TabPane tab="Telegram" key="3">
-                     <Schedule chartData={chartData}/>
-                  </TabPane>
-                  <TabPane tab="Vk" key="4">
-                     <Schedule chartData={chartData}/>
-                  </TabPane>
-                  <TabPane tab="WhatsApp" key="5">
-                     <Schedule chartData={chartData}/>
-                  </TabPane>
-               </Tabs>
-            </div>
+               ))}
+            </Tabs>
          </div>
       </div>
    )

@@ -1,21 +1,21 @@
 import {combineReducers} from 'redux';
 import {reducer as formReducer} from "redux-form";
-import userReducers from '../reducers/userReducers';
-import botsReducers from '../reducers/botsReducers';
-import singleBotReducers from '../reducers/singleBotReducers';
-import autoridesReducers from '../reducers/autoridesReducers';
-import broadCastReducers from '../reducers/broadcastReducers';
-import botSetupReducers from '../reducers/botSetupReducers';
 
-const appReducer = combineReducers({
-   userReducers,
+import userReducers from './userReducer';
+import botsReducers from './botsReducer';
+import botSetupReducers from './botSetupReducer';
+import singleBotReducers from './singleBotReducer';
+import autoridesReducers from './autoridesReducer';
+import broadCastReducers from './broadcastReducer';
+import botStatisticsReducer from "./botStatisticsReducer";
+
+export default combineReducers({
    form: formReducer,
+   userReducers,
    botsReducers,
    singleBotReducers,
    autoridesReducers,
    broadCastReducers,
-   botSetupReducers
+   botSetupReducers,
+   botStatisticsReducer
 });
-
-const rootReducer = (state, action) => appReducer(state, action);
-export default rootReducer;

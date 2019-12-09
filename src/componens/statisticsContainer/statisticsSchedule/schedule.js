@@ -10,6 +10,14 @@ const Schedule = ({chartData}) => {
                legend: {
                   display: false,
                },
+               scales: {
+                  yAxes: [{
+                     ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                     }
+                  }]
+               },
             }}
          />
       </div>

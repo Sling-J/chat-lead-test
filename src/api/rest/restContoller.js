@@ -109,3 +109,7 @@ export const getQRCodeUrl = (userData) => (
 export const editFastButtonName = (idBtn) => (
    axios.post(`${restURL}/EditFastBtnName/`, idBtn)
 );
+
+export const getBotStatistics = botId => (
+   axios.get(`http://188.225.57.229/${botId}/analytics/`)
+);

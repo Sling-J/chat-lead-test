@@ -32,12 +32,14 @@ import {
    vkAuthSaga,
    getQRCodeSaga
 } from "./botSetupSagas";
+import {getBotStatisticsSaga} from "./botStatisticsSaga"
 
 function* rootSaga() {
    yield  all([
+      getBotStatisticsSaga(),
       facebookAuthSaga(),
-      vkAuthSaga(),
       getQRCodeSaga(),
+      vkAuthSaga(),
       takeLatest(ACTION.SIGN_UP_ACTION, signUpSaga),
       takeLatest(ACTION.AUTH_ACTION, authSaga),
       takeLatest(ACTION.LOGOUT_ACTION, logoutSaga),
