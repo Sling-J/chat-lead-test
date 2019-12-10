@@ -30,7 +30,7 @@ const SetupSidebar = (props) => {
       }
    }, [props.url]);
 
-   const payedDate = props.botSetupData.length !== 0 &&
+   const paidDay = props.botSetupData.length !== 0 &&
       props.botSetupData.payed_end_date >= 5 ? `Ваш пробный период заканчивается через ${props.botSetupData.payed_end_date} дней.` :
          props.botSetupData.payed_end_date >= 2 ? `Ваш пробный период заканчивается через ${props.botSetupData.payed_end_date} дня.` :
             props.botSetupData.payed_end_date === 1 ? `Ваш пробный период заканчивается через ${props.botSetupData.payed_end_date} день.` :
@@ -41,7 +41,7 @@ const SetupSidebar = (props) => {
       <aside id="sidebar" className={style.setupSidebar}>
          <div className={style.groupBlock}>
             <p className={style.groupBlock__text}>
-               {payedDate}
+               {paidDay}
                <p>ВЫБРАТЬ ТАРИФ</p>
             </p>
          </div>

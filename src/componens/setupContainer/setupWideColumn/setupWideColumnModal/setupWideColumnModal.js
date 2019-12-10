@@ -100,7 +100,8 @@ const SetupWideColumnModal = ({visible, handleCancel, isEmail, editManager, setW
                      style={{width: '100%'}}
                      type={isEmail === 'email' ? 'email' : 'number'}
                      onChange={e => setTextField(e.target.value)}
-                     label={isEmail === "email" ? 'mail@potokbot.io' : '380894576'}
+                     placeholder={isEmail === "email" ? 'mail@potokbot.io' : '380894576'}
+                     label={isEmail === "email" ? 'Электронная почта' : 'Telegram ID'}
                      helperText={isEmail === "email"
                         ? "Добавьте емейл, на который отправлять уведомления и нажмите Enter."
                         : "Напишите номер id который пришел в telegram."

@@ -21,6 +21,11 @@ const BotsElement = (props) => {
    const [name, setName] = useState(false);
    const [isEdit, setEdit] = useState(0);
 
+   const paidDay = props.payed_end_date >= 5 ? <span>Ваш пробный период заканчивается через <span className={style.paidDay}>{props.payed_end_date} дней.</span></span> :
+      props.payed_end_date >= 2 ? <span>Ваш пробный период заканчивается через <span className={style.paidDay}>{props.payed_end_date} дня.</span></span> :
+         props.payed_end_date === 1 ? <span>Ваш пробный период заканчивается через <span className={style.paidDay}>{props.payed_end_date} день.</span></span> :
+            props.payed_end_date === 0 ? 'Пробный период закончился.' : '';
+
    return (
       <li className={style.mainContainer}>
          {isEdit ? (
@@ -71,7 +76,9 @@ const BotsElement = (props) => {
             <img src={vkIcon} alt="Facebook"/>
             <img src={whatsappIcon} alt="WhatsApp"/>
          </div>
-         <h2>Тестовый период заканчивается через <span>14 дней</span></h2>
+
+         <h2>{paidDay}</h2>
+
          <div className={style.controls}>
             <Link to={`/bots/${id}/setup`} className={style.link}>Изменить</Link>
             <img src={trash} alt="Delete" onClick={() => props.botCallback(name || props.name, id)}/>
