@@ -30,7 +30,6 @@ class SetupWideColumn extends Component {
       const {botSetupData} = this.props;
 
       if (prevProps.botSetupData.application_will_send !== botSetupData.application_will_send) {
-         console.log(botSetupData.application_will_send);
          this.setState({willSend: botSetupData.application_will_send})
       }
 
@@ -332,7 +331,13 @@ class SetupWideColumn extends Component {
                               <input
                                  type="checkbox"
                                  checked={willSend}
-                                 onClick={() => this.setState(() => ({willSend: !willSend}))}
+                                 onClick={() => {
+                                    editManager({
+                                       idBot: botId,
+                                       application_will_send: !willSend,
+                                    });
+                                    this.setState(() => ({willSend: !willSend}));
+                                 }}
                               />
                               <span className={style.slider + " " + style.round}/>
                            </label>

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import style from './mainHeader.module.sass';
 import Logo from '../../images/logo_panel.png';
 import {Link} from 'react-router-dom';
@@ -25,56 +25,59 @@ const MainHeader = (props) => {
    }, []);
 
    return (
-      <header className={style.mainContainer}>
-         {(props.isFetching || props.isFetchingSetup || props.isFetchingBot || props.isFetchingBroadCast || props.isFetchingAutorides || props.isFetchingBotsReducers) &&
-         <LinearProgress className={style.linearProgress}/>
+      <Fragment>
+         {(props.isFetching || props.isFetchingSetup || props.isFetchingBot || props.isFetchingBroadCast || props.isFetchingAutorides || props.isFetchingBotsReducers)
+         && <LinearProgress className={style.linearProgress}/>
          }
-         <div className={style.leftSideContainer}>
-            {isMainHeader ? (
-               <Link to={'/bots'}><img src={Logo} alt={'logo'}/></Link>
-            ) : (
-               <Link to={'/bots'}>
-                  <img src={chatLeadLogo} alt={'logo'} style={{width: '35px', height: '35px'}}/>
-               </Link>
-            )}
+         <header className={style.mainContainer}>
 
-            <ClickOutSide onClickedOutside={() => setStatusBotContext(false)}>
-               <>
-                  {!isMainHeader && (
-                     <div
-                        className={isOpenBotContext ? style.activeBotSelector : style.botSelector}
-                        onClick={() => setStatusBotContext(true)}
-                     >
-                        <div className={style.nameBot}>{(changedBotData && changedBotData.name) || <Spin/>}</div>
-                        <img src={downArrow} alt={'downArrow'}/>
-                        <div className={style.contextBotContainer}>
-                           {isOpenBotContext && (
-                              <ContextMenuBots
-                                 setStatusBotContext={setStatusBotContext}
-                              />
-                           )}
-                        </div>
-                     </div>
-                  )}
-               </>
-            </ClickOutSide>
-         </div>
-         <ClickOutSide onClickedOutside={() => setStatusToOpenMenu(false)}>
-            <div className={style.menuContainer} onClick={() => setStatusToOpenMenu(true)}>
-               <img src={UserIcon} alt={'userIcon'}/>
-               <FontAwesomeIcon icon={isOpenMenu ? faAngleUp : faAngleDown}/>
-               {isOpenMenu && (
-                  <ul className={style.contextMenuContainer}>
-                     <li>Аккаунт</li>
-                     <li>Тарифы</li>
-                     <li>Партнерам</li>
-                     <li>Панель</li>
-                     <li onClick={() => props.logout(props.history)}>Выйти</li>
-                  </ul>
+            <div className={style.leftSideContainer}>
+               {isMainHeader ? (
+                  <Link to={'/bots'}><img src={Logo} alt={'logo'}/></Link>
+               ) : (
+                  <Link to={'/bots'}>
+                     <img src={chatLeadLogo} alt={'logo'} style={{width: '35px', height: '35px'}}/>
+                  </Link>
                )}
+
+               <ClickOutSide onClickedOutside={() => setStatusBotContext(false)}>
+                  <>
+                     {!isMainHeader && (
+                        <div
+                           className={isOpenBotContext ? style.activeBotSelector : style.botSelector}
+                           onClick={() => setStatusBotContext(true)}
+                        >
+                           <div className={style.nameBot}>{(changedBotData && changedBotData.name) || <Spin/>}</div>
+                           <img src={downArrow} alt={'downArrow'}/>
+                           <div className={style.contextBotContainer}>
+                              {isOpenBotContext && (
+                                 <ContextMenuBots
+                                    setStatusBotContext={setStatusBotContext}
+                                 />
+                              )}
+                           </div>
+                        </div>
+                     )}
+                  </>
+               </ClickOutSide>
             </div>
-         </ClickOutSide>
-      </header>
+            <ClickOutSide onClickedOutside={() => setStatusToOpenMenu(false)}>
+               <div className={style.menuContainer} onClick={() => setStatusToOpenMenu(true)}>
+                  <img src={UserIcon} alt={'userIcon'}/>
+                  <FontAwesomeIcon icon={isOpenMenu ? faAngleUp : faAngleDown}/>
+                  {isOpenMenu && (
+                     <ul className={style.contextMenuContainer}>
+                        <li>Аккаунт</li>
+                        <li>Тарифы</li>
+                        <li>Партнерам</li>
+                        <li>Панель</li>
+                        <li onClick={() => props.logout(props.history)}>Выйти</li>
+                     </ul>
+                  )}
+               </div>
+            </ClickOutSide>
+         </header>
+      </Fragment>
    )
 };
 

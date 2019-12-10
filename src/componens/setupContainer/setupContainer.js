@@ -6,7 +6,7 @@ import style from './setupContainer.module.sass';
 
 const SetupContainer = () => {
    return (
-      <section className={style.settingsBodyColumn + " " + style.settingsBodyColumn__page} style={{marginTop: "10px;"}}>
+      <section className={style.settingsBodyColumn}>
          <div className={style.container + " " + style.columnsContainer}>
             <div className={style.menuTriggerBtn} id="faq-menu-trigger"/>
             <SetupSidebar/>
