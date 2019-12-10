@@ -13,9 +13,7 @@ const SingleBot = (props) => {
 
    return (
       <div className={style.mainContainer}>
-         <MainHeader
-            isMainHeader={false}
-         />
+         <MainHeader/>
          <NavBar/>
          <div className={style.contentBlock}>
             <ScenariosContainer/>

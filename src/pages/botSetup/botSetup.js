@@ -44,7 +44,7 @@ const BotSetup = (props) => {
    };
 
    return (
-      <div className="main_layout">
+      <div className="main_layout" style={{backgroundColor: "#fafafa"}}>
          <MainHeader/>
          <NavBar/>
          {contentContainer()}
