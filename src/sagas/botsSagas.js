@@ -32,15 +32,10 @@ export function* createBotSaga({createBotData}) {
       try {
          yield put({type: ACTION.BOTS_DATA_REQUEST});
 
-         Object.assign(createBotData, {
-            user_token: userAccessToken()
-         });
-
          const formData = new FormData();
 
-         Object.keys(createBotData).forEach(elem => {
-            formData.append(elem, createBotData[elem])
-         });
+         formData.append('name', createBotData);
+         formData.append('user_token', userAccessToken());
 
          const {data} = yield call(createBot, formData);
 

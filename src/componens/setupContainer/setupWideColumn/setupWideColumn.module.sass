@@ -107,7 +107,12 @@ input[type=number]::-webkit-outer-spin-button
    transition: all 0.3s
 
    &:hover
-      background-color: #efefef
+      label
+         color: #1e88e5 !important
+         p
+            color: #1e88e5 !important
+
+      background-color: rgba(22, 105, 186, 0.075)
 
    label
       width: 100%
@@ -115,8 +120,7 @@ input[type=number]::-webkit-outer-spin-button
       font-size: 15px
       padding: 20px 40px 20px 10px
       color: #444
-      //display: flex
-      //justify-content: center
+      transition: all 0.3s
 
       .content
          padding: 0
@@ -127,6 +131,7 @@ input[type=number]::-webkit-outer-spin-button
             line-height: 1.55
             color: #444
             font-weight: 400
+            transition: all 0.3s
 
       img
          position: absolute

@@ -207,7 +207,7 @@ class SetupWideColumn extends Component {
          const vk = filteredMessage && getFilledStatus('vk', filteredMessage.triggers[0]);
          const whatsApp = filteredMessage && getFilledStatus('whatsapp', filteredMessage.triggers[0]);
 
-         if (facebook && telegram && vk && whatsApp) {
+         if (facebook || telegram || vk || whatsApp) {
             return true
          }
       }
@@ -224,8 +224,6 @@ class SetupWideColumn extends Component {
       const isWelcomeMessageEmpty = this.isEmptyCheck(welcome_message);
       const isDefaultResponseEmpty = this.isEmptyCheck(default_response);
       const isSubscriptionMessage = this.isEmptyCheck(subscription_message);
-
-      console.log(isWelcomeMessageEmpty);
 
       return (
          <div className={style.wideСolumn}>
@@ -259,22 +257,22 @@ class SetupWideColumn extends Component {
                      <div className={style.table_row} dataaction="keywords" datatype="1" dataid="2">
                         <label htmlFor={'follow'}>
                            <img src={svr_r2} alt="" className={style.table_image}/>
-
                            <div className={style.content}>
                               <div className={style.label}>Реакция на подписку</div>
                               <p>Сработает, только если пользователь писал в сообщество</p>
                            </div>
-
                            <div className={`${style.inputGroup} ${isSubscriptionMessage && style.inputGroupCheck}`}>
                               <input
                                  type={'checkbox'}
                                  className={style.statusIcon}
                                  id={'follow'}
                                  checked={subscription_message && subscription_message !== 'null'}
-                                 onChange={() => this.reactionBots(
-                                    destinationScenario.subscription_message,
-                                    true
-                                 )}
+                                 onChange={(e) => {
+                                    this.reactionBots(
+                                       destinationScenario.subscription_message,
+                                       true
+                                    )
+                                 }}
                               />
                               <label htmlFor={'follow'}/>
                            </div>
@@ -364,7 +362,6 @@ class SetupWideColumn extends Component {
                                     value={email}
                                  />
                               </div>
-
                            </div>
 
                            {/*<div className={style.switcherContainer}>*/}
@@ -402,13 +399,12 @@ class SetupWideColumn extends Component {
                                     id="notificationTelergam"
                                     type="text"
                                     name="phone"
-                                    placeholder="@telegramID"
+                                    placeholder="telegramID"
                                     onChange={e => this.setState({telegram: e.target.value})}
                                     value={telegram}
                                  />
                               </div>
                            </div>
-
                         </div>
 
                         <div className={style.switcher + " " + style.underinput}>
@@ -416,25 +412,21 @@ class SetupWideColumn extends Component {
                            <span>Или напишите Telegram ID</span>
                         </div>
 
-                        <div className={style.notifyBox}>
-                           <div style={style.notifyBoxItem}>
-                              <Button type="primary" onClick={this.showModal}>
-                                 Open Modal
-                              </Button>
-                           </div>
+                        {/*<div className={style.notifyBox}>*/}
+                        {/*   <div style={style.notifyBoxItem} onClick={this.showModal}>*/}
+                        {/*      email*/}
+                        {/*   </div>*/}
 
-                           <div style={style.notifyBoxItem}>
-                              <Button type="primary" onClick={this.showModal}>
-                                 Open Modal
-                              </Button>
-                           </div>
-                        </div>
+                        {/*   <div style={style.notifyBoxItem} onClick={this.showModal}>*/}
+                        {/*      telegram*/}
+                        {/*   </div>*/}
+                        {/*</div>*/}
 
-                        <SetupWideColumnModal
-                           visible={this.state.visible}
-                           handleOk={this.handleOk}
-                           handleCancel={this.handleCancel}
-                        />
+                        {/*<SetupWideColumnModal*/}
+                        {/*   visible={this.state.visible}*/}
+                        {/*   handleOk={this.handleOk}*/}
+                        {/*   handleCancel={this.handleCancel}*/}
+                        {/*/>*/}
                      </form>
                   </div>
                </section>

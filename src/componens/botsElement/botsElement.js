@@ -18,27 +18,26 @@ import {deleteBot, editManager} from "../../actions/actionCreator";
 
 const BotsElement = (props) => {
    const {id} = props;
-   const [name, SetName] = useState(props.name);
+   const [name, setName] = useState(false);
    const [isEdit, setEdit] = useState(0);
 
    return (
       <li className={style.mainContainer}>
          {isEdit ? (
             <div className={style.nameContainer}>
-
-
                <input name="name" type="text" placeholder="Название"
                       style={{fontSize: "27px", maxWidth: "75%", marginTop: "19px"}}/>
                <button
                   className={style.bot_edit_btn + " bot-list__edit default-btn default-btn--icon-style default-btn--outline"}
                   onClick={() => {
-                     const new_name = document.querySelector('.' + style.nameContainer + ' input[name=name]').value
+                     const newName = document.querySelector('.' + style.nameContainer + ' input[name=name]').value;
                      props.editManager({
                         idBot: id,
-                        name: new_name,
+                        name: newName,
                         optional_params: ["name"]
                      });
-                     SetName(new_name)
+
+                     setName(newName);
                      setEdit(0);
                   }}>
                   <img src={checkmark} alt="Edit" className={style.btn_edit_img}/>
@@ -55,7 +54,7 @@ const BotsElement = (props) => {
             </div>
          ) : (
             <div className={style.nameContainer}>
-               <h2>{name}</h2>
+               <h2>{name || props.name}</h2>
                <button
                   className={style.bot_edit_btn + " bot-list__edit default-btn default-btn--icon-style default-btn--outline"}
                   onClick={() => {
@@ -75,7 +74,7 @@ const BotsElement = (props) => {
          <h2>Тестовый период заканчивается через <span>14 дней</span></h2>
          <div className={style.controls}>
             <Link to={`/bots/${id}/setup`} className={style.link}>Изменить</Link>
-            <img src={trash} alt="Delete" onClick={() => props.botCallback(name, id)}/>
+            <img src={trash} alt="Delete" onClick={() => props.botCallback(name || props.name, id)}/>
          </div>
 
       </li>
@@ -84,7 +83,7 @@ const BotsElement = (props) => {
 
 const mapDispatchToProps = dispatch => ({
    deleteBot: (botData) => dispatch(deleteBot(botData)),
-   editManager: (setupData) => dispatch(editManager(setupData))
+   editManager: (setupData) => dispatch(editManager(setupData)),
 });
 
 export default connect(null, mapDispatchToProps)(BotsElement);
