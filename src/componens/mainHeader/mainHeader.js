@@ -17,8 +17,9 @@ import {Spin} from 'antd';
 
 const MainHeader = (props) => {
    const [isOpenMenu, setStatusToOpenMenu] = useState(false);
-   const {isMainHeader, changedBotData} = props;
    const [isOpenBotContext, setStatusBotContext] = useState(false);
+   
+   const {isMainHeader, changedBotData} = props;
 
    useEffect(() => {
       props.getAllBots(props.match.params.botId);

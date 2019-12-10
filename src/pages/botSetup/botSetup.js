@@ -38,7 +38,7 @@ const BotSetup = (props) => {
 
       return (
          <main id="main">
-            <SetupContainer{...botSetupData}/>
+            <SetupContainer {...botSetupData}/>
          </main>
       )
    };
