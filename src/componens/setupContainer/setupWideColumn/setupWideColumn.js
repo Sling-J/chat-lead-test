@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {
-   getManager,
    editManager,
    updateBotReactions
 } from '../../../actions/actionCreator';
@@ -16,58 +15,52 @@ import SetupWideColumnModal from "./setupWideColumnModal/setupWideColumnModal";
 import {getFilledStatus} from "../../../utils/socialFilledStatus";
 import {destinationScenario} from "../../../constants/defaultValues";
 
-import {Button} from 'antd';
+import {Spin} from 'antd';
+
 import style from './setupWideColumn.module.sass';
 
 class SetupWideColumn extends Component {
    state = {
       visible: false,
+      isEmail: '',
       willSend: false,
-      telegramList: [],
-      emailList: [],
-      telList: [],
-      telegram: '',
-      email: '',
-      tel: '',
    };
 
    componentDidUpdate(prevProps, prevState, snapshot) {
       const {botSetupData} = this.props;
 
-      if (
-         (prevProps.botSetupData.application_email !== botSetupData.application_email) ||
-         (prevProps.botSetupData.application_whatsapp_id !== botSetupData.application_whatsapp_id) ||
-         (prevProps.botSetupData.application_telegram_id !== botSetupData.application_telegram_id)
-      ) {
-         let resTelegramList = botSetupData.application_telegram_id.split(",").filter(item => item.length !== 0);
-         let resEmailList = botSetupData.application_email.split(",").filter(item => item.length !== 0);
-         let resTelList = botSetupData.application_whatsapp_id.split(",").filter(item => item.length !== 0);
-         let willSend = botSetupData.application_will_send;
-
-         this.setState({
-            telegramList: resTelegramList,
-            emailList: resEmailList,
-            telList: resTelList,
-            willSend: willSend
-         });
+      if (prevProps.botSetupData.application_will_send !== botSetupData.application_will_send) {
+         console.log(botSetupData.application_will_send);
+         this.setState({willSend: botSetupData.application_will_send})
       }
+
+      // if (
+      //    (prevProps.botSetupData.application_email !== botSetupData.application_email) ||
+      //    (prevProps.botSetupData.application_whatsapp_id !== botSetupData.application_whatsapp_id) ||
+      //    (prevProps.botSetupData.application_telegram_id !== botSetupData.application_telegram_id)
+      // ) {
+      //    let resTelegramList = botSetupData.application_telegram_id.split(",").filter(item => item.length !== 0);
+      //    let resEmailList = botSetupData.application_email.split(",").filter(item => item.length !== 0);
+      //    let resTelList = botSetupData.application_whatsapp_id.split(",").filter(item => item.length !== 0);
+      //    let willSend = botSetupData.application_will_send;
+      //
+      //    this.setState({
+      //       telegramList: resTelegramList,
+      //       emailList: resEmailList,
+      //       telList: resTelList,
+      //       willSend: willSend
+      //    });
+      // }
    }
 
-   showModal = () => {
+   showModal = isEmail => {
       this.setState({
          visible: true,
+         isEmail: isEmail
       });
    };
 
-   handleOk = e => {
-      console.log(e);
-      this.setState({
-         visible: false,
-      });
-   };
-
-   handleCancel = e => {
-      console.log(e);
+   handleCancel = () => {
       this.setState({
          visible: false,
       });
@@ -83,118 +76,122 @@ class SetupWideColumn extends Component {
       })
    };
 
-   handleSubmit = event => {
-      event.preventDefault();
-
-      const {email, tel, telegram, emailList, telList, telegramList} = this.state;
-      const {botSetupData, editManager} = this.props;
-
-      const botId = botSetupData.id;
-
-      this.setState({willSend: true});
-
-      if (email.length !== 0) {
-         const newEmailList = [
-            ...emailList,
-            email
-         ];
-
-         editManager({
-            idBot: botId,
-            application_will_send: true,
-            application_email: newEmailList.toString(),
-            application_whatsapp_id: telList.toString(),
-            application_telegram_id: telegramList.toString(),
-            optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
-         });
-      }
-
-      if (tel.length !== 0) {
-         const newTelList = [
-            ...telList,
-            tel
-         ];
-
-         editManager({
-            idBot: botId,
-            application_will_send: true,
-            application_email: emailList.toString(),
-            application_whatsapp_id: newTelList.toString(),
-            application_telegram_id: telegramList.toString(),
-            optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
-         });
-      }
-
-      if (telegram.length !== 0) {
-         const newTelegramList = [
-            ...telegramList,
-            telegram
-         ];
-
-         editManager({
-            idBot: botId,
-            application_will_send: true,
-            application_email: emailList.toString(),
-            application_whatsapp_id: telList.toString(),
-            application_telegram_id: newTelegramList.toString(),
-            optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
-         });
-      }
-
-      this.setState({
-         telegram: '',
-         email: '',
-         tel: '',
-      })
+   setWillSend = value => {
+      this.setState({willSend: value});
    };
 
-   deleteNotificationElement = (type, index) => {
-      const {emailList, telList, willSend, telegramList} = this.state;
-      const {editManager, botSetupData} = this.props;
-      const botId = botSetupData.id;
+   // handleSubmit = event => {
+   //    event.preventDefault();
+   //
+   //    const {email, tel, telegram, emailList, telList, telegramList} = this.state;
+   //    const {botSetupData, editManager} = this.props;
+   //
+   //    const botId = botSetupData.id;
+   //
+   //    this.setWillSend(true);
+   //
+   //    if (email.length !== 0) {
+   //       const newEmailList = [
+   //          ...emailList,
+   //          email
+   //       ];
+   //
+   //       editManager({
+   //          idBot: botId,
+   //          application_will_send: true,
+   //          application_email: newEmailList.toString(),
+   //          application_whatsapp_id: telList.toString(),
+   //          application_telegram_id: telegramList.toString(),
+   //          optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
+   //       });
+   //    }
+   //
+   //    if (tel.length !== 0) {
+   //       const newTelList = [
+   //          ...telList,
+   //          tel
+   //       ];
+   //
+   //       editManager({
+   //          idBot: botId,
+   //          application_will_send: true,
+   //          application_email: emailList.toString(),
+   //          application_whatsapp_id: newTelList.toString(),
+   //          application_telegram_id: telegramList.toString(),
+   //          optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
+   //       });
+   //    }
+   //
+   //    if (telegram.length !== 0) {
+   //       const newTelegramList = [
+   //          ...telegramList,
+   //          telegram
+   //       ];
+   //
+   //       editManager({
+   //          idBot: botId,
+   //          application_will_send: true,
+   //          application_email: emailList.toString(),
+   //          application_whatsapp_id: telList.toString(),
+   //          application_telegram_id: newTelegramList.toString(),
+   //          optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
+   //       });
+   //    }
+   //
+   //    this.setState({
+   //       telegram: '',
+   //       email: '',
+   //       tel: '',
+   //    })
+   // };
 
-      if (type === "email") {
-         let newEmailList = [...emailList];
-         newEmailList.splice(index, 1);
-
-         editManager({
-            idBot: botId,
-            application_will_send: willSend,
-            application_email: emailList.length === 1 ? ',' : newEmailList.toString(),
-            application_whatsapp_id: telList.toString(),
-            application_telegram_id: telegramList.toString(),
-            optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
-         });
-      }
-
-      if (type === "tel") {
-         let newTelList = [...telList];
-         newTelList.splice(index, 1);
-
-         editManager({
-            idBot: botId,
-            application_will_send: willSend,
-            application_email: emailList.toString(),
-            application_telegram_id: telegramList.toString(),
-            application_whatsapp_id: telList.length === 1 ? ',' : newTelList.toString(),
-            optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
-         });
-      }
-
-      if (type === "telegram") {
-         let newTelegramList = [...telegramList];
-         newTelegramList.splice(index, 1);
-
-         editManager({
-            idBot: botId,
-            application_will_send: willSend,
-            application_email: emailList.toString(),
-            application_whatsapp_id: telList.toString(),
-            application_telegram_id: telegramList.length === 1 ? ',' : newTelegramList.toString(),
-            optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
-         });
-      }
-   };
+   // deleteNotificationElement = (type, index) => {
+   //    const {emailList, telList, willSend, telegramList} = this.state;
+   //    const {editManager, botSetupData} = this.props;
+   //    const botId = botSetupData.id;
+   //
+   //    if (type === "email") {
+   //       let newEmailList = [...emailList];
+   //       newEmailList.splice(index, 1);
+   //
+   //       editManager({
+   //          idBot: botId,
+   //          application_will_send: willSend,
+   //          application_email: emailList.length === 1 ? ',' : newEmailList.toString(),
+   //          application_whatsapp_id: telList.toString(),
+   //          application_telegram_id: telegramList.toString(),
+   //          optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
+   //       });
+   //    }
+   //
+   //    if (type === "tel") {
+   //       let newTelList = [...telList];
+   //       newTelList.splice(index, 1);
+   //
+   //       editManager({
+   //          idBot: botId,
+   //          application_will_send: willSend,
+   //          application_email: emailList.toString(),
+   //          application_telegram_id: telegramList.toString(),
+   //          application_whatsapp_id: telList.length === 1 ? ',' : newTelList.toString(),
+   //          optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
+   //       });
+   //    }
+   //
+   //    if (type === "telegram") {
+   //       let newTelegramList = [...telegramList];
+   //       newTelegramList.splice(index, 1);
+   //
+   //       editManager({
+   //          idBot: botId,
+   //          application_will_send: willSend,
+   //          application_email: emailList.toString(),
+   //          application_whatsapp_id: telList.toString(),
+   //          application_telegram_id: telegramList.length === 1 ? ',' : newTelegramList.toString(),
+   //          optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
+   //       });
+   //    }
+   // };
 
    isEmptyCheck = message => {
       const {botScenarios} = this.props;
@@ -216,7 +213,7 @@ class SetupWideColumn extends Component {
    };
 
    render() {
-      const {telList, willSend, emailList, email, tel, telegram, telegramList} = this.state;
+      const {willSend} = this.state;
       const {editManager, botSetupData} = this.props;
       const {default_response, welcome_message, subscription_message} = botSetupData;
       const botId = botSetupData.id;
@@ -328,7 +325,7 @@ class SetupWideColumn extends Component {
                </header>
                <section>
                   <div className={style.notifyme}>
-                     <form action="" onSubmit={(e) => this.handleSubmit(e)}>
+                     <form>
                         <h3>Оповещение</h3>
                         <div className={style.switcher}>
                            <label className={style.switch}>
@@ -342,91 +339,119 @@ class SetupWideColumn extends Component {
                            <p>Получать уведомления о заявках</p>
                         </div>
 
-                        <div className={style.switcher + " "}>
-                           <div className={style.switcherContainer}>
-                              <div className={style.list}>
-                                 {emailList.map((email, index) =>
-                                    <div>
-                                       {email}
-                                       <span
-                                          onClick={() => this.deleteNotificationElement("email", index)}>×</span>
-                                    </div>
-                                 )}
-                                 <input
-                                    className={style.subscribeField}
-                                    id="notificationEmail"
-                                    type="email"
-                                    name="mail"
-                                    placeholder="example@mail.com"
-                                    onChange={e => this.setState({email: e.target.value})}
-                                    value={email}
-                                 />
-                              </div>
-                           </div>
-
-                           {/*<div className={style.switcherContainer}>*/}
-                           {/*   <div className={style.list}>*/}
-                           {/*      {telList.map((tel, index) =>*/}
-                           {/*         <div>*/}
-                           {/*            {tel}*/}
-                           {/*            <span*/}
-                           {/*               onClick={() => this.deleteNotificationElement("tel", index)}>×</span>*/}
-                           {/*         </div>*/}
-                           {/*      )}*/}
-                           {/*      <input*/}
-                           {/*         className={style.subscribeField}*/}
-                           {/*         id="notificationTel"*/}
-                           {/*         type="number"*/}
-                           {/*         name="phone"*/}
-                           {/*         placeholder="+7 ___ ___ __ __"*/}
-                           {/*         onChange={e => this.setState({tel: e.target.value})}*/}
-                           {/*         value={tel}*/}
-                           {/*      />*/}
-                           {/*   </div>*/}
-                           {/*</div>*/}
-
-                           <div className={style.switcherContainer}>
-                              <div className={style.list}>
-                                 {telegramList.map((telegram, index) =>
-                                    <div>
-                                       {telegram}
-                                       <span
-                                          onClick={() => this.deleteNotificationElement("telegram", index)}>×</span>
-                                    </div>
-                                 )}
-                                 <input
-                                    className={style.subscribeField}
-                                    id="notificationTelergam"
-                                    type="text"
-                                    name="phone"
-                                    placeholder="telegramID"
-                                    onChange={e => this.setState({telegram: e.target.value})}
-                                    value={telegram}
-                                 />
-                              </div>
-                           </div>
-                        </div>
-
-                        <div className={style.switcher + " " + style.underinput}>
-                           <span>Добавьте емейл, на который отправлять уведомления и нажмите Enter </span>
-                           <span>Или напишите Telegram ID</span>
-                        </div>
-
-                        {/*<div className={style.notifyBox}>*/}
-                        {/*   <div style={style.notifyBoxItem} onClick={this.showModal}>*/}
-                        {/*      email*/}
-                        {/*   </div>*/}
-
-                        {/*   <div style={style.notifyBoxItem} onClick={this.showModal}>*/}
-                        {/*      telegram*/}
+                        {/*<div className={style.switcher + " "}>*/}
+                        {/*<div className={style.switcherContainer}>*/}
+                        {/*   <div className={style.list}>*/}
+                        {/*      {emailList.map((email, index) =>*/}
+                        {/*         <div>*/}
+                        {/*            {email}*/}
+                        {/*            <span*/}
+                        {/*               onClick={() => this.deleteNotificationElement("email", index)}>×</span>*/}
+                        {/*         </div>*/}
+                        {/*      )}*/}
+                        {/*      <input*/}
+                        {/*         className={style.subscribeField}*/}
+                        {/*         id="notificationEmail"*/}
+                        {/*         type="email"*/}
+                        {/*         name="mail"*/}
+                        {/*         placeholder="example@mail.com"*/}
+                        {/*         onChange={e => this.setState({email: e.target.value})}*/}
+                        {/*         value={email}*/}
+                        {/*      />*/}
                         {/*   </div>*/}
                         {/*</div>*/}
 
-                        {/*<SetupWideColumnModal*/}
-                        {/*   visible={this.state.visible}*/}
-                        {/*   handleOk={this.handleOk}*/}
-                        {/*   handleCancel={this.handleCancel}*/}
-                        {/*/>*/}
+                        {/*<div className={style.switcherContainer}>*/}
+                        {/*   <div className={style.list}>*/}
+                        {/*      {telList.map((tel, index) =>*/}
+                        {/*         <div>*/}
+                        {/*            {tel}*/}
+                        {/*            <span*/}
+                        {/*               onClick={() => this.deleteNotificationElement("tel", index)}>×</span>*/}
+                        {/*         </div>*/}
+                        {/*      )}*/}
+                        {/*      <input*/}
+                        {/*         className={style.subscribeField}*/}
+                        {/*         id="notificationTel"*/}
+                        {/*         type="number"*/}
+                        {/*         name="phone"*/}
+                        {/*         placeholder="+7 ___ ___ __ __"*/}
+                        {/*         onChange={e => this.setState({tel: e.target.value})}*/}
+                        {/*         value={tel}*/}
+                        {/*      />*/}
+                        {/*   </div>*/}
+                        {/*</div>*/}
+
+                        {/*   <div className={style.switcherContainer}>*/}
+                        {/*      <div className={style.list}>*/}
+                        {/*         {telegramList.map((telegram, index) =>*/}
+                        {/*            <div>*/}
+                        {/*               {telegram}*/}
+                        {/*               <span*/}
+                        {/*                  onClick={() => this.deleteNotificationElement("telegram", index)}>×</span>*/}
+                        {/*            </div>*/}
+                        {/*         )}*/}
+                        {/*         <input*/}
+                        {/*            className={style.subscribeField}*/}
+                        {/*            id="notificationTelergam"*/}
+                        {/*            type="text"*/}
+                        {/*            name="phone"*/}
+                        {/*            placeholder="telegramID"*/}
+                        {/*            onChange={e => this.setState({telegram: e.target.value})}*/}
+                        {/*            value={telegram}*/}
+                        {/*         />*/}
+                        {/*      </div>*/}
+                        {/*   </div>*/}
+                        {/*</div>*/}
+
+                        {/*<div className={style.switcher + " " + style.underinput}>*/}
+                        {/*   <span>Добавьте емейл, на который отправлять уведомления и нажмите Enter </span>*/}
+                        {/*   <span>Или напишите Telegram ID</span>*/}
+                        {/*</div>*/}
+
+                        <Spin spinning={Object.keys(botSetupData).length === 0}>
+                           <div className={style.notifyBox}>
+                              <div className={style.notifyBoxItem} onClick={() => this.showModal('email')}>
+                                 <div className={style.notifyBoxItemIcon}>
+                                    <svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                       <title>E-mail</title>
+                                       <path
+                                          d="M20 7.83A3.008 3.008 0 0 1 18.17 6H5a1 1 0 1 1 0-2h13.17A3.001 3.001 0 1 1 22 7.83V19a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a1 1 0 0 1 1.53-.848l7.453 4.658 5.462-3.642a1 1 0 0 1 1.11 1.664l-6 4a1 1 0 0 1-1.085.016L4 9.804V18h16V7.83zM21 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
+                                          fill-rule="nonzero"/>
+                                    </svg>
+                                 </div>
+
+                                 <div className={style.notifyBoxItemInfo}>
+                                    <h2 className={style.notifyBoxItemTitle}>E-mail</h2>
+                                    <p className={style.notifyBoxItemDesc}>Отправка данных с формы на вашу почту</p>
+                                 </div>
+                              </div>
+
+                              <div className={style.notifyBoxItem} onClick={() => this.showModal('telegram')}>
+                                 <div className={style.notifyBoxItemIcon}>
+                                    <svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                       <title>Telegram</title>
+                                       <path
+                                          d="M19 6.83a3.001 3.001 0 1 1 2 0V16a1 1 0 0 1-1 1h-4.32l-2.9 3.625a1 1 0 0 1-1.56 0L8.32 17H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h11a1 1 0 0 1 0 2H5v10h3.8a1 1 0 0 1 .78.375L12 18.4l2.42-3.024A1 1 0 0 1 15.2 15H19V6.83zM20 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM8 9a1 1 0 1 1 0-2h8a1 1 0 0 1 0 2H8zm0 4a1 1 0 0 1 0-2h5a1 1 0 0 1 0 2H8z"
+                                          fill-rule="nonzero"/>
+                                    </svg>
+                                 </div>
+
+                                 <div className={style.notifyBoxItemInfo}>
+                                    <h2 className={style.notifyBoxItemTitle}>Telegram</h2>
+                                    <p className={style.notifyBoxItemDesc}>Отправка данных с формы в Телеграм</p>
+                                 </div>
+                              </div>
+                           </div>
+                        </Spin>
+
+                        <SetupWideColumnModal
+                           setWillSend={this.setWillSend}
+                           visible={this.state.visible}
+                           willSend={this.state.willSend}
+                           isEmail={this.state.isEmail}
+                           handleCancel={this.handleCancel}
+                        />
                      </form>
                   </div>
                </section>
@@ -557,7 +582,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-   getManager: (botId) => dispatch(getManager(botId)),
    editManager: (setupData) => dispatch(editManager(setupData)),
    updateBotReactions: (reactionsData) => dispatch(updateBotReactions(reactionsData))
 });

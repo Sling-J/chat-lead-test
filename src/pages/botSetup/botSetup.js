@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import style from './botSetup.module.sass';
 import SetupContainer from "../../componens/setupContainer/setupContainer"
-import Header from '../../componens/header/header';
 import MainHeader from '../../componens/mainHeader/mainHeader';
 import NavBar from '../../componens/navbar/navbar';
 import {connect} from 'react-redux';
@@ -39,15 +38,13 @@ const BotSetup = (props) => {
 
       return (
          <main id="main">
-            <SetupContainer
-               {...botSetupData}/>
+            <SetupContainer{...botSetupData}/>
          </main>
       )
    };
 
    return (
       <div className="main_layout">
-         <Header/>
          <MainHeader/>
          <NavBar/>
          {contentContainer()}

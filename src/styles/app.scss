@@ -8,6 +8,14 @@ body {
    color: $secondary__color;
 }
 
+.MuiInput-underline:hover:not(.Mui-disabled):before {
+   border-bottom-color: #4680fe !important;
+}
+
+.ant-modal-footer {
+   border-top: none;
+}
+
 .messageButtons_selector__3gcXW.ant-select.ant-select-enabled {
    .ant-select-selection.ant-select-selection--single {
       height: 45px;

@@ -3,6 +3,33 @@ input[type=number]::-webkit-outer-spin-button
    -webkit-appearance: none
    margin: 0
 
+.submitModalForm
+   background: #4680fe !important
+   text-transform: inherit !important
+   color: #fff !important
+   font-weight: 400 !important
+
+   &:disabled
+      opacity: 0.6
+
+   &:enabled:hover
+      background: darken(#4680fe, 10%) !important
+
+.setupModal
+   .setupModalInfo
+      background: #E8E8E8
+      font-size: 16px
+      padding: 20px 30px
+      margin-bottom: 13px
+
+      span
+         color: #4680fe
+
+      a
+         color: #4680fe
+
+         &:hover
+            text-decoration: underline
 
 .wideСolumn
    -webkit-transition: .2s cubic-bezier(.79, .14, .15, .86)
@@ -230,12 +257,60 @@ input[type=number]::-webkit-outer-spin-button
 
 .notifyBox
    display: flex
+   align-items: center
    justify-content: space-between
+   margin-top: 15px
 
    .notifyBoxItem
+      display: flex
+      align-items: center
+      width: 48%
+      cursor: pointer
+      box-sizing: border-box
+
+      &:hover
+         .notifyBoxItemTitle,
+         .notifyBoxItemDesc
+            color: #1e88e5
+
+         .notifyBoxItemIcon
+            svg
+               fill: #1e88e5
+
+      &:first-child
+         border-left: none
+         position: relative
+
+         &::after
+            content: ''
+            display: block
+            position: absolute
+            width: 1px
+            height: 35px
+            top: 20%
+            right: -13px
+            background: #D0D0D0
+
+      .notifyBoxItemIcon svg,
+      .notifyBoxItemTitle,
+      .notifyBoxItemDesc
+         transition: all 0.3s
+
+      .notifyBoxItemIcon
+         margin-right: 13px
+
+      .notifyBoxItemTitle
+         color: #5C5E62
+         font-size: 17px
+
+      .notifyBoxItemDesc
+         color: #5C5E62
+         padding-top: 0
+         font-size: 14px
+
 
 .notifyme
-   padding: 20px
+   padding: 20px 30px 40px 30px
    background: #fff
    -webkit-box-shadow: 0 1px 0 0 rgba(9, 30, 66, .12), 0 7px 25px 0 rgba(9, 30, 66, .15)
    box-shadow: 0 1px 0 0 rgba(9, 30, 66, .12), 0 7px 25px 0 rgba(9, 30, 66, .15)

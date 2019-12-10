@@ -15,7 +15,6 @@ const Navbar = (props) => {
    useEffect(() => {
       if (props.changedScenarioId) {
          props.changeScenarioId(null);
-         // console.log(">>>");
       }
    }, [props.match.path]);
 

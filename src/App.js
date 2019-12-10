@@ -15,71 +15,69 @@ import Statistics from "./pages/statistics/statistics";
 
 const App = () => (
    <Router>
-      <div>
-         <Switch>
-            <Route exact path={"/"} render={() => (
-               <Redirect to={'/signUp'}/>
-            )}/>
-            <Route exact path={"/forgotPassword"} render={() => (
-               <Redirect to={'/signUp'}/>
-            )}/>
-            <Route
-               exact
-               path={"/signUp"}
-               component={onlyDontRegistrationUsers(SignUp)}
-            />
-            <Route
-               exact
-               path={"/auth"}
-               component={onlyDontRegistrationUsers(Auth)}
-            />
-            <Route
-               exact
-               path={"/bots"}
-               component={onlyAutorizenUsers(Bots)}
-            />
-            <Route
-               exact
-               path={"/bots/:botId/setup"}
-               component={onlyAutorizenUsers(BotSetup)}
-            />
-            <Route
-               exact
-               path={"/bots/:botId/scenario"}
-               component={onlyAutorizenUsers(SingleBot)}
-            />
-            <Route
-               exact
-               path={"/bots/:botId/autoride"}
-               component={onlyAutorizenUsers(Autoride)}
-            />
-            <Route
-               exact
-               path={"/bots/:botId/broadcast"}
-               component={onlyAutorizenUsers(BroadCast)}
-            />
-            <Route
-               exact
-               path={"/bots/:botId/dialog"}
-               component={onlyAutorizenUsers(NotFound)}
-            />
-            <Route
-               exact
-               path={"/bots/:botId/growth"}
-               component={onlyAutorizenUsers(NotFound)}
-            />
-            <Route
-               exact
-               path={"/bots/:botId/statistics"}
-               component={onlyAutorizenUsers(Statistics)}
-            />
-            <Route
-               exact
-               path={"/bots/:botId/dialog"}
-               component={onlyAutorizenUsers(Dialog)}
-            />
-         </Switch>
-      </div>
+      <Switch>
+         <Route exact path={"/"} render={() => (
+            <Redirect to={'/signUp'}/>
+         )}/>
+         <Route exact path={"/forgotPassword"} render={() => (
+            <Redirect to={'/signUp'}/>
+         )}/>
+         <Route
+            exact
+            path={"/signUp"}
+            component={onlyDontRegistrationUsers(SignUp)}
+         />
+         <Route
+            exact
+            path={"/auth"}
+            component={onlyDontRegistrationUsers(Auth)}
+         />
+         <Route
+            exact
+            path={"/bots"}
+            component={onlyAutorizenUsers(Bots)}
+         />
+         <Route
+            exact
+            path={"/bots/:botId/setup"}
+            component={onlyAutorizenUsers(BotSetup)}
+         />
+         <Route
+            exact
+            path={"/bots/:botId/scenario"}
+            component={onlyAutorizenUsers(SingleBot)}
+         />
+         <Route
+            exact
+            path={"/bots/:botId/autoride"}
+            component={onlyAutorizenUsers(Autoride)}
+         />
+         <Route
+            exact
+            path={"/bots/:botId/broadcast"}
+            component={onlyAutorizenUsers(BroadCast)}
+         />
+         <Route
+            exact
+            path={"/bots/:botId/dialog"}
+            component={onlyAutorizenUsers(NotFound)}
+         />
+         <Route
+            exact
+            path={"/bots/:botId/growth"}
+            component={onlyAutorizenUsers(NotFound)}
+         />
+         <Route
+            exact
+            path={"/bots/:botId/statistics"}
+            component={onlyAutorizenUsers(Statistics)}
+         />
+         <Route
+            exact
+            path={"/bots/:botId/dialog"}
+            component={onlyAutorizenUsers(Dialog)}
+         />
+      </Switch>
    </Router>
 );
 
