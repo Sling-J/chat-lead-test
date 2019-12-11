@@ -1,0 +1,41 @@
+@import "partials";
+
+.tariff-container {
+   .tariff__table {
+      margin: 0 auto;
+
+      .tariff-table__title {
+         margin-bottom: 5px !important;
+      }
+
+      .tariff-table__desc {
+         margin-bottom: 32px;
+      }
+
+      .tariff-table-content__body {
+         .tariff-table-content-body__paid {
+            color: tomato;
+
+            span {
+               color: $secondary__color;
+               margin-top: -3px;
+               display: block;
+               font-size: 12px;
+            }
+         }
+
+         td {
+            cursor: initial;
+
+            &:first-child {
+               width: 45%;
+            }
+
+            &:nth-child(2),
+            &:nth-child(3) {
+               width: 30%;
+            }
+         }
+      }
+   }
+}

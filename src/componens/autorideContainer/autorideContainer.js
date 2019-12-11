@@ -30,6 +30,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
 
+import style from '../../styles/messageButtons.module.scss';
 
 const AutorideContainer = (props) => {
    const {changeScenarioId, changedScenarioId} = props;
@@ -239,7 +240,7 @@ const AutorideContainer = (props) => {
                <div className="pv1-flex">
                   <h2 className="main-table__title">Автоворонка</h2>
                   <div className="main-table__icon">
-                     <span className="main-table__tooltip table-tooltip">Автоворонка</span>
+                     <span className="main-table__tooltip tableTooltip">Автоворонка</span>
                      <FontAwesomeIcon icon={faInfoCircle} size="lg"/>
                   </div>
                </div>
@@ -308,18 +309,18 @@ const AutorideContainer = (props) => {
                                  className="main-table-content-body__icon"
                                  onClick={() => setIdEditTriggerText(elem.scenario.id)}
                               >
-                                 <span className="main-table-content-body__tooltip table-tooltip">Редактировать</span>
+                                 <span className="main-table-content-body__tooltip tableTooltip">Редактировать</span>
                                  <img className="main-table-content-body__img" src={edit} alt={'edit'}/>
                               </div>
                               <div className="main-table-content-body__icon">
-                                 <span className="main-table-content-body__tooltip table-tooltip">Копировать</span>
+                                 <span className="main-table-content-body__tooltip tableTooltip">Копировать</span>
                                  <img className="main-table-content-body__img" src={copy} alt={'copy'}/>
                               </div>
                               <div
                                  className="main-table-content-body__icon"
                                  onClick={() => props.deleteAutoride(props.match.params.botId, elem.id)}
                               >
-                                 <span className="main-table-content-body__tooltip table-tooltip">Удалить</span>
+                                 <span className="main-table-content-body__tooltip tableTooltip">Удалить</span>
                                  <img className="main-table-content-body__img" src={trash} alt={'trash'}/>
                               </div>
                            </td>

@@ -12,6 +12,9 @@ import onlyDontRegistrationUsers from './componens/hoc/onlyNotRegistration';
 import BotSetup from './pages/botSetup/botSetup';
 import NotFound from './pages/inDevelopment/inDevelopment';
 import Statistics from "./pages/statistics/statistics";
+import TariffPayment from "./pages/tariff/tariffPayment";
+import TariffPrices from "./pages/tariff/tariffPrices";
+import TariffHistory from "./pages/tariff/tariffHistory";
 
 const App = () => (
    <Router>
@@ -76,6 +79,21 @@ const App = () => (
             exact
             path={"/bots/:botId/dialog"}
             component={onlyAutorizenUsers(Dialog)}
+         />
+         <Route
+            exact
+            path={"/bots/tariff/payment"}
+            component={onlyAutorizenUsers(TariffPayment)}
+         />
+         <Route
+            exact
+            path={"/bots/tariff/prices"}
+            component={onlyAutorizenUsers(TariffPrices)}
+         />
+         <Route
+            exact
+            path={"/bots/tariff/history"}
+            component={onlyAutorizenUsers(TariffHistory)}
          />
       </Switch>
    </Router>

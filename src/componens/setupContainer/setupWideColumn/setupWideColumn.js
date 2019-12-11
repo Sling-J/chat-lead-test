@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
    editManager,
@@ -26,11 +26,31 @@ class SetupWideColumn extends Component {
       willSend: false,
    };
 
+   componentDidMount() {
+      const {botSetupData} = this.props;
+
+      if (Object.keys(botSetupData).length !== 0) {
+         if (botSetupData.application_will_send === 'False') {
+            this.setState({willSend: false})
+         } else if (botSetupData.application_will_send === 'True') {
+            this.setState({willSend: true})
+         } else {
+            this.setState({willSend: botSetupData.application_will_send})
+         }
+      }
+   }
+
    componentDidUpdate(prevProps, prevState, snapshot) {
       const {botSetupData} = this.props;
 
       if (prevProps.botSetupData.application_will_send !== botSetupData.application_will_send) {
-         this.setState({willSend: botSetupData.application_will_send})
+         if (botSetupData.application_will_send === 'False') {
+            this.setState({willSend: false})
+         } else if (botSetupData.application_will_send === 'True') {
+            this.setState({willSend: true})
+         } else {
+            this.setState({willSend: botSetupData.application_will_send})
+         }
       }
 
       // if (
@@ -335,6 +355,7 @@ class SetupWideColumn extends Component {
                                     editManager({
                                        idBot: botId,
                                        application_will_send: !willSend,
+                                       optional_params: ["application_will_send"]
                                     });
                                     this.setState(() => ({willSend: !willSend}));
                                  }}

@@ -117,8 +117,10 @@ const SetupSidebar = (props) => {
                         <label className={style.ui_vmenu__item}>
                            <input type="text" name="token" placeholder="Token" className={style.telegram_input}/>
                         </label>
-                        <button
-                           onClick={(e) => {
+                        <Button
+                           type="button"
+                           variant="contained"
+                           onClick={e => {
                               e.preventDefault();
                               props.editManager({
                                  idBot: botId,
@@ -127,9 +129,10 @@ const SetupSidebar = (props) => {
                               });
                            }}
                            className={style.ui_vmenu_sep_button}
+                           disabled={props.setupLoading}
                         >
-                           <span>ПЕРЕАВТОРИЗОВАТЬСЯ</span>
-                        </button>
+                           {props.setupLoading ? <CircularProgress color="white"/> : 'ПЕРЕАВТОРИЗОВАТЬСЯ'}
+                        </Button>
                      </>
                   ) : (
                      <div>
@@ -145,7 +148,6 @@ const SetupSidebar = (props) => {
                            type="button"
                            variant="contained"
                            onClick={() => {
-                              console.log('telegam');
                               props.editManager({
                                  idBot: botId,
                                  telegram_token: document.querySelector('input[name=token]').value,
@@ -163,6 +165,10 @@ const SetupSidebar = (props) => {
                   {props.botSetupData.vk_name !== '' ? (
                      <>
                         <p className={style.socialBotName}>{props.botSetupData.vk_name}</p>
+                        <p className={style.ui_vmenu__item_p}>
+                           ШАГ 1: Подключите свой аккаунт Вконтакте. Вам нужно иметь
+                           права администратора.
+                        </p>
                         <Button
                            type="button"
                            variant="contained"

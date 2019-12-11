@@ -6,6 +6,8 @@ export const InputControler = () => {
 
    const radiobtns = document.querySelectorAll('input[type=radio][name=radio]');
 
+   radiobtns[0].checked = true;
+
    for (let radiobtn of radiobtns) {
       radiobtn.onchange = function () {
          if (this.value === 'fb') {

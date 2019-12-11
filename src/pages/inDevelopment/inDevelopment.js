@@ -1,4 +1,4 @@
-import React, {useEffect, Fragment} from 'react';
+import React, {useEffect} from 'react';
 import style from './inDevelopment.module.sass';
 import {getAllScenariesForBot} from "../../actions/actionCreator";
 import {connect} from 'react-redux';
@@ -12,13 +12,13 @@ const SingleBot = (props) => {
    }, [props.match.params.botId]);
 
    return (
-      <div className={style.container}>
+      <div className={style.mainContainer}>
          <MainHeader
             isMainHeader={false}
          />
-         <div className={style.mainContainer}>
-            <NavBar/>
-            <div className={style.contentBlock}>
+         <NavBar/>
+         <div className={style.contentBlock}>
+            <div>
                <img src={smile} alt={'smile'}/>
                <h1>Функция скоро появится...</h1>
             </div>

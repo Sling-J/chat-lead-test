@@ -205,7 +205,7 @@ const BroadCastContainer = (props) => {
                <div className="pv1-flex">
                   <h2 className="main-table__title">Рассылка</h2>
                   <div className="main-table__icon">
-                     <span className="main-table__tooltip table-tooltip">Рассылка</span>
+                     <span className="main-table__tooltip tableTooltip">Рассылка</span>
                      <FontAwesomeIcon icon={faInfoCircle} size="lg"/>
                   </div>
                </div>

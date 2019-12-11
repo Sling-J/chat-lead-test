@@ -21,7 +21,10 @@ const StatisticsContainer = props => {
    const changeTab = tabId => setActiveTab(tabId);
 
    useEffect(() => {
-      props.getBotStatistics(props.match.params.botId);
+      props.getBotStatistics({
+         botId: props.match.params.botId,
+
+      });
    }, []);
 
    return (
@@ -39,7 +42,7 @@ const mapStateToProps = ({botStatisticsReducer}) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-   getBotStatistics: botId => dispatch(getBotStatistics(botId))
+   getBotStatistics: data => dispatch(getBotStatistics(data))
 });
 
 export default compose(

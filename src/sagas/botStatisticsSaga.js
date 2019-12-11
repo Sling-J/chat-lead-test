@@ -7,10 +7,17 @@ import {userAccessToken} from "../utils/userToken";
 export function* getBotStatisticsSaga() {
    if (userAccessToken()) {
       while (true) {
-         const action = yield take(ACTION.GET_BOT_STATISTICS_REQUEST);
+         const {data} = yield take(ACTION.GET_BOT_STATISTICS_REQUEST);
 
          try {
-            const res = yield call(getBotStatistics, action.payload);
+            const formData = new FormData();
+
+            formData.append('user_token', userAccessToken());
+            formData.append('manager_id', data.botId);
+            formData.append('start_date', data.startDate);
+            formData.append('end_date', data.endDate);
+
+            const res = yield call(getBotStatistics, formData);
 
             if (res.status === 200) {
                yield put({type: ACTION.GET_BOT_STATISTICS_SUCCESS, payload: res.data});

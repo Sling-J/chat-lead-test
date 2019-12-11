@@ -1,7 +1,7 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import style from './mainHeader.module.sass';
 import Logo from '../../images/logo_panel.png';
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import UserIcon from '../../images/user.png';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleDown, faAngleUp} from "@fortawesome/free-solid-svg-icons";
@@ -18,8 +18,8 @@ import {Spin} from 'antd';
 const MainHeader = (props) => {
    const [isOpenMenu, setStatusToOpenMenu] = useState(false);
    const [isOpenBotContext, setStatusBotContext] = useState(false);
-   
-   const {isMainHeader, changedBotData} = props;
+
+   const {isMainHeader, changedBotData, isServiceHeader} = props;
 
    useEffect(() => {
       props.getAllBots(props.match.params.botId);
@@ -31,9 +31,8 @@ const MainHeader = (props) => {
          && <LinearProgress className={style.linearProgress}/>
          }
          <header className={style.mainContainer}>
-
             <div className={style.leftSideContainer}>
-               {isMainHeader ? (
+               {isMainHeader || isServiceHeader ? (
                   <Link to={'/bots'}><img src={Logo} alt={'logo'}/></Link>
                ) : (
                   <Link to={'/bots'}>
@@ -43,7 +42,7 @@ const MainHeader = (props) => {
 
                <ClickOutSide onClickedOutside={() => setStatusBotContext(false)}>
                   <>
-                     {!isMainHeader && (
+                     {(!isMainHeader && !isServiceHeader) && (
                         <div
                            className={isOpenBotContext ? style.activeBotSelector : style.botSelector}
                            onClick={() => setStatusBotContext(true)}
@@ -62,21 +61,47 @@ const MainHeader = (props) => {
                   </>
                </ClickOutSide>
             </div>
-            <ClickOutSide onClickedOutside={() => setStatusToOpenMenu(false)}>
-               <div className={style.menuContainer} onClick={() => setStatusToOpenMenu(true)}>
-                  <img src={UserIcon} alt={'userIcon'}/>
-                  <FontAwesomeIcon icon={isOpenMenu ? faAngleUp : faAngleDown}/>
-                  {isOpenMenu && (
-                     <ul className={style.contextMenuContainer}>
-                        <li>Аккаунт</li>
-                        <li>Тарифы</li>
-                        <li>Партнерам</li>
-                        <li>Панель</li>
-                        <li onClick={() => props.logout(props.history)}>Выйти</li>
-                     </ul>
-                  )}
-               </div>
-            </ClickOutSide>
+            <div className={style.servicesMenu}>
+               {isServiceHeader && (
+                  <ul className={style.servicesMenuContainer}>
+                     <li>
+                        <NavLink to="/bots/profile" activeClassName={style.servicesMenuItem}>Аккаунт</NavLink>
+                     </li>
+                     <li>
+                        <NavLink to="/bots/tariff/payment" activeClassName={style.servicesMenuItem}>Тарифы</NavLink>
+                     </li>
+                     <li>
+                        <NavLink to="/bots/partners" activeClassName={style.servicesMenuItem}>Партнерам</NavLink>
+                     </li>
+                     <li>
+                        <NavLink to="/bots">Панель</NavLink>
+                     </li>
+                  </ul>
+               )}
+               <ClickOutSide onClickedOutside={() => setStatusToOpenMenu(false)}>
+                  <div className={style.menuContainer} onClick={() => setStatusToOpenMenu(true)}>
+                     <img src={UserIcon} alt={'userIcon'}/>
+                     <FontAwesomeIcon icon={isOpenMenu ? faAngleUp : faAngleDown}/>
+                     {isOpenMenu && (
+                        <ul className={style.contextMenuContainer}>
+                           <li>
+                              <Link to="/">Аккаунт</Link>
+                           </li>
+                           <li>
+                              <Link to="/bots/tariff/payment">Тарифы</Link>
+                           </li>
+                           <li>
+                              <Link to="/">Партнерам</Link>
+                           </li>
+                           <li>
+                              <Link to="/bots">Панель</Link>
+                           </li>
+                           <li onClick={() => props.logout(props.history)}>Выйти</li>
+                        </ul>
+                     )}
+                  </div>
+               </ClickOutSide>
+            </div>
          </header>
       </Fragment>
    )

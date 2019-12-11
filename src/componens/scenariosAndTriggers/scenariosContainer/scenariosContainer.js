@@ -225,7 +225,7 @@ const ScenariosContainer = (props) => {
                <div className="pv1-flex">
                   <h2 className="main-table__title">Команды бота</h2>
                   <div className="main-table__icon">
-                     <span className="main-table__tooltip table-tooltip">Команды бота</span>
+                     <span className="main-table__tooltip tableTooltip">Команды бота</span>
                      <FontAwesomeIcon icon={faInfoCircle} size="lg"/>
                   </div>
                </div>
@@ -290,7 +290,7 @@ const ScenariosContainer = (props) => {
                               className="main-table-content-body__icon"
                               onClick={() => setIdEditTriggerText(elem.id)}
                            >
-                              <span className="main-table-content-body__tooltip table-tooltip">Редактировать</span>
+                              <span className="main-table-content-body__tooltip tableTooltip">Редактировать</span>
                               <img
                                  className="main-table-content-body__img"
                                  src={edit}
@@ -302,7 +302,7 @@ const ScenariosContainer = (props) => {
                               className="main-table-content-body__icon"
                               onClick={() => copyScenario(elem.id)}
                            >
-                              <span className="main-table-content-body__tooltip table-tooltip">Копировать</span>
+                              <span className="main-table-content-body__tooltip tableTooltip">Копировать</span>
                               <img
                                  className="main-table-content-body__img"
                                  src={copy}
@@ -316,7 +316,7 @@ const ScenariosContainer = (props) => {
                                  idScenario: elem.id
                               })}
                            >
-                              <span className="main-table-content-body__tooltip table-tooltip">Удалить</span>
+                              <span className="main-table-content-body__tooltip tableTooltip">Удалить</span>
                               <img
                                  className="main-table-content-body__img"
                                  src={trash}

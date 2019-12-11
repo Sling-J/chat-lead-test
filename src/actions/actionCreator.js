@@ -191,7 +191,7 @@ export const editFastButtonName = (idBtn) => ({
    idBtn
 });
 
-export const getBotStatistics = botId => ({
+export const getBotStatistics = data => ({
    type: ACTION.GET_BOT_STATISTICS_REQUEST,
-   payload: botId
+   payload: data
 });

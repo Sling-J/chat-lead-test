@@ -6,11 +6,9 @@ import StatisticsContainer from "../../componens/statisticsContainer/statisticsC
 
 const Statistics = () => (
    <div className="page-container">
-      <MainHeader isMainHeader={false}/>
+      <MainHeader/>
       <NavBar/>
-      <div className="page-content">
-         <StatisticsContainer/>
-      </div>
+      <StatisticsContainer/>
    </div>
 );
 
