@@ -1,13 +1,17 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {compose} from "redux";
+import {connect} from 'react-redux';
+import {withRouter} from "react-router-dom";
 import {DatePicker, Tabs} from 'antd';
 
-import {dateFormat} from "../../../utils/formatDate";
+import {dateFormat, formatDateToUnix} from "../../../utils/formatDate";
 import Schedule from "./schedule";
+import {getBotStatistics} from "../../../actions/actionCreator";
 
 const {RangePicker} = DatePicker;
 const {TabPane} = Tabs;
 
-const StatisticsSchedule = ({tabs, changeTab}) => {
+const StatisticsSchedule = ({tabs, changeTab, getBotStatistics, match}) => {
    const [chartData] = useState({
       labels: [
          '1 май', '2 май', '3 май',
@@ -25,6 +29,19 @@ const StatisticsSchedule = ({tabs, changeTab}) => {
          ]
       }]
    });
+
+   useEffect(() => {
+      const today = formatDateToUnix(new Date());
+      const yesterday = new Date();
+
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      getBotStatistics({
+         botId: match.params.botId,
+         startDate: formatDateToUnix(yesterday),
+         endDate: today,
+      });
+   }, []);
 
    const datePicker = (
       <RangePicker
@@ -51,4 +68,12 @@ const StatisticsSchedule = ({tabs, changeTab}) => {
    )
 };
 
-export default StatisticsSchedule;
+const mapDispatchToProps = dispatch => ({
+   getBotStatistics: data => dispatch(getBotStatistics(data))
+});
+
+
+export default compose(
+   withRouter,
+   connect(null, mapDispatchToProps)
+)(StatisticsSchedule);

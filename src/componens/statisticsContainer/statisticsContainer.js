@@ -20,13 +20,6 @@ const StatisticsContainer = props => {
 
    const changeTab = tabId => setActiveTab(tabId);
 
-   useEffect(() => {
-      props.getBotStatistics({
-         botId: props.match.params.botId,
-
-      });
-   }, []);
-
    return (
       <div className="statistics-container pv1-flex pv1-j-sb">
          <StatisticsInfo tabs={tabs} activeTab={activeTab}/>
@@ -41,11 +34,4 @@ const mapStateToProps = ({botStatisticsReducer}) => ({
    errorOfStatistics: botStatisticsReducer.errorOfStatistics
 });
 
-const mapDispatchToProps = dispatch => ({
-   getBotStatistics: data => dispatch(getBotStatistics(data))
-});
-
-export default compose(
-   withRouter,
-   connect(mapStateToProps, mapDispatchToProps)
-)(StatisticsContainer);
+export default connect(mapStateToProps)(StatisticsContainer);
