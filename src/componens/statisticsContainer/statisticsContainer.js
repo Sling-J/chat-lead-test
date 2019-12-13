@@ -8,7 +8,7 @@ import StatisticsSchedule from "./statisticsSchedule/statisticsSchedule";
 
 import {getBotStatistics} from "../../actions/actionCreator";
 
-const StatisticsContainer = props => {
+const StatisticsContainer = () => {
    const [activeTab, setActiveTab] = useState(1);
    const [tabs] = useState([
       {name: 'Все', key: '1'},
@@ -22,8 +22,15 @@ const StatisticsContainer = props => {
 
    return (
       <div className="statistics-container pv1-flex pv1-j-sb">
-         <StatisticsInfo tabs={tabs} activeTab={activeTab}/>
-         <StatisticsSchedule tabs={tabs} changeTab={changeTab}/>
+         <StatisticsInfo
+            tabs={tabs}
+            activeTab={activeTab}
+         />
+         <StatisticsSchedule
+            tabs={tabs}
+            changeTab={changeTab}
+            activeTab={activeTab}
+         />
       </div>
    );
 };

@@ -17,18 +17,15 @@ export function* getBotStatisticsSaga() {
             formData.append('start_date', action.payload.startDate);
             formData.append('end_date', action.payload.endDate);
 
-            const res = yield call(getBotStatistics, formData);
+            const {data} = yield call(getBotStatistics, formData);
 
-            console.log(res);
-
-            if (res.data.ok) {
-               yield put({type: ACTION.GET_BOT_STATISTICS_SUCCESS, payload: res.data});
+            if (data.ok) {
+               yield put({type: ACTION.GET_BOT_STATISTICS_SUCCESS, payload: data});
             } else {
-               yield put({type: ACTION.GET_BOT_STATISTICS_FAILURE, error: res.data});
+               yield put({type: ACTION.GET_BOT_STATISTICS_FAILURE, error: data});
             }
          } catch (e) {
             yield put({type: ACTION.GET_BOT_STATISTICS_FAILURE, error: e.message});
-            console.log(e);
          }
       }
    }
