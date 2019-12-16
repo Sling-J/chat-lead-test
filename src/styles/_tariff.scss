@@ -1,9 +1,38 @@
 @import "partials";
 
 .tariff-container {
-   .tariff__table {
-      margin: 0 auto;
+   .tariff__balance {
+      width: 24%;
 
+      .tariff-balance__box {
+         border: 1px solid $main__border-color;
+         border-radius: 10px;
+         margin-bottom: 20px;
+         padding: 10px 20px;
+
+         .tariff-balance-box__info {
+            margin-left: 15px;
+
+            .tariff-balance-box-info__title {
+               font-size: 20px;
+               margin-bottom: 4px;
+            }
+
+            .tariff-balance-box-info__desc {
+               font-size: 18px;
+               color: $theme__bg-color;
+            }
+         }
+      }
+
+      .tariff-balance__btn {
+         border-radius: 5px;
+         height: 40px;
+         width: 100%;
+      }
+   }
+
+   .tariff__table {
       .tariff-table__title {
          margin-bottom: 5px !important;
       }
@@ -13,6 +42,24 @@
       }
 
       .tariff-table-content__body {
+         .tariff-table-content-body__bot {
+            &:hover {
+               background: none !important;
+            }
+
+            .tariff-table-content-body-bot__link {
+               transition: none;
+
+               span {
+                  margin-left: 7px;
+               }
+
+               &:hover {
+                  color: darken($theme__bg-color, 20%)
+               }
+            }
+         }
+
          .tariff-table-content-body__paid {
             color: tomato;
 
@@ -36,6 +83,172 @@
                width: 30%;
             }
          }
+      }
+   }
+}
+
+.prices-container {
+   .prices-tabs {
+      display: flex;
+      justify-content: center;
+
+      li {
+         color: #5D5F64;
+         padding-bottom: 12px;
+         transition: border 0.2s;
+         cursor: pointer;
+
+         &:hover {
+            color: $theme__bg-color;
+         }
+
+         &:first-child {
+            position: relative;
+            margin-right: 50px;
+
+            &::after {
+               content: '';
+               display: block;
+               position: absolute;
+               vertical-align: middle;
+               width: 2px;
+               height: 20px;
+               background: #d0d0d0;
+               right: -25px;
+               top: 0;
+               border-radius: 2px;
+            }
+         }
+      }
+
+      .prices-tabs__active {
+         border-bottom: 2px solid $theme__bg-color;
+      }
+   }
+
+   .prices-box {
+      margin-top: 45px;
+
+      .prices-box__item {
+         width: 27%;
+
+         &:first-child {
+            .prices-box-item-offer__button {
+               cursor: default;
+               opacity: 0;
+            }
+
+            .prices-box-item__divider {
+               background: #D0D0D0;
+            }
+         }
+
+         &:nth-child(2) {
+            .prices-box-item__divider,
+            .prices-box-item-offer__button {
+               background: #21BE05;
+            }
+
+            .prices-box-item-offer__button {
+               color: #fff;
+               transition: all 0.3s;
+
+               &:hover {
+                  background: darken(#21BE05, 10%);
+               }
+            }
+         }
+
+         &:nth-child(3) {
+            .prices-box-item__divider {
+               background: $theme__bg-color;
+            }
+
+            .prices-box-item-offer__button {
+               color: $theme__bg-color;
+               transition: all 0.3s;
+               background: none;
+               box-shadow: none;
+               border: 1px solid $theme__bg-color;
+               
+               &:hover {
+                  background: $theme__bg-color;
+                  color: #fff;
+               }
+            }
+         }
+
+         .prices-box-item__divider {
+            width: 100%;
+            height: 3px;
+            border-radius: 5px;
+         }
+
+         .prices-box-item__offer {
+            margin: 20px 0;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #D0D0D0;
+
+            .prices-box-item-offer__title {
+               font-weight: 600;
+               color: #5D5F64;
+            }
+
+            .prices-box-item-offer__price {
+               color: #5D5F64;
+               margin: 7px 0;
+               font-size: 18px;
+
+               span {
+                  font-weight: 600;
+               }
+            }
+
+            .prices-box-item-offer__desc {
+               color: #5D5F64;
+               font-size: 14.5px;
+            }
+
+            .prices-box-item-offer__button {
+               margin-top: 25px;
+               text-transform: inherit;
+               font-weight: 400;
+               width: 170px;
+            }
+         }
+
+         .prices-box-item__info {
+            li {
+               color: #5D5F64;
+               margin-top: 10px;
+
+               &:first-child {
+                  margin-top: 0;
+               }
+
+               &::before {
+                  content: '';
+                  display: inline-block;
+                  vertical-align: middle;
+                  width: 17px;
+                  height: 17px;
+                  margin-right: 8px;
+                  background: url("../images/tariff/check-mark.jpg");
+                  background-size: cover;
+               }
+            }
+         }
+      }
+   }
+}
+
+.tariff-history-container {
+   .tariff-history-table {
+      margin: 0 auto;
+
+      td {
+         width: 33%;
       }
    }
 }

@@ -25,7 +25,6 @@ import {signUpErrors} from "../constants/errors/user";
 import {destinationScenario} from "../constants/defaultValues";
 
 import {userAccessToken} from "../utils/userToken";
-import {parse} from "@fortawesome/fontawesome-svg-core";
 
 export function* createBotSaga({createBotData}) {
    if (userAccessToken()) {

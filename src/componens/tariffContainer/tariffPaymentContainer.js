@@ -1,10 +1,33 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlusCircle} from "@fortawesome/free-solid-svg-icons";
+import Button from '@material-ui/core/Button'
+
+import tariffImg from '../../images/tariff/tariff-baks.png'
 
 const TariffPaymentContainer = ({botsData}) => {
-   console.log(botsData);
    return (
-      <div className="main-container tariff-container">
+      <div className="main-container tariff-container pv1-flex pv1-j-sb">
+         <div className="tariff__balance">
+            <div className="tariff-balance__box pv1-flex pv1-flex-align-center">
+               <div className="tariff-balance-box__img">
+                  <img src={tariffImg} alt="Money"/>
+               </div>
+               
+               <div className="tariff-balance-box__info">
+                  <h3 className="tariff-balance-box-info__title">Ваш баланс:</h3>
+                  <p className="tariff-balance-box-info__desc">0 тг</p>
+               </div>
+            </div>
+
+            <Button className="tariff-balance__btn main-theme-button" variant="contained" href="">
+               Оплатить тариф
+            </Button>
+         </div>
+
          <div className="main-table tariff__table">
             <div className="main-table__search">
                <h2 className="main-table__title tariff-table__title">Шаг 1 из 3</h2>
@@ -58,6 +81,16 @@ const TariffPaymentContainer = ({botsData}) => {
                         <td/>
                      </tr>
                   )}
+                  <tr className="tariff-table-content-body__bot">
+                     <td>
+                        <Link className="tariff-table-content-body-bot__link" to="/bots">
+                           <FontAwesomeIcon icon={faPlusCircle}/>
+                           <span>Добавить нового бота</span>
+                        </Link>
+                     </td>
+                     <td/>
+                     <td/>
+                  </tr>
                </tbody>
             </table>
          </div>

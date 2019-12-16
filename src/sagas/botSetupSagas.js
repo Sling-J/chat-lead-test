@@ -20,7 +20,7 @@ export function* getManagerSaga({idBot}) {
          yield put({type: ACTION.BOT_SETUP_REQUEST});
 
          const formData = new FormData();
-         formData.append('user_token', localStorage.getItem('token'));
+         formData.append('user_token', userAccessToken());
          formData.append('manager_id', idBot);
 
          const {data} = yield call(getManager, formData);
@@ -42,7 +42,7 @@ export function* editManagerSaga({setupData}) {
          yield put({type: ACTION.BOT_SETUP_REQUEST});
 
          const formData = new FormData();
-         formData.append('user_token', localStorage.getItem('token'));
+         formData.append('user_token', userAccessToken());
          formData.append('manager_id', setupData.idBot);
 
          if (setupData.optional_params !== undefined) {
@@ -71,7 +71,7 @@ export function* facebookAuthSaga() {
 
          try {
             const formData = new FormData();
-            formData.append('user_token', localStorage.getItem('token'));
+            formData.append('user_token', userAccessToken());
             formData.append('manager_id', action.idBot);
 
             const {data} = yield call(getFacebookAuthUrl, formData);
@@ -95,7 +95,7 @@ export function* vkAuthSaga() {
 
          try {
             const formData = new FormData();
-            formData.append('user_token', localStorage.getItem('token'));
+            formData.append('user_token', userAccessToken());
             formData.append('manager_id', action.idBot);
 
             const {data} = yield call(getVkAuthUrl, formData);
@@ -119,7 +119,7 @@ export function* getQRCodeSaga() {
 
          try {
             const formData = new FormData();
-            formData.append('user_token', localStorage.getItem('token'));
+            formData.append('user_token', userAccessToken());
             formData.append('manager_id', action.idBot);
 
             const {data} = yield call(getQRCodeUrl, formData);
@@ -142,7 +142,7 @@ export function* updateBotReactionsSaga({reactionsData}) {
          yield put({type: ACTION.BOT_SETUP_REQUEST});
 
          const formData = new FormData();
-         formData.append('user_token', localStorage.getItem('token'));
+         formData.append('user_token', userAccessToken());
          formData.append('manager_id', reactionsData.botId);
 
          const allScenarios = yield call(getScenariesForManager, formData);

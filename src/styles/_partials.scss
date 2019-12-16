@@ -79,17 +79,24 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-      cursor: pointer;
       font-size: 13px;
       font-weight: 400;
       text-transform: inherit;
+
+      &:enabled {
+         cursor: pointer;
+      }
+
+      &:disabled {
+         opacity: 0.7;
+      }
    }
 
    .main-theme-button {
       background-color: $theme__bg-color;
       color: $white__color;
 
-      &:hover {
+      &:enabled:hover {
          background-color: darken($theme__bg-color, 5%);
       }
    }
@@ -101,7 +108,7 @@ body {
       background-color: transparent;
       white-space: nowrap;
 
-      &:hover {
+      &:enabled:hover {
          background-color: darken($main__bg-color, 3%);
       }
    }
