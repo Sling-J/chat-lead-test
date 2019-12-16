@@ -27,7 +27,7 @@ const MainHeader = (props) => {
 
    return (
       <Fragment>
-         {(props.isFetching || props.isFetchingSetup || props.isFetchingBot || props.isFetchingBroadCast || props.isFetchingAutorides || props.isFetchingBotsReducers)
+         {(props.isFetching || props.isFetchingSetup || props.isFetchingBot || props.isFetchingBroadCast || props.isFetchingAutorides || props.isFetchingBotsReducers || props.loadingOfStatistics)
          && <LinearProgress className={style.linearProgress}/>
          }
          <header className={style.mainContainer}>
@@ -110,18 +110,21 @@ const MainHeader = (props) => {
 
 const mapStateToProps = state => {
    const {botsData, changedBotData, isFetching, error} = state.botsReducers;
-
+   
+   
    const isFetchingSetup = state.botSetupReducers.isFetching;
    const isFetchingBot = state.singleBotReducers.isFetching;
    const isFetchingBroadCast = state.broadCastReducers.isFetching;
    const isFetchingAutorides = state.autoridesReducers.isFetching;
    const isFetchingBotsReducers = state.botsReducers.isFetching;
+   const loadingOfStatistics = state.botStatisticsReducer.loadingOfStatistics;
 
    return {
       botsData, isFetching, error,
       changedBotData, isFetchingSetup,
       isFetchingBot, isFetchingBroadCast,
-      isFetchingAutorides, isFetchingBotsReducers
+      isFetchingAutorides, isFetchingBotsReducers,
+      loadingOfStatistics
    }
 };
 

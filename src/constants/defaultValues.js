@@ -15,8 +15,15 @@ export const defaultValuesForNewMessages = {
    send_time: {timer: {send_time: {day: '', hours: '', min: ''}}, keyboard: [], text: ""},
    form: {form: [""], keyboard: []},
    location: {location: "", keyboard: []},
-   payment: {payment: "", keyboard: []},
    contact: {contact: "", keyboard: []},
+   payment: {
+      amount: 0,
+      text: '',
+      recipient_full_name: '',
+      recipient_card_info: '',
+      success_trigger_id: '',
+      failure_trigger_text: '',
+   },
 };
 
 export const buttonsTypes = {

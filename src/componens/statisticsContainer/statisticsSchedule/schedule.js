@@ -8,7 +8,8 @@ const Schedule = ({chartData}) => {
             data={chartData}
             options={{
                legend: {
-                  display: false,
+                  display: true,
+                  position: 'bottom'
                },
                scales: {
                   yAxes: [{

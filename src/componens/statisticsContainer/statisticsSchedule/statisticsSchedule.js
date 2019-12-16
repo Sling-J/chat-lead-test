@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 import {DatePicker, Tabs} from 'antd';
 
-import {dateFormat, formatDateToUnix} from "../../../utils/formatDate";
+import {dateFormat, formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import Schedule from "./schedule";
 import {getBotStatistics} from "../../../actions/actionCreator";
 import moment from "moment";
@@ -12,78 +12,114 @@ import moment from "moment";
 const {RangePicker} = DatePicker;
 const {TabPane} = Tabs;
 
-const StatisticsSchedule = ({tabs, changeTab, getBotStatistics, match, statistics, activeTab}) => {
-   let [startDate, setStartDate] = useState(null);
-   const [endDate, setEndDate] = useState(null);
-   const [dateArr, setDateArr] = useState([]);
+const StatisticsSchedule = ({tabs, changeTab, getBotStatistics, match, statistics, activeTab, loadingOfStatistics}) => {
    const [chartData, setChartData] = useState(defaultData());
 
-   const arr = [];
+   const defaultStartDay = new Date();
+   const defaultEndDay = new Date();
 
-   useEffect(() => {
-      if (startDate && endDate) {
-         // for (let i = startDate; i <= endDate; i ++) {
-         //    console.log(i)
-         // }
-      }
-   }, [startDate, endDate]);
-
-   console.log(arr);
-
-   const today = new Date();
-   const yesterday = new Date();
-
-   yesterday.setDate(yesterday.getDate() - 1);
+   defaultStartDay.setDate(defaultStartDay.getDate() - 1);
+   defaultEndDay.setDate(defaultEndDay.getDate() + 6);
 
    useEffect(() => {
       getBotStatistics({
          botId: match.params.botId,
-         startDate: formatDateToUnix(yesterday),
-         endDate: formatDateToUnix(today),
+         startDate: formatDateToUnix(defaultStartDay),
+         endDate: formatDateToUnix(defaultEndDay),
       });
    }, []);
 
-   function defaultData(data, date) {
+   function defaultData(data, date, color, label) {
       return {
-         labels: date || [
-            '1 май', '2 май', '3 май',
-            '4 май', '5 май', '6 май',
-            '7 май', '8 май', '9 май',
+         labels: date && date.length !== 0 ? date : [
+            '0',
          ],
          datasets: [{
-            label: 'Подписчиков',
-            borderColor: '#0C9B00',
+            label: label || 'Загрузка...',
+            borderColor: color,
             fill: false,
-            data: [
-               1, 3, 6,
-               7, 3, 5,
-               7, 13, 25
+            data: data && data.length !== 0 ? data : [
+               0
             ]
          }]
       }
    }
 
+   function defaultAllData(fb, tg, vk, wp, date) {
+      return {
+         labels: date && date.length !== 0 ? date : [
+            '0',
+         ],
+         datasets: [
+            {
+               label: 'Facebook',
+               borderColor: '#8B4A8C',
+               fill: false,
+               data: fb && fb.length !== 0 ? fb : [
+                  0
+               ]
+            },
+            {
+               label: 'Telegram',
+               borderColor: '#F4837D',
+               fill: false,
+               data: tg && tg.length !== 0 ? tg : [
+                  0
+               ]
+            },
+            {
+               label: 'ВКонтакте',
+               borderColor: '#4C75A3',
+               fill: false,
+               data: vk && vk.length !== 0 ? vk : [
+                  0
+               ]
+            },
+            {
+               label: 'WhatsApp',
+               borderColor: '#06D755',
+               fill: false,
+               data: wp && wp.length !== 0 ? wp : [
+                  0
+               ]
+            }
+         ]
+      }
+   }
+
    useEffect(() => {
       if (Object.keys(statistics).length !== 0) {
+         let daysArr = [];
+
+         statistics.days.forEach(day => {
+            daysArr.push(formatUnixToDate(day))
+         });
+
          switch (activeTab) {
             case 0:
-               setChartData(defaultData());
+               setChartData(defaultAllData(
+                  statistics.facebook.subscribe_by_day,
+                  statistics.telegram.subscribe_by_day,
+                  statistics.vk.subscribe_by_day,
+                  statistics.whatsapp.subscribe_by_day,
+                  daysArr
+               ));
                break;
 
             case 1:
-               setChartData(defaultData(statistics.facebook.subscribe_by_day));
+               setChartData(defaultData(statistics.facebook.subscribe_by_day, daysArr, '#8B4A8C', 'Facebook'));
                break;
 
             case 2:
-               setChartData(defaultData(statistics.telegram.subscribe_by_day));
+               setChartData(defaultData(statistics.telegram.subscribe_by_day, daysArr, '#F4837D', 'Telegram'));
                break;
 
             case 3:
-               setChartData(defaultData(statistics.vk.subscribe_by_day));
+               setChartData(defaultData(statistics.vk.subscribe_by_day, daysArr, '#4C75A3', 'ВКонаткте'));
                break;
 
             case 4:
-               setChartData(defaultData(statistics.whatsapp.subscribe_by_day));
+               setChartData(defaultData(statistics.whatsapp.subscribe_by_day, daysArr, '#06D755', 'WhatsApp'));
                break;
 
             default:
@@ -95,21 +131,13 @@ const StatisticsSchedule = ({tabs, changeTab, getBotStatistics, match, statistic
    const datePicker = (
       <RangePicker
          format={dateFormat}
-         defaultValue={[moment(yesterday, dateFormat), moment(today, dateFormat)]}
-         onChange={(value, dateStrings) => {
-            let startDate = value[0];
-            let endDate = value[1];
-
-            console.log(startDate.date());
-            console.log(endDate);
-
-            // setStartDate(startDate);
-            // setEndDate(endDate);
-
+         disabled={loadingOfStatistics}
+         defaultValue={[moment(defaultStartDay, dateFormat), moment(defaultEndDay, dateFormat)]}
+         onChange={(value) => {
             getBotStatistics({
                botId: match.params.botId,
-               startDate: value[0].unix(),
-               endDate: value[1].unix(),
+               startDate: value.length !== 0 ? value[0].unix() : defaultStartDay,
+               endDate: value.length !== 0 ? value[1].unix() : defaultEndDay,
             });
          }}
       />
