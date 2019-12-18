@@ -18,7 +18,6 @@ const Navbar = (props) => {
       }
    }, [props.match.path]);
 
-
    return (
       <div className={style.mainContainer}>
          <ul className={style.menuContainer}>

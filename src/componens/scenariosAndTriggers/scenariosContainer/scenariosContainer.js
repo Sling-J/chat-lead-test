@@ -114,7 +114,6 @@ const ScenariosContainer = (props) => {
       />
    );
 
-
    if (isOpenCreateScenarioFild) {
       return (
          <div className="new-scenario-container pv1-flex">

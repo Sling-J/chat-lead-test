@@ -1,21 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, Fragment} from 'react';
 import {connect} from "react-redux";
 
 import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
 import FastButtons from "../../scenariosAndTriggers/triggersContainer/fastButtons/fastButtons";
 
-import {getAllBroadCasts} from "../../../actions/actionCreator";
-
 import style from './textArea.module.sass';
 
 const TextArea = props => {
    const [isTextAreaHovering, setIsTextAreaHovering] = useState(false);
-   const {value, handler, index, type} = props;
+   const {value, handler, index, componentType} = props;
 
    const addFullName = name => {
-      let myField = document.querySelector(`#insertVariable${index}`);
-
+      let myField = document.querySelector(`#insertVariable-${componentType}${index}`);
       let myValue;
 
       if (props.changedSocial === 'whatsapp') {
@@ -36,24 +33,20 @@ const TextArea = props => {
    const handleMouseHover = () => {
       setIsTextAreaHovering(!isTextAreaHovering);
    };
-   //
-   // useEffect(() => {
-   //    if (props.broadCastData) {
-   //       console.log(props.broadCastData)
-   //    }
-   // }, [props.broadCastData]);
 
    return (
       <div className={style.textArea} key={Object.values(value)[0]}>
-         <div className={style.hoverBar}>
-            <HoverBarForMessage
-               {...props}
-            />
-         </div>
+         {componentType !== 'send_time' && (
+            <div className={style.hoverBar}>
+               <HoverBarForMessage
+                  {...props}
+               />
+            </div>
+         )}
          <textarea
-            id={`insertVariable${index}`}
-            onBlur={(e) => handler(e, index, type)}
-            defaultValue={Object.values(value)[0]}
+            id={`insertVariable-${componentType}${index}`}
+            onBlur={(e) => handler(e, index, componentType)}
+            defaultValue={value.text}
          />
          <div className={style.actionNav}>
             <div className={style.actionButtons}>
@@ -83,13 +76,17 @@ const TextArea = props => {
             </div>
             <div/>
          </div>
-         <ButtonsContainer
-            {...props}
-         />
-         {(props.changedSocial === 'facebook' || props.changedSocial === 'telegram') && (
-            <FastButtons
-               {...props}
-            />
+         {componentType !== 'payment' && (
+            <Fragment>
+               <ButtonsContainer
+                  {...props}
+               />
+               {(props.changedSocial === 'facebook' || props.changedSocial === 'telegram') && (
+                  <FastButtons
+                     {...props}
+                  />
+               )}
+            </Fragment>
          )}
       </div>
    )
@@ -98,6 +95,4 @@ const TextArea = props => {
 export default connect(({singleBotReducers, broadCastReducers}) => ({
    changedSocial: singleBotReducers.changedSocial,
    broadCastData: broadCastReducers.broadCastData
-}), {
-   getAllBroadCasts
-})(TextArea);
+}))(TextArea);

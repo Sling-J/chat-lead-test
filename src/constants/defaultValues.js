@@ -17,6 +17,7 @@ export const defaultValuesForNewMessages = {
    location: {location: "", keyboard: []},
    contact: {contact: "", keyboard: []},
    payment: {
+      payment: '',
       amount: 0,
       text: '',
       recipient_full_name: '',

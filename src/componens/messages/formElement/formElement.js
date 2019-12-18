@@ -87,7 +87,6 @@ const FormElement = (props) => {
       };
 
       props.updateTrigger(triggerData, null, props.changedSocial);
-
    };
 
 

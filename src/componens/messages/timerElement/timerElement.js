@@ -7,7 +7,7 @@ import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import {Select, InputNumber} from 'antd';
 
-import TimerTextArea from "./timerTextArea/timerTextArea";
+import TextArea from "../textArea/textArea";
 import style from './timerElement.module.sass';
 import CustomFlatPicker from './customFlatPicker/customFlatPicker';
 
@@ -354,7 +354,10 @@ const TimerElement = props => {
 
                      <p className={style.datePickerTextAreaTitle}>Тогда надо отправить сообщение:</p>
 
-                     <TimerTextArea optionalType="send_time" {...props}/>
+                     <TextArea
+                        componentType="send_time"
+                        {...props}
+                     />
                   </form>
                </div>
             </div>

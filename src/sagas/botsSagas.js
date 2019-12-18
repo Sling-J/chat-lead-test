@@ -268,7 +268,6 @@ export function* addNewTriggerSagas({triggerData}) {
 export function* updateTriggerSaga({triggerData, updationData, changedSocial}) {
    const {messages, index, id, caption, botId, changedSlide, type} = triggerData;
 
-
    if (userAccessToken()) {
       try {
          yield put({type: ACTION.SINGLE_BOT_DATA_REQUEST});
@@ -279,14 +278,12 @@ export function* updateTriggerSaga({triggerData, updationData, changedSocial}) {
          formData.append('caption', caption);
          formData.append('manager_id', botId);
 
-         if (!updationData) {
-
-         } else {
-            if (updationData.type === 'text') {
+         if (updationData) {
+            if (updationData.type === 'text' || updationData.type === 'payment') {
                formData.append('type', updationData.type);
                formData.append('file', updationData.file);
                Object.assign(messages[changedSocial][index], {
-                  [updationData.type]: updationData[updationData.type]
+                  text: updationData.text,
                });
             } else {
                formData.append('type', updationData.type);

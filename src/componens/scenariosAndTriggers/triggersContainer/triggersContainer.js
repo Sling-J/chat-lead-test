@@ -71,7 +71,7 @@ const TriggersContainer = (props) => {
          type: typeFile,
       };
 
-      if (typeFile === 'text') {
+      if (typeFile === 'text' || typeFile === 'payment') {
          Object.assign(updationData, {text: e.target.value})
       } else if (typeFile === 'send_time') {
          messagesCopy[props.changedSocial][index].text = e.target.value;
@@ -188,7 +188,7 @@ const TriggersContainer = (props) => {
                               `https://${props.autoridesLinks[props.changedSocial]}`
                            }
                            target="_blank"
-                           rel="noopener noreferrens"
+                           rel="noopener noreferrer"
                         >
                            {props.autoridesLinks[props.changedSocial].length && sliceExtraText(props.autoridesLinks[props.changedSocial], 27)}
                         </a>

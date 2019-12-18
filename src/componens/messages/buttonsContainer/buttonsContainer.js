@@ -147,9 +147,17 @@ const ButtonsContainer = (props) => {
                      className={`${style.keyboardButton} ${indexOpenButton.open && elem.uid === indexOpenButton.id && style.activeKeyboardBtn}`}
                   >
                      <p className={style.keyboardButtonText}>{elem.caption || 'Новая Кнопка'}</p>
-                     <p className={style.keyboardButtonIcon}>
+                     <p
+                        className={style.keyboardButtonIcon}
+                        onClick={e => {
+                           if (elem.secondType === buttonsTypes.text_buttons && !elem.isEmpty) {
+                              e.stopPropagation();
+                              changeTriggerId(elem.payload.trigger_id)
+                           }
+                        }}
+                     >
                         {elem.isEmpty
-                           ? <FontAwesomeIcon icon={faCircle} color="red"/>
+                           ? <FontAwesomeIcon icon={faCircle} className={style.keyboardButtonIcon1}/>
                            : markForButton[elem.type]
                         }
                      </p>

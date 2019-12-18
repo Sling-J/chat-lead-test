@@ -259,8 +259,15 @@ class ButtonsMenu extends Component {
                         </div>
 
                         <div className={style.buttonBoxInfoContainerActions}>
-                           <p className={style.buttonBoxInfoContainerActionsTitle}>Отправить сообщение</p>
-                           <p className={style.buttonBoxInfoContainerActionsDesc}>{buttonData.createdTrigger && buttonData.createdTrigger.length !== 0 ? buttonData.createdTrigger.caption : 'загрузка ...'}</p>
+                           <p className={style.buttonBoxInfoContainerActionsTitle}>
+                              Отправить сообщение
+                           </p>
+                           <p className={style.buttonBoxInfoContainerActionsDesc}>
+                              {Object.keys(buttonData.createdTrigger).length !== 0
+                                 ? buttonData.createdTrigger.caption
+                                 : 'загрузка ...'
+                              }
+                           </p>
                         </div>
                      </div>
 

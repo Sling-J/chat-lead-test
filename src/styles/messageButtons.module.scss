@@ -89,6 +89,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      height: 37px;
 
       &:hover {
          border-color: $theme__bg-color;
@@ -99,9 +100,29 @@
       }
 
       .keyboardButtonIcon {
+         transition: all 0.3s;
          border-left: 1px solid $main__border-color;
-         padding: 7px 0 7px;
+         height: 35px;
+         display: flex;
+         justify-content: center;
+         align-items: center;
          width: 15%;
+
+         .keyboardButtonIcon1 {
+            color: tomato;
+            transition: all 0.3s;
+         }
+
+         &:hover {
+            background: $theme__bg-color;
+            border-color: $theme__bg-color;
+            color: $white__color;
+
+            .keyboardButtonIcon1 {
+               color: $white__color;
+               border-color: $theme__bg-color;
+            }
+         }
       }
    }
 

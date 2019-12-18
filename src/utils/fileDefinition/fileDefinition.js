@@ -1,13 +1,14 @@
 import React from 'react';
 import FancyFileInput from "../../componens/inputs/fancyFileInput/fancyFileInput";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faImage, faVolumeDown, faVideo, faPaperclip} from "@fortawesome/free-solid-svg-icons";
+import {faImage, faVolumeDown, faVideo} from "@fortawesome/free-solid-svg-icons";
 import CardOrGalleryEllement from '../../componens/messages/cardOrGalleryElement/cardOrGalleryElement';
 import ListElement from '../../componens/messages/listElement/listElement';
 import FormElement from '../../componens/messages/formElement/formElement';
 import TimerElement from '../../componens/messages/timerElement/timerElement';
 import TextArea from '../../componens/messages/textArea/textArea';
 import TypeProcessing from '../../componens/messages/typeProcessing/typeProcessing';
+import PaymentElement from "../../componens/messages/paymentElement/paymentElement";
 
 export const fileDefinition = (key, value, handler, index, deleteHandler, changedTrigger, changedScenario, changeTriggerId) => {
    if (key === 'text') {
@@ -19,6 +20,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             index={index}
             changedTrigger={changedTrigger}
             key={key}
+            componentType={'text'}
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
          />
@@ -181,29 +183,15 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
       )
    } else if (key === 'payment') {
       return (
-         <FormElement
-            soon
-            type={'form'}
-            index={index}
-            changedTrigger={changedTrigger}
+         <PaymentElement
+            type={'payment'}
             value={value}
-            onChange={(e) => handler(e, index, key)}
-            changedScenario
-         />
-      )
-   } else {
-      return (
-         <FancyFileInput
-            type={'file'}
+            handler={handler}
             index={index}
-            pictureForLabel={{
-               label: 'file',
-               img: <FontAwesomeIcon icon={faPaperclip}/>
-            }}
-            value={value}
-            onChange={(e) => handler(e, index, key)}
+            key={key}
             changedTrigger={changedTrigger}
-            changedScenario
+            changedScenario={changedScenario}
+            changeTriggerId={changeTriggerId}
          />
       )
    }

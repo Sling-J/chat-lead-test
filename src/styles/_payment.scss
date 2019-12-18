@@ -1,0 +1,36 @@
+@import "partials";
+
+.payment-more-info {
+   padding: 10px 10px;
+   font-size: 15px;
+   background: #E8E8E8;
+   margin-bottom: 40px;
+}
+
+.payment-card-types__item {
+   width: 47%;
+   cursor: pointer;
+   transition: all 0.3s;
+   font-size: 0;
+   margin-bottom: 30px;
+
+   &:first-child {
+      border: 2px solid $main__border-color;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+   }
+
+   &:last-child {
+      img {
+         width: 100%;
+      }
+   }
+
+   &:hover {
+      -webkit-box-shadow: 8px 8px 17px -12px rgba(0,0,0,0.75);
+      -moz-box-shadow: 8px 8px 17px -12px rgba(0,0,0,0.75);
+      box-shadow: 8px 8px 17px -12px rgba(0,0,0,0.75);
+   }
+}

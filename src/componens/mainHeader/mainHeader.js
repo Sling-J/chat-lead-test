@@ -65,13 +65,13 @@ const MainHeader = (props) => {
                {isServiceHeader && (
                   <ul className={style.servicesMenuContainer}>
                      <li>
-                        <NavLink to="/bots/profile" activeClassName={style.servicesMenuItem}>Аккаунт</NavLink>
+                        <NavLink to="/bots">Аккаунт</NavLink>
                      </li>
                      <li>
                         <NavLink to="/bots/tariff/payment" activeClassName={style.servicesMenuItem}>Тарифы</NavLink>
                      </li>
                      <li>
-                        <NavLink to="/bots/partners" activeClassName={style.servicesMenuItem}>Партнерам</NavLink>
+                        <NavLink to="/bots">Партнерам</NavLink>
                      </li>
                      <li>
                         <NavLink to="/bots">Панель</NavLink>

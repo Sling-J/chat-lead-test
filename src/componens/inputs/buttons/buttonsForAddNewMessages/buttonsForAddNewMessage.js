@@ -29,20 +29,18 @@ const ButtonsForAddNewMessage = (props) => {
 
    return (
       <div className={style.mainContainer}>
-         {
-            addNewMessagesButtons[props.changedSocial].map((elem, index) => (
-               <div
-                  key={index}
-                  onClick={() => updateTriggerNewMessageHandler(elem.type, elem.optionalType)}
-                  className={style.buttonElement}
-               >
-                  <div>
-                     {elem.icon}
-                  </div>
-                  <p>{elem.label}</p>
+         {addNewMessagesButtons[props.changedSocial].map((elem, index) => (
+            <div
+               key={index}
+               onClick={() => updateTriggerNewMessageHandler(elem.type, elem.optionalType)}
+               className={style.buttonElement}
+            >
+               <div>
+                  {elem.icon}
                </div>
-            ))
-         }
+               <p>{elem.label}</p>
+            </div>
+         ))}
       </div>
    )
 };
