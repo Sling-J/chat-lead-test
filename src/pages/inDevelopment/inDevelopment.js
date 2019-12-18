@@ -12,7 +12,7 @@ const SingleBot = (props) => {
    }, [props.match.params.botId]);
 
    return (
-      <div className={style.mainContainer}>
+      <div>
          <MainHeader
             isMainHeader={false}
          />

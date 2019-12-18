@@ -5,6 +5,51 @@
    font-size: 15px;
    background: #E8E8E8;
    margin-bottom: 40px;
+
+   span {
+      color: $theme__bg-color;
+   }
+}
+
+.payment-kaspi__card {
+   position: relative;
+   background: url('../images/payment/Карта_Kaspi_Gold.png');
+   background-size: cover;
+   width: 65%;
+   height: 190px;
+   margin: 0 auto;
+
+   .payment-kaspi-card__field {
+      position: absolute;
+      left: 28px;
+      top: 102px;
+      background: #ffffff;
+      font-size: 16px;
+      padding: 7px 40px;
+      outline: none;
+   }
+}
+
+.payment-steps {
+   color: #82848B;
+   font-size: 15px;
+   display: block;
+}
+
+.payment-kaspi__price {
+   margin-top: 20px;
+   margin-bottom: 30px;
+
+   .payment-kaspi-price__input {
+      border-bottom: 1px solid $main__border-color;
+      transition: border-color 0.3s;
+      width: 110px;
+      outline: none;
+
+      &:focus {
+         border-color: $theme__bg-color;
+      }
+   }
 }
 
 .payment-card-types__item {
@@ -12,7 +57,6 @@
    cursor: pointer;
    transition: all 0.3s;
    font-size: 0;
-   margin-bottom: 30px;
 
    &:first-child {
       border: 2px solid $main__border-color;
@@ -33,4 +77,16 @@
       -moz-box-shadow: 8px 8px 17px -12px rgba(0,0,0,0.75);
       box-shadow: 8px 8px 17px -12px rgba(0,0,0,0.75);
    }
+}
+
+.payment-btn {
+   background: $theme__bg-color !important;
+   color: #fff !important;
+   text-transform: initial !important;
+   font-weight: 400 !important;
+   width: 100%;
+}
+
+.payment-margin {
+   margin-bottom: 30px !important;
 }

@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {compose} from "redux";
 import {connect} from 'react-redux';
+import {withRouter} from "react-router-dom";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import TriggersContainer from '../../scenariosAndTriggers/triggersContainer/triggersContainer';
+
 import {faInfoCircle} from '@fortawesome/free-solid-svg-icons'
+import {destinationScenario} from "../../../constants/defaultValues";
+import {ScenarioIdContext} from "../../../utils/Contexts";
 import {
    addNewScenario,
    deleteScenario,
@@ -11,20 +14,20 @@ import {
    editScenario,
    changeScenarioId
 } from "../../../actions/actionCreator";
-import {withRouter} from "react-router-dom";
-import {ScenarioIdContext} from "../../../utils/Contexts";
-import {destinationScenario} from "../../../constants/defaultValues";
+
 import edit from "../../../images/buttons/edit.png";
 import copy from "../../../images/duplicate.jpg";
 import trash from "../../../images/buttons/trash.png";
 import leftArrow from "../../../svg/db/left-arrow.svg";
+
 import ContextMenuForEditScenario from './contextMenuForEditScenario/contextMenuForEditScenario';
+import TriggersContainer from '../../scenariosAndTriggers/triggersContainer/triggersContainer';
+import SearchData from "../../searchData/searchData";
 
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
-
 import {Select} from 'antd';
 
 const ScenariosContainer = (props) => {
@@ -179,23 +182,6 @@ const ScenariosContainer = (props) => {
       )
    }
 
-   const dynamicSearchData = (searchString) => {
-      const scenariosData = [];
-
-      props.scenariosForScenarioContainer.forEach(elem => {
-         if (searchString) {
-            if (elem.trigger_text.toLowerCase().indexOf(searchString.toLowerCase()) !== -1) {
-               scenariosData.push(elem);
-            }
-         } else if (!searchString) {
-            scenariosData.push(elem);
-         }
-      });
-
-      setScenariosDataInFilter(scenariosData);
-   };
-
-
    return (
       <div className="main-container pv1-flex pv1-j-sb">
          <div className="main-container-controls pv1-flex">
@@ -229,24 +215,11 @@ const ScenariosContainer = (props) => {
                   </div>
                </div>
                <div className="main-table-search__container pv1-flex">
-                  <input
-                     type={'text'}
-                     className="main-table-search-container__input"
-                     placeholder={'Найти команду'}
-                     onInput={(e) => {
-                        dynamicSearchData(e.target.value)
-                     }}
+                  <SearchData
+                     placeholder="Найти команду"
+                     handler={setScenariosDataInFilter}
+                     data={props.scenariosForScenarioContainer}
                   />
-                  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512"
-                       enableBackground="new 0 0 512 512" width="512px" height="512px" className="">
-                     <g>
-                        <g>
-                           <path
-                              d="M495,466.2L377.2,348.4c29.2-35.6,46.8-81.2,46.8-130.9C424,103.5,331.5,11,217.5,11C103.4,11,11,103.5,11,217.5   S103.4,424,217.5,424c49.7,0,95.2-17.5,130.8-46.7L466.1,495c8,8,20.9,8,28.9,0C503,487.1,503,474.1,495,466.2z M217.5,382.9   C126.2,382.9,52,308.7,52,217.5S126.2,52,217.5,52C308.7,52,383,126.3,383,217.5S308.7,382.9,217.5,382.9z"
-                              data-original="#000000" className="active-path" data-old_color="#000000" fill="#DADADA"/>
-                        </g>
-                     </g>
-                  </svg>
                </div>
             </div>
             <table className="main-table-content">

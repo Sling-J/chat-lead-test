@@ -8,7 +8,7 @@ import {appendBroadCast, changeScenarioId, deleteBroadcast} from "../../actions/
 import {withRouter} from "react-router-dom";
 import moment from 'moment';
 import Button from "@material-ui/core/Button";
-import {sliceExtraText} from "../../utils/sliceExtraText";
+import {sliceExtraText} from "../../utils/textValidation";
 
 const BroadCastContainer = (props) => {
    const {changeScenarioId, changedScenarioId} = props;

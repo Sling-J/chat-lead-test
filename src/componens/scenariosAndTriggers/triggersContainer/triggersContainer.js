@@ -24,7 +24,7 @@ import {
    editScenario,
    editTriggerCaption
 } from "../../../actions/actionCreator";
-import {sliceExtraText} from "../../../utils/sliceExtraText";
+import {sliceExtraText} from "../../../utils/textValidation";
 
 const TriggersContainer = (props) => {
    const changedScenario = props.botScenarios.filter(elem => elem.id === props.scenarioId)[0];

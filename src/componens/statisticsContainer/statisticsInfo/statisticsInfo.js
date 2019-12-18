@@ -17,36 +17,36 @@ const StatisticsInfo = ({tabs, activeTab, statistics}) => {
    if (Object.keys(statistics).length !== 0) {
       switch (activeTab) {
          case 0:
-            applications = 
-               statistics.facebook.applications + 
-               statistics.telegram.applications + 
+            applications =
+               statistics.facebook.applications +
+               statistics.telegram.applications +
                statistics.vk.applications +
                statistics.whatsapp.applications;
-            
-            subscribers = 
-               statistics.facebook.subscribers + 
-               statistics.telegram.subscribers + 
+
+            subscribers =
+               statistics.facebook.subscribers +
+               statistics.telegram.subscribers +
                statistics.vk.subscribers +
                statistics.whatsapp.subscribers;
             break;
 
          case 1:
-            applications = statistics.facebook.applications;            
+            applications = statistics.facebook.applications;
             subscribers = statistics.facebook.subscribers;
             break;
 
          case 2:
-            applications = statistics.telegram.applications;            
+            applications = statistics.telegram.applications;
             subscribers = statistics.telegram.subscribers;
             break;
 
          case 3:
-            applications = statistics.vk.applications;            
+            applications = statistics.vk.applications;
             subscribers = statistics.vk.subscribers;
             break;
 
          case 4:
-            applications = statistics.whatsapp.applications;            
+            applications = statistics.whatsapp.applications;
             subscribers = statistics.whatsapp.subscribers;
             break;
 

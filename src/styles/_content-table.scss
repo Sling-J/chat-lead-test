@@ -99,7 +99,7 @@
 
 .main-container {
    width: $container__width;
-   background: #fafafa;
+   background: $main__bg-color;
    padding-bottom: 70px;
 
    .main-container-controls {
@@ -161,36 +161,38 @@
       padding: 0;
       box-sizing: border-box;
 
-      .main-table__search {
-         width: 100%;
+      .main-table__icon {
+         color: #82848B;
+         font-weight: 400;
+         background: $white__color;
+         white-space: nowrap;
+         width: 25px;
+         height: 25px;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         border-radius: 2px;
+         margin-left: 4px;
+         margin-top: 4px;
+         position: relative;
 
-         .main-table__icon {
-            color: #82848B;
-            font-weight: 400;
-            background: $white__color;
-            white-space: nowrap;
-            width: 25px;
-            height: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 2px;
-            margin-left: 4px;
-            margin-top: 4px;
-            position: relative;
-
-            &:hover {
-               .main-table-content-body__tooltip {
-                  visibility: visible;
-                  opacity: 1;
-               }
-            }
-
-            img {
-               width: 15px;
-               height: 15px;
+         &:hover {
+            .main-table-content-body__tooltip,
+            .main-table__tooltip {
+               visibility: visible;
+               opacity: 1;
             }
          }
+
+         img {
+            width: 15px;
+            height: 15px;
+         }
+      }
+
+      .main-table__search {
+         width: 100%;
+         margin-bottom: 40px;
 
          .main-table__title {
             color: #444;
@@ -204,38 +206,6 @@
 
             span {
                color: #000
-            }
-         }
-
-         .main-table-search__container {
-            svg {
-               width: 20px;
-               height: 20px;
-               position: relative;
-               top: 11px;
-               left: -35px;
-            }
-
-            .main-table-search-container__input {
-               padding: 10px 45px 10px 20px !important;
-               border: 1px solid #dadada !important;
-               background-color: transparent !important;
-               -webkit-transition: .2s ease-out !important;
-               -o-transition: .2s ease-out !important;
-               transition: .2s ease-out !important;
-               -webkit-border-radius: 25px !important;
-               border-radius: 25px !important;
-               width: 45% !important;
-               margin-bottom: 30px !important;
-               outline: none !important;
-
-               &::placeholder {
-                  font-size: 13px
-               }
-
-               &:focus {
-                  border: 1px solid $theme__bg-color !important
-               }
             }
          }
 

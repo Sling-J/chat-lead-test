@@ -10,6 +10,13 @@ body {
    color: $secondary__color;
 }
 
+.search-data {
+   svg {
+      margin-top: 5px;
+      color: #BFC0C2;
+   }
+}
+
 .MuiInput-underline:hover:not(.Mui-disabled):before {
    border-bottom-color: #4680fe !important;
 }
@@ -24,5 +31,19 @@ body {
 
    .ant-select-selection__rendered {
       line-height: 42px;
+   }
+}
+
+.MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-outlined {
+   font-size: 14px;
+   margin-top: 2px;
+}
+
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl {
+   border-radius: 25px;
+
+   .MuiInputBase-input.MuiOutlinedInput-input {
+      font-size: 14px;
+      height: 12px;
    }
 }
