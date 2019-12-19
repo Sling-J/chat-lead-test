@@ -150,14 +150,6 @@ const ScenariosContainer = (props) => {
                      placeholder="Введите ключевое слово"
                      onChange={handleChange}
                   />
-                  {/*<textarea*/}
-                  {/*   value={textArea}*/}
-                  {/*   onChange={e => {*/}
-                  {/*      setSnackOpen(false);*/}
-                  {/*      setTextArea(e.target.value);*/}
-                  {/*   }}*/}
-                  {/*   placeholder={'Введите ключевое слово'}*/}
-                  {/*/>*/}
                </div>
             </div>
          </div>

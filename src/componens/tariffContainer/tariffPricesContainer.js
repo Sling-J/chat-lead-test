@@ -11,13 +11,13 @@ const TabPanel = ({standard, premium, value, index}) => {
 
          <div className="prices-box-item__offer">
             <h3 className="prices-box-item-offer__title">{title}</h3>
+
             <p className="prices-box-item-offer__price">
-               <span>{price}</span> $ / ∞
+               <span>{price}</span> $ / {price === 0 ? '∞' : 'месяц'}
             </p>
             <p className="prices-box-item-offer__desc">
                {socials}
             </p>
-
             <Button variant="contained" className="prices-box-item-offer__button" href="">
                Выбрать
             </Button>
