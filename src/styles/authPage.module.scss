@@ -1,0 +1,47 @@
+.mainContainer {
+   background: #f6f8fb;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+
+   .formContainer {
+      margin: 0 auto;
+      width: 100%;
+      max-width: 400px;
+      background-color: #fff;
+      border-radius: 2px;
+      box-shadow: 0 0 13px -8px rgba(0, 0, 0, 0.75);
+
+      .tabContainer {
+         border-bottom: 1px solid #e8e8e8;
+         padding: 0;
+         display: flex;
+
+         .linkElement {
+            transition: all .2s ease-out;
+            border-bottom: 2px solid transparent;
+            position: relative;
+            font-weight: 500;
+            font-size: 14px;
+            color: grey;
+            width: 50%;
+            text-align: center;
+            padding: 15px 0;
+
+            span {
+               margin-left: 5px;
+            }
+         }
+
+         .activeLinkElement {
+            color: #4680fe;
+            border-bottom: 2px solid #4680fe;
+         }
+      }
+
+      .mainInputContainer {
+         padding: 40px 50px 20px 50px;
+      }
+   }
+}

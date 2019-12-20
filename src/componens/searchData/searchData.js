@@ -38,10 +38,10 @@ const SearchData = ({handler, data, placeholder}) => {
    };
 
    return (
-      <div>
+      <div className="search-data-form">
          <CssTextField
             className="search-data"
-            id="input-with-icon-adornment"
+            id="input-with-search-data"
             label={placeholder}
             variant="outlined"
             onChange={e => dynamicSearchData(data, e.target.value)}

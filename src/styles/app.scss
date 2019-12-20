@@ -35,15 +35,17 @@ body {
 }
 
 .MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-outlined {
-   font-size: 14px;
+   font-size: 15px;
    margin-top: 2px;
 }
 
 .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl {
-   border-radius: 25px;
-
    .MuiInputBase-input.MuiOutlinedInput-input {
       font-size: 14px;
       height: 12px;
    }
+}
+
+.search-data-form .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl {
+   border-radius: 25px;
 }

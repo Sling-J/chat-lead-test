@@ -28,6 +28,7 @@ export function* signUpSaga({signUpData, history}) {
 }
 
 export function* authSaga({authData, history}) {
+   console.log(authData);
    try {
       yield put({type: ACTION.USER_DATA_REQUEST});
 

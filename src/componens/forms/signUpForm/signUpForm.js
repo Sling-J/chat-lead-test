@@ -1,100 +1,148 @@
 import React, {useState} from "react";
-import {Field, reduxForm} from 'redux-form';
-import {withRouter} from 'react-router';
+import {compose} from "redux";
 import {connect} from "react-redux";
-import validate from "../../../utils/validation/registrValidate";
-import FancyInput from "../../inputs/fancyInput";
-// import {sendFormDataSignUp} from "../../../actions/actionCreator";
-import style from "./signUpForm.module.sass";
-import {signUp, auth} from "../../../actions/actionCreator";
+import {withRouter} from 'react-router-dom';
 
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import IconButton from "@material-ui/core/IconButton";
+
+import {signUp, auth} from "../../../actions/actionCreator";
+import style from '../../../styles/auth.module.scss';
 
 const SignUpForm = (props) => {
-   const {registration} = props;
-   const [isError, setError] = useState(false);
-   const data = registration && {
-      ...registration.values,
-      optional_parameters: [
-         "ref",
-         "utm_source"
-      ]
-   };
+   const [customError, setError] = useState(null);
+   const [hidden, setHidden] = useState(true);
+   const [hidden2, setHidden2] = useState(true);
+   const [login, setLogin] = useState('');
+   const [password, setPassword] = useState('');
+   const [passwordConfirm, setPasswordConfirm] = useState('');
 
    const submit = event => {
       event.preventDefault();
 
-      if (registration.syncErrors) {
-         setError(true);
+      if (login.length !== 0 && password.length !== 0 && passwordConfirm.length !== 0) {
+         setError(null);
+
+         if (password.length >= 6 && passwordConfirm.length >= 6) {
+            setError(null);
+
+            if (password === passwordConfirm) {
+               setError(null);
+
+               const data = {
+                  login: login,
+                  password: password,
+                  passwordConfirm: passwordConfirm,
+                  optional_parameters: [
+                     "ref",
+                     "utm_source"
+                  ]
+               };
+
+               props.signUpAction(data, props.history);
+               props.authAction(data, props.history);
+            } else {
+               setError('Пароли не совпадают');
+            }
+         } else {
+            setError('Пароль не меньше 6 символов');
+         }
       } else {
-         props.signUpAction(data, props.history);
-         props.authAction(data, props.history);
+         setError('Заполните все поля');
       }
    };
 
    return (
       <form autoComplete={'off'} className={style.mainContainer} onSubmit={submit}>
          <div className={style.fieldsContainer}>
-            <Field
-               name={'login'}
-               type={'text'}
-               component={FancyInput}
-               label={'Email:'}
-               placeholder={'mail@example.com'}
-            />
-            <div className={style.passwordContainer}>
-               <div className={style.inputPasswordContainer}>
-                  <Field
-                     name={'password'}
-                     type={'password'}
-                     component={FancyInput}
-                     label={'Пароль:'}
-                  />
-               </div>
-               <div className={style.inputPasswordContainer}>
-                  <Field
-                     name={'passwordConfirm'}
-                     type={'password'}
-                     component={FancyInput}
-                     label={'Повторите пароль:'}
-                  />
-               </div>
+            <div className={style.fieldsContainerInput}>
+               <TextField
+                  fullWidth
+                  type="email"
+                  label="Электронная почта"
+                  placeholder="mail@example.ru"
+                  variant="outlined"
+                  value={login}
+                  onChange={e => setLogin(e.target.value)}
+               />
+            </div>
+
+            <div className={`${style.fieldsContainerInput} ${style.fieldsContainerInputPass}`}>
+               <TextField
+                  fullWidth
+                  label="Пароль"
+                  variant="outlined"
+                  value={password}
+                  type={hidden ? 'password' : 'text'}
+                  onChange={e => setPassword(e.target.value)}
+               />
+               <IconButton className={style.fieldsContainerInputIcon} onClick={() => setHidden(!hidden)} size="small">
+                  {hidden
+                     ? <VisibilityOffIcon style={{fontSize: "20px"}}/>
+                     : <VisibilityIcon style={{fontSize: "20px"}}/>
+                  }
+               </IconButton>
+            </div>
+
+            <div className={`${style.fieldsContainerInput} ${style.fieldsContainerInputPass}`}>
+               <TextField
+                  fullWidth
+                  label="Подтвердите пароль"
+                  variant="outlined"
+                  value={passwordConfirm}
+                  type={hidden2 ? 'password' : 'text'}
+                  onChange={e => setPasswordConfirm(e.target.value)}
+               />
+               <IconButton className={style.fieldsContainerInputIcon} onClick={() => setHidden2(!hidden2)} size="small">
+                  {hidden2
+                     ? <VisibilityOffIcon style={{fontSize: "20px"}}/>
+                     : <VisibilityIcon style={{fontSize: "20px"}}/>
+                  }
+               </IconButton>
             </div>
          </div>
 
-         <button className={style.submitButton}>Создать аккаунт</button>
+         <Button
+            fullWidth
+            type="submit"
+            className={style.submitButton}
+            variant="contained"
+         >
+            {props.isFetching ?
+               <CircularProgress size={21} color="white"/> :
+               'Создать аккаунт'
+            }
+         </Button>
 
-         <div className={style.errorsContainer}>
-            <div className={style.error}>{props.error}</div>
-            {isError && (
-               <div className={style.error}>Введите пожалуйста коректные данные</div>
-            )}
-         </div>
-
-         <p>
+         <p className={style.offerta}>
             Продолжая, вы соглашаетесь с нашей
             <span> политикой конфиденциальности </span> и
             <span> правилами пользования</span>
+         </p>
+
+         <p className={style.error}>
+            {(props.error && 'Ошибка сервера просим прощения') || (customError)}
          </p>
       </form>
    );
 };
 
-const mapStateToProps = state => {
-   const {registration} = state.form;
-   const {userData, isFetching, error} = state.userReducers;
-
-   return {
-      registration, userData, isFetching, error
-   }
-};
+const mapStateToProps = ({userReducers}) => ({
+   userData: userReducers.userData,
+   isFetching: userReducers.isFetching,
+   error: userReducers.error
+});
 
 const mapDispatchToProps = dispatch => ({
    signUpAction: (signUpData, history) => dispatch(signUp(signUpData, history)),
    authAction: (authData, history) => dispatch(auth(authData, history))
 });
 
-
-export default reduxForm({
-   form: 'registration',
-   validate
-})(connect(mapStateToProps, mapDispatchToProps)(withRouter(SignUpForm)));
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(SignUpForm);

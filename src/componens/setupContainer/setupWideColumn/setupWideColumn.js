@@ -52,24 +52,6 @@ class SetupWideColumn extends Component {
             this.setState({willSend: botSetupData.application_will_send})
          }
       }
-
-      // if (
-      //    (prevProps.botSetupData.application_email !== botSetupData.application_email) ||
-      //    (prevProps.botSetupData.application_whatsapp_id !== botSetupData.application_whatsapp_id) ||
-      //    (prevProps.botSetupData.application_telegram_id !== botSetupData.application_telegram_id)
-      // ) {
-      //    let resTelegramList = botSetupData.application_telegram_id.split(",").filter(item => item.length !== 0);
-      //    let resEmailList = botSetupData.application_email.split(",").filter(item => item.length !== 0);
-      //    let resTelList = botSetupData.application_whatsapp_id.split(",").filter(item => item.length !== 0);
-      //    let willSend = botSetupData.application_will_send;
-      //
-      //    this.setState({
-      //       telegramList: resTelegramList,
-      //       emailList: resEmailList,
-      //       telList: resTelList,
-      //       willSend: willSend
-      //    });
-      // }
    }
 
    showModal = isEmail => {
@@ -98,119 +80,6 @@ class SetupWideColumn extends Component {
    setWillSend = value => {
       this.setState({willSend: value});
    };
-
-   // handleSubmit = event => {
-   //    event.preventDefault();
-   //
-   //    const {email, tel, telegram, emailList, telList, telegramList} = this.state;
-   //    const {botSetupData, editManager} = this.props;
-   //
-   //    const botId = botSetupData.id;
-   //
-   //    this.setWillSend(true);
-   //
-   //    if (email.length !== 0) {
-   //       const newEmailList = [
-   //          ...emailList,
-   //          email
-   //       ];
-   //
-   //       editManager({
-   //          idBot: botId,
-   //          application_will_send: true,
-   //          application_email: newEmailList.toString(),
-   //          application_whatsapp_id: telList.toString(),
-   //          application_telegram_id: telegramList.toString(),
-   //          optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
-   //       });
-   //    }
-   //
-   //    if (tel.length !== 0) {
-   //       const newTelList = [
-   //          ...telList,
-   //          tel
-   //       ];
-   //
-   //       editManager({
-   //          idBot: botId,
-   //          application_will_send: true,
-   //          application_email: emailList.toString(),
-   //          application_whatsapp_id: newTelList.toString(),
-   //          application_telegram_id: telegramList.toString(),
-   //          optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
-   //       });
-   //    }
-   //
-   //    if (telegram.length !== 0) {
-   //       const newTelegramList = [
-   //          ...telegramList,
-   //          telegram
-   //       ];
-   //
-   //       editManager({
-   //          idBot: botId,
-   //          application_will_send: true,
-   //          application_email: emailList.toString(),
-   //          application_whatsapp_id: telList.toString(),
-   //          application_telegram_id: newTelegramList.toString(),
-   //          optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
-   //       });
-   //    }
-   //
-   //    this.setState({
-   //       telegram: '',
-   //       email: '',
-   //       tel: '',
-   //    })
-   // };
-
-   // deleteNotificationElement = (type, index) => {
-   //    const {emailList, telList, willSend, telegramList} = this.state;
-   //    const {editManager, botSetupData} = this.props;
-   //    const botId = botSetupData.id;
-   //
-   //    if (type === "email") {
-   //       let newEmailList = [...emailList];
-   //       newEmailList.splice(index, 1);
-   //
-   //       editManager({
-   //          idBot: botId,
-   //          application_will_send: willSend,
-   //          application_email: emailList.length === 1 ? ',' : newEmailList.toString(),
-   //          application_whatsapp_id: telList.toString(),
-   //          application_telegram_id: telegramList.toString(),
-   //          optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
-   //       });
-   //    }
-   //
-   //    if (type === "tel") {
-   //       let newTelList = [...telList];
-   //       newTelList.splice(index, 1);
-   //
-   //       editManager({
-   //          idBot: botId,
-   //          application_will_send: willSend,
-   //          application_email: emailList.toString(),
-   //          application_telegram_id: telegramList.toString(),
-   //          application_whatsapp_id: telList.length === 1 ? ',' : newTelList.toString(),
-   //          optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
-   //       });
-   //    }
-   //
-   //    if (type === "telegram") {
-   //       let newTelegramList = [...telegramList];
-   //       newTelegramList.splice(index, 1);
-   //
-   //       editManager({
-   //          idBot: botId,
-   //          application_will_send: willSend,
-   //          application_email: emailList.toString(),
-   //          application_whatsapp_id: telList.toString(),
-   //          application_telegram_id: telegramList.length === 1 ? ',' : newTelegramList.toString(),
-   //          optional_params: ["application_email", "application_whatsapp_id", "application_telegram_id", "application_will_send"]
-   //       });
-   //    }
-   // };
 
    isEmptyCheck = message => {
       const {botScenarios} = this.props;
@@ -346,96 +215,27 @@ class SetupWideColumn extends Component {
                   <div className={style.notifyme}>
                      <form>
                         <h3>Оповещение</h3>
-                        <div className={style.switcher}>
-                           <label className={style.switch}>
-                              <input
-                                 type="checkbox"
-                                 checked={willSend}
-                                 onClick={() => {
-                                    editManager({
-                                       idBot: botId,
-                                       application_will_send: !willSend,
-                                       optional_params: ["application_will_send"]
-                                    });
-                                    this.setState(() => ({willSend: !willSend}));
-                                 }}
-                              />
-                              <span className={style.slider + " " + style.round}/>
-                           </label>
-                           <p>Получать уведомления о заявках</p>
-                        </div>
-
-                        {/*<div className={style.switcher + " "}>*/}
-                        {/*<div className={style.switcherContainer}>*/}
-                        {/*   <div className={style.list}>*/}
-                        {/*      {emailList.map((email, index) =>*/}
-                        {/*         <div>*/}
-                        {/*            {email}*/}
-                        {/*            <span*/}
-                        {/*               onClick={() => this.deleteNotificationElement("email", index)}>×</span>*/}
-                        {/*         </div>*/}
-                        {/*      )}*/}
-                        {/*      <input*/}
-                        {/*         className={style.subscribeField}*/}
-                        {/*         id="notificationEmail"*/}
-                        {/*         type="email"*/}
-                        {/*         name="mail"*/}
-                        {/*         placeholder="example@mail.com"*/}
-                        {/*         onChange={e => this.setState({email: e.target.value})}*/}
-                        {/*         value={email}*/}
-                        {/*      />*/}
-                        {/*   </div>*/}
-                        {/*</div>*/}
-
-                        {/*<div className={style.switcherContainer}>*/}
-                        {/*   <div className={style.list}>*/}
-                        {/*      {telList.map((tel, index) =>*/}
-                        {/*         <div>*/}
-                        {/*            {tel}*/}
-                        {/*            <span*/}
-                        {/*               onClick={() => this.deleteNotificationElement("tel", index)}>×</span>*/}
-                        {/*         </div>*/}
-                        {/*      )}*/}
-                        {/*      <input*/}
-                        {/*         className={style.subscribeField}*/}
-                        {/*         id="notificationTel"*/}
-                        {/*         type="number"*/}
-                        {/*         name="phone"*/}
-                        {/*         placeholder="+7 ___ ___ __ __"*/}
-                        {/*         onChange={e => this.setState({tel: e.target.value})}*/}
-                        {/*         value={tel}*/}
-                        {/*      />*/}
-                        {/*   </div>*/}
-                        {/*</div>*/}
-
-                        {/*   <div className={style.switcherContainer}>*/}
-                        {/*      <div className={style.list}>*/}
-                        {/*         {telegramList.map((telegram, index) =>*/}
-                        {/*            <div>*/}
-                        {/*               {telegram}*/}
-                        {/*               <span*/}
-                        {/*                  onClick={() => this.deleteNotificationElement("telegram", index)}>×</span>*/}
-                        {/*            </div>*/}
-                        {/*         )}*/}
-                        {/*         <input*/}
-                        {/*            className={style.subscribeField}*/}
-                        {/*            id="notificationTelergam"*/}
-                        {/*            type="text"*/}
-                        {/*            name="phone"*/}
-                        {/*            placeholder="telegramID"*/}
-                        {/*            onChange={e => this.setState({telegram: e.target.value})}*/}
-                        {/*            value={telegram}*/}
-                        {/*         />*/}
-                        {/*      </div>*/}
-                        {/*   </div>*/}
-                        {/*</div>*/}
-
-                        {/*<div className={style.switcher + " " + style.underinput}>*/}
-                        {/*   <span>Добавьте емейл, на который отправлять уведомления и нажмите Enter </span>*/}
-                        {/*   <span>Или напишите Telegram ID</span>*/}
-                        {/*</div>*/}
 
                         <Spin spinning={Object.keys(botSetupData).length === 0}>
+                           <div className={style.switcher}>
+                              <label className={style.switch}>
+                                 <input
+                                    type="checkbox"
+                                    checked={willSend}
+                                    onClick={() => {
+                                       editManager({
+                                          idBot: botId,
+                                          application_will_send: !willSend,
+                                          optional_params: ["application_will_send"]
+                                       });
+                                       this.setState(() => ({willSend: !willSend}));
+                                    }}
+                                 />
+                                 <span className={style.slider + " " + style.round}/>
+                              </label>
+                              <p>Получать уведомления о заявках</p>
+                           </div>
+
                            <div className={style.notifyBox}>
                               <div className={style.notifyBoxItem} onClick={() => this.showModal('email')}>
                                  <div className={style.notifyBoxItemIcon}>

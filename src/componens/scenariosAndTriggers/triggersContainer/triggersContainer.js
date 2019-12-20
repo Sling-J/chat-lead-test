@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
+import {compose} from "redux";
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 
@@ -113,10 +114,11 @@ const TriggersContainer = (props) => {
                   Сохранить
                </div>
             </div>
-            <div
-               className={style.saveDataStatus}
-            >
-               {props.isFetching ? 'Идет сохранение' : 'Ваши данные сохранены!'}
+            <div className={style.saveDataStatus}>
+               {props.isFetching
+                  ? 'Идет сохранение'
+                  : 'Ваши данные сохранены!'
+               }
             </div>
             <Triggers
                changeTriggerId={changeTriggerId}
@@ -150,10 +152,10 @@ const TriggersContainer = (props) => {
                </div>
 
                {changedTrigger && (
-                  <>
+                  <Fragment>
                      <MessagesContainer
-                        changeTriggerId={changeTriggerId}
                         changedTrigger={changedTrigger}
+                        changeTriggerId={changeTriggerId}
                         changedScenario={changedScenario}
                         updateTriggerUpdateMessageHandler={updateTriggerUpdateMessageHandler}
                         updateTriggerDeleteMessageHandler={updateTriggerDeleteMessageHandler}
@@ -163,24 +165,22 @@ const TriggersContainer = (props) => {
                            changedTrigger={changedTrigger}
                         />
                      </div>
-                  </>
+                  </Fragment>
                )}
                <div className={style.broadCastMenu}>
-                  {
-                     changedScenario && changedScenario.destination === destinationScenario.broadcast && (
-                        <BroadCastMenu
-                           broadCastId={props.broadCastId}
-                           changedTrigger={changedTrigger}
-                        />
-                     )
-                  }
+                  {changedScenario && changedScenario.destination === destinationScenario.broadcast && (
+                     <BroadCastMenu
+                        broadCastId={props.broadCastId}
+                        changedTrigger={changedTrigger}
+                     />
+                  )}
                </div>
             </div>
          </div>
          <div className={style.social}>
             <div className={style.linkContainer}>
                {props.isAutoRide ? props.autoridesLinks ? (
-                  <>
+                  <Fragment>
                      <div className={style.autorideLink}>
                         <a
                            href={props.autoridesLinks[props.changedSocial].includes('http') ?
@@ -205,7 +205,7 @@ const TriggersContainer = (props) => {
                            </div>
                         )}
                      </CopyToClipboard>
-                  </>
+                  </Fragment>
                ) : (
                   <div className={style.autorideLinkSpin}>
                      <Spin/>
@@ -220,14 +220,13 @@ const TriggersContainer = (props) => {
    )
 };
 
-const mapStateToProps = state => {
-   const {botScenarios, isFetching, error, changedSocial} = state.singleBotReducers;
-   const {botsData} = state.botsReducers;
-
-   return {
-      botScenarios, isFetching, error, botsData, changedSocial
-   }
-};
+const mapStateToProps = ({singleBotReducers, botsReducers}) => ({
+   botScenarios: singleBotReducers.botScenarios,
+   isFetching: singleBotReducers.isFetching,
+   error: singleBotReducers.error,
+   changedSocial: singleBotReducers.changedSocial,
+   botsData: botsReducers.botsData,
+});
 
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData, updationData, changedSocial) => dispatch(updateTrigger(triggerData, updationData, changedSocial)),
@@ -237,4 +236,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TriggersContainer));
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(TriggersContainer);

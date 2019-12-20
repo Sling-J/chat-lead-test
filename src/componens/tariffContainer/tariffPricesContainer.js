@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {useTheme} from '@material-ui/core/styles';
-import SwipeableViews from 'react-swipeable-views';
 import Button from '@material-ui/core/Button';
+import SwipeableViews from 'react-swipeable-views';
 
 const TabPanel = ({standard, premium, value, index}) => {
    const Item = ({price, title, socials}) => (

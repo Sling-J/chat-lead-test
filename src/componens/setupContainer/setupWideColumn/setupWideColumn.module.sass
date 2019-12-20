@@ -91,21 +91,11 @@ input[type=number]::-webkit-outer-spin-button
    color: #4680fe
    border-color: #4680fe
 
-.table__settings
-   .table_row
-//padding-left: 65px
 
 .table
    width: 100%
    margin: 30px 0
    border-top: 1px solid #e8e8e8
-
-.table__settings
-   .table_row.jsSelected
-      .statusIcon
-//background-image: url(../../../svg/db/check.svg)
-//border-color: #66bb6a
-//background-color: #66bb6a
 
 .statusIcon
    width: 20px
@@ -130,7 +120,7 @@ input[type=number]::-webkit-outer-spin-button
    display: flex
    justify-content: center
    position: relative
-   transition: all 0.3s
+   transition: all 0.1s
 
    &:hover
       label
@@ -142,6 +132,7 @@ input[type=number]::-webkit-outer-spin-button
 
    label
       width: 100%
+      cursor: pointer
       border-bottom: 1px solid #efefef
       font-size: 15px
       padding: 20px 40px 20px 10px
@@ -404,7 +395,7 @@ input[type=number]::-webkit-outer-spin-button
 
       input
          border: none
-         padding: 10px 0px
+         padding: 10px 0
          margin: 0 15px
          -webkit-transition: .4s
          transition: .4s
