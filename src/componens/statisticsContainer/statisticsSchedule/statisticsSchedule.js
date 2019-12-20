@@ -4,30 +4,19 @@ import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 import {DatePicker, Tabs} from 'antd';
 
-import {dateFormat, formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import Schedule from "./schedule";
+import {dateFormat, formatUnixToDate} from "../../../utils/formatDate";
 import {getBotStatistics} from "../../../actions/actionCreator";
 import moment from "moment";
 
 const {RangePicker} = DatePicker;
 const {TabPane} = Tabs;
 
-const StatisticsSchedule = ({tabs, changeTab, getBotStatistics, match, statistics, activeTab, loadingOfStatistics}) => {
+const StatisticsSchedule = ({
+   tabs, changeTab, getBotStatistics, loadingOfStatistics,
+   match, statistics, activeTab, defaultStartDay, defaultEndDay
+}) => {
    const [chartData, setChartData] = useState(defaultData());
-
-   const defaultStartDay = new Date();
-   const defaultEndDay = new Date();
-
-   defaultStartDay.setDate(defaultStartDay.getDate() - 1);
-   defaultEndDay.setDate(defaultEndDay.getDate() + 6);
-
-   useEffect(() => {
-      getBotStatistics({
-         botId: match.params.botId,
-         startDate: formatDateToUnix(defaultStartDay),
-         endDate: formatDateToUnix(defaultEndDay),
-      });
-   }, []);
 
    function defaultData(data, date, color, label) {
       return {

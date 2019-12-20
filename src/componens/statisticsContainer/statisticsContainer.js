@@ -7,8 +7,9 @@ import StatisticsInfo from "./statisticsInfo/statisticsInfo";
 import StatisticsSchedule from "./statisticsSchedule/statisticsSchedule";
 
 import {getBotStatistics} from "../../actions/actionCreator";
+import {formatDateToUnix} from "../../utils/formatDate";
 
-const StatisticsContainer = () => {
+const StatisticsContainer = ({match, getBotStatistics}) => {
    const [activeTab, setActiveTab] = useState(1);
    const [tabs] = useState([
       {name: 'Все', key: '1'},
@@ -19,6 +20,19 @@ const StatisticsContainer = () => {
    ]);
 
    const changeTab = tabId => setActiveTab(tabId);
+   const defaultStartDay = new Date();
+   const defaultEndDay = new Date();
+
+   defaultStartDay.setDate(defaultStartDay.getDate() - 1);
+   defaultEndDay.setDate(defaultEndDay.getDate() + 6);
+
+   useEffect(() => {
+      getBotStatistics({
+         botId: match.params.botId,
+         startDate: formatDateToUnix(defaultStartDay),
+         endDate: formatDateToUnix(defaultEndDay),
+      });
+   }, []);
 
    return (
       <div className="statistics-container pv1-flex pv1-j-sb">
@@ -28,6 +42,8 @@ const StatisticsContainer = () => {
          />
          <StatisticsSchedule
             tabs={tabs}
+            defaultStartDay={defaultStartDay}
+            defaultEndDay={defaultEndDay}
             changeTab={changeTab}
             activeTab={activeTab}
          />
@@ -41,4 +57,12 @@ const mapStateToProps = ({botStatisticsReducer}) => ({
    errorOfStatistics: botStatisticsReducer.errorOfStatistics
 });
 
-export default connect(mapStateToProps)(StatisticsContainer);
+const mapDispatchToProps = dispatch => ({
+   getBotStatistics: data => dispatch(getBotStatistics(data))
+});
+
+
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(StatisticsContainer);

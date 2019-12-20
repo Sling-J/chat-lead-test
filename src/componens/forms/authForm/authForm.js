@@ -72,8 +72,9 @@ const AuthForm = props => {
          <Button
             fullWidth
             type="submit"
-            className={style.submitButton}
             variant="contained"
+            disabled={props.isFetching}
+            className={style.submitButton}
          >
             {props.isFetching ?
                <CircularProgress size={21} color="white"/> :

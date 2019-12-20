@@ -186,10 +186,10 @@ export const resetUrl = () => ({
    type: ACTION.RESET_URL
 });
 
-export const editFastButtonName = (idBtn) => ({
-   type: ACTION.EDIT_FAST_BUTTON_NAME,
-   idBtn
-});
+// export const editFastButtonName = (idBtn) => ({
+//    type: ACTION.EDIT_FAST_BUTTON_NAME,
+//    idBtn
+// });
 
 export const getBotStatistics = data => ({
    type: ACTION.GET_BOT_STATISTICS_REQUEST,
