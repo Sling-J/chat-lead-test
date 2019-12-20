@@ -29,9 +29,10 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
 import {Select} from 'antd';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const ScenariosContainer = (props) => {
-   const {changeScenarioId, changedScenarioId} = props;
+   const {changeScenarioId, changedScenarioId, isFetching} = props;
 
    const [textArea, setTextArea] = useState("");
    const [textAreaErrMsg, setTextAreaErrMsg] = useState("");
@@ -179,10 +180,14 @@ const ScenariosContainer = (props) => {
          <div className="main-container-controls pv1-flex">
             <Button
                variant="contained"
+               disabled={isFetching}
                className="main-container-controls__button main-theme-button"
                onClick={() => setStatusCreateScenarioFild(true)}
             >
-               Создать команду
+               {isFetching
+                  ? <CircularProgress size={23} color="white"/>
+                  : 'Создать команду'
+               }
             </Button>
             <div className="main-container-controls__divider"/>
             <div className="main-container__info pv1-flex">
@@ -306,13 +311,13 @@ const ScenariosContainer = (props) => {
    )
 };
 
-const mapStateToProps = state => {
-   const {botScenarios, scenariosForScenarioContainer, isFetching, error, changedScenarioId} = state.singleBotReducers;
-
-   return {
-      botScenarios, scenariosForScenarioContainer, isFetching, error, changedScenarioId
-   }
-};
+const mapStateToProps = ({singleBotReducers}) => ({
+   botScenarios: singleBotReducers.botScenarios,
+   scenariosForScenarioContainer: singleBotReducers.scenariosForScenarioContainer,
+   isFetching: singleBotReducers.isFetching,
+   error: singleBotReducers.error,
+   changedScenarioId: singleBotReducers.changedScenarioId,
+});
 
 const mapDispatchToProps = dispatch => ({
    addScenario: (botId, destination, trigger_text) => dispatch(addNewScenario(botId, destination, trigger_text)),

@@ -3,27 +3,28 @@ import {compose} from "redux";
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 
+import {destinationScenario} from "../../../constants/defaultValues";
 import CopyToClipboard from "../../Containers/CopyToClipboard/CopyToClipboard";
 import ButtonsForAddNewMessage from '../../inputs/buttons/buttonsForAddNewMessages/buttonsForAddNewMessage';
 import SideBarSocial from '../../sideBarSocial/sideBarSocial';
 import MessagesContainer from './messagesContainer/messagesContainer';
 import BroadCastMenu from '../../broadCastContainer/broadCastMenu/broadCastMenu';
-import {destinationScenario} from "../../../constants/defaultValues";
 import Triggers from './triggers/triggers';
 
 import {Spin} from 'antd';
-import leftArrow from "../../../svg/db/left-arrow.svg";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClone} from "@fortawesome/free-regular-svg-icons";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 
+import leftArrow from "../../../svg/db/left-arrow.svg";
 import style from './triggersContainer.module.sass';
 
 import {
    addNewTrigger,
    updateTrigger,
    editScenario,
-   editTriggerCaption
+   editTriggerCaption,
+   getAllBroadCasts
 } from "../../../actions/actionCreator";
 import {sliceExtraText} from "../../../utils/textValidation";
 
@@ -106,7 +107,10 @@ const TriggersContainer = (props) => {
       <div className={style.mainContainer}>
          <div className={style.sideContainer}>
             <div className={style.buttonsContainer}>
-               <div className={style.before} onClick={() => props.changeScenarioId(false)}>
+               <div className={style.before} onClick={() => {
+                  props.changeScenarioId(false);
+                  props.getBroadcast && props.getAllBroadCasts(props.match.params.botId);
+               }}>
                   <img src={leftArrow} alt={'back'}/>
                   Назад к списку
                </div>
@@ -231,6 +235,7 @@ const mapStateToProps = ({singleBotReducers, botsReducers}) => ({
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData, updationData, changedSocial) => dispatch(updateTrigger(triggerData, updationData, changedSocial)),
    updateTriggerCaption: triggerData => dispatch(editTriggerCaption(triggerData)),
+   getAllBroadCasts: botId => dispatch(getAllBroadCasts(botId)),
    appendTrigger: triggerData => dispatch(addNewTrigger(triggerData)),
    editScenario: scenarioData => dispatch(editScenario(scenarioData))
 });

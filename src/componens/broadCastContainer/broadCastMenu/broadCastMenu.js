@@ -1,47 +1,50 @@
 import React, {useState} from 'react';
-import style from './broadCastMenu.module.sass';
-import {withRouter} from "react-router-dom";
+import {compose} from "redux";
 import {connect} from "react-redux";
-import './calendarStyle.sass';
-import {updateBroadCasts} from "../../../actions/actionCreator";
-import "react-datepicker/dist/react-datepicker.css";
+import {withRouter} from "react-router-dom";
 
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
-import CustomFlatPicker from "../../messages/timerElement/customFlatPicker/customFlatPicker"; // the locale you want
-import {Dropdown} from 'antd';
+import {updateBroadCasts} from "../../../actions/actionCreator";
+import CustomFlatPicker from "../../messages/timerElement/customFlatPicker/customFlatPicker";
+
+import {Dropdown, Spin} from 'antd';
+import Button from '@material-ui/core/Button';
+import style from './broadCastMenu.module.sass';
 
 const BroadCastMenu = (props) => {
-   const {broadCastId, changedTrigger} = props;
    const [isOpenTestTab, openTestTab] = useState(false);
+
+   const {broadCastId, changedTrigger, isFetching} = props;
+
    const oldDate = new Date(2015, 0, 1).getTime();
    const futureTime = new Date().setFullYear(new Date().getFullYear() + 1);
 
    const DatePickerMenu = (
-      <div className={style.delayContainer}>
-         <div className={style.calendarContainer}>
-            <h2>Отложить рассылку</h2>
+      <div className={style.calendarContainer}>
+         <h2>Отложить рассылку</h2>
 
-            <CustomFlatPicker
-               styleForPicker={{
-                  width: '80%',
-                  padding: "8px 15px"
-               }}
-               defaultValue={
-                  formatUnixToDate(
-                     props.broadCastData[broadCastId]
-                        ? props.broadCastData[broadCastId].time : '',
-                     true)
-               }
-               onChange={value => updateBroadCast({
-                  time: formatDateToUnix(value[0])
-               })}
-            />
-         </div>
+         <CustomFlatPicker
+            styleForPicker={{
+               width: '100%',
+               padding: "8px 15px"
+            }}
+            defaultValue={
+               formatUnixToDate(
+                  props.broadCastData[broadCastId]
+                     ? props.broadCastData[broadCastId].time : '',
+                  true
+               )
+            }
+            onChange={value => updateBroadCast({
+               time: formatDateToUnix(value[0])
+            })}
+         />
       </div>
    );
 
    const getAllTagsInTrigger = () => {
       const allTags = [];
+
       changedTrigger.messages[props.changedSocial].forEach(message => {
          message.keyboard.forEach(button => {
             if (button.Add_Tags) {
@@ -57,6 +60,7 @@ const BroadCastMenu = (props) => {
 
    const updateBroadCast = (broadCastUpdatedData) => {
       const broadCastDataCopy = props.broadCastData.concat();
+
       Object.assign(broadCastDataCopy[broadCastId], broadCastUpdatedData, {
          managerId: props.match.params.botId,
       });
@@ -77,7 +81,8 @@ const BroadCastMenu = (props) => {
                      onChange={() => updateBroadCast({tag: ''})}
                      defaultChecked={props.broadCastData[broadCastId] && props.broadCastData[broadCastId].tag.length === 0}
                   />
-                  Все пользователи({props.broadCastData[broadCastId] && props.broadCastData[broadCastId].users_count} пользователей)
+                  Все пользователи
+                  ({props.broadCastData[broadCastId] && props.broadCastData[broadCastId].users_count} пользователей)
                </label>
                <label htmlFor={'allTags'}>
                   <input
@@ -87,39 +92,42 @@ const BroadCastMenu = (props) => {
                      onChange={() => updateBroadCast({tag: getAllTagsInTrigger()})}
                      defaultChecked={props.broadCastData[broadCastId] && props.broadCastData[broadCastId].tag.length > 0}
                   />
-                  Все теги({props.broadCastData[broadCastId] && props.broadCastData[broadCastId].users_count} пользователей)
+                  Все теги
+                  ({props.broadCastData[broadCastId] && props.broadCastData[broadCastId].users_count} пользователей)
                </label>
             </div>
          </div>
          <div className={style.options}>
             <div>
                <label htmlFor={'testBroadConfirm'}>
-                  <input type={'checkbox'} id={'testBroadConfirm'}/>
-                  тестовая рассылка проверена
+                  <input type={'checkbox'} id={'testBroadConfirm'}/> тестовая рассылка проверена
                </label>
                <label htmlFor={'broadCastEnd'}>
-                  <input type={'checkbox'} id={'broadCastEnd'}/>
-                  уведомить об окончании рассылки
+                  <input type={'checkbox'} id={'broadCastEnd'}/> уведомить об окончании рассылки
                </label>
             </div>
          </div>
          <div className={style.buttonsContainer}>
-            <div className={style.submitButton} onClick={() => updateBroadCast({
-               time: oldDate / 1000,
-               // sent: 'False'
-            })}>
+            <Button
+               className={style.submitButton}
+               variant="contained"
+               onClick={() => updateBroadCast({
+                  time: oldDate / 1000
+               })}
+            >
                Начать рассылку
-            </div>
+            </Button>
+
             <p>или</p>
-            <Dropdown className={style.datePickerMenu} overlay={DatePickerMenu} trigger={['click']}>
-               <div className={style.putOffButton}>
+
+            <Dropdown overlay={DatePickerMenu} trigger={['click']} placement="topCenter">
+               <Button className={style.putOffButton} variant="outlined">
                   Отложить рассылку
-               </div>
+               </Button>
             </Dropdown>
          </div>
       </div>
    );
-
 
    const testTab = () => (
       <div className={style.contentContainer}>
@@ -128,60 +136,75 @@ const BroadCastMenu = (props) => {
             <p>Ссылка на страницу FB</p>
          </div>
          <div className={style.buttonsContainerTest}>
-            <div className={style.submitButton}>Тестрировать</div>
+            <Button className={style.submitButton} variant="contained">
+               Тестировать
+            </Button>
          </div>
       </div>
    );
 
-
    return (
       <div className={style.mainContainer}>
-         <ul className={style.navigation}>
+         <ul className={`
+            ${style.navigation}
+            ${props.broadCastData[broadCastId] && props.broadCastData[broadCastId].sent && style.navigationSent}
+         `}>
             <li
-               className={isOpenTestTab ? style.navigationElement : style.activeNavigationElement}
+               className={!isOpenTestTab && style.activeNavigationElement}
                onClick={() => openTestTab(false)}
             >
                Отправка рассылки
             </li>
-            <li
-               className={isOpenTestTab ? style.activeNavigationElement : style.navigationElement}
-               onClick={() => openTestTab(true)}
-            >
-               Тест рассылки
-            </li>
+            {props.broadCastData[broadCastId] && !props.broadCastData[broadCastId].sent && (
+               <li
+                  className={isOpenTestTab && style.activeNavigationElement}
+                  onClick={() => openTestTab(true)}
+               >
+                  Тест рассылки
+               </li>
+            )}
          </ul>
-         {props.broadCastData[broadCastId] && props.broadCastData[broadCastId].sent ?
-            (
-               <div className={style.completeMessage}>
-                  Рассылка разослана!
-                  <div className={style.submitButton} onClick={() => updateBroadCast({
-                     sent: 'False',
-                     time: futureTime / 1000
-                  })}>
-                     Запустить новую рассылку
+         <Spin spinning={isFetching}>
+            {props.broadCastData[broadCastId] && props.broadCastData[broadCastId].sent ?
+               (
+                  <div className={style.completeMessage}>
+                     Рассылка разослана!
+
+                     <Button
+                        className={style.submitButton}
+                        variant="contained"
+                        onClick={() => updateBroadCast({
+                           sent: 'False',
+                           time: futureTime / 1000
+                        })}
+                     >
+                        Запустить новую рассылку
+                     </Button>
                   </div>
-               </div>
-            ) :
-            (isOpenTestTab
-               ? testTab()
-               : sendBroadCastTab())
-         }
+               ) :
+               (
+                  isOpenTestTab
+                     ? testTab()
+                     : sendBroadCastTab()
+               )
+            }
+         </Spin>
       </div>
    )
 };
 
-const mapStateToProps = state => {
-   const {broadCastData, isFetching, error} = state.broadCastReducers;
-   const {changedSocial} = state.singleBotReducers;
-
-
-   return {
-      broadCastData, isFetching, error, changedSocial
-   }
-};
+const mapStateToProps = ({broadCastReducers, singleBotReducers}) => ({
+   changedSocial: singleBotReducers.changedSocial,
+   broadCastData: broadCastReducers.broadCastData,
+   isFetching: broadCastReducers.isFetching,
+   error: broadCastReducers.error,
+});
 
 const mapDispatchToProps = dispatch => ({
    updateBroadcast: broadcastData => dispatch(updateBroadCasts(broadcastData))
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BroadCastMenu));
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(BroadCastMenu);

@@ -1,158 +1,153 @@
 .mainContainer
-  width: 100%
-  margin-top: 40px
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif
+   width: 100%
+   margin-top: 40px
+   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif
 
 .navigation
-  display: flex
-  justify-content: space-between
-  padding: 0 15px 0 15px
-  box-sizing: border-box
-  color: #82848b
-  font-size: 16px
-  border-bottom: 1px solid silver
-  width: 100%
+   display: flex
+   justify-content: space-between
+   padding: 0 15px 0 15px
+   box-sizing: border-box
+   color: #82848b
+   font-size: 16px
+   border-bottom: 1px solid silver
+   width: 100%
 
-  li
-    cursor: pointer
-    padding-bottom: 6px
+   li
+      cursor: pointer
+      padding-bottom: 6px
+
+.navigationSent
+   display: block
+   color: #517df9
+
+   li
+      display: none
 
 .activeNavigationElement
-  border-bottom: 2px solid #517df9
+   border-bottom: 2px solid #517df9
 
 .contentContainer
-  display: flex
-  flex-direction: column
-  align-items: center
+   display: flex
+   flex-direction: column
+   align-items: center
 
 .userListBroadcast
-  display: flex
-  flex-direction: column
-  align-items: center
-  padding: 40px 0 40px 0
-  border-bottom: 1px solid silver
-  width: 100%
-  box-sizing: border-box
+   display: flex
+   flex-direction: column
+   align-items: center
+   padding: 40px 0 40px 0
+   border-bottom: 1px solid silver
+   width: 100%
+   box-sizing: border-box
 
 
 .userListElement
-  display: flex
-  flex-direction: column
-  align-items: flex-start
+   display: flex
+   flex-direction: column
+   align-items: flex-start
 
-  h2
-    color: #000
-    font-size: 16px
-    margin-bottom: 10px
+   h2
+      color: #000
+      font-size: 16px
+      margin-bottom: 10px
 
-  label
-    font-size: 16px
-    font-weight: 400
-    display: flex
-    align-items: center
-    color: #000
-    margin-left: 10px
+   label
+      font-size: 16px
+      font-weight: 400
+      display: flex
+      align-items: center
+      color: #000
+      margin-left: 10px
 
 .options
-  display: flex
-  flex-direction: column
-  padding: 40px 0 40px 0
-  border-bottom: 1px solid silver
-  align-items: center
-  width: 100%
+   display: flex
+   flex-direction: column
+   padding: 40px 0 40px 0
+   border-bottom: 1px solid silver
+   align-items: center
+   width: 100%
 
-  div
-    display: flex
-    flex-direction: column
-    align-items: flex-start
+   div
+      display: flex
+      flex-direction: column
+      align-items: flex-start
 
-  label
-    color: #82848b
-    margin-bottom: 5px
-    display: flex
-    align-items: center
-    font-size: 15px
+   label
+      color: #82848b
+      margin-bottom: 5px
+      display: flex
+      align-items: center
+      font-size: 15px
+
+      input
+         margin-right: 5px
 
 .buttonsContainer
-  display: flex
-  flex-direction: column
-  align-items: center
-  padding: 40px 0 40px 0
+   display: flex
+   flex-direction: column
+   align-items: center
+   padding: 40px 0 40px 0
 
 .submitButton
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16)
-  border-radius: 33px
-  background-color: #517df9
-  color: #fff
-  padding: 10px 25px
-  cursor: pointer
+   border-radius: 33px !important
+   background-color: #517df9 !important
+   color: #fff !important
+   font-weight: 400 !important
+   text-transform: initial !important
 
 .putOffButton
-  @extend .submitButton
-  background: #fff
-  border: 1px solid #517df9
-  color: #517df9
-  padding: 9px 15px
+   border-radius: 33px !important
+   font-weight: 400 !important
+   text-transform: initial !important
+   border-color: #517df9 !important
+   color: #517df9 !important
+   transition: all 0.3s !important
 
-  p
-    color: #82848b
-    margin-top: 0
-    font-size: 16px
+   &:hover
+      background: #517df9 !important
+      color: #fff !important
 
 .testBroadCastContainer
-  padding: 40px 0 40px 0
-  border-bottom: 1px solid silver
-  width: 100%
-  display: flex
-  flex-direction: column
-  align-items: center
+   padding: 40px 0 40px 0
+   border-bottom: 1px solid silver
+   width: 100%
+   display: flex
+   flex-direction: column
+   align-items: center
 
-  p
-    color: #4680fe
-    text-decoration: none
-    font-size: 16px
-    cursor: pointer
+   p
+      color: #4680fe
+      text-decoration: none
+      font-size: 16px
+      cursor: pointer
 
 .buttonsContainerTest
-  padding: 40px 25px
-
-.delayContainer
-  position: absolute
+   padding: 40px 25px
 
 .calendarContainer
-  width: 300px
-  height: 150px
-  background: #fff
-  position: absolute
-  top: -10px
-  left: 100px
-  z-index: 1010
-  //margin-left: 120px
-  max-height: 903px
-  border: 1px solid #e0e6ed
-  box-shadow: 0 0 10px 0 rgba(77,77,77,.2)
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
+   width: 300px
+   background: #fff
+   padding: 20px 40px
+   box-shadow: 0 0 10px 0 rgba(77, 77, 77, 0.2)
 
-  h2
-    margin-bottom: 10px
+   h2
+      margin-bottom: 10px
 
 .completeMessage
-  color: #000
-  padding: 20px 15px
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
+   color: #000
+   padding: 20px 15px
+   display: flex
+   flex-direction: column
+   justify-content: center
+   align-items: center
 
-  .submitButton
-    margin-top: 10px
+   .submitButton
+      margin-top: 10px
 
 .datePickerInput
-  padding: 5px
-  font-size: 14px
-  outline: none
-  cursor: pointer
+   padding: 5px
+   font-size: 14px
+   outline: none
+   cursor: pointer
 

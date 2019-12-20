@@ -1,19 +1,24 @@
 import React, {useState, useEffect} from 'react';
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
+
+import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+import moment from 'moment';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {connect} from "react-redux";
-import {ScenarioIdContext} from "../../utils/Contexts";
+
 import TriggersContainer from "../scenariosAndTriggers/triggersContainer/triggersContainer";
-import {appendBroadCast, changeScenarioId, deleteBroadcast} from "../../actions/actionCreator";
-import {withRouter} from "react-router-dom";
-import moment from 'moment';
-import Button from "@material-ui/core/Button";
+import {ScenarioIdContext} from "../../utils/Contexts";
 import {sliceExtraText} from "../../utils/textValidation";
 
-const BroadCastContainer = (props) => {
-   const {changeScenarioId, changedScenarioId} = props;
+import {appendBroadCast, changeScenarioId, deleteBroadcast} from "../../actions/actionCreator";
 
-   // const [changedScenarioId, changeScenarioId] = useState(false);
+const BroadCastContainer = props => {
+   const {changeScenarioId, changedScenarioId, isFetching} = props;
+
    const [changedBroadCastId, changeBroadCastId] = useState(false);
    const [chanedTypeBroadcast, changeTypeBroadcast] = useState('sended');
 
@@ -40,6 +45,7 @@ const BroadCastContainer = (props) => {
                <ScenarioIdContext.Consumer>
                   {scenarioId => (
                      <TriggersContainer
+                        getBroadcast
                         changedScenarioId={changedScenarioId}
                         scenarioId={scenarioId}
                         broadCastId={changedBroadCastId}
@@ -56,121 +62,118 @@ const BroadCastContainer = (props) => {
       if (chanedTypeBroadcast === 'sended') {
          return (
             <tbody className="main-table-content__body broadcast-table-sent-body">
-               {props.broadCastData.filter(elem => elem.sent).length > 0 ? (
-                  props.broadCastData.map((elem, index) => {
-                     let text;
+            {props.broadCastData.filter(elem => elem.sent).length > 0 ? (
+               props.broadCastData.map((elem, index) => {
+                  let text;
 
-                     if (elem.scenario) {
-                        const triggers = elem.scenario.triggers;
+                  if (elem.scenario) {
+                     const triggers = elem.scenario.triggers;
 
-                        const textFacebook = triggers[triggers.length - 1].messages.facebook.find(item => item.text && item.text.length !== 0);
-                        const textTelegram = triggers[triggers.length - 1].messages.telegram.find(item => item.text && item.text.length !== 0);
-                        const textVk = triggers[triggers.length - 1].messages.vk.find(item => item.text && item.text.length !== 0);
-                        const textWhatsapp = triggers[triggers.length - 1].messages.whatsapp.find(item => item.text && item.text.length !== 0);
+                     const textFacebook = triggers[triggers.length - 1].messages.facebook.find(item => item.text && item.text.length !== 0);
+                     const textTelegram = triggers[triggers.length - 1].messages.telegram.find(item => item.text && item.text.length !== 0);
+                     const textVk = triggers[triggers.length - 1].messages.vk.find(item => item.text && item.text.length !== 0);
+                     const textWhatsapp = triggers[triggers.length - 1].messages.whatsapp.find(item => item.text && item.text.length !== 0);
 
-                        if (textFacebook) {
-                           text = textFacebook.text
-                        } else if (textTelegram) {
-                           text = textTelegram.text
-                        } else if (textVk) {
-                           text = textVk.text
-                        } else if (textWhatsapp) {
-                           text = textWhatsapp.text
-                        }
+                     if (textFacebook) {
+                        text = textFacebook.text
+                     } else if (textTelegram) {
+                        text = textTelegram.text
+                     } else if (textVk) {
+                        text = textVk.text
+                     } else if (textWhatsapp) {
+                        text = textWhatsapp.text
                      }
+                  }
 
-                     return elem.sent && (
-                        <tr
-                           key={index}
-                           onClick={() => {
-                              changeScenarioId(elem.scenario.id);
-                           }}
-                        >
-                           <td className="main-table-content-body__key-words">
-                              <span>{sliceExtraText(text, 41) || elem.scenario.triggers[elem.scenario.triggers.length - 1].caption}</span>
-                           </td>
-                           <td>
-                              {elem.users_count}
-                           </td>
-                           <td>
-                              {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
-                           </td>
-                           <td>
-                              <FontAwesomeIcon icon={faTrash}/>
-                           </td>
-                        </tr>
-                     )
-                  })
-               ) : (
-                  <tr>
-                     <td className="main-table-content-body__key-words">
-                        Тут пока пусто
-                     </td>
-                     <td/>
-                     <td/>
-                     <td/>
-                  </tr>
-               )}
+                  return elem.sent && (
+                     <tr
+                        key={index}
+                        onClick={() => {
+                           changeScenarioId(elem.scenario.id);
+                        }}
+                     >
+                        <td className="main-table-content-body__key-words">
+                           <span>{sliceExtraText(text, 41) || elem.scenario.triggers[elem.scenario.triggers.length - 1].caption}</span>
+                        </td>
+                        <td>
+                           {elem.users_count}
+                        </td>
+                        <td>
+                           {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
+                        </td>
+                        <td>
+                           <FontAwesomeIcon icon={faTrash}/>
+                        </td>
+                     </tr>
+                  )
+               })
+            ) : (
+               <tr>
+                  <td className="main-table-content-body__key-words">
+                     Тут пока пусто
+                  </td>
+                  <td/>
+                  <td/>
+                  <td/>
+               </tr>
+            )}
             </tbody>
          )
       } else {
          return (
             <tbody className="main-table-content__body broadcast-table-not-sent-body">
-               {props.broadCastData.filter(elem => !elem.sent).length > 0 ? (
-                  props.broadCastData.map((elem, index) => {
-                     let text;
+            {props.broadCastData.filter(elem => !elem.sent).length > 0 ? (
+               props.broadCastData.map((elem, index) => {
+                  let text;
 
-                     if (elem.scenario) {
-                        const triggers = elem.scenario.triggers;
+                  if (elem.scenario) {
+                     const triggers = elem.scenario.triggers;
 
-                        const textFacebook = triggers[triggers.length - 1].messages.facebook.find(item => item.text && item.text.length !== 0);
-                        const textTelegram = triggers[triggers.length - 1].messages.telegram.find(item => item.text && item.text.length !== 0);
-                        const textVk = triggers[triggers.length - 1].messages.vk.find(item => item.text && item.text.length !== 0);
-                        const textWhatsapp = triggers[triggers.length - 1].messages.whatsapp.find(item => item.text && item.text.length !== 0);
+                     const textFacebook = triggers[triggers.length - 1].messages.facebook.find(item => item.text && item.text.length !== 0);
+                     const textTelegram = triggers[triggers.length - 1].messages.telegram.find(item => item.text && item.text.length !== 0);
+                     const textVk = triggers[triggers.length - 1].messages.vk.find(item => item.text && item.text.length !== 0);
+                     const textWhatsapp = triggers[triggers.length - 1].messages.whatsapp.find(item => item.text && item.text.length !== 0);
 
-                        if (textFacebook) {
-                           text = textFacebook.text
-                        } else if (textTelegram) {
-                           text = textTelegram.text
-                        } else if (textVk) {
-                           text = textVk.text
-                        } else if (textWhatsapp) {
-                           text = textWhatsapp.text
-                        }
+                     if (textFacebook) {
+                        text = textFacebook.text
+                     } else if (textTelegram) {
+                        text = textTelegram.text
+                     } else if (textVk) {
+                        text = textVk.text
+                     } else if (textWhatsapp) {
+                        text = textWhatsapp.text
                      }
+                  }
 
-                     return !elem.sent && (
-                        <tr key={index} onClick={() => {
-                           changeScenarioId(elem.scenario.id);
-                        }}>
-                           <td className="main-table-content-body__key-words">
-                              <span>{sliceExtraText(text, 41) || elem.scenario.triggers[elem.scenario.triggers.length - 1].caption}</span>
-                           </td>
-                           <td>
-                              {elem.users_count}
-                           </td>
-                           <td>
-                              {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
-                           </td>
-                           <td onClick={e => {
-                              e.stopPropagation();
-                              props.deleteBroadCast(props.match.params.botId, elem.id)
-                           }}>
-                              <FontAwesomeIcon icon={faTrash}/>
-                           </td>
-                        </tr>
-                     )
-                  })
-               ) : (
-                  <tr>
-                     <td className="main-table-content-body__key-words">
-                        Тут пока пусто
-                     </td>
-                     <td/>
-                     <td/>
-                     <td/>
-                  </tr>
-               )}
+                  return !elem.sent && (
+                     <tr key={index} onClick={() => {
+                        changeScenarioId(elem.scenario.id);
+                     }}>
+                        <td className="main-table-content-body__key-words">
+                           <span>{sliceExtraText(text, 41) || elem.scenario.triggers[elem.scenario.triggers.length - 1].caption}</span>
+                        </td>
+                        <td>
+                           {elem.users_count}
+                        </td>
+                        <td>
+                           {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
+                        </td>
+                        <td>
+                           <FontAwesomeIcon icon={faTrash}/>
+                        </td>
+                     </tr>
+                  )
+               })
+            ) : (
+               <tr>
+                  <td className="main-table-content-body__key-words">
+                     Тут пока пусто
+                  </td>
+                  <td/>
+                  <td/>
+                  <td/>
+               </tr>
+            )}
             </tbody>
          );
       }
@@ -182,10 +185,14 @@ const BroadCastContainer = (props) => {
          <div className="main-container-controls pv1-flex">
             <Button
                variant="contained"
+               disabled={isFetching}
                className="main-container-controls__button main-theme-button"
                onClick={appendBroadcastHandler}
             >
-               Создать рассылку
+               {isFetching
+                  ? <CircularProgress size={23} color="white"/>
+                  : 'Создать рассылку'
+               }
             </Button>
             <div className="main-container-controls__divider"/>
             <div className="main-container__info pv1-flex">
@@ -201,7 +208,7 @@ const BroadCastContainer = (props) => {
             </div>
          </div>
          <div className="main-table">
-            <div className="main-table__search">
+            <div className="main-table__search broadcast-table__search">
                <div className="pv1-flex">
                   <h2 className="main-table__title">Рассылка</h2>
                   <div className="main-table__icon">
@@ -242,21 +249,17 @@ const BroadCastContainer = (props) => {
                </thead>
                {broadCastData()}
             </table>
-
          </div>
       </div>
    )
 };
 
-const mapStateToProps = state => {
-   const {broadCastData, isFetching, error} = state.broadCastReducers;
-   const {changedScenarioId} = state.singleBotReducers;
-
-
-   return {
-      broadCastData, isFetching, error, changedScenarioId
-   }
-};
+const mapStateToProps = ({broadCastReducers, singleBotReducers}) => ({
+   broadCastData: broadCastReducers.broadCastData,
+   isFetching: broadCastReducers.isFetching,
+   error: broadCastReducers.error,
+   changedScenarioId: singleBotReducers.changedScenarioId,
+});
 
 const mapDispatchToProps = dispatch => ({
    appendBroadcast: (managerId) => dispatch(appendBroadCast(managerId)),
@@ -264,4 +267,7 @@ const mapDispatchToProps = dispatch => ({
    deleteBroadCast: (managerId, broadCastId) => dispatch(deleteBroadcast(managerId, broadCastId)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BroadCastContainer));
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(BroadCastContainer);

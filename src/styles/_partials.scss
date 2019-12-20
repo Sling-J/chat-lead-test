@@ -96,6 +96,11 @@ body {
       background-color: $theme__bg-color;
       color: $white__color;
 
+      &:disabled {
+         background-color: $theme__bg-color;
+         color: $white__color;
+      }
+
       &:enabled:hover {
          background-color: darken($theme__bg-color, 5%);
       }

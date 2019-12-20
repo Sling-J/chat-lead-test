@@ -510,14 +510,14 @@ export function* updateBroadCastSagas({broadCastData}) {
             formData.append('sent', broadCastData.sent);
          }
 
-         const [updateStatus, allScenaries] = yield all([
-            call(updateBroadCasts, formData),
-            call(getScenariesForManager, formData),
-         ]);
-
-         const allBroadcast = yield call(getAllBroadCasts, formData);
+         const updateStatus = yield call(updateBroadCasts, formData);
 
          if (updateStatus.data.ok) {
+            const [allBroadcast, allScenaries] = yield all([
+               call(getAllBroadCasts, formData),
+               call(getScenariesForManager, formData)
+            ]);
+
             if (allBroadcast.data.ok) {
                yield put({type: ACTION.BROADCAST_RESPONSE, broadCastData: allBroadcast.data.broadcasts});
             }
@@ -526,7 +526,7 @@ export function* updateBroadCastSagas({broadCastData}) {
                yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: allScenaries.data.scenarios});
             }
          } else {
-            yield put({type: ACTION.BROADCAST_ERROR, error: signUpErrors[allBroadcast.data.desc]})
+            yield put({type: ACTION.BROADCAST_ERROR, error: signUpErrors[updateStatus.data.desc]})
          }
       } catch (e) {
          yield put({type: ACTION.BROADCAST_ERROR, error: e.message})

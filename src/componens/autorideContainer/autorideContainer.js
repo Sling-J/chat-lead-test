@@ -32,31 +32,29 @@ import Button from '@material-ui/core/Button';
 
 import style from '../../styles/messageButtons.module.scss';
 import SearchData from "../searchData/searchData";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-const AutorideContainer = (props) => {
-   const {changeScenarioId, changedScenarioId} = props;
+const AutorideContainer = props => {
+   const {changeScenarioId, changedScenarioId, isFetching} = props;
 
-   // const [changedScenarioId, changeScenarioId] = useState(false);
    const [autoridesDataInFilter, setautoridesDataInFilter] = useState([]);
-
-   const [textArea, setTextArea] = useState('');
-   const [snackOpen, setSnackOpen] = useState(false);
    const [textAreaErrMsg, setTextAreaErrMsg] = useState("");
-
-   const [isOpenCreateScenarioFild, setStatusCreateScenarioFild] = useState(false);
+   const [textArea, setTextArea] = useState('');
+   const [isOpenCreateScenarioFiled, setStatusCreateScenarioFiled] = useState(false);
    const [idEditTriggerText, setIdEditTriggerText] = useState(false);
+   const [snackOpen, setSnackOpen] = useState(false);
+
    const scenariosForAutoride = [];
+
    props.botScenarios.filter(elem => elem.destination === destinationScenario.autoride).forEach(elem => {
       scenariosForAutoride.push(elem.id);
    });
 
-
    useEffect(() => {
-      // console.log(props.autoridesData);
       let changedAutorideData = null;
+
       if (changedScenarioId && props.autoridesData) {
-         changedAutorideData
-            = props.autoridesData.filter(elem => elem.scenario.id === changedScenarioId)[0];
+         changedAutorideData = props.autoridesData.filter(elem => elem.scenario.id === changedScenarioId)[0];
       }
 
       if (changedAutorideData) {
@@ -64,7 +62,6 @@ const AutorideContainer = (props) => {
             idAutoride: changedAutorideData.id,
             managerId: props.match.params.botId
          });
-
       }
 
    }, [props.changedScenarioId]);
@@ -78,7 +75,7 @@ const AutorideContainer = (props) => {
    const newAutorideHandler = () => {
       if (textArea.length !== 0) {
          props.appendAutoride(props.match.params.botId, textArea);
-         setStatusCreateScenarioFild(false);
+         setStatusCreateScenarioFiled(false);
          setTextArea('');
       } else {
          setSnackOpen(true);
@@ -135,14 +132,14 @@ const AutorideContainer = (props) => {
    };
 
 
-   if (isOpenCreateScenarioFild) {
+   if (isOpenCreateScenarioFiled) {
       return (
          <div className="new-scenario-container pv1-flex">
             <TextAreaSnackBar/>
             <div className="new-scenario-container-buttons">
                <Button
                   className="new-scenario-container-buttons__item main-theme-button-back"
-                  onClick={() => setStatusCreateScenarioFild(false)}
+                  onClick={() => setStatusCreateScenarioFiled(false)}
                >
                   <img src={leftArrow} alt={'back'}/>
                   Назад к списку
@@ -200,10 +197,14 @@ const AutorideContainer = (props) => {
          <div className="main-container-controls pv1-flex">
             <Button
                variant="contained"
+               disabled={isFetching}
                className="main-container-controls__button main-theme-button"
-               onClick={() => setStatusCreateScenarioFild(true)}
+               onClick={() => setStatusCreateScenarioFiled(true)}
             >
-               Создать команду
+               {isFetching
+                  ? <CircularProgress size={23} color="white"/>
+                  : 'Создать автоворонку'
+               }
             </Button>
             <div className="main-container-controls__divider"/>
             <div className="main-container__info pv1-flex">
@@ -315,15 +316,14 @@ const AutorideContainer = (props) => {
    )
 };
 
-const mapStateToProps = state => {
-   const {autoridesData, isFetching, error, autoridesLinks} = state.autoridesReducers;
-   const {botScenarios, changedScenarioId} = state.singleBotReducers;
-
-
-   return {
-      autoridesData, isFetching, error, changedScenarioId, autoridesLinks, botScenarios
-   }
-};
+const mapStateToProps = ({autoridesReducers, singleBotReducers}) => ({
+   autoridesData: autoridesReducers.autoridesData,
+   isFetching: autoridesReducers.isFetching,
+   error: autoridesReducers.error,
+   changedScenarioId: singleBotReducers.changedScenarioId,
+   autoridesLinks: autoridesReducers.autoridesLinks,
+   botScenarios: singleBotReducers.botScenarios
+});
 
 const mapDispatchToProps = dispatch => ({
    appendAutoride: (managerId, name) => dispatch(addNewAutoride(managerId, name)),
@@ -333,7 +333,6 @@ const mapDispatchToProps = dispatch => ({
    getAutoridesLinks: (autorideData) => dispatch(getAutorideLinks(autorideData)),
    getAllScenariesForBot: (idBot) => dispatch(getAllScenariesForBot(idBot))
 });
-
 
 export default compose(
    withRouter,
