@@ -279,32 +279,26 @@ export function* updateTriggerSaga({triggerData, updationData, changedSocial}) {
          formData.append('manager_id', botId);
 
          if (updationData) {
-            if (updationData.type === 'text' || updationData.type === 'payment') {
-               formData.append('type', updationData.type);
-               formData.append('file', updationData.file);
-               Object.assign(messages[changedSocial][index], {
-                  text: updationData.text,
-               });
-            } else {
-               formData.append('type', updationData.type);
-               formData.append('file', updationData.file);
-               const {data} = yield call(uploadMedia, formData);
-               if (data.ok) {
-                  if (changedSlide || changedSlide === 0) {
-                     Object.assign(messages[changedSocial][index][type][changedSlide], {
-                        photo: data.message[updationData.type].url
-                     });
-                  } else {
-                     Object.assign(messages[changedSocial][index], {
-                        [updationData.type]: data.message[updationData.type].url
-                     })
-                  }
+            formData.append('type', updationData.type);
+            formData.append('file', updationData.file);
 
+            const {data} = yield call(uploadMedia, formData);
+
+            if (data.ok) {
+               if (changedSlide || changedSlide === 0) {
+                  Object.assign(messages[changedSocial][index][type][changedSlide], {
+                     photo: data.message[updationData.type].url
+                  });
+               } else {
+                  Object.assign(messages[changedSocial][index], {
+                     [updationData.type]: data.message[updationData.type].url
+                  })
                }
             }
          }
 
          formData.append('messages', JSON.stringify(messages));
+
          const {data} = yield call(updateTrigger, formData);
 
          if (data.ok) {

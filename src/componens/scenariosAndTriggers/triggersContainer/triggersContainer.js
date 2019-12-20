@@ -73,10 +73,10 @@ const TriggersContainer = (props) => {
          type: typeFile,
       };
 
-      if (typeFile === 'text' || typeFile === 'payment') {
-         Object.assign(updationData, {text: e.target.value})
-      } else if (typeFile === 'send_time') {
+      if (typeFile === 'text' || typeFile === 'payment' || typeFile === 'send_time') {
          messagesCopy[props.changedSocial][index].text = e.target.value;
+      } else if (typeFile === 'failure_trigger_text') {
+         messagesCopy[props.changedSocial][index].failure_trigger_text = e.target.value;
       } else {
          Object.assign(updationData, {file: e.target.files[0]})
       }

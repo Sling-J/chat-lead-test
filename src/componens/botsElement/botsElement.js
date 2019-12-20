@@ -15,7 +15,6 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {deleteBot, editManager} from "../../actions/actionCreator";
 
-
 const BotsElement = (props) => {
    const {id} = props;
    const [name, setName] = useState(false);

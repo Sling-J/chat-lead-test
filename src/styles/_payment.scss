@@ -11,22 +11,94 @@
    }
 }
 
+.kaspi-full-name {
+   margin-top: 20px;
+
+   .kaspi-full-name__field {
+      margin-bottom: 20px;
+   }
+}
+
 .payment-kaspi__card {
    position: relative;
    background: url('../images/payment/Карта_Kaspi_Gold.png');
    background-size: cover;
    width: 65%;
    height: 190px;
-   margin: 0 auto;
+   margin: 0 auto 30px;
 
    .payment-kaspi-card__field {
       position: absolute;
-      left: 28px;
       top: 102px;
-      background: #ffffff;
       font-size: 16px;
-      padding: 7px 40px;
+      padding: 7px 12px;
       outline: none;
+      width: 19%;
+
+      &:first-child {
+         left: 26px;
+      }
+
+      &:nth-child(2) {
+         left: 92px;
+      }
+
+      &:nth-child(3) {
+         left: 158px;
+      }
+
+      &:nth-child(4) {
+         left: 224px;
+      }
+   }
+}
+
+.payment-main-container {
+   z-index: -1;
+   border: 1px solid #E1E1E1;
+   padding: 10px 12px;
+   border-botom: none;
+   font-size: 14px;
+
+   .payment-main-info {
+      span {
+         color: $highlighted__font-color;
+      }
+   }
+}
+
+.payment-save-container {
+   margin-bottom: 30px;
+
+   .payment-save-title {
+      width: 30%;
+   }
+}
+
+.payment-navigation {
+   margin-bottom: 40px;
+   display: flex;
+   transition: all 0.3s;
+   justify-content: space-between;
+
+   .payment-navigation__item {
+      width: 23%;
+      border-radius: 5px;
+      height: 4px;
+      position: relative;
+      background: #D0D0D0;
+
+      .payment-navigation-item__overlay {
+         cursor: pointer;
+         position: absolute;
+         width: 100%;
+         height: 13px;
+         top: -4px;
+      }
+   }
+
+   .payment-navigation-active__item {
+      background: $theme__bg-color;
    }
 }
 
@@ -34,6 +106,11 @@
    color: #82848B;
    font-size: 15px;
    display: block;
+}
+
+.payment-info__example {
+   margin-top: 20px;
+   margin-bottom: 30px;
 }
 
 .payment-kaspi__price {
@@ -49,6 +126,17 @@
       &:focus {
          border-color: $theme__bg-color;
       }
+   }
+}
+
+.payment-save-selector {
+   width: 70%;
+
+   .payment-save-selector__desc {
+      margin-top: 10px;
+      color: #B5B5B5;
+      line-height: 17px;
+      font-size: 14px;
    }
 }
 
@@ -85,8 +173,4 @@
    text-transform: initial !important;
    font-weight: 400 !important;
    width: 100%;
-}
-
-.payment-margin {
-   margin-bottom: 30px !important;
 }

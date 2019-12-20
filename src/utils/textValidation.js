@@ -4,10 +4,16 @@ export const sliceExtraText = (str, divider) => {
       : str
 };
 
-export const matchNumber = (e) => {
+export const matchNumber = (e, length) => {
    const reg = /\D*/g;
 
-   if (e.target.value.search(reg) !== -1) {
-      e.target.value = e.target.value.replace(reg, '');
+   if (length) {
+      if (e.target.value.search(reg) !== -1 && e.target.value > 4) {
+         e.target.value = e.target.value.replace(reg, '');
+      }
+   } else {
+      if (e.target.value.search(reg) !== -1) {
+         e.target.value = e.target.value.replace(reg, '');
+      }
    }
 };

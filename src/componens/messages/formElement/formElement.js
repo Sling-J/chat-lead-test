@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import style from './formElement.module.sass';
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
@@ -106,27 +106,23 @@ const FormElement = (props) => {
                {...props}
             />
          </div>
-         {
-            Object.values(value)[0].map((elem, inputIndex) => {
-               return (
-                  <div className={style.textareaFlex}>
-                            <textarea
-                               defaultValue={elem.caption}
-                               onBlur={(e) => updateTrigger(e, inputIndex)}
-                               placeholder={"Введите вопрос"}
-                            />
-                     <select value={elem.type} onChange={(e) => {
-                        updateTypeTrigger(e, inputIndex)
-                     }}>
-                        <option value="text">Текст</option>
-                        <option value="phone">Телефон</option>
-                        <option value="email">Email</option>
-                        <option value="digits">Цифры</option>
-                     </select>
-                  </div>
-               )
-            })
-         }
+         {Object.values(value)[0].map((elem, inputIndex) => (
+            <div className={style.textareaFlex}>
+               <textarea
+                  defaultValue={elem.caption}
+                  onBlur={(e) => updateTrigger(e, inputIndex)}
+                  placeholder={"Введите вопрос"}
+               />
+               <select value={elem.type} onChange={(e) => {
+                  updateTypeTrigger(e, inputIndex)
+               }}>
+                  <option value="text">Текст</option>
+                  <option value="phone">Телефон</option>
+                  <option value="email">Email</option>
+                  <option value="digits">Цифры</option>
+               </select>
+            </div>
+         ))}
          <div className={style.addInputButton} onClick={newInput}>+ Поле ввода</div>
          <ButtonsContainer
             {...props}

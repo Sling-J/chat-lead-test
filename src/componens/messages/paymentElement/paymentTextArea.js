@@ -1,15 +1,11 @@
-import React, {useState, Fragment} from 'react';
+import React, {useState} from 'react';
 import {connect} from "react-redux";
 
-import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
-import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
-import FastButtons from "../../scenariosAndTriggers/triggersContainer/fastButtons/fastButtons";
+import style from './paymentTextArea.module.sass';
 
-import style from './textArea.module.sass';
-
-const PaymentTextArea = props => {
+const TextArea = props => {
    const [isTextAreaHovering, setIsTextAreaHovering] = useState(false);
-   const {value, handler, index, componentType} = props;
+   const {index, componentType, failureAction, setFailureAction} = props;
 
    const addFullName = name => {
       let myField = document.querySelector(`#insertVariable-${componentType}${index}`);
@@ -35,18 +31,12 @@ const PaymentTextArea = props => {
    };
 
    return (
-      <div className={style.textArea} key={Object.values(value)[0]}>
-         {componentType !== 'send_time' && (
-            <div className={style.hoverBar}>
-               <HoverBarForMessage
-                  {...props}
-               />
-            </div>
-         )}
+      <div className={style.textArea}>
          <textarea
             id={`insertVariable-${componentType}${index}`}
-            onBlur={(e) => handler(e, index, componentType)}
-            defaultValue={value.text}
+            value={failureAction}
+            onChange={e => setFailureAction(e.target.value)}
+            placeholder="Напишите сообщение, который будет отправить пользователю, если в процессе оплаты возникнут ошибки."
          />
          <div className={style.actionNav}>
             <div className={style.actionButtons}>
@@ -76,22 +66,10 @@ const PaymentTextArea = props => {
             </div>
             <div/>
          </div>
-         {componentType !== 'payment' && (
-            <Fragment>
-               <ButtonsContainer
-                  {...props}
-               />
-               {(props.changedSocial === 'facebook' || props.changedSocial === 'telegram') && (
-                  <FastButtons
-                     {...props}
-                  />
-               )}
-            </Fragment>
-         )}
       </div>
    )
 };
 
 export default connect(({singleBotReducers}) => ({
-   changedSocial: singleBotReducers.changedSocial,
-}))(PaymentTextArea);
+   changedSocial: singleBotReducers.changedSocial
+}))(TextArea);

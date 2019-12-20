@@ -17,13 +17,16 @@ export const defaultValuesForNewMessages = {
    location: {location: "", keyboard: []},
    contact: {contact: "", keyboard: []},
    payment: {
-      payment: '',
+      payment: 'payment',
       amount: 0,
       text: '',
       recipient_full_name: '',
+      surname: '',
+      name: '',
+      patronymic: '',
       recipient_card_info: '',
-      success_trigger_id: '',
-      failure_trigger_text: '',
+      success_autoride_id: '',
+      failure_text: '',
    },
 };
 

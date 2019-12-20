@@ -17,10 +17,6 @@ body {
    }
 }
 
-.datePickerMenu {
-
-}
-
 .MuiInput-underline:hover:not(.Mui-disabled):before {
    border-bottom-color: #4680fe !important;
 }
@@ -35,6 +31,17 @@ body {
 
    .ant-select-selection__rendered {
       line-height: 42px;
+   }
+}
+
+.payment-save-container-success-pay {
+   .ant-select-selection.ant-select-selection--single {
+      height: 35px !important;
+      border-radius: 5px !important;
+
+      .ant-select-selection__rendered {
+         line-height: 32px;
+      }
    }
 }
 
