@@ -57,7 +57,6 @@ const PaymentElement = props => {
          ((card1 && card2 && card3 && card4).length === 4) && successAction
       ) {
          setError('');
-         handleCancel();
 
          messagesCopy[changedSocial][index].amount = price;
          messagesCopy[changedSocial][index].surname = surname;
@@ -76,6 +75,7 @@ const PaymentElement = props => {
          };
 
          props.updateTrigger(triggerData, null, props.changedSocial);
+         handleCancel();
       } else {
          setError('Вы заполнили не все данные!');
       }

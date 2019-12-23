@@ -1,7 +1,8 @@
 import React from 'react';
-import FancyFileInput from "../../componens/inputs/fancyFileInput/fancyFileInput";
+
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faImage, faVolumeDown, faVideo} from "@fortawesome/free-solid-svg-icons";
+import {faImage, faVolumeDown, faVideo, faPaperclip} from "@fortawesome/free-solid-svg-icons";
+
 import CardOrGalleryEllement from '../../componens/messages/cardOrGalleryElement/cardOrGalleryElement';
 import ListElement from '../../componens/messages/listElement/listElement';
 import FormElement from '../../componens/messages/formElement/formElement';
@@ -9,6 +10,7 @@ import TimerElement from '../../componens/messages/timerElement/timerElement';
 import TextArea from '../../componens/messages/textArea/textArea';
 import TypeProcessing from '../../componens/messages/typeProcessing/typeProcessing';
 import PaymentElement from "../../componens/messages/paymentElement/paymentElement";
+import FancyFileInput from "../../componens/inputs/fancyFileInput/fancyFileInput";
 
 export const fileDefinition = (key, value, handler, index, deleteHandler, changedTrigger, changedScenario, changeTriggerId) => {
    if (key === 'text') {
@@ -192,6 +194,21 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedTrigger={changedTrigger}
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
+         />
+      )
+   } else {
+      return (
+         <FancyFileInput
+            type={'file'}
+            index={index}
+            pictureForLabel={{
+               label: 'file',
+               img: <FontAwesomeIcon icon={faPaperclip}/>
+            }}
+            value={value}
+            onChange={(e) => handler(e, index, key)}
+            changedTrigger={changedTrigger}
+            changedScenario
          />
       )
    }

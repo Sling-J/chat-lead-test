@@ -208,8 +208,9 @@
          .main-table__desc {
             font-size: 15px;
 
-            span {
-               color: #000
+            .tariff-table__desc__span {
+               color: #000;
+               font-weight: 600;
             }
          }
 

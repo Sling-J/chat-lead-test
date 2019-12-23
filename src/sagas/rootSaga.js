@@ -33,11 +33,13 @@ import {
    getQRCodeSaga
 } from "./botSetupSagas";
 import {getBotStatisticsSaga} from "./botStatisticsSaga"
+import {addPaymentSaga} from "./botPaymentSaga"
 
 function* rootSaga() {
    yield  all([
       getBotStatisticsSaga(),
       facebookAuthSaga(),
+      addPaymentSaga(),
       getQRCodeSaga(),
       vkAuthSaga(),
       takeLatest(ACTION.SIGN_UP_ACTION, signUpSaga),

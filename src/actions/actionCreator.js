@@ -195,3 +195,8 @@ export const getBotStatistics = data => ({
    type: ACTION.GET_BOT_STATISTICS_REQUEST,
    payload: data
 });
+
+export const addPayment = data => ({
+   type: ACTION.ADD_PAYMENT_REQUEST,
+   payload: data
+});

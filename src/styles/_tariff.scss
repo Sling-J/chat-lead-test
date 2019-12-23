@@ -14,7 +14,7 @@
             margin-left: 15px;
 
             .tariff-balance-box-info__title {
-               font-size: 20px;
+               font-size: 16px;
                margin-bottom: 4px;
             }
 
@@ -39,17 +39,31 @@
 
       .tariff-table__desc {
          margin-bottom: 32px;
+
+         .tariff-table__desc__link {
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: underline;
+
+            &:hover {
+               color: $theme__bg-color;
+            }
+         }
       }
 
       .tariff-table-content__body {
+         tr {
+            transition: all 0.3s;
+         }
+
          .tariff-table-content-body__bot {
+            transition: all 0.2s;
+
             &:hover {
                background: none !important;
             }
 
             .tariff-table-content-body-bot__link {
-               transition: none;
-
                span {
                   margin-left: 7px;
                }
@@ -60,13 +74,34 @@
             }
          }
 
+         .tariff-table-content-body__select {
+            margin: 15px 0;
+            background: #fff;
+            padding: 7px 12px;
+            border: 1px solid $main__border-color;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+            font-size: 14px;
+
+            &:hover {
+               border-color: $theme__bg-color;
+            }
+         }
+
+         .tariff-table-content-body__bot-name {
+            font-weight: 500;
+            color: $highlighted__font-color
+         }
+
          .tariff-table-content-body__paid {
             color: tomato;
+            padding: 8px 15px;
 
             span {
                color: $secondary__color;
-               margin-top: -3px;
                display: block;
+               margin-top: 5px;
                font-size: 12px;
             }
          }
@@ -82,6 +117,20 @@
             &:nth-child(3) {
                width: 30%;
             }
+         }
+      }
+
+      .tariff-next-btn {
+         transition: all 0.3s;
+         margin-top: 40px;
+         border-radius: 5px;
+         width: 25%;
+         height: 40px;
+
+         svg {
+            margin-left: 10px;
+            margin-top: 3px;
+            font-size: 18px;
          }
       }
    }
@@ -129,6 +178,10 @@
    .prices-box {
       margin-top: 45px;
 
+      a {
+         color: inherit;
+      }
+
       .prices-box__item {
          width: 27%;
 
@@ -170,7 +223,7 @@
                background: none;
                box-shadow: none;
                border: 1px solid $theme__bg-color;
-               
+
                &:hover {
                   background: $theme__bg-color;
                   color: #fff;
@@ -236,6 +289,70 @@
                   margin-right: 8px;
                   background: url("../images/tariff/check-mark.jpg");
                   background-size: cover;
+               }
+            }
+         }
+      }
+   }
+}
+
+.dropdown-box {
+   background: #fff;
+   border: 1px solid $main__border-color;
+   width: 447px;
+   display: flex;
+   justify-content: space-between;
+
+   .dropdown-box__item {
+      width: 50%;
+
+      &:last-child {
+         .dropdown-box-item__title {
+            border-right: none;
+         }
+
+         .dropdown-box-item__info {
+            .dropdown-box-item-info__item {
+               border-right: none;
+            }
+         }
+      }
+
+      .dropdown-box-item__title {
+         color: $highlighted__font-color;
+         font-weight: 600;
+         padding: 10px 15px;
+         border-bottom: 1px solid $main__border-color;
+         border-right: 1px solid $main__border-color;
+      }
+
+      .dropdown-box-item__info {
+         .dropdown-box-item-info__item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-right: 1px solid $main__border-color;
+            transition: all 0.3s;
+
+            .dropdown-box-item__bonus {
+               color: #20BE06;
+               font-size: 16px;
+            }
+
+            .dropdown-box-item__desc {
+               font-size: 15px;
+            }
+
+            .dropdown-box-item__price {
+               color: $highlighted__font-color;
+               font-size: 18px;
+            }
+
+            &:hover {
+               background: $main__hover-color;
+
+               .dropdown-box-item__desc,
+               .dropdown-box-item__price {
+                  color: $theme__bg-color;
                }
             }
          }

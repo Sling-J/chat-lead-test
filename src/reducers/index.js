@@ -7,6 +7,7 @@ import botSetupReducers from './botSetupReducer';
 import singleBotReducers from './singleBotReducer';
 import autoridesReducers from './autoridesReducer';
 import broadCastReducers from './broadcastReducer';
+import botPaymentReducer from "./botPaymentReducer";
 import botStatisticsReducer from "./botStatisticsReducer";
 
 export default combineReducers({
@@ -17,5 +18,6 @@ export default combineReducers({
    autoridesReducers,
    broadCastReducers,
    botSetupReducers,
+   botPaymentReducer,
    botStatisticsReducer
 });

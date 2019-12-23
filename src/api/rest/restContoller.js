@@ -113,3 +113,7 @@ export const editFastButtonName = (idBtn) => (
 export const getBotStatistics = data => (
    axios.post(`${restURL}/GetAnalytics/`, data)
 );
+
+export const addPayment = data => (
+   axios.post(`${restURL}/AddPayment/`, data)
+);

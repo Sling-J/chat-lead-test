@@ -117,10 +117,12 @@ const StatisticsSchedule = ({
       }
    }, [statistics, activeTab]);
 
+   console.log(statistics)
+
    const datePicker = (
       <RangePicker
          format={dateFormat}
-         disabled={loadingOfStatistics}
+         disabled={Object.values(statistics).length === 0 || loadingOfStatistics}
          defaultValue={[moment(defaultStartDay, dateFormat), moment(defaultEndDay, dateFormat)]}
          onChange={(value) => {
             getBotStatistics({

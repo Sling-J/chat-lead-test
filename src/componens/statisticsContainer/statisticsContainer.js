@@ -5,6 +5,7 @@ import {withRouter} from "react-router-dom";
 
 import StatisticsInfo from "./statisticsInfo/statisticsInfo";
 import StatisticsSchedule from "./statisticsSchedule/statisticsSchedule";
+import StatisticsForm from "./statisticsForm/statisticsForm";
 
 import {getBotStatistics} from "../../actions/actionCreator";
 import {formatDateToUnix} from "../../utils/formatDate";
@@ -35,18 +36,21 @@ const StatisticsContainer = ({match, getBotStatistics}) => {
    }, []);
 
    return (
-      <div className="statistics-container pv1-flex pv1-j-sb">
-         <StatisticsInfo
-            tabs={tabs}
-            activeTab={activeTab}
-         />
-         <StatisticsSchedule
-            tabs={tabs}
-            defaultStartDay={defaultStartDay}
-            defaultEndDay={defaultEndDay}
-            changeTab={changeTab}
-            activeTab={activeTab}
-         />
+      <div className="statistics-container">
+         <div className="pv1-flex pv1-j-sb">
+            <StatisticsInfo
+               tabs={tabs}
+               activeTab={activeTab}
+            />
+            <StatisticsSchedule
+               tabs={tabs}
+               defaultStartDay={defaultStartDay}
+               defaultEndDay={defaultEndDay}
+               changeTab={changeTab}
+               activeTab={activeTab}
+            />
+         </div>
+         <StatisticsForm/>
       </div>
    );
 };

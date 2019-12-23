@@ -27,7 +27,15 @@ const MainHeader = (props) => {
 
    return (
       <Fragment>
-         {(props.isFetching || props.isFetchingSetup || props.isFetchingBot || props.isFetchingBroadCast || props.isFetchingAutorides || props.isFetchingBotsReducers || props.loadingOfStatistics)
+         {(
+            props.isFetching ||
+            props.isFetchingSetup ||
+            props.isFetchingBot ||
+            props.isFetchingBroadCast ||
+            props.isFetchingAutorides ||
+            props.isFetchingBotsReducers ||
+            props.loadingOfStatistics
+         )
          && <LinearProgress className={style.linearProgress}/>
          }
          <header className={style.mainContainer}>
@@ -110,8 +118,8 @@ const MainHeader = (props) => {
 
 const mapStateToProps = state => {
    const {botsData, changedBotData, isFetching, error} = state.botsReducers;
-   
-   
+
+
    const isFetchingSetup = state.botSetupReducers.isFetching;
    const isFetchingBot = state.singleBotReducers.isFetching;
    const isFetchingBroadCast = state.broadCastReducers.isFetching;

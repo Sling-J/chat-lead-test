@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import {useTheme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -18,9 +19,17 @@ const TabPanel = ({standard, premium, value, index}) => {
             <p className="prices-box-item-offer__desc">
                {socials}
             </p>
-            <Button variant="contained" className="prices-box-item-offer__button" href="">
-               Выбрать
-            </Button>
+            {price === 0 ? (
+               <Button variant="contained" className="prices-box-item-offer__button" href="">
+                  Выбрать
+               </Button>
+            ) : (
+               <Link to="/bots/tariff/payment">
+                  <Button variant="contained" className="prices-box-item-offer__button" href="">
+                     Выбрать
+                  </Button>
+               </Link>
+            )}
          </div>
 
          <ul className="prices-box-item__info">

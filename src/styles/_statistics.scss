@@ -65,7 +65,15 @@
 
    .statistics-schedule {
       width: 77%;
+   }
 
+   .statistics-form {
+      margin-top: 60px;
 
+      .statistics-form__table {
+         .ant-table-placeholder {
+            background: $main__bg-color;
+         }
+      }
    }
 }

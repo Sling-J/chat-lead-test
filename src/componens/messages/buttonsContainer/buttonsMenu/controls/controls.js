@@ -20,9 +20,7 @@ const Controls = (props) => {
       };
 
       props.updateTrigger(triggerData, null, props.changedSocial);
-
    };
-
 
    return (
       <div className={style.controls}>
