@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const production = process.env.REACT_APP_SERVER === 'production';
 
 export const baseUrl = production
@@ -6,5 +8,12 @@ export const baseUrl = production
 
 // https://api.dev.chatlead.io/app
 
-export const restURL = `${baseUrl}/api`;
+const restURL = `${baseUrl}/api`;
 export const staticMedia = `https://api.chatlead.io`;
+
+export const instance = axios.create({
+   baseURL: restURL,
+   headers: {
+      'Content-Type': 'application/json',
+   }
+});

@@ -5,7 +5,7 @@ import {useTheme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import SwipeableViews from 'react-swipeable-views';
 
-const TabPanel = ({standard, premium, value, index}) => {
+const TabPanel = ({standard, premium, value, index, payment}) => {
    const Item = ({price, title, socials}) => (
       <div className="prices-box__item">
          <div className="prices-box-item__divider"/>
@@ -19,7 +19,7 @@ const TabPanel = ({standard, premium, value, index}) => {
             <p className="prices-box-item-offer__desc">
                {socials}
             </p>
-            {price === 0 ? (
+            {!payment ? price === 0 ? (
                <Button variant="contained" className="prices-box-item-offer__button" href="">
                   Выбрать
                </Button>
@@ -29,6 +29,10 @@ const TabPanel = ({standard, premium, value, index}) => {
                      Выбрать
                   </Button>
                </Link>
+            ) : (
+               <Button variant="contained" className="prices-box-item-offer__button" href="">
+                  Выбрать
+               </Button>
             )}
          </div>
 
@@ -71,7 +75,7 @@ const TabPanel = ({standard, premium, value, index}) => {
    )
 };
 
-const TariffPricesContainer = () => {
+const TariffPricesContainer = ({payment}) => {
    const theme = useTheme();
 
    const [value, setValue] = React.useState(0);
@@ -95,11 +99,11 @@ const TariffPricesContainer = () => {
             index={value}
             onChangeIndex={handleChangeIndex}
          >
-            <TabPanel value={value} index={0} standard={15} premium={39}/>
-            <TabPanel value={value} index={1} standard={19} premium={49}/>
+            <TabPanel value={value} index={0} standard={15} premium={39} payment/>
+            <TabPanel value={value} index={1} standard={19} premium={49} payment/>
          </SwipeableViews>
       </div>
    );
 };
 
-export default TariffPricesContainer;
+export default  (TariffPricesContainer);

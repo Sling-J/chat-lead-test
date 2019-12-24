@@ -2,28 +2,61 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 
 import Button from '@material-ui/core/Button';
+import {Modal} from 'antd';
+
 import {Step1, Step2} from './tariffPaymentContainerTable';
 import tariffImg from '../../../images/tariff/tariff-baks.png'
+import {addPayment} from "../../../actions/actionCreator";
 
-const TariffPaymentContainer = ({botsData}) => {
+const {confirm} = Modal;
+
+const TariffPaymentContainer = ({botsData, addPayment}) => {
    const [checkedList, setCheckedList] = useState([]);
    const [steps, setSteps] = useState(1);
 
-   function onChange(e, bot, tariff, idx, isCheck, price) {
+   function showConfirm(price) {
+      confirm({
+         title: `Общая сумма оплаты ${price}$`,
+         content: 'Для произведения оплаты нажмите ОК',
+         onOk() {
+            let bots = [];
+
+            checkedList.forEach(item => bots.push({
+               bot_id: item.bot_id,
+               period: item.period,
+               plan: item.plan,
+            }));
+
+            addPayment(bots);
+         },
+         onCancel() {
+            console.log('Отмена оплаты!');
+         },
+      });
+   }
+
+   function onChange(e, bot, tariff, idx, isCheck, price, period, plan, clickedPrice) {
       if (e.target.checked) {
          setCheckedList([
             ...checkedList,
             {
                bot_id: bot.id,
                name: bot.name,
-               tariff: tariff,
+               tariff: tariff || '',
+               period: period || '',
+               plan: plan || '',
                price: '-',
+               totalPrice: clickedPrice || 0
             }
          ])
       } else if (isCheck) {
          const checkedListCopy = checkedList;
          checkedListCopy[idx].tariff = tariff;
          checkedListCopy[idx].price = price;
+         checkedListCopy[idx].period = period;
+         checkedListCopy[idx].plan = plan;
+         checkedListCopy[idx].totalPrice = clickedPrice;
+
          setCheckedList([...checkedListCopy]);
       } else {
          const newCheckedList = checkedList.filter(item => item.bot_id !== bot.id);
@@ -54,8 +87,23 @@ const TariffPaymentContainer = ({botsData}) => {
             <div className="main-table__search">
                <h2 className="main-table__title tariff-table__title">Шаг 1 из 3</h2>
                <p className="main-table__desc tariff-table__desc">
-                  <span className={`${steps === 1 ? 'tariff-table__desc__span' : 'tariff-table__desc__link'}`} onClick={() => steps !== 1 && setSteps(1)}>Выбор бота</span> → {' '}
-                  <span className={`${steps === 2 && 'tariff-table__desc__span'}`}>Выбор тарифа</span> → {' '}
+                  <span
+                     className={`${steps === 1 && 'tariff-table__desc__span'} ${steps === 2 && 'tariff-table__desc__link'}`}
+                     onClick={() => {
+                        setCheckedList([]);
+                        steps === 2 && setSteps(1)
+                     }}
+                  >
+                     Выбор бота
+                  </span> → {' '}
+
+                  <span
+                     className={`${steps === 2 && 'tariff-table__desc__span'} ${steps === 3 && 'tariff-table__desc__link'}`}
+                     onClick={() => steps === 3 && setSteps(2)}
+                  >
+                     Выбор тарифа
+                  </span> → {' '}
+
                   <span className={`${steps === 3 && 'tariff-table__desc__span'}`}>Оплата</span>
                </p>
             </div>
@@ -72,6 +120,7 @@ const TariffPaymentContainer = ({botsData}) => {
                   onChange={onChange}
                   setSteps={setSteps}
                   checkedList={checkedList}
+                  showConfirm={showConfirm}
                />
             )}
          </div>
@@ -79,6 +128,9 @@ const TariffPaymentContainer = ({botsData}) => {
    );
 };
 
-export default connect(({botsReducers}) => ({
-   botsData: botsReducers.botsData
-}))(TariffPaymentContainer);
+export default connect(({botsReducers, botPaymentReducer}) => ({
+   botsData: botsReducers.botsData,
+   payment: botPaymentReducer.payment,
+   loadingOfPayment: botPaymentReducer.loadingOfPayment,
+   errorOfPayment: botPaymentReducer.errorOfPayment,
+}), {addPayment})(TariffPaymentContainer);

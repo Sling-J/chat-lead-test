@@ -244,16 +244,20 @@ class ButtonsMenu extends Component {
                         type={'text'}
                         defaultValue={buttonData.caption}
                         placeholder={'title'}
-                        onInput={(e) => this.editButton(e, true)}
+                        onBlur={(e) => this.editButton(e, true)}
                      />
                   </div>
                </div>
 
                <div className={style.buttonBoxInfo}>
                   <div className={style.buttonBoxInfoContainer}>
-                     <div className={style.buttonBoxInfoContainerText} onClick={() =>
-                        buttonData.payload.trigger_id.length !== 0 ? this.props.changeTriggerId(buttonData.payload.trigger_id) : {}
-                     }>
+                     <div
+                        className={style.buttonBoxInfoContainerText}
+                        onClick={() => buttonData.payload.trigger_id.length !== 0
+                           ? this.props.changeTriggerId(buttonData.payload.trigger_id)
+                           : {}
+                        }
+                     >
                         <div>
                            <FontAwesomeIcon icon={faLink} size="lg" color="dodgerblue"/>
                         </div>
