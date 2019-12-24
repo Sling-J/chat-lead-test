@@ -114,5 +114,5 @@ export const getBotStatistics = data => (
 );
 
 export const addPayment = data => (
-   instance.post(`/AddPayment/`, data)
+   instance.post('/AddPayment/', data)
 );
