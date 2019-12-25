@@ -14,6 +14,7 @@
       "axios": "^0.18.0",
       "chart.js": "^2.9.3",
       "clipboard-copy": "^3.1.0",
+      "connected-react-router": "^6.6.1",
       "date-fns": "latest",
       "emoji-mart": "^2.11.1",
       "flatpickr": "^4.6.3",

@@ -4,7 +4,7 @@ import MainHeader from '../../componens/mainHeader/mainHeader';
 import NavBar from '../../componens/navbar/navbar';
 import Smile from '../../images/dialog_smile.png';
 
-export const Dialog = () => {
+const Dialog = () => {
    return (
       <div className={style.mainContainer}>
          <MainHeader
@@ -19,4 +19,6 @@ export const Dialog = () => {
          </div>
       </div>
    )
-}
+};
+
+export default Dialog;

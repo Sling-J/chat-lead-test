@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import style from './cardOrGallaryElement.module.sass';
-import {staticMedia} from "../../../api/baseURL";
+import {staticMedia} from "../../../config/service/service";
 import {withRouter} from "react-router-dom";
 import {connect} from 'react-redux';
 import {updateTrigger} from "../../../actions/actionCreator";

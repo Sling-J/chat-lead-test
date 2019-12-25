@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './listElement.module.sass';
-import {staticMedia} from "../../../api/baseURL";
+import {staticMedia} from "../../../config/service/service";
 import {withRouter} from "react-router-dom";
 import {updateTrigger} from "../../../actions/actionCreator";
 import {connect} from 'react-redux';
@@ -56,7 +56,7 @@ const ListElements = (props) => {
       };
       props.updateTrigger(triggerData, null, props.changedSocial);
    };
-   
+
    return (
       <div className={style.mainContainer}>
          <div className={style.hoverBar}>

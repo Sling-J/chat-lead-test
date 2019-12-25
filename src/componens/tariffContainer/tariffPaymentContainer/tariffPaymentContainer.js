@@ -10,7 +10,7 @@ import {addPayment} from "../../../actions/actionCreator";
 
 const {confirm} = Modal;
 
-const TariffPaymentContainer = ({botsData, addPayment}) => {
+const TariffPaymentContainer = ({botsData, addPayment, isFetching}) => {
    const [checkedList, setCheckedList] = useState([]);
    const [steps, setSteps] = useState(1);
 
@@ -114,6 +114,7 @@ const TariffPaymentContainer = ({botsData, addPayment}) => {
                   botsData={botsData}
                   setSteps={setSteps}
                   checkedList={checkedList}
+                  isFetching={isFetching}
                />
             ) : (
                <Step2
@@ -121,6 +122,7 @@ const TariffPaymentContainer = ({botsData, addPayment}) => {
                   setSteps={setSteps}
                   checkedList={checkedList}
                   showConfirm={showConfirm}
+                  isFetching={isFetching}
                />
             )}
          </div>
@@ -130,6 +132,7 @@ const TariffPaymentContainer = ({botsData, addPayment}) => {
 
 export default connect(({botsReducers, botPaymentReducer}) => ({
    botsData: botsReducers.botsData,
+   isFetching: botsReducers.isFetching,
    payment: botPaymentReducer.payment,
    loadingOfPayment: botPaymentReducer.loadingOfPayment,
    errorOfPayment: botPaymentReducer.errorOfPayment,

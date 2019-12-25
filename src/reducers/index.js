@@ -1,7 +1,8 @@
 import {combineReducers} from 'redux';
-import {reducer as formReducer} from "redux-form";
+import {connectRouter} from "connected-react-router";
 
-import userReducers from './userReducer';
+import authReducer from '../ducks/Auth';
+
 import botsReducers from './botsReducer';
 import botSetupReducers from './botSetupReducer';
 import singleBotReducers from './singleBotReducer';
@@ -10,9 +11,9 @@ import broadCastReducers from './broadcastReducer';
 import botPaymentReducer from "./botPaymentReducer";
 import botStatisticsReducer from "./botStatisticsReducer";
 
-export default combineReducers({
-   form: formReducer,
-   userReducers,
+export default history => combineReducers({
+   router: connectRouter(history),
+   authReducer,
    botsReducers,
    singleBotReducers,
    autoridesReducers,

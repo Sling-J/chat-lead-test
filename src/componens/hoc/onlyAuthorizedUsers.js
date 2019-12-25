@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function onlyAutorizedUsers(WrappedComponent) {
+export default function onlyAuthorizedUsers(WrappedComponent) {
    return class extends React.Component {
       render() {
          if (!localStorage.getItem('token')) {

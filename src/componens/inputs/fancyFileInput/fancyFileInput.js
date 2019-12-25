@@ -1,7 +1,7 @@
 import React, {Fragment, useState} from 'react';
 import {Spin} from "antd";
 
-import {staticMedia} from "../../../api/baseURL";
+import {staticMedia} from "../../../config/service/service";
 import HoverBarForMessage from "../../messages/hoverBarForMessage/hoverBarForMessage";
 
 import style from './fancyFileInput.module.sass';

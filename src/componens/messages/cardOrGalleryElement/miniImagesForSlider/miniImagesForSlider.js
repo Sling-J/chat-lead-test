@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './miniImagesForSlider.module.sass';
-import {staticMedia} from "../../../../api/baseURL";
+import {staticMedia} from "../../../../config/service/service";
 import card from "../../../../images/buttons/card.png";
 
 const MiniImagesForSlider = ({value, changeSlide, changedSlide}) => (

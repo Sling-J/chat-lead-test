@@ -105,10 +105,6 @@ export const getQRCodeUrl = (userData) => (
    instance.post(`/GetQRCodeUrl/`, userData)
 );
 
-export const editFastButtonName = (idBtn) => (
-   instance.post(`/EditFastBtnName/`, idBtn)
-);
-
 export const getBotStatistics = data => (
    instance.post(`/GetAnalytics/`, data)
 );

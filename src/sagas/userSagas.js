@@ -28,11 +28,11 @@ export function* signUpSaga({signUpData, history}) {
 }
 
 export function* authSaga({authData, history}) {
-   console.log(authData);
    try {
       yield put({type: ACTION.USER_DATA_REQUEST});
 
       const formData = new FormData();
+
       Object.keys(authData).forEach(elem => {
          formData.append(elem, authData[elem])
       });
