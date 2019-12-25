@@ -42,9 +42,11 @@ export const Step1 = ({botsData, onChange, setSteps, checkedList}) => (
                      )}
                   </td>
                   <td>
-                     <Checkbox onChange={e => onChange(e, bot, 'Выберите тариф', idx)}>
-                        Стандарт
-                     </Checkbox>
+                     {bot.payed ? 'Оплачено' : (
+                        <Checkbox onChange={e => onChange(e, bot, 'Выберите тариф', idx)}>
+                           Оплатить
+                        </Checkbox>
+                     )}
                   </td>
                </tr>
             )

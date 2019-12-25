@@ -8,14 +8,13 @@ import {Modal} from 'antd';
 
 import TextArea from '../textArea/textArea';
 import {Page, Page1, Page2, Page3} from "./paymentElementItems";
-import {getAllAutorides, updateTrigger} from "../../../actions/actionCreator";
+import {updateTrigger} from "../../../actions/actionCreator";
 
 import style from "../../../styles/messageButtons.module.scss";
 
 const PaymentElement = props => {
    const {
-      type, autoridesData, getAllAutorides,
-      match, isFetching, changedTrigger,
+      type, autoridesData, isFetching, changedTrigger,
       index, changedSocial, value
    } = props;
 
@@ -88,8 +87,6 @@ const PaymentElement = props => {
    );
 
    useEffect(() => {
-      getAllAutorides(match.params.botId);
-
       setPrice(value.amount);
 
       if (value.recipient_card_info === '') {
@@ -113,7 +110,7 @@ const PaymentElement = props => {
    }, []);
 
    return (
-      <div style={{marginBottom: '20px'}}>
+      <div>
          <TextArea componentType={type} {...props}/>
          <div className="payment-main-container">
             <p className="payment-main-info">
@@ -240,7 +237,6 @@ const mapStateToProps = ({autoridesReducers, singleBotReducers}) => ({
 
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData, updationData, social) => dispatch(updateTrigger(triggerData, updationData, social)),
-   getAllAutorides: (botId) => dispatch(getAllAutorides(botId)),
 });
 
 export default compose(

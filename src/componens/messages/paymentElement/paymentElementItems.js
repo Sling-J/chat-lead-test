@@ -213,16 +213,16 @@ export const Page2 = ({page, setPage}) => {
 
 export const Page3 = props => {
    const {
-      page, handleSave, autoridesData, failureAction,
+      page, handleSave, failureAction,
       isFetching, setFailureAction, setSuccessAction,
-      successAction
+      successAction, changedScenario, changedTrigger
    } = props;
 
    function onChange(value) {
       setSuccessAction(value)
    }
 
-   const defaultValue = autoridesData.length !== 0 && autoridesData.find(data => data.id === successAction);
+   const defaultValue = Object.keys(changedScenario).length !== 0 && changedScenario.triggers.find(data => data.id === successAction);
 
    return (
       <div className="payment-save">
@@ -244,21 +244,21 @@ export const Page3 = props => {
                      showSearch
                      notFoundContent={isFetching ? <Spin size="small" /> : null}
                      style={{width: "100%", borderRadius: '5px !important'}}
-                     value={defaultValue && defaultValue.trigger_text}
-                     placeholder="Выбирайте автоворонку"
+                     defaultValue={defaultValue && defaultValue.caption}
+                     placeholder="Выбирайте сообщение"
                      optionFilterProp="children"
                      onChange={onChange}
                      filterOption={(input, option) =>
                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                      }
                   >
-                     {autoridesData.length !== 0 && autoridesData.map(data => (
-                        <Option value={data.id}>{data.trigger_text}</Option>
+                     {changedScenario.triggers.filter(trigger => trigger.id !== changedTrigger.id).map(data => (
+                        <Option value={data.id}>{data.caption}</Option>
                      ))}
                   </Select>
 
                   <p className="payment-save-selector__desc">
-                     Выбирайте автоворонку на которую будет перенаправлен
+                     Выбирайте сообщение на которое будет перенаправлен
                      пользователь в случае успешной оплаты.
                   </p>
                </div>

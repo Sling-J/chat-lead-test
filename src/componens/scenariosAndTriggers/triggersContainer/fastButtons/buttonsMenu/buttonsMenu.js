@@ -138,7 +138,7 @@ class ButtonsMenu extends Component {
                         type={'text'}
                         defaultValue={buttonData.caption}
                         placeholder={'title'}
-                        onInput={e => this.editButton(e, true)}
+                        onBlur={e => this.editButton(e, true)}
                      />
                   </div>
                </div>
@@ -227,7 +227,7 @@ class ButtonsMenu extends Component {
                         type={'text'}
                         defaultValue={buttonData.caption}
                         placeholder={'title'}
-                        onInput={e => this.editButton(e, true)}
+                        onBlur={e => this.editButton(e, true)}
                      />
                   </div>
                </div>
@@ -279,7 +279,7 @@ class ButtonsMenu extends Component {
                         type={'text'}
                         defaultValue={buttonData.caption}
                         placeholder={'title'}
-                        onInput={e => this.editButton(e, true)}
+                        onBlur={e => this.editButton(e, true)}
                      />
                   </div>
                </div>
@@ -336,7 +336,7 @@ class ButtonsMenu extends Component {
                         type={'text'}
                         defaultValue={buttonData.caption}
                         placeholder={'title'}
-                        onInput={(e) => this.editButton(e, true)}
+                        onBlur={(e) => this.editButton(e, true)}
                      />
                   </div>
                </div>
@@ -367,7 +367,7 @@ class ButtonsMenu extends Component {
                   type={'tel'}
                   placeholder={'+7'}
                   defaultValue={buttonData.payload.call}
-                  onInput={this.editButton}
+                  onBlur={this.editButton}
                />
 
                <Actions
@@ -397,7 +397,7 @@ class ButtonsMenu extends Component {
                         type={'text'}
                         defaultValue={buttonData.caption}
                         placeholder={'title'}
-                        onInput={(e) => this.editButton(e, true)}
+                        onBlur={(e) => this.editButton(e, true)}
                      />
                   </div>
                </div>
