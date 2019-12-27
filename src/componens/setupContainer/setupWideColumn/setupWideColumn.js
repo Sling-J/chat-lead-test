@@ -106,6 +106,8 @@ class SetupWideColumn extends Component {
       const {default_response, welcome_message, subscription_message} = botSetupData;
       const botId = botSetupData.id;
 
+      console.log(this.props);
+
       const isWelcomeMessageEmpty = this.isEmptyCheck(welcome_message);
       const isDefaultResponseEmpty = this.isEmptyCheck(default_response);
       const isSubscriptionMessage = this.isEmptyCheck(subscription_message);

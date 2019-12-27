@@ -31,13 +31,12 @@ const clickOutsideConfig = {
    handleClickOutside: () => ContextMenuBots.handleClickOutside
 };
 
-const mapStateToProps = state => {
-   const {botsData, changedBotData, isFetching, error} = state.botsReducers;
-
-   return {
-      botsData, isFetching, error, changedBotData
-   }
-};
+const mapStateToProps = ({botsReducers}) => ({
+   error: botsReducers.error,
+   botsData: botsReducers. botsData,
+   isFetching: botsReducers.isFetching,
+   changedBotData: botsReducers.changedBotData,
+});
 
 const mapDispatchToProps = dispatch => ({
    getManager: idBot => dispatch(getManager(idBot)),

@@ -21,6 +21,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import {Spin, Dropdown} from 'antd';
 
 import style from './mainHeader.module.sass';
+import {compose} from "redux";
 
 const MainHeader = (props) => {
    const [isOpenMenu, setStatusToOpenMenu] = useState(false);
@@ -201,4 +202,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainHeader));
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(MainHeader);

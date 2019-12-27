@@ -13,6 +13,7 @@ export default function (state = initialState, action) {
    switch (action.type) {
       case ACTION.RESET_URL:
          return {
+            ...state,
             setupLoading: false,
             errorOfSocial: null,
             url: ''
