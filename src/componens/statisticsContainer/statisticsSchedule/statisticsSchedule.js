@@ -117,8 +117,6 @@ const StatisticsSchedule = ({
       }
    }, [statistics, activeTab]);
 
-   console.log(statistics)
-
    const datePicker = (
       <RangePicker
          format={dateFormat}

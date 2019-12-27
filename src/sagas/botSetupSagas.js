@@ -28,7 +28,7 @@ export function* getManagerSaga({idBot}) {
          if (data.ok) {
             yield put({type: ACTION.BOT_SETUP_RESPONSE, data: data.manager});
          } else {
-            yield put({type: ACTION.BOT_SETUP_ERROR, error: signUpErrors[data.desc]})
+            yield put({type: ACTION.BOT_SETUP_ERROR, error: data.desc})
          }
       } catch (e) {
          yield put({type: ACTION.BOT_SETUP_ERROR, error: e.message})
@@ -56,7 +56,7 @@ export function* editManagerSaga({setupData}) {
          if (data.ok) {
             yield put({type: ACTION.BOT_SETUP_RESPONSE, data: data.manager});
          } else {
-            yield put({type: ACTION.BOT_SETUP_ERROR, error: signUpErrors[data.desc]})
+            yield put({type: ACTION.BOT_SETUP_ERROR, error: data.desc})
          }
       } catch (e) {
          yield put({type: ACTION.BOT_SETUP_ERROR, error: e.message})
@@ -79,7 +79,7 @@ export function* facebookAuthSaga() {
             if (data.ok || data.url.length !== 0) {
                yield put({type: ACTION.GET_FACEBOOK_AUTH_URL_SUCCESS, payload: data.url})
             } else {
-               yield put({type: ACTION.GET_FACEBOOK_AUTH_URL_FAILURE, error: signUpErrors[data.desc]})
+               yield put({type: ACTION.GET_FACEBOOK_AUTH_URL_FAILURE, error: data.desc})
             }
          } catch (err) {
             yield put({type: ACTION.GET_FACEBOOK_AUTH_URL_FAILURE, error: err.message})
@@ -103,7 +103,7 @@ export function* vkAuthSaga() {
             if (data.ok || data.url.length !== 0) {
                yield put({type: ACTION.GET_VK_AUTH_URL_SUCCESS, payload: data.url})
             } else {
-               yield put({type: ACTION.GET_VK_AUTH_URL_FAILURE, error: signUpErrors[data.desc]})
+               yield put({type: ACTION.GET_VK_AUTH_URL_FAILURE, error: data.desc})
             }
          } catch (err) {
             yield put({type: ACTION.GET_VK_AUTH_URL_FAILURE, error: err.message})
@@ -127,7 +127,7 @@ export function* getQRCodeSaga() {
             if (data.ok || data.url.length !== 0) {
                yield put({type: ACTION.GET_WA_QR_URL_SUCCESS, payload: data.url})
             } else {
-               yield put({type: ACTION.GET_WA_QR_URL_FAILURE, error: signUpErrors[data.desc]})
+               yield put({type: ACTION.GET_WA_QR_URL_FAILURE, error: data.desc})
             }
          } catch (err) {
             yield put({type: ACTION.GET_WA_QR_URL_FAILURE, error: err.message})

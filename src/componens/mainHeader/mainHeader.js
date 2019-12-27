@@ -8,7 +8,7 @@ import Logo from '../../images/logo_panel.png';
 
 import UserIcon from '../../images/user.png';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleDown, faAngleUp} from "@fortawesome/free-solid-svg-icons";
+import {faAngleDown} from "@fortawesome/free-solid-svg-icons";
 import ClickOutSide from '../hoc/clickOutside';
 import chatLeadLogo from '../../images/chatlead.png';
 
@@ -18,7 +18,7 @@ import {logout} from "../../ducks/Auth";
 import downArrow from '../../svg/db/down-button.svg';
 
 import LinearProgress from "@material-ui/core/LinearProgress";
-import {Spin} from 'antd';
+import {Spin, Dropdown} from 'antd';
 
 import style from './mainHeader.module.sass';
 
@@ -31,6 +31,25 @@ const MainHeader = (props) => {
    useEffect(() => {
       props.getAllBots(props.match.params.botId);
    }, []);
+
+
+   const menu = (
+      <ul className={style.contextMenuContainer}>
+         <li>
+            <Link to="/">Аккаунт</Link>
+         </li>
+         <li>
+            <Link to="/bots/tariff/payment">Тарифы</Link>
+         </li>
+         <li>
+            <Link to="/">Партнерам</Link>
+         </li>
+         <li>
+            <Link to="/bots">Панель</Link>
+         </li>
+         <li onClick={() => props.logout()}>Выйти</li>
+      </ul>
+   );
 
    return (
       <Fragment>
@@ -106,29 +125,41 @@ const MainHeader = (props) => {
                      </li>
                   </ul>
                )}
-               <ClickOutSide onClickedOutside={() => setStatusToOpenMenu(false)}>
-                  <div className={style.menuContainer} onClick={() => setStatusToOpenMenu(true)}>
-                     <img src={UserIcon} alt={'userIcon'}/>
-                     <FontAwesomeIcon icon={isOpenMenu ? faAngleUp : faAngleDown}/>
-                     {isOpenMenu && (
-                        <ul className={style.contextMenuContainer}>
-                           <li>
-                              <Link to="/">Аккаунт</Link>
-                           </li>
-                           <li>
-                              <Link to="/bots/tariff/payment">Тарифы</Link>
-                           </li>
-                           <li>
-                              <Link to="/">Партнерам</Link>
-                           </li>
-                           <li>
-                              <Link to="/bots">Панель</Link>
-                           </li>
-                           <li onClick={() => props.logout()}>Выйти</li>
-                        </ul>
-                     )}
+               {/*<ClickOutSide onClickedOutside={() => setStatusToOpenMenu(false)}>*/}
+               {/*   <div className={style.menuContainer} onClick={() => setStatusToOpenMenu(true)}>*/}
+               {/*      <img src={UserIcon} alt={'userIcon'}/>*/}
+               {/*      <FontAwesomeIcon icon={isOpenMenu ? faAngleUp : faAngleDown}/>*/}
+               {/*      {isOpenMenu && (*/}
+               {/*         <ul className={style.contextMenuContainer}>*/}
+               {/*            <li>*/}
+               {/*               <Link to="/">Аккаунт</Link>*/}
+               {/*            </li>*/}
+               {/*            <li>*/}
+               {/*               <Link to="/bots/tariff/payment">Тарифы</Link>*/}
+               {/*            </li>*/}
+               {/*            <li>*/}
+               {/*               <Link to="/">Партнерам</Link>*/}
+               {/*            </li>*/}
+               {/*            <li>*/}
+               {/*               <Link to="/bots">Панель</Link>*/}
+               {/*            </li>*/}
+               {/*            <li onClick={() => props.logout()}>Выйти</li>*/}
+               {/*         </ul>*/}
+               {/*      )}*/}
+               {/*   </div>*/}
+               {/**/}
+               {/*</ClickOutSide>*/}
+
+               <Dropdown overlay={menu} trigger={['click']} onVisibleChange={visible => setStatusToOpenMenu(visible)}>
+                  <div className={style.contextMenu}>
+                     <div>
+                        <img src={UserIcon} alt={'userIcon'}/>
+                     </div>
+                     <div className={isOpenMenu ? style.contextMenuIcon : style.contextMenuIconDeg}>
+                        <FontAwesomeIcon icon={faAngleDown}/>
+                     </div>
                   </div>
-               </ClickOutSide>
+               </Dropdown>
             </div>
          </header>
       </Fragment>

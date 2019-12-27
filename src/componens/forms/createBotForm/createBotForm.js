@@ -38,10 +38,6 @@ const CreateBotForm = props => {
                <Button className={style.submitButton} type="submit" variant="contained">
                   Добавить
                </Button>
-
-               <div className={style.error}>
-                  {props.error && "Просим прощения, проблемы с сервером!"}
-               </div>
             </div>
          </form>
       </div>

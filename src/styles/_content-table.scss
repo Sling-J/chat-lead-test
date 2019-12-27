@@ -308,6 +308,7 @@
             }
 
             tr {
+               transition: all 0.4s;
                background: $main__bg-color;
                width: 100%;
                border: 1px solid $main__border-color;

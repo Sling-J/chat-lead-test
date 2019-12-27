@@ -10,6 +10,7 @@
 
 .techWorkError
    position: relative
+   transition: all 0.4s
    margin-bottom: 35px
 
    p
@@ -19,7 +20,7 @@
       z-index: 9999
       left: 0
       top: 0
-      height: 45px
+      height: 42px
       background: rgb(4,78,242)
       background: linear-gradient(90deg, rgba(4,78,242,1) 0%, rgba(0,126,255,1) 50%, rgba(0,126,255,1) 100%)
       display: flex
@@ -44,36 +45,36 @@
    img
       height: 23px
 
-.menuContainer
+.contextMenu
    display: flex
    align-items: center
    cursor: pointer
 
+   div
+      transition: all 0.3s
+
+   .contextMenuIconDeg
+      transform: rotate(0)
+
+   .contextMenuIcon
+      transform: rotate(180deg)
+
    img
-      height: 50px
-      width: 50px
+      height: 45px
+      width: 45px
 
 .contextMenuContainer
-   cursor: auto
    width: 200px
-   -webkit-transition: .2s ease-out
-   -o-transition: .2s ease-out
-   transition: .2s ease-out
+   cursor: auto
    display: block
    background-color: #fff
-   -webkit-box-shadow: rgba(9, 30, 66, .25) 0 20px 32px -8px
    box-shadow: rgba(9, 30, 66, .25) 0 20px 32px -8px
    border: 1px solid #dcdee0
-   -webkit-border-radius: 4px
    border-radius: 4px
-   text-align: left
-   position: absolute
-   top: 60px
-   right: 40px
-   z-index: 1000
 
    li
       font-size: 13px
+      transition: all 0.2s
       cursor: pointer
 
       &:last-child

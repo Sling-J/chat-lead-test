@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 
 import {useTheme} from '@material-ui/core/styles';
@@ -75,10 +75,10 @@ const TabPanel = ({standard, premium, value, index, payment}) => {
    )
 };
 
-const TariffPricesContainer = ({payment}) => {
+const TariffPricesContainer = () => {
    const theme = useTheme();
 
-   const [value, setValue] = React.useState(0);
+   const [value, setValue] = useState(0);
 
    const handleChange = (value) => {
       setValue(value);

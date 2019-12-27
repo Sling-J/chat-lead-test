@@ -149,7 +149,7 @@ export const facebookAuthUrl = (idBot) => ({
    idBot
 });
 
-export const vkAuth = (idBot) => ({
+export const vkAuthUrl = (idBot) => ({
    type: ACTION.GET_VK_AUTH_URL_REQUEST,
    idBot
 });

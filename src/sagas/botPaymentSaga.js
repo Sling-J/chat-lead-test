@@ -19,14 +19,12 @@ export function* addPaymentSaga() {
             // formData.append('user_token', userAccessToken());
             // formData.append('payment', JSON.stringify(action.payload));
 
-            console.log(action);
-
             const {data} = yield call(addPayment, jsonData);
 
             if (data.ok) {
                yield put({type: ACTION.ADD_PAYMENT_SUCCESS, payload: data});
             } else {
-               yield put({type: ACTION.ADD_PAYMENT_FAILURE, error: data});
+               yield put({type: ACTION.ADD_PAYMENT_FAILURE, error: data.desc});
             }
          } catch (e) {
             yield put({type: ACTION.ADD_PAYMENT_FAILURE, error: e.message});

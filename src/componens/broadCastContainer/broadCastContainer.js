@@ -20,7 +20,7 @@ const BroadCastContainer = props => {
    const {changeScenarioId, changedScenarioId, isFetching} = props;
 
    const [changedBroadCastId, changeBroadCastId] = useState(false);
-   const [chanedTypeBroadcast, changeTypeBroadcast] = useState('sended');
+   const [changedTypeBroadcast, changeTypeBroadcast] = useState('sended');
 
    const appendBroadcastHandler = () => {
       props.appendBroadcast(props.match.params.botId)
@@ -59,7 +59,7 @@ const BroadCastContainer = props => {
    }
 
    const broadCastData = () => {
-      if (chanedTypeBroadcast === 'sended') {
+      if (changedTypeBroadcast === 'sended') {
          return (
             <tbody className="main-table-content__body broadcast-table-sent-body">
             {props.broadCastData.filter(elem => elem.sent).length > 0 ? (
@@ -220,7 +220,7 @@ const BroadCastContainer = props => {
                   <li
                      onClick={() => changeTypeBroadcast('sended')}
                      className={
-                        chanedTypeBroadcast === 'sended'
+                        changedTypeBroadcast === 'sended'
                            ? "main-table-search-nav__item-active"
                            : "main-table-search-nav__item"
                      }
@@ -230,7 +230,7 @@ const BroadCastContainer = props => {
                   <li
                      onClick={() => changeTypeBroadcast('ordered')}
                      className={
-                        chanedTypeBroadcast === 'sended'
+                        changedTypeBroadcast === 'sended'
                            ? "main-table-search-nav__item"
                            : "main-table-search-nav__item-active"
                      }>
