@@ -10,7 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
-import {auth} from "../../../actions/actionCreator";
+import {login, moduleName as authModule} from "../../../ducks/Auth";
+
 import style from '../../../styles/auth.module.scss';
 
 const AuthForm = props => {
@@ -30,7 +31,7 @@ const AuthForm = props => {
             password
          };
 
-         props.authAction(dataOfForm, props.history);
+         props.loginAction(dataOfForm, props.history);
       } else {
          setError('Заполните все поля');
       }
@@ -73,10 +74,10 @@ const AuthForm = props => {
             fullWidth
             type="submit"
             variant="contained"
-            disabled={props.isFetching}
+            disabled={props.loadingOfUser}
             className={style.submitButton}
          >
-            {props.isFetching ?
+            {props.loadingOfUser ?
                <CircularProgress size={21} color="white"/> :
                'Войти'
             }
@@ -89,21 +90,21 @@ const AuthForm = props => {
          </p>
 
          <p className={style.error}>
-            {(props.error && 'Ошибка сервера просим прощения') || (customError)}
+            {(props.errorOfUser && 'Проводим технические работы!') || (customError)}
          </p>
       </form>
    )
 };
 
 
-const mapStateToProps = ({userReducers}) => ({
-   userData: userReducers.userData,
-   isFetching: userReducers.isFetching,
-   error: userReducers.error
+const mapStateToProps = state => ({
+   userData: state[authModule].userData,
+   loadingOfUser: state[authModule].loadingOfUser,
+   errorOfUser: state[authModule].errorOfUser
 });
 
 const mapDispatchToProps = dispatch => ({
-   authAction: (authData, history) => dispatch(auth(authData, history))
+   loginAction: dataOfForm => dispatch(login(dataOfForm))
 });
 
 export default compose(

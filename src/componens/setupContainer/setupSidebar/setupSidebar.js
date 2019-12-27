@@ -67,7 +67,7 @@ const SetupSidebar = (props) => {
                   <span className={style.ui_vmenu__item_span}>Whatsapp</span>
                </label>
                <div className="for-fb">
-                  {props.botSetupData.facebook_name !== '' ? (
+                  {Object.keys(props.botSetupData).length !== 0 && props.botSetupData.facebook_name !== '' ? (
                      <>
                         <p className={style.socialBotName}>{props.botSetupData.facebook_name}</p>
                         <p className={style.ui_vmenu__item_p}>
@@ -106,7 +106,7 @@ const SetupSidebar = (props) => {
                   )}
                </div>
                <div className={`for-telegram ${style.ui_vmenu__box}`}>
-                  {props.botSetupData.telegram_name !== '' ? (
+                  {Object.keys(props.botSetupData).length !== 0 && props.botSetupData.telegram_name !== '' ? (
                      <>
                         <p className={style.socialBotName}>{props.botSetupData.telegram_name }</p>
                         <p className={style.ui_vmenu__item_p}>
@@ -162,7 +162,7 @@ const SetupSidebar = (props) => {
                   )}
                </div>
                <div className={`for-vk ${style.ui_vmenu__box}`}>
-                  {props.botSetupData.vk_name !== '' ? (
+                  {Object.keys(props.botSetupData).length !== 0 && props.botSetupData.vk_name !== '' ? (
                      <>
                         <p className={style.socialBotName}>{props.botSetupData.vk_name}</p>
                         <p className={style.ui_vmenu__item_p}>

@@ -1,19 +1,26 @@
 import React, {useState, useEffect, Fragment} from 'react';
-import style from './mainHeader.module.sass';
-import Logo from '../../images/logo_panel.png';
+import {connect} from "react-redux";
 import {Link, NavLink} from 'react-router-dom';
+
+import ContextMenuBots from './contextMenuBots/contextMenuBots';
+
+import Logo from '../../images/logo_panel.png';
+
 import UserIcon from '../../images/user.png';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleDown, faAngleUp} from "@fortawesome/free-solid-svg-icons";
 import ClickOutSide from '../hoc/clickOutside';
 import chatLeadLogo from '../../images/chatlead.png';
-import {connect} from "react-redux";
+
 import {withRouter} from "react-router-dom";
-import {getAllBotsForUser, logout} from "../../actions/actionCreator";
+import {getAllBotsForUser} from "../../actions/actionCreator";
+import {logout} from "../../ducks/Auth";
 import downArrow from '../../svg/db/down-button.svg';
-import ContextMenuBots from './contextMenuBots/contextMenuBots';
+
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {Spin} from 'antd';
+
+import style from './mainHeader.module.sass';
 
 const MainHeader = (props) => {
    const [isOpenMenu, setStatusToOpenMenu] = useState(false);
@@ -28,11 +35,24 @@ const MainHeader = (props) => {
    return (
       <Fragment>
          {(
+            props.errorOfSetup ||
+            props.errorOfBot ||
+            props.errorOfBroadCast ||
+            props.errorOfAutoRides ||
+            props.errorOfBotsReducers ||
+            props.errorOfStatistics ||
+            props.error
+         ) &&
+            <div className={style.techWorkError}>
+               <p>Проводим технические работы!</p>
+            </div>
+         }
+         {(
             props.isFetching ||
             props.isFetchingSetup ||
             props.isFetchingBot ||
             props.isFetchingBroadCast ||
-            props.isFetchingAutorides ||
+            props.isFetchingAutoRides ||
             props.isFetchingBotsReducers ||
             props.loadingOfStatistics
          )
@@ -104,7 +124,7 @@ const MainHeader = (props) => {
                            <li>
                               <Link to="/bots">Панель</Link>
                            </li>
-                           <li onClick={() => props.logout(props.history)}>Выйти</li>
+                           <li onClick={() => props.logout()}>Выйти</li>
                         </ul>
                      )}
                   </div>
@@ -119,26 +139,34 @@ const MainHeader = (props) => {
 const mapStateToProps = state => {
    const {botsData, changedBotData, isFetching, error} = state.botsReducers;
 
-
    const isFetchingSetup = state.botSetupReducers.isFetching;
    const isFetchingBot = state.singleBotReducers.isFetching;
    const isFetchingBroadCast = state.broadCastReducers.isFetching;
-   const isFetchingAutorides = state.autoridesReducers.isFetching;
+   const isFetchingAutoRides = state.autoridesReducers.isFetching;
    const isFetchingBotsReducers = state.botsReducers.isFetching;
    const loadingOfStatistics = state.botStatisticsReducer.loadingOfStatistics;
+
+   const errorOfSetup = state.botSetupReducers.error;
+   const errorOfBot = state.singleBotReducers.error;
+   const errorOfBroadCast = state.broadCastReducers.error;
+   const errorOfAutoRides = state.autoridesReducers.error;
+   const errorOfBotsReducers = state.botsReducers.error;
+   const errorOfStatistics = state.botStatisticsReducer.error;
 
    return {
       botsData, isFetching, error,
       changedBotData, isFetchingSetup,
       isFetchingBot, isFetchingBroadCast,
-      isFetchingAutorides, isFetchingBotsReducers,
-      loadingOfStatistics
+      isFetchingAutoRides, isFetchingBotsReducers,
+      loadingOfStatistics,errorOfSetup, errorOfBot,
+      errorOfBroadCast, errorOfAutoRides,
+      errorOfBotsReducers, errorOfStatistics
    }
 };
 
 const mapDispatchToProps = dispatch => ({
-   getAllBots: (botId) => dispatch(getAllBotsForUser(botId)),
-   logout: (history) => dispatch(logout(history))
+   getAllBots: botId => dispatch(getAllBotsForUser(botId)),
+   logout: () => dispatch(logout())
 });
 
 

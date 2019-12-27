@@ -10,7 +10,8 @@ import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import IconButton from "@material-ui/core/IconButton";
 
-import {signUp, auth} from "../../../actions/actionCreator";
+import {register, moduleName as authModule} from "../../../ducks/Auth";
+
 import style from '../../../styles/auth.module.scss';
 
 const SignUpForm = (props) => {
@@ -43,8 +44,7 @@ const SignUpForm = (props) => {
                   ]
                };
 
-               props.signUpAction(data, props.history);
-               props.authAction(data, props.history);
+               props.register(data);
             } else {
                setError('Пароли не совпадают');
             }
@@ -110,10 +110,10 @@ const SignUpForm = (props) => {
             fullWidth
             type="submit"
             variant="contained"
-            disabled={props.isFetching}
+            disabled={props.loadingOfUser}
             className={style.submitButton}
          >
-            {props.isFetching ?
+            {props.loadingOfUser ?
                <CircularProgress size={21} color="white"/> :
                'Создать аккаунт'
             }
@@ -126,21 +126,20 @@ const SignUpForm = (props) => {
          </p>
 
          <p className={style.error}>
-            {(props.error && 'Ошибка сервера просим прощения') || (customError)}
+            {(props.errorOfUser && 'Проводим технические работы!') || (customError)}
          </p>
       </form>
    );
 };
 
-const mapStateToProps = ({userReducers}) => ({
-   userData: userReducers.userData,
-   isFetching: userReducers.isFetching,
-   error: userReducers.error
+const mapStateToProps = state => ({
+   userData: state[authModule].userData,
+   loadingOfUser: state[authModule].loadingOfUser,
+   errorOfUser: state[authModule].errorOfUser
 });
 
 const mapDispatchToProps = dispatch => ({
-   signUpAction: (signUpData, history) => dispatch(signUp(signUpData, history)),
-   authAction: (authData, history) => dispatch(auth(authData, history))
+   register: dataOfForm => dispatch(register(dataOfForm))
 });
 
 export default compose(

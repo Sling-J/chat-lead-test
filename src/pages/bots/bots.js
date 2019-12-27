@@ -71,10 +71,10 @@ const Bots = (props) => {
 };
 
 const mapStateToProps = state => {
-   const {botsData, isFetching, error} = state.botsReducers;
+   const {botsData, isFetching} = state.botsReducers;
 
    return {
-      botsData, isFetching, error
+      botsData, isFetching
    }
 };
 

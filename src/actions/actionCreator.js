@@ -1,18 +1,5 @@
 import ACTION from './actionTypes';
 
-
-export const signUp = (signUpData, history) => ({
-   type: ACTION.SIGN_UP_ACTION,
-   signUpData,
-   history
-});
-
-export const auth = (authData, history) => ({
-   type: ACTION.AUTH_ACTION,
-   authData,
-   history
-});
-
 export const logout = (history) => ({
    type: ACTION.LOGOUT_ACTION,
    history
@@ -89,16 +76,6 @@ export const deleteTrigger = (triggerData) => ({
 
 export const editTriggerCaption = (triggerData) => ({
    type: ACTION.UPDATE_TRIGGER_TEXT,
-   triggerData
-});
-
-export const deleteMessageInTrigger = (index) => ({
-   type: ACTION.DELETE_MESSAGE_IN_TRIGGER,
-   index
-});
-
-export const updateButtonsInTrigger = (triggerData) => ({
-   type: ACTION.UPDATE_BUTTONS_IN_TRIGGER,
    triggerData
 });
 

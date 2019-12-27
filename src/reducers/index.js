@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import {connectRouter} from "connected-react-router";
 
-import authReducer from '../ducks/Auth';
+import authReducer, {moduleName as authModule} from '../ducks/Auth';
 
 import botsReducers from './botsReducer';
 import botSetupReducers from './botSetupReducer';
@@ -13,7 +13,7 @@ import botStatisticsReducer from "./botStatisticsReducer";
 
 export default history => combineReducers({
    router: connectRouter(history),
-   authReducer,
+   [authModule]: authReducer,
    botsReducers,
    singleBotReducers,
    autoridesReducers,
