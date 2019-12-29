@@ -2,13 +2,16 @@ import ACTION from '../actions/actionTypes';
 
 const initialState = {
    payment: [],
+   transactions: [],
    loadingOfPayment: false,
-   errorOfPayment: null
+   loadingOfTransactions: false,
+   errorOfPayment: null,
+   errorOfOfTransactions: null,
 };
 
 export default (state = initialState, action) => {
    switch (action.type) {
-      case ACTION.GET_BOT_STATISTICS_REQUEST:
+      case ACTION.ADD_PAYMENT_REQUEST:
          return {
             ...state,
             payment: {},
@@ -16,7 +19,7 @@ export default (state = initialState, action) => {
             errorOfPayment: null
          };
 
-      case ACTION.GET_BOT_STATISTICS_SUCCESS:
+      case ACTION.ADD_PAYMENT_SUCCESS:
          return {
             ...state,
             payment: action.payload,
@@ -24,12 +27,36 @@ export default (state = initialState, action) => {
             errorOfPayment: null
          };
 
-      case ACTION.GET_BOT_STATISTICS_FAILURE:
+      case ACTION.ADD_PAYMENT_FAILURE:
          return {
             ...state,
             payment: {},
             loadingOfPayment: false,
             errorOfPayment: action.error
+         };
+
+      case ACTION.GET_TRANSACTIONS_REQUEST:
+         return {
+            ...state,
+            transactions: [],
+            loadingOfTransactions: true,
+            errorOfOfTransactions: null
+         };
+
+      case ACTION.GET_TRANSACTIONS_REQUEST:
+         return {
+            ...state,
+            transactions: action.payload,
+            loadingOfTransactions: false,
+            errorOfOfTransactions: null
+         };
+
+      case ACTION.GET_TRANSACTIONS_REQUEST:
+         return {
+            ...state,
+            transactions: [],
+            loadingOfTransactions: false,
+            errorOfOfTransactions: action.error
          };
 
       default:

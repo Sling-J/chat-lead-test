@@ -136,4 +136,6 @@ export default connect(({botsReducers, botPaymentReducer}) => ({
    payment: botPaymentReducer.payment,
    loadingOfPayment: botPaymentReducer.loadingOfPayment,
    errorOfPayment: botPaymentReducer.errorOfPayment,
-}), {addPayment})(TariffPaymentContainer);
+}), {
+   addPayment
+})(TariffPaymentContainer);

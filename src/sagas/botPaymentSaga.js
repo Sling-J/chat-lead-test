@@ -1,7 +1,7 @@
 import {put, call, take} from 'redux-saga/effects';
 import ACTION from '../actions/actionTypes';
 
-import {addPayment} from "../api/rest/restContoller";
+import {addPayment, getTransactions} from "../api/rest/restContoller";
 import {userAccessToken} from "../utils/userToken";
 
 export function* addPaymentSaga() {
@@ -10,16 +10,12 @@ export function* addPaymentSaga() {
          const action = yield take(ACTION.ADD_PAYMENT_REQUEST);
 
          try {
-            // const formData = new FormData();
-            const jsonData = {
-               user_token: userAccessToken(),
-               payment: action.payload
-            };
+            const formData = new FormData();
 
-            // formData.append('user_token', userAccessToken());
-            // formData.append('payment', JSON.stringify(action.payload));
+            formData.append('user_token', userAccessToken());
+            formData.append('payment', JSON.stringify(action.payload));
 
-            const {data} = yield call(addPayment, jsonData);
+            const {data} = yield call(addPayment, formData);
 
             if (data.ok) {
                yield put({type: ACTION.ADD_PAYMENT_SUCCESS, payload: data});
@@ -29,6 +25,27 @@ export function* addPaymentSaga() {
          } catch (e) {
             yield put({type: ACTION.ADD_PAYMENT_FAILURE, error: e.message});
          }
+      }
+   }
+}
+
+export function* getTransactionsSaga() {
+   if (userAccessToken()) {
+      try {
+         yield put({type: ACTION.GET_TRANSACTIONS_REQUEST});
+
+         const formData = new FormData();
+         formData.append('user_token', userAccessToken());
+
+         const {data} = yield call(getTransactions, formData);
+
+         if (data.ok) {
+            yield put({type: ACTION.GET_TRANSACTIONS_SUCCESS, payload: data});
+         } else {
+            yield put({type: ACTION.GET_TRANSACTIONS_FAILURE, error: data.desc});
+         }
+      } catch (e) {
+         yield put({type: ACTION.GET_TRANSACTIONS_FAILURE, error: e.message});
       }
    }
 }

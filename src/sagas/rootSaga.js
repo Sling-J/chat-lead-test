@@ -33,7 +33,10 @@ import {
    getQRCodeSaga
 } from "./botSetupSagas";
 import {getBotStatisticsSaga} from "./botStatisticsSaga"
-import {addPaymentSaga} from "./botPaymentSaga"
+import {
+   addPaymentSaga,
+   getTransactionsSaga
+} from "./botPaymentSaga"
 
 function* rootSaga() {
    yield  all([
@@ -43,6 +46,7 @@ function* rootSaga() {
       getQRCodeSaga(),
       vkAuthSaga(),
       authSaga(),
+      takeLatest(ACTION.GET_TRANSACTIONS_REQUEST, getTransactionsSaga),
       takeLatest(ACTION.CREATE_BOT_ACTION, createBotSaga),
       takeLatest(ACTION.DELETE_BOT_ACTION, deleteBotSaga),
       takeLatest(ACTION.GET_ALL_BOTS_ACTION, getAllBotsSagas),

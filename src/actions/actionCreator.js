@@ -177,3 +177,7 @@ export const addPayment = data => ({
    type: ACTION.ADD_PAYMENT_REQUEST,
    payload: data
 });
+
+export const getTransactions = () => ({
+   type: ACTION.GET_TRANSACTIONS_REQUEST
+});

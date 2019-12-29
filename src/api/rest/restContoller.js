@@ -112,3 +112,7 @@ export const getBotStatistics = data => (
 export const addPayment = data => (
    instance.post('/AddPayment/', data)
 );
+
+export const getTransactions = token => (
+   instance.post('/GetTransactions/', token)
+);
