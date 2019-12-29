@@ -84,9 +84,9 @@ const AuthForm = props => {
          </Button>
 
          <p className={style.link}>
-            <Link to="/forgotPassword">
+            {/* <Link to="/forgotPassword">
                Забыли пароль?
-            </Link>
+            </Link> */}
          </p>
 
          <p className={style.error}>

@@ -25,7 +25,7 @@ export const defaultValuesForNewMessages = {
       name: '',
       patronymic: '',
       recipient_card_info: '',
-      success_autoride_id: '',
+      trigger_id: '',
       failure_text: '',
    },
 };

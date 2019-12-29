@@ -14,7 +14,7 @@ import style from "../../../styles/messageButtons.module.scss";
 
 const PaymentElement = props => {
    const {
-      type, autoridesData, isFetching, changedTrigger,
+      type, isFetching, changedTrigger,
       index, changedSocial, value
    } = props;
 
@@ -62,7 +62,7 @@ const PaymentElement = props => {
          messagesCopy[changedSocial][index].name = name;
          messagesCopy[changedSocial][index].patronymic = patronymic;
          messagesCopy[changedSocial][index].recipient_card_info = `${card1}${card2}${card3}${card4}`;
-         messagesCopy[changedSocial][index].success_autoride_id = successAction;
+         messagesCopy[changedSocial][index].trigger_id = successAction;
          messagesCopy[changedSocial][index].failure_text = failureAction;
 
          const triggerData = {
@@ -106,7 +106,7 @@ const PaymentElement = props => {
       setPatronymic(value.patronymic);
 
       setFailureAction(value.failure_text);
-      setSuccessAction(value.success_autoride_id);
+      setSuccessAction(value.trigger_id);
    }, []);
 
    return (
@@ -213,7 +213,6 @@ const PaymentElement = props => {
                            page={page}
                            setPage={setPage}
                            handleSave={handleSave}
-                           autoridesData={autoridesData}
                            isFetching={isFetching}
                            setFailureAction={setFailureAction}
                            setSuccessAction={setSuccessAction}
@@ -229,9 +228,7 @@ const PaymentElement = props => {
    );
 };
 
-const mapStateToProps = ({autoridesReducers, singleBotReducers}) => ({
-   autoridesData: autoridesReducers.autoridesData,
-   isFetching: autoridesReducers.isFetching,
+const mapStateToProps = ({singleBotReducers}) => ({
    changedSocial: singleBotReducers.changedSocial,
 });
 
