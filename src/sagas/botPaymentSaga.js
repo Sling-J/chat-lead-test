@@ -32,15 +32,13 @@ export function* addPaymentSaga() {
 export function* getTransactionsSaga() {
    if (userAccessToken()) {
       try {
-         yield put({type: ACTION.GET_TRANSACTIONS_REQUEST});
-
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
 
          const {data} = yield call(getTransactions, formData);
 
          if (data.ok) {
-            yield put({type: ACTION.GET_TRANSACTIONS_SUCCESS, payload: data});
+            yield put({type: ACTION.GET_TRANSACTIONS_SUCCESS, payload: data.transactions});
          } else {
             yield put({type: ACTION.GET_TRANSACTIONS_FAILURE, error: data.desc});
          }

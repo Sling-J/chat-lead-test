@@ -1,11 +1,13 @@
 import React, {Fragment, useState} from 'react';
-import {Checkbox, Dropdown, Spin} from "antd";
 import {Link} from "react-router-dom";
+
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLongArrowAltRight, faPlusCircle} from "@fortawesome/free-solid-svg-icons";
+
+import {Checkbox, Dropdown, Spin, Modal, Result, Button as AntdButton} from "antd";
 import Button from "@material-ui/core/Button";
 
-export const Step1 = ({botsData, onChange, setSteps, checkedList, isFetching}) => (
+export const Step1 = ({botsData, onChange, setSteps, checkedList, isFetching, payment}) => (
    <Fragment>
       <div style={{width: '100%'}}>
          <Spin spinning={isFetching}>
@@ -32,19 +34,19 @@ export const Step1 = ({botsData, onChange, setSteps, checkedList, isFetching}) =
                         </td>
                         <td className="tariff-table-content-body__paid">
                            {bot.payed ? (
-                              <p>
+                              <p className="tariff-table-content-body__paid-true">
                                  Оплачен
-                                 <span> до 25 июля 2019</span>
+                                 <span>{paidDay}</span>
                               </p>
                            ) : (
-                              <p>
+                              <p className="tariff-table-content-body__paid-false">
                                  Не оплачен
                                  <span>{paidDay}</span>
                               </p>
                            )}
                         </td>
                         <td>
-                           {bot.payed ? 'Оплачено' : (
+                           {bot.payed ? bot.plan || 'Оплачено' : (
                               <Checkbox onChange={e => onChange(e, bot, 'Выберите тариф', idx)}>
                                  Оплатить
                               </Checkbox>
@@ -87,7 +89,8 @@ export const Step1 = ({botsData, onChange, setSteps, checkedList, isFetching}) =
 );
 
 
-export const Step2 = ({checkedList, setSteps, onChange, showConfirm}) => {
+export const Step2 = ({checkedList, setSteps, onChange, visible, setVisible, onOk, payment}) => {
+   const [price, setPrice] = useState(0);
    const [standardList] = useState([
       {
          id: 1,
@@ -136,6 +139,15 @@ export const Step2 = ({checkedList, setSteps, onChange, showConfirm}) => {
          plan: 'premium',
       },
    ]);
+
+   const showModal = price => {
+      setPrice(price);
+      setVisible(true);
+   };
+
+   const handleCancel = () => {
+      setVisible(false)
+   };
 
    const disabled = checkedList.filter(item => item.tariff === 'Выберите тариф');
 
@@ -219,7 +231,7 @@ export const Step2 = ({checkedList, setSteps, onChange, showConfirm}) => {
                   const price = checkedList.reduce((prev, cur) => prev + cur.totalPrice, 0);
 
                   setSteps(3);
-                  showConfirm(price);
+                  showModal(price)
                }}
                disabled={disabled.length}
                className="tariff-next-btn main-theme-button tariff-payment-footer-btn"
@@ -229,6 +241,57 @@ export const Step2 = ({checkedList, setSteps, onChange, showConfirm}) => {
                Открыть окно оплаты
             </Button>
          </div>
+
+         <Modal
+            title={null}
+            wrapClassName={`tariff-payment-modal ${payment.length !== 0 && 'tariff-payment-modal-success'}`}
+            okText="Оплатить"
+            visible={visible}
+            onOk={onOk}
+            onCancel={handleCancel}
+            footer={null}
+         >
+            {payment.length === 0 ? (
+               <div className="tariff-payment-modal-container">
+                  <h2>{`Общая сумма оплаты ${price}$`}</h2>
+                  <p>Для произведения оплаты нажмите <span>оплатить</span></p>
+
+                  <div className="tariff-payment-modal-container__buttons">
+                     <AntdButton key="cancel" onClick={handleCancel}>Отмена</AntdButton>
+                     <AntdButton type="primary" key="buy" onClick={onOk}>Оплатить</AntdButton>
+                  </div>
+               </div>
+            ) : (
+               <Result
+                  status="success"
+                  title="Покупка прошла успешно"
+                  subTitle={[
+                     <div className="tariff-payment-modal-success-sub-title">
+                        <p>Покупки:</p>
+                        <ul>
+                           {checkedList.map(item => (
+                              <li>{item.name} - {item.tariff}</li>
+                           ))}
+                        </ul>
+                     </div>
+                  ]}
+                  extra={[
+                     <div>
+                        <Link to="/bots/tariff/history">
+                           <AntdButton type="primary" key="console">
+                              Посмотреть историю покупок
+                           </AntdButton>
+                        </Link>
+                     </div>,
+                     <div style={{marginTop: '20px'}}>
+                        <AntdButton key="buy" onClick={handleCancel}>
+                           Закрыть
+                        </AntdButton>
+                     </div>
+                  ]}
+               />
+            )}
+         </Modal>
       </Fragment>
    );
 };

@@ -243,11 +243,6 @@ export const addNewMessagesButtons = {
          type: 'video'
       },
       {
-         label: '+Файл',
-         icon: <img src={file} alt={'file'}/>,
-         type: 'file'
-      },
-      {
          label: '+Пауза',
          type: 'timer',
          icon: <img src={pause} alt={'pause'}/>,

@@ -1,5 +1,10 @@
 @import "partials";
 
+.tariff-table-content-body__bot-name {
+   font-weight: 500;
+   color: $highlighted__font-color
+}
+
 .tariff-container {
    .tariff__balance {
       width: 24%;
@@ -89,14 +94,16 @@
             }
          }
 
-         .tariff-table-content-body__bot-name {
-            font-weight: 500;
-            color: $highlighted__font-color
-         }
-
          .tariff-table-content-body__paid {
-            color: tomato;
             padding: 8px 15px;
+
+            .tariff-table-content-body__paid-true {
+               color: #20BE06;
+            }
+
+            .tariff-table-content-body__paid-false {
+               color: tomato;
+            }
 
             span {
                color: $secondary__color;
@@ -387,7 +394,69 @@
       margin: 0 auto;
 
       td {
-         width: 33%;
+         width: 25%;
+         cursor: initial;
+      }
+   }
+}
+
+.tariff-payment-modal {
+   .ant-modal {
+      width: 416px !important;
+
+      .ant-modal-body {
+         padding: 32px 42px 24px;
+      }
+
+      .ant-modal-footer {
+         padding-bottom: 25px;
+      }
+
+      .tariff-payment-modal-container {
+         .tariff-payment-modal-container__buttons {
+            margin-top: 25px;
+            display: flex;
+            justify-content: flex-end;
+
+            button {
+               margin-right: 10px;
+
+               &:last-child {
+                  margin-right: 0;
+               }
+            }
+         }
+      }
+
+      h2 {
+         font-size: 17px;
+         font-weight: 500;
+      }
+
+      p {
+         margin-top: 20px;
+
+         span {
+            font-weight: 500;
+         }
+      }
+
+      .ant-modal-close {
+         display: none
+      }
+   }
+}
+
+.tariff-payment-modal-success {
+   .ant-modal-body {
+      padding: 0 !important;
+   }
+
+   .tariff-payment-modal-success-sub-title {
+      ul {
+         margin-top: 10px;
+
+         font-weight: 500;
       }
    }
 }

@@ -1,4 +1,4 @@
-import {takeLatest, all} from 'redux-saga/effects';
+import {takeLatest, takeEvery, all} from 'redux-saga/effects';
 import ACTION from '../actions/actionTypes';
 import {saga as authSaga} from '../ducks/Auth';
 import {
@@ -46,7 +46,7 @@ function* rootSaga() {
       getQRCodeSaga(),
       vkAuthSaga(),
       authSaga(),
-      takeLatest(ACTION.GET_TRANSACTIONS_REQUEST, getTransactionsSaga),
+      takeEvery(ACTION.GET_TRANSACTIONS_REQUEST, getTransactionsSaga),
       takeLatest(ACTION.CREATE_BOT_ACTION, createBotSaga),
       takeLatest(ACTION.DELETE_BOT_ACTION, deleteBotSaga),
       takeLatest(ACTION.GET_ALL_BOTS_ACTION, getAllBotsSagas),

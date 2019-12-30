@@ -2,37 +2,26 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 
 import Button from '@material-ui/core/Button';
-import {Modal} from 'antd';
 
-import {Step1, Step2} from './tariffPaymentContainerTable';
 import tariffImg from '../../../images/tariff/tariff-baks.png'
+import {Step1, Step2} from './tariffPaymentContainerTable';
 import {addPayment} from "../../../actions/actionCreator";
 
-const {confirm} = Modal;
-
-const TariffPaymentContainer = ({botsData, addPayment, isFetching}) => {
+const TariffPaymentContainer = ({botsData, addPayment, isFetching, payment}) => {
    const [checkedList, setCheckedList] = useState([]);
    const [steps, setSteps] = useState(1);
+   const [visible, setVisible] = useState(false);
 
-   function showConfirm(price) {
-      confirm({
-         title: `Общая сумма оплаты ${price}$`,
-         content: 'Для произведения оплаты нажмите ОК',
-         onOk() {
-            let bots = [];
+   function onOk() {
+      let bots = [];
 
-            checkedList.forEach(item => bots.push({
-               bot_id: item.bot_id,
-               period: item.period,
-               plan: item.plan,
-            }));
+      checkedList.forEach(item => bots.push({
+         bot_id: item.bot_id,
+         period: item.period,
+         plan: item.plan,
+      }));
 
-            addPayment(bots);
-         },
-         onCancel() {
-            console.log('Отмена оплаты!');
-         },
-      });
+      addPayment(bots);
    }
 
    function onChange(e, bot, tariff, idx, isCheck, price, period, plan, clickedPrice) {
@@ -45,7 +34,6 @@ const TariffPaymentContainer = ({botsData, addPayment, isFetching}) => {
                tariff: tariff || '',
                period: period || '',
                plan: plan || '',
-               price: '-',
                totalPrice: clickedPrice || 0
             }
          ])
@@ -121,8 +109,11 @@ const TariffPaymentContainer = ({botsData, addPayment, isFetching}) => {
                   onChange={onChange}
                   setSteps={setSteps}
                   checkedList={checkedList}
-                  showConfirm={showConfirm}
                   isFetching={isFetching}
+                  visible={visible}
+                  setVisible={setVisible}
+                  payment={payment}
+                  onOk={onOk}
                />
             )}
          </div>

@@ -33,10 +33,6 @@ export default (state = initialState, action) => {
          };
 
       default:
-         return {
-            statistics: {},
-            loadingOfStatistics: false,
-            errorOfStatistics: null
-         };
+         return state;
    }
 };

@@ -43,7 +43,7 @@ export default (state = initialState, action) => {
             errorOfOfTransactions: null
          };
 
-      case ACTION.GET_TRANSACTIONS_REQUEST:
+      case ACTION.GET_TRANSACTIONS_SUCCESS:
          return {
             ...state,
             transactions: action.payload,
@@ -51,7 +51,7 @@ export default (state = initialState, action) => {
             errorOfOfTransactions: null
          };
 
-      case ACTION.GET_TRANSACTIONS_REQUEST:
+      case ACTION.GET_TRANSACTIONS_FAILURE:
          return {
             ...state,
             transactions: [],
@@ -60,10 +60,6 @@ export default (state = initialState, action) => {
          };
 
       default:
-         return {
-            payment: {},
-            loadingOfPayment: false,
-            errorOfPayment: null
-         };
+         return state;
    }
 };
