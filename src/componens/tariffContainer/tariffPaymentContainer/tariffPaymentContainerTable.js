@@ -89,7 +89,7 @@ export const Step1 = ({botsData, onChange, setSteps, checkedList, isFetching, pa
 );
 
 
-export const Step2 = ({checkedList, setSteps, onChange, visible, setVisible, onOk, payment}) => {
+export const Step2 = ({checkedList, setSteps, onChange, visible, setVisible, onOk, payment, loadingOfPayment}) => {
    const [price, setPrice] = useState(0);
    const [standardList] = useState([
       {
@@ -258,7 +258,7 @@ export const Step2 = ({checkedList, setSteps, onChange, visible, setVisible, onO
 
                   <div className="tariff-payment-modal-container__buttons">
                      <AntdButton key="cancel" onClick={handleCancel}>Отмена</AntdButton>
-                     <AntdButton type="primary" key="buy" onClick={onOk}>Оплатить</AntdButton>
+                     <AntdButton type="primary" key="buy" onClick={onOk} loading={loadingOfPayment}>Оплатить</AntdButton>
                   </div>
                </div>
             ) : (

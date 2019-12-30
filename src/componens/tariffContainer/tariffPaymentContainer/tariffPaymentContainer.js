@@ -7,7 +7,7 @@ import tariffImg from '../../../images/tariff/tariff-baks.png'
 import {Step1, Step2} from './tariffPaymentContainerTable';
 import {addPayment} from "../../../actions/actionCreator";
 
-const TariffPaymentContainer = ({botsData, addPayment, isFetching, payment}) => {
+const TariffPaymentContainer = ({botsData, addPayment, isFetching, payment, loadingOfPayment}) => {
    const [checkedList, setCheckedList] = useState([]);
    const [steps, setSteps] = useState(1);
    const [visible, setVisible] = useState(false);
@@ -112,6 +112,7 @@ const TariffPaymentContainer = ({botsData, addPayment, isFetching, payment}) => 
                   isFetching={isFetching}
                   visible={visible}
                   setVisible={setVisible}
+                  loadingOfPayment={loadingOfPayment}
                   payment={payment}
                   onOk={onOk}
                />
