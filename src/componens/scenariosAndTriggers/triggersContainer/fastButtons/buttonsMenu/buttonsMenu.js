@@ -10,7 +10,7 @@ import Controls from '../../../../messages/buttonsContainer/buttonsMenu/controls
 import style from '../../../../../styles/messageButtons.module.scss';
 import {Select} from "antd";
 
-const {Option} = Select;
+const {Option, OptGroup} = Select;
 
 class ButtonsMenu extends Component {
    state = {
@@ -108,7 +108,7 @@ class ButtonsMenu extends Component {
 
    getTriggers = () => {
       const {scenarioId} = this.props;
-      const changedScenario = this.props.botScenarios.filter(elem => elem.id === scenarioId)[0];
+      const changedScenario = this.props.botScenarios.find(elem => elem.id === scenarioId);
       const triggers = [];
 
       changedScenario.triggers.forEach(trigger => {
@@ -119,6 +119,27 @@ class ButtonsMenu extends Component {
       });
 
       return triggers;
+   };
+
+   getSubscribeTriggers = () => {
+      const {botScenarios, scenarioId} = this.props;
+      const scenarios = botScenarios.find(data => data.id === scenarioId)
+      const triggers = [];
+
+      if (scenarios.destination !== 'subscription_message') {
+         const subscribeDestinition = botScenarios.find(data => data.destination === 'subscription_message');
+   
+         subscribeDestinition.triggers.forEach(trigger => {
+            triggers.push({
+               value: trigger.id,
+               label: trigger.caption
+            })
+         });
+   
+         return triggers;
+      } else {
+         return triggers;
+      }
    };
 
    buttonChanger = () => {
@@ -379,11 +400,6 @@ class ButtonsMenu extends Component {
             </div>
          )
       } else if (typeButton === buttonsTypes.trigger_buttons) {
-         const changedScenario = this.props.botScenarios.filter(elem => elem.id === this.props.scenarioId)[0];
-         const changedTriggerInTriggerButton = typeButton === buttonsTypes.trigger_buttons && (
-            changedScenario.triggers.filter(elem => elem.id === buttonData.payload.trigger_id)[0]
-         );
-
          return (
             <div className={style.buttonBox}>
                <div className={style.buttonBoxHeader}>
@@ -405,7 +421,7 @@ class ButtonsMenu extends Component {
                   <div className={style.buttonBoxInfoSelectContainer}>
                      <Select
                         className={style.selector}
-                        defaultValue={(buttonData.payload.trigger_id && changedTriggerInTriggerButton.caption) || 'Выберите сообщение'}
+                        defaultValue={(buttonData.payload.trigger_id) || 'Выберите сообщение'}
                         placeholder="Выберите сообщение"
                         onChange={(value) => this.editButton({
                            target: {
@@ -413,9 +429,17 @@ class ButtonsMenu extends Component {
                            }
                         })}
                      >
+                        <OptGroup label="Сообщений">
                         {this.getTriggers().filter(trigger => trigger.value !== buttonData.boundTriggerId).map(item => (
                            <Option value={item.value}>{item.label}</Option>
                         ))}
+                        </OptGroup>
+
+                        <OptGroup label="Реакция на подписку">
+                        {this.getSubscribeTriggers().map(item => (
+                           <Option value={item.value}>{item.label}</Option>
+                        ))}
+                        </OptGroup>
                      </Select>
 
                      <div
