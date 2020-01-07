@@ -82,30 +82,34 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
       return (
          <CardOrGalleryEllement
             type={'card'}
+            value={Object.values(value)[0]}
+            onChange={(e) => handler(e, index, key)}
             index={index}
+            key={key}
             pictureForLabel={{
                label: 'image',
                img: <FontAwesomeIcon icon={faImage}/>
             }}
             changedTrigger={changedTrigger}
-            value={Object.values(value)[0]}
-            onChange={(e) => handler(e, index, key)}
-            changedScenario
+            changedScenario={changedScenario}
+            changeTriggerId={changeTriggerId}
          />
       )
    } else if (key === 'gallery') {
       return (
          <CardOrGalleryEllement
             type={'gallery'}
+            value={Object.values(value)[0]}
+            onChange={(e) => handler(e, index, key)}
             index={index}
+            key={key}
             pictureForLabel={{
                label: 'image',
                img: <FontAwesomeIcon icon={faImage}/>
             }}
             changedTrigger={changedTrigger}
-            value={Object.values(value)[0]}
-            onChange={(e) => handler(e, index, key)}
-            changedScenario
+            changedScenario={changedScenario}
+            changeTriggerId={changeTriggerId}
          />
       )
 
@@ -121,7 +125,9 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedTrigger={changedTrigger}
             value={Object.values(value)[0]}
             onChange={(e) => handler(e, index, key)}
-            changedScenario
+            changedScenario={changedScenario}
+            changeTriggerId={changeTriggerId}
+            key={key}
          />
       )
    } else if (key === 'form') {
@@ -132,7 +138,9 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedTrigger={changedTrigger}
             value={value}
             onChange={(e) => handler(e, index, key)}
-            changedScenario
+            changedScenario={changedScenario}
+            changeTriggerId={changeTriggerId}
+            key={key}
          />
       )
    } else if (key === 'timer') {
@@ -168,7 +176,9 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedTrigger={changedTrigger}
             value={value}
             onChange={(e) => handler(e, index, key)}
-            changedScenario
+            changedScenario={changedScenario}
+            changeTriggerId={changeTriggerId}
+            key={key}
          />
       )
    } else if (key === 'contact') {
@@ -180,7 +190,9 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedTrigger={changedTrigger}
             value={value}
             onChange={(e) => handler(e, index, key)}
-            changedScenario
+            changedScenario={changedScenario}
+            changeTriggerId={changeTriggerId}
+            key={key}
          />
       )
    } else if (key === 'payment') {

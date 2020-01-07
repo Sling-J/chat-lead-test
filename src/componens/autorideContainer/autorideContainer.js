@@ -1,9 +1,15 @@
 import React, {useState, useEffect} from 'react';
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
+
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
-import {connect} from "react-redux";
+
+import ContextMenuForEditAutoride from "./contextMenuForEditAutoride/contextMenuForEditAutoride";
+import {destinationScenario} from "../../constants/defaultValues";
 import {ScenarioIdContext} from "../../utils/Contexts";
-import TriggersContainer from "../scenariosAndTriggers/triggersContainer/triggersContainer";
+
 import {
    addNewAutoride,
    changeScenarioId,
@@ -12,7 +18,9 @@ import {
    getAllScenariesForBot,
    getAutorideLinks
 } from "../../actions/actionCreator";
-import {withRouter} from "react-router-dom";
+
+import TriggersContainer from "../scenariosAndTriggers/triggersContainer/triggersContainer";
+
 import vk from '../../images/imageForTable/vk-icon.png';
 import telegram from '../../images/imageForTable/tlg-icon.png';
 import facebook from '../../images/imageForTable/fb-icon.png';
@@ -21,9 +29,6 @@ import edit from '../../images/buttons/edit.png';
 import trash from '../../images/buttons/trash.png';
 import copy from '../../images/duplicate.jpg';
 import leftArrow from '../../svg/db/left-arrow.svg';
-import ContextMenuForEditAutoride from "./contextMenuForEditAutoride/contextMenuForEditAutoride";
-import {destinationScenario} from "../../constants/defaultValues";
-import {compose} from "redux";
 
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -115,6 +120,7 @@ const AutorideContainer = props => {
                aria-label="close"
                color="inherit"
                onClick={snackClose}
+               href=""
             >
                <CloseIcon/>
             </IconButton>,
@@ -139,6 +145,7 @@ const AutorideContainer = props => {
                <Button
                   className="new-scenario-container-buttons__item main-theme-button-back"
                   onClick={() => setStatusCreateScenarioFiled(false)}
+                  href=""
                >
                   <img src={leftArrow} alt={'back'}/>
                   Назад к списку
@@ -147,6 +154,7 @@ const AutorideContainer = props => {
                   variant="contained"
                   className="new-scenario-container-buttons__item main-theme-button"
                   onClick={newAutorideHandler}
+                  href=""
                >
                   Далее
                </Button>
@@ -199,6 +207,7 @@ const AutorideContainer = props => {
                disabled={isFetching}
                className="main-container-controls__button main-theme-button"
                onClick={() => setStatusCreateScenarioFiled(true)}
+               href=""
             >
                {isFetching
                   ? <CircularProgress size={23} color="white"/>
@@ -250,7 +259,6 @@ const AutorideContainer = props => {
                         <tr>
                            <td
                               className="main-table-content-body__key-words"
-                              // onClick={() => changeScenarioId(elem.scenario.id)}
                               onClick={
                                  idEditTriggerText === elem.scenario.id ?
                                     null :
@@ -309,7 +317,6 @@ const AutorideContainer = props => {
                   )}
                </tbody>
             </table>
-
          </div>
       </div>
    )

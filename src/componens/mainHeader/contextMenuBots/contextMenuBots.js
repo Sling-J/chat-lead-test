@@ -33,7 +33,7 @@ const clickOutsideConfig = {
 
 const mapStateToProps = ({botsReducers}) => ({
    error: botsReducers.error,
-   botsData: botsReducers. botsData,
+   botsData: botsReducers.botsData,
    isFetching: botsReducers.isFetching,
    changedBotData: botsReducers.changedBotData,
 });

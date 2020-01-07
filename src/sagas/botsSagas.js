@@ -104,10 +104,10 @@ export function* getAllBotsSagas({botId}) {
    }
 }
 
-export function* getAllScenariesForBotSaga({idBot}) {
+export function* getAllScenariosForBotSaga({idBot}) {
    if (userAccessToken()) {
       try {
-         yield put({type: ACTION.SINGLE_BOT_DATA_REQUEST});
+         yield put({type: ACTION.GET_ALL_SCENARIOS_REQUEST});
 
          const formData = new FormData();
          formData.append('manager_id', idBot);
@@ -397,7 +397,7 @@ export function* updateSocialInTriggerSagas({triggerData}) {
 export function* getAllAutoridesSagas({botId}) {
    if (userAccessToken()) {
       try {
-         yield put({type: ACTION.AUTORIDE_REQUEST});
+         yield put({type: ACTION.GET_AUTORIDE_REQUEST});
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
@@ -460,7 +460,7 @@ export function* appendNewAutorideSagas({managerId, trigger_text}) {
 export function* getAllBroadCastSagas({managerId}) {
    if (userAccessToken()) {
       try {
-         yield put({type: ACTION.BROADCAST_REQUEST});
+         yield put({type: ACTION.GET_ALL_BROADCASTS_REQUEST});
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
@@ -497,7 +497,8 @@ export function* updateBroadCastSagas({broadCastData}) {
          formData.append('user_token', userAccessToken());
          formData.append('manager_id', broadCastData.managerId);
          formData.append('broadcast_id', broadCastData.id);
-         formData.append('tag', broadCastData.tag);
+         formData.append('tag', '');
+         formData.append('for_group', broadCastData.for_group);
          formData.append('time', broadCastData.time.toFixed(0));
 
          if (broadCastData.sent) {

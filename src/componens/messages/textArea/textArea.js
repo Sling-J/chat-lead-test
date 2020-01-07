@@ -78,13 +78,9 @@ const PaymentTextArea = props => {
          </div>
          {componentType !== 'payment' && (
             <Fragment>
-               <ButtonsContainer
-                  {...props}
-               />
+               <ButtonsContainer {...props}/>
                {(props.changedSocial === 'facebook' || props.changedSocial === 'telegram') && (
-                  <FastButtons
-                     {...props}
-                  />
+                  <FastButtons {...props}/>
                )}
             </Fragment>
          )}

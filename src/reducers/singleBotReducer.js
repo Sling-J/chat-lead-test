@@ -4,15 +4,31 @@ import ACTION from '../actions/actionTypes';
 const initialState = {
    botScenarios: [],
    scenariosForScenarioContainer: [],
-   changedScenarioId: false,
+   changedScenarioId: null,
    changedSocial: 'facebook',
    createdTriggerId: null,
    isFetching: false,
+   loadingOfScenarios: false,
    error: null
 };
 
 export default function (state = initialState, action) {
    switch (action.type) {
+      case ACTION.RESET_BOTS_DATA:
+         return {
+            ...state,
+            scenariosForScenarioContainer: [],
+            botScenarios: [],
+            error: null,
+         };
+
+      case ACTION.GET_ALL_SCENARIOS_REQUEST:
+         return {
+            ...state,
+            loadingOfScenarios: true,
+            error: null
+         };
+
       case ACTION.SINGLE_BOT_DATA_REQUEST: {
          return {
             ...state,
@@ -28,6 +44,7 @@ export default function (state = initialState, action) {
             ...state,
             botScenarios: action.dataScenarios,
             scenariosForScenarioContainer: scenariosForScenarioContainer,
+            loadingOfScenarios: false,
             isFetching: false,
             error: null
          }
@@ -51,6 +68,7 @@ export default function (state = initialState, action) {
          return {
             ...state,
             error: action.error,
+            loadingOfScenarios: false,
             isFetching: false
          }
       }

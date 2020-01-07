@@ -102,7 +102,7 @@ class SetupWideColumn extends Component {
 
    render() {
       const {willSend} = this.state;
-      const {editManager, botSetupData, isFetching} = this.props;
+      const {editManager, botSetupData, isFetching, loadingOfManager} = this.props;
       const {default_response, welcome_message, subscription_message} = botSetupData;
       const botId = botSetupData.id;
 
@@ -113,12 +113,12 @@ class SetupWideColumn extends Component {
       return (
          <div className={style.wideСolumn}>
             <article>
-               <Spin spinning={Object.keys(botSetupData).length === 0 || isFetching}>
+               <Spin spinning={loadingOfManager ? false : Object.keys(botSetupData).length === 0 || isFetching}>
                   <header>
                      <h1 className={style.mainPageTitle}>Реакции бота</h1>
 
                      <div className={style.table + " " + style.table__settings}>
-                        <div className={style.table_row}>
+                        <div className={style.table_row} dataaction="keywords" datatype="1" dataid="1">
                            <label htmlFor={'welcome_message'}>
                               <img src={svr_r1} alt="" className={style.table_image}/>
                               <div className={style.content}>
@@ -397,14 +397,13 @@ class SetupWideColumn extends Component {
    }
 }
 
-const mapStateToProps = state => {
-   const {botSetupData, isFetching, error} = state.botSetupReducers;
-   const {botScenarios} = state.singleBotReducers;
-
-   return {
-      botSetupData, isFetching, error, botScenarios
-   }
-};
+const mapStateToProps = ({botSetupReducers, singleBotReducers}) => ({
+   loadingOfManager: botSetupReducers.loadingOfManager,
+   botSetupData: botSetupReducers.botSetupData,
+   isFetching: botSetupReducers.isFetching,
+   error: botSetupReducers.error,
+   botScenarios: singleBotReducers.botScenarios
+});
 
 const mapDispatchToProps = dispatch => ({
    editManager: (setupData) => dispatch(editManager(setupData)),

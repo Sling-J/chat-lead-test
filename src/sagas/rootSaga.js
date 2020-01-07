@@ -4,7 +4,7 @@ import {saga as authSaga} from '../ducks/Auth';
 import {
    createBotSaga,
    getAllBotsSagas,
-   getAllScenariesForBotSaga,
+   getAllScenariosForBotSaga,
    addNewScenarioSagas,
    updateTriggerSaga,
    updateSocialInTriggerSagas,
@@ -50,7 +50,7 @@ function* rootSaga() {
       takeLatest(ACTION.CREATE_BOT_ACTION, createBotSaga),
       takeLatest(ACTION.DELETE_BOT_ACTION, deleteBotSaga),
       takeLatest(ACTION.GET_ALL_BOTS_ACTION, getAllBotsSagas),
-      takeLatest(ACTION.GET_ALL_SCENARIES, getAllScenariesForBotSaga),
+      takeLatest(ACTION.GET_ALL_SCENARIOS, getAllScenariosForBotSaga),
       takeLatest(ACTION.ADD_NEW_TRIGGER, addNewTriggerSagas),
       takeLatest(ACTION.ADD_NEW_SCENARIO, addNewScenarioSagas),
       takeLatest(ACTION.UPDATE_TRIGGER, updateTriggerSaga),

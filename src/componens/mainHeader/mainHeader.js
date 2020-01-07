@@ -1,38 +1,41 @@
 import React, {useState, useEffect, Fragment} from 'react';
+import {compose} from "redux";
 import {connect} from "react-redux";
-import {Link, NavLink} from 'react-router-dom';
+import {Link, NavLink, withRouter} from 'react-router-dom';
 
-import ContextMenuBots from './contextMenuBots/contextMenuBots';
-
-import Logo from '../../images/logo_panel.png';
-
-import UserIcon from '../../images/user.png';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleDown} from "@fortawesome/free-solid-svg-icons";
-import ClickOutSide from '../hoc/clickOutside';
-import chatLeadLogo from '../../images/chatlead.png';
-
-import {withRouter} from "react-router-dom";
-import {getAllBotsForUser} from "../../actions/actionCreator";
-import {logout} from "../../ducks/Auth";
 import downArrow from '../../svg/db/down-button.svg';
+import chatLeadLogo from '../../images/chatlead.png';
+import Logo from '../../images/logo_panel.png';
+import UserIcon from '../../images/user.png';
+
+import ClickOutSide from '../hoc/clickOutside';
 
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {Spin, Dropdown} from 'antd';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faAngleDown} from "@fortawesome/free-solid-svg-icons";
+
+import ContextMenuBots from './contextMenuBots/contextMenuBots';
+import {getAllBotsForUser} from "../../actions/actionCreator";
+import {logout} from "../../ducks/Auth";
+import history from "../../config/history/history";
 
 import style from './mainHeader.module.sass';
-import {compose} from "redux";
 
-const MainHeader = (props) => {
+const MainHeader = props => {
+   const {changedBotData, botId, botSetupData} = props;
+
+   const isMainHeader = history.location.pathname === '/bots';
+   const isServiceHeader = history.location.pathname === '/bots/tariff/payment'
+      || history.location.pathname === '/bots/tariff/prices'
+      || history.location.pathname === '/bots/tariff/history';
+
    const [isOpenMenu, setStatusToOpenMenu] = useState(false);
    const [isOpenBotContext, setStatusBotContext] = useState(false);
 
-   const {isMainHeader, changedBotData, isServiceHeader} = props;
-
    useEffect(() => {
-      props.getAllBots(props.match.params.botId);
+      props.getAllBots(botId);
    }, []);
-
 
    const menu = (
       <ul className={style.contextMenuContainer}>
@@ -95,7 +98,12 @@ const MainHeader = (props) => {
                            className={isOpenBotContext ? style.activeBotSelector : style.botSelector}
                            onClick={() => setStatusBotContext(true)}
                         >
-                           <div className={style.nameBot}>{(changedBotData && changedBotData.name) || <Spin/>}</div>
+                           <div className={style.nameBot}>
+                              {((changedBotData && changedBotData.name) ||
+                                 (Object.keys(botSetupData).length !== 0 && botSetupData.name))
+                              || <Spin/>
+                              }
+                           </div>
                            <img src={downArrow} alt={'downArrow'}/>
                            <div className={style.contextBotContainer}>
                               {isOpenBotContext && (
@@ -126,31 +134,6 @@ const MainHeader = (props) => {
                      </li>
                   </ul>
                )}
-               {/*<ClickOutSide onClickedOutside={() => setStatusToOpenMenu(false)}>*/}
-               {/*   <div className={style.menuContainer} onClick={() => setStatusToOpenMenu(true)}>*/}
-               {/*      <img src={UserIcon} alt={'userIcon'}/>*/}
-               {/*      <FontAwesomeIcon icon={isOpenMenu ? faAngleUp : faAngleDown}/>*/}
-               {/*      {isOpenMenu && (*/}
-               {/*         <ul className={style.contextMenuContainer}>*/}
-               {/*            <li>*/}
-               {/*               <Link to="/">Аккаунт</Link>*/}
-               {/*            </li>*/}
-               {/*            <li>*/}
-               {/*               <Link to="/bots/tariff/payment">Тарифы</Link>*/}
-               {/*            </li>*/}
-               {/*            <li>*/}
-               {/*               <Link to="/">Партнерам</Link>*/}
-               {/*            </li>*/}
-               {/*            <li>*/}
-               {/*               <Link to="/bots">Панель</Link>*/}
-               {/*            </li>*/}
-               {/*            <li onClick={() => props.logout()}>Выйти</li>*/}
-               {/*         </ul>*/}
-               {/*      )}*/}
-               {/*   </div>*/}
-               {/**/}
-               {/*</ClickOutSide>*/}
-
                <Dropdown overlay={menu} trigger={['click']} onVisibleChange={visible => setStatusToOpenMenu(visible)}>
                   <div className={style.contextMenu}>
                      <div>
@@ -169,7 +152,9 @@ const MainHeader = (props) => {
 
 
 const mapStateToProps = state => {
-   const {botsData, changedBotData, isFetching, error} = state.botsReducers;
+   const {changedBotData, isFetching, error} = state.botsReducers;
+
+   const botSetupData = state.botSetupReducers.botSetupData;
 
    const isFetchingSetup = state.botSetupReducers.isFetching;
    const isFetchingBot = state.singleBotReducers.isFetching;
@@ -186,9 +171,8 @@ const mapStateToProps = state => {
    const errorOfStatistics = state.botStatisticsReducer.error;
 
    return {
-      botsData, isFetching, error,
-      changedBotData, isFetchingSetup,
-      isFetchingBot, isFetchingBroadCast,
+      botSetupData, isFetching, error, changedBotData,
+      isFetchingSetup, isFetchingBot, isFetchingBroadCast,
       isFetchingAutoRides, isFetchingBotsReducers,
       loadingOfStatistics,errorOfSetup, errorOfBot,
       errorOfBroadCast, errorOfAutoRides,

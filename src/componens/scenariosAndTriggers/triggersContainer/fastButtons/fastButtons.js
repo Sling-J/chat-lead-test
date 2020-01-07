@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 import uid from 'uid';
@@ -126,6 +127,8 @@ const FastButtons = (props) => {
                            changeTriggerId={changeTriggerId}
                            buttonEditHandler={editButton}
                            handleCloseButtonMenu={handleCloseButtonMenu}
+                           changedSlideOrElement={changedSlideOrElement}
+                           type={type}
                            typeButton={elem.isEmpty ? 'empty' : elem.secondType}
                            scenarioId={scenarioId}
                            indexButton={elem.uid}
@@ -178,4 +181,7 @@ const mapDispatchToProps = dispatch => ({
    appendTrigger: triggerData => dispatch(addNewTrigger(triggerData)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FastButtons));
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(FastButtons);

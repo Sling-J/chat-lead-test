@@ -1,27 +1,33 @@
 import React, {useEffect, Fragment} from 'react';
-import style from './navbar.module.sass';
-import {NavLink} from 'react-router-dom';
-import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import {changeScenarioId} from "../../actions/actionCreator";
+import {NavLink} from "react-router-dom";
 
-const Navbar = (props) => {
-   const {botId} = props.match.params;
+import {changeScenarioId} from "../../actions/actionCreator";
+import history from "../../config/history/history";
+
+import style from './navbar.module.sass';
+
+const NavBar = props => {
+   const {botId} = props;
+
+   const isServiceNav = history.location.pathname === '/bots/tariff/payment'
+      || history.location.pathname === '/bots/tariff/prices'
+      || history.location.pathname === '/bots/tariff/history';
 
    useEffect(() => {
       props.changeScenarioId(null);
-   }, [props.match.path]);
+   }, [history.location.pathname]);
 
    useEffect(() => {
       if (props.changedScenarioId) {
          props.changeScenarioId(null);
       }
-   }, [props.match.path]);
+   }, [history.location.pathname]);
 
    return (
       <div className={style.mainContainer}>
          <ul className={style.menuContainer}>
-            {props.isServiceNav ? (
+            {isServiceNav ? (
                <Fragment>
                   <li>
                      <NavLink
@@ -265,17 +271,12 @@ const Navbar = (props) => {
    )
 };
 
-const mapStateToProps = state => {
-   const {changedScenarioId} = state.singleBotReducers;
-
-
-   return {
-      changedScenarioId
-   }
-};
-
-const mapDispatchToProps = dispatch => ({
-   changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId))
+const mapStateToProps = ({singleBotReducers}) => ({
+   changedScenarioId: singleBotReducers.changedScenarioId
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));
+const mapDispatchToProps = dispatch => ({
+   changeScenarioId: scenarioId => dispatch(changeScenarioId(scenarioId))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

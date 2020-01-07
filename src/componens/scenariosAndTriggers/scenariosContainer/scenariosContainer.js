@@ -24,14 +24,14 @@ import ContextMenuForEditScenario from './contextMenuForEditScenario/contextMenu
 import TriggersContainer from '../../scenariosAndTriggers/triggersContainer/triggersContainer';
 import SearchData from "../../searchData/searchData";
 
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Button from '@material-ui/core/Button';
 import {Select} from 'antd';
 import CircularProgress from "@material-ui/core/CircularProgress";
+import IconButton from '@material-ui/core/IconButton';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
+import Button from '@material-ui/core/Button';
 
-const ScenariosContainer = (props) => {
+const ScenariosContainer = props => {
    const {changeScenarioId, changedScenarioId, isFetching} = props;
 
    const [textArea, setTextArea] = useState("");
@@ -39,11 +39,11 @@ const ScenariosContainer = (props) => {
    const [snackOpen, setSnackOpen] = useState(false);
 
    const [scenariosDataInFilter, setScenariosDataInFilter] = useState([]);
-   const [isOpenCreateScenarioFild, setStatusCreateScenarioFild] = useState(false);
+   const [isOpenCreateScenarioField, setStatusCreateScenarioField] = useState(false);
    const [idEditTriggerText, setIdEditTriggerText] = useState(false);
 
    function handleChange(value) {
-      setTextArea(value)
+      setTextArea(value);
    }
 
    useEffect(() => {
@@ -53,7 +53,7 @@ const ScenariosContainer = (props) => {
    const newScenarioHandler = () => {
       if (textArea.length !== 0) {
          props.addScenario(props.match.params.botId, destinationScenario.default, textArea);
-         setStatusCreateScenarioFild(false);
+         setStatusCreateScenarioField(false);
          setTextArea('');
       } else {
          setSnackOpen(true);
@@ -111,6 +111,7 @@ const ScenariosContainer = (props) => {
                aria-label="close"
                color="inherit"
                onClick={snackClose}
+               href=""
             >
                <CloseIcon/>
             </IconButton>,
@@ -118,14 +119,15 @@ const ScenariosContainer = (props) => {
       />
    );
 
-   if (isOpenCreateScenarioFild) {
+   if (isOpenCreateScenarioField) {
       return (
          <div className="new-scenario-container pv1-flex">
             <TextAreaSnackBar/>
             <div className="new-scenario-container-buttons">
                <Button
                   className="new-scenario-container-buttons__item main-theme-button-back"
-                  onClick={() => setStatusCreateScenarioFild(false)}
+                  onClick={() => setStatusCreateScenarioField(false)}
+                  href=""
                >
                   <img src={leftArrow} alt={'back'}/>
                   Назад к списку
@@ -134,6 +136,7 @@ const ScenariosContainer = (props) => {
                   variant="contained"
                   className="new-scenario-container-buttons__item main-theme-button"
                   onClick={newScenarioHandler}
+                  href=""
                >
                   Далее
                </Button>
@@ -147,7 +150,7 @@ const ScenariosContainer = (props) => {
                   <Select
                      mode="tags"
                      className="new-scenario-form__tags"
-                     style={{ width: '100%' }}
+                     style={{width: '100%'}}
                      placeholder="Введите ключевое слово"
                      onChange={handleChange}
                   />
@@ -182,7 +185,8 @@ const ScenariosContainer = (props) => {
                variant="contained"
                disabled={isFetching}
                className="main-container-controls__button main-theme-button"
-               onClick={() => setStatusCreateScenarioFild(true)}
+               onClick={() => setStatusCreateScenarioField(true)}
+               href=""
             >
                {isFetching
                   ? <CircularProgress size={23} color="white"/>
@@ -219,93 +223,95 @@ const ScenariosContainer = (props) => {
                   />
                </div>
             </div>
-            <table className="main-table-content">
-               <thead className="main-table-content__head">
-               <tr>
-                  <td>Правило</td>
-                  <td>Содержимое</td>
-                  <td/>
-               </tr>
-               </thead>
-
-               <tbody className="main-table-content__body">
-               {scenariosDataInFilter.length > 0 ? (
-                  scenariosDataInFilter.map((elem, index) => (
-                     <tr key={index}>
-                        <td
-                           className="main-table-content-body__key-words"
-                           onClick={
-                              idEditTriggerText === elem.id ?
-                                 null : () => changeScenarioId(elem.id)
-                           }
-                        >
-                           Сообщение в точности совпадает с <span>{elem.trigger_text}</span>
-
-                           <div className="main-table-content-body__editor">
-                              {idEditTriggerText === elem.id && (
-                                 <ContextMenuForEditScenario
-                                    onInput={(e) => editScenario(e, elem.id)}
-                                    defaultValue={elem.trigger_text}
-                                    setIdEditTriggerText={(id) => setIdEditTriggerText(id)}
-                                 />
-                              )}
-                           </div>
-                        </td>
-                        <td>
-                           {elem.triggers.length} ответ
-                        </td>
-                        <td className="main-table-content-body__controls">
-                           <div
-                              className="main-table-content-body__icon"
-                              onClick={() => setIdEditTriggerText(elem.id)}
-                           >
-                              <span className="main-table-content-body__tooltip tableTooltip">Редактировать</span>
-                              <img
-                                 className="main-table-content-body__img"
-                                 src={edit}
-                                 alt={'edit'}
-                              />
-                           </div>
-
-                           <div
-                              className="main-table-content-body__icon"
-                              onClick={() => copyScenario(elem.id)}
-                           >
-                              <span className="main-table-content-body__tooltip tableTooltip">Копировать</span>
-                              <img
-                                 className="main-table-content-body__img"
-                                 src={copy}
-                                 alt={'copy'}
-                              />
-                           </div>
-                           <div
-                              className="main-table-content-body__icon"
-                              onClick={() => props.deleteScenario({
-                                 botId: props.match.params.botId,
-                                 idScenario: elem.id
-                              })}
-                           >
-                              <span className="main-table-content-body__tooltip tableTooltip">Удалить</span>
-                              <img
-                                 className="main-table-content-body__img"
-                                 src={trash}
-                                 alt={'trash'}
-                              />
-                           </div>
-                        </td>
-                     </tr>
-                  ))
-               ) : (
+            <div style={{width: '100%'}}>
+               <table className="main-table-content">
+                  <thead className="main-table-content__head">
                   <tr>
-                     <td className="main-table-content-body__key-words">
-                        Ничего не найдено
-                     </td>
+                     <td>Правило</td>
+                     <td>Содержимое</td>
                      <td/>
-                     <td className="main-table-content-body__controls"/>
                   </tr>
-               )}
-               </tbody>
-            </table>
+                  </thead>
+
+                  <tbody className="main-table-content__body">
+                  {scenariosDataInFilter.length > 0 ? (
+                     scenariosDataInFilter.map((elem, index) => (
+                        <tr key={index}>
+                           <td
+                              className="main-table-content-body__key-words"
+                              onClick={idEditTriggerText === elem.id
+                                 ? null :
+                                 () => changeScenarioId(elem.id)
+                              }
+                           >
+                              Сообщение в точности совпадает с <span>{elem.trigger_text.split(',').join(', ')}</span>
+
+                              <div className="main-table-content-body__editor">
+                                 {idEditTriggerText === elem.id && (
+                                    <ContextMenuForEditScenario
+                                       onInput={(e) => editScenario(e, elem.id)}
+                                       defaultValue={elem.trigger_text}
+                                       setIdEditTriggerText={(id) => setIdEditTriggerText(id)}
+                                    />
+                                 )}
+                              </div>
+                           </td>
+                           <td>
+                              {elem.triggers.length} ответ
+                           </td>
+                           <td className="main-table-content-body__controls">
+                              <div
+                                 className="main-table-content-body__icon"
+                                 onClick={() => setIdEditTriggerText(elem.id)}
+                              >
+                                 <span className="main-table-content-body__tooltip tableTooltip">Редактировать</span>
+                                 <img
+                                    className="main-table-content-body__img"
+                                    src={edit}
+                                    alt={'edit'}
+                                 />
+                              </div>
+
+                              <div
+                                 className="main-table-content-body__icon"
+                                 onClick={() => copyScenario(elem.id)}
+                              >
+                                 <span className="main-table-content-body__tooltip tableTooltip">Копировать</span>
+                                 <img
+                                    className="main-table-content-body__img"
+                                    src={copy}
+                                    alt={'copy'}
+                                 />
+                              </div>
+                              <div
+                                 className="main-table-content-body__icon"
+                                 onClick={() => props.deleteScenario({
+                                    botId: props.match.params.botId,
+                                    idScenario: elem.id
+                                 })}
+                              >
+                                 <span className="main-table-content-body__tooltip tableTooltip">Удалить</span>
+                                 <img
+                                    className="main-table-content-body__img"
+                                    src={trash}
+                                    alt={'trash'}
+                                 />
+                              </div>
+                           </td>
+                        </tr>
+                     ))
+                  ) : (
+                     <tr>
+                        <td className="main-table-content-body__key-words">
+                           Ничего не найдено
+                        </td>
+                        <td/>
+                        <td className="main-table-content-body__controls"/>
+                     </tr>
+                  )}
+                  </tbody>
+               </table>
+            </div>
          </div>
       </div>
    )
@@ -321,10 +327,10 @@ const mapStateToProps = ({singleBotReducers}) => ({
 
 const mapDispatchToProps = dispatch => ({
    addScenario: (botId, destination, trigger_text) => dispatch(addNewScenario(botId, destination, trigger_text)),
-   deleteScenario: (scenarioData) => dispatch(deleteScenario(scenarioData)),
-   copyScenario: (scenarioData) => dispatch(copyScenario(scenarioData)),
-   editScenario: (scenarioData) => dispatch(editScenario(scenarioData)),
-   changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId))
+   changeScenarioId: scenarioId => dispatch(changeScenarioId(scenarioId)),
+   deleteScenario: scenarioData => dispatch(deleteScenario(scenarioData)),
+   copyScenario: scenarioData => dispatch(copyScenario(scenarioData)),
+   editScenario: scenarioData => dispatch(editScenario(scenarioData)),
 });
 
 export default compose(

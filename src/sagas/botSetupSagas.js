@@ -9,7 +9,6 @@ import {
    getScenariesForManager,
    addNewScenario
 } from "../api/rest/restContoller";
-import {signUpErrors} from "../constants/errors/user";
 import {destinationScenario} from "../constants/defaultValues";
 
 import {userAccessToken} from "../utils/userToken";
@@ -17,7 +16,7 @@ import {userAccessToken} from "../utils/userToken";
 export function* getManagerSaga({idBot}) {
    if (userAccessToken()) {
       try {
-         yield put({type: ACTION.BOT_SETUP_REQUEST});
+         yield put({type: ACTION.GET_BOT_SETUP_REQUEST});
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());

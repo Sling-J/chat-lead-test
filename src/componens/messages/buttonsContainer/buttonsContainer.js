@@ -15,6 +15,7 @@ import {ScenarioIdContext} from "../../../utils/Contexts";
 import ButtonsMenu from './buttonsMenu/buttonsMenu'
 
 import style from '../../../styles/messageButtons.module.scss';
+import {compose} from "redux";
 
 const ButtonsContainer = (props) => {
    const [indexOpenButton, setIndexOpenButton] = useState({
@@ -130,7 +131,9 @@ const ButtonsContainer = (props) => {
                            <ButtonsMenu
                               changeTriggerId={changeTriggerId}
                               handleCloseButtonMenu={handleCloseButtonMenu}
+                              changedSlideOrElement={changedSlideOrElement}
                               buttonEditHandler={editButton}
+                              type={type}
                               typeButton={elem.isEmpty ? 'empty' : elem.secondType}
                               scenarioId={scenarioId}
                               indexButton={elem.uid}
@@ -185,4 +188,7 @@ const mapDispatchToProps = dispatch => ({
    appendTrigger: triggerData => dispatch(addNewTrigger(triggerData)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ButtonsContainer));
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(ButtonsContainer);

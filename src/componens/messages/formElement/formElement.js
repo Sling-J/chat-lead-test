@@ -124,9 +124,7 @@ const FormElement = (props) => {
             </div>
          ))}
          <div className={style.addInputButton} onClick={newInput}>+ Поле ввода</div>
-         <ButtonsContainer
-            {...props}
-         />
+         <ButtonsContainer {...props}/>
       </div>
    )
 };

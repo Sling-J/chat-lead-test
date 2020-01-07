@@ -1,38 +1,41 @@
 import React, {useEffect} from 'react';
-import style from './singleBot.module.sass';
-import {getAllScenariesForBot} from "../../actions/actionCreator";
+import {compose} from "redux";
 import {connect} from 'react-redux';
-import ScenariosContainer from '../../componens/scenariosAndTriggers/scenariosContainer/scenariosContainer';
-import NavBar from '../../componens/navbar/navbar';
-import MainHeader from "../../componens/mainHeader/mainHeader";
+import {withRouter} from "react-router-dom";
 
-const SingleBot = (props) => {
+import ScenariosContainer from '../../componens/scenariosAndTriggers/scenariosContainer/scenariosContainer';
+import PageLoader from "../../componens/Containers/PageLoader";
+
+import {getAllScenariesForBot} from "../../actions/actionCreator";
+
+import style from './singleBot.module.sass';
+
+const SingleBot = ({scenariosForScenarioContainer, getScenarios, match, loadingOfScenarios}) => {
    useEffect(() => {
-      props.getScenaries(props.match.params.botId)
-   }, [props.match.params.botId]);
+      if (scenariosForScenarioContainer.length === 0) {
+         getScenarios(match.params.botId);
+      }
+   }, [match.params.botId]);
 
    return (
       <div className={style.mainContainer}>
-         <MainHeader/>
-         <NavBar/>
-         <div className={style.contentBlock}>
+         <PageLoader loading={loadingOfScenarios}>
             <ScenariosContainer/>
-         </div>
+         </PageLoader>
       </div>
    )
 };
 
-const mapStateToProps = state => {
-   const {botScenarios, isFetching, error} = state.singleBotReducers;
-   const {changedScenarioId} = state.singleBotReducers;
-
-   return {
-      botScenarios, isFetching, error, changedScenarioId
-   }
-};
-
-const mapDispatchToProps = dispatch => ({
-   getScenaries: (botId) => dispatch(getAllScenariesForBot(botId))
+const mapStateToProps = ({singleBotReducers}) => ({
+   scenariosForScenarioContainer: singleBotReducers.scenariosForScenarioContainer,
+   loadingOfScenarios: singleBotReducers.loadingOfScenarios,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleBot);
+const mapDispatchToProps = dispatch => ({
+   getScenarios: botId => dispatch(getAllScenariesForBot(botId))
+});
+
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(SingleBot);

@@ -7,8 +7,6 @@ import TariffHistoryContainer from "../../componens/tariffContainer/tariffHistor
 
 const TariffHistory = () => (
    <div className="page-container">
-      <MainHeader isServiceHeader/>
-      <NavBar isServiceNav/>
       <TariffHistoryContainer/>
    </div>
 );

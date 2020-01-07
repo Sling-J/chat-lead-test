@@ -1,17 +1,19 @@
 import React, {useState} from 'react';
-import style from './cardOrGallaryElement.module.sass';
-import {staticMedia} from "../../../config/service/service";
-import {withRouter} from "react-router-dom";
+import {compose} from "redux";
 import {connect} from 'react-redux';
+import {withRouter} from "react-router-dom";
+
+import {staticMedia} from "../../../config/service/service";
 import {updateTrigger} from "../../../actions/actionCreator";
 import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
 import MiniImagesForSlider from './miniImagesForSlider/miniImagesForSlider';
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 
+import style from './cardOrGallaryElement.module.sass';
+
 const CardOrGalleryElement = (props) => {
    const {type, index, pictureForLabel, value, changedTrigger} = props;
    const [changedSlide, changeSlide] = useState(0);
-
 
    const updateTrigger = (e, typeInput) => {
       const messagesCopy = changedTrigger.messages;
@@ -39,7 +41,6 @@ const CardOrGalleryElement = (props) => {
          messages: messagesCopy,
          botId: props.match.params.botId
       };
-
 
       if (typeInput === 'text' || typeInput === 'title') {
          props.updateTrigger(triggerData, null, props.changedSocial);
@@ -103,16 +104,16 @@ const CardOrGalleryElement = (props) => {
             <div className={style.inputContainer}>
                <input
                   type={'text'}
-                  // defaultValue={value[changedSlide].title}
-                  value={value[changedSlide].title}
+                  defaultValue={value[changedSlide].title}
+                  // value={value[changedSlide].title}
                   placeholder={'Введите титульное слово'}
-                  onInput={(e) => updateTrigger(e, 'title')}
+                  onBlur={(e) => updateTrigger(e, 'title')}
                />
                <textarea
-                  // defaultValue={value[changedSlide].text}
-                  value={value[changedSlide].text}
+                  defaultValue={value[changedSlide].text}
+                  // value={value[changedSlide].text}
                   placeholder={'Введите текст'}
-                  onInput={(e) => updateTrigger(e, 'text')}
+                  onBlur={(e) => updateTrigger(e, 'text')}
                />
             </div>
             <MiniImagesForSlider
@@ -136,16 +137,15 @@ const CardOrGalleryElement = (props) => {
    )
 };
 
-const mapStateToProps = state => {
-   const {changedSocial} = state.singleBotReducers;
-
-   return {
-      changedSocial
-   }
-};
+const mapStateToProps = ({singleBotReducers}) => ({
+   changedSocial: singleBotReducers.changedSocial
+});
 
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData, updationData, changedSocial) => dispatch(updateTrigger(triggerData, updationData, changedSocial)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CardOrGalleryElement));
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(CardOrGalleryElement);

@@ -127,15 +127,15 @@ class ButtonsMenu extends Component {
       const triggers = [];
 
       if (scenarios.destination !== 'subscription_message') {
-         const subscribeDestinition = botScenarios.find(data => data.destination === 'subscription_message');
-   
-         subscribeDestinition.triggers.forEach(trigger => {
+         const subscribeDestination = botScenarios.find(data => data.destination === 'subscription_message');
+
+         subscribeDestination && subscribeDestination.triggers.forEach(trigger => {
             triggers.push({
                value: trigger.id,
                label: trigger.caption
             })
          });
-   
+
          return triggers;
       } else {
          return triggers;

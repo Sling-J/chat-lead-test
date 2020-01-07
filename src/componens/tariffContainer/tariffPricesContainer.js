@@ -5,7 +5,7 @@ import {useTheme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import SwipeableViews from 'react-swipeable-views';
 
-const TabPanel = ({standard, premium, value, index, payment}) => {
+const TabPanel = ({standard, premium, value, index}) => {
    const Item = ({price, title, socials}) => (
       <div className="prices-box__item">
          <div className="prices-box-item__divider"/>
@@ -19,7 +19,7 @@ const TabPanel = ({standard, premium, value, index, payment}) => {
             <p className="prices-box-item-offer__desc">
                {socials}
             </p>
-            {!payment ? price === 0 ? (
+            {price === 0 ? (
                <Button variant="contained" className="prices-box-item-offer__button" href="">
                   Выбрать
                </Button>
@@ -29,10 +29,6 @@ const TabPanel = ({standard, premium, value, index, payment}) => {
                      Выбрать
                   </Button>
                </Link>
-            ) : (
-               <Button variant="contained" className="prices-box-item-offer__button" href="">
-                  Выбрать
-               </Button>
             )}
          </div>
 

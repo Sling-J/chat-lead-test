@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import style from '../bots/bots.module.sass';
-import MainHeader from '../../componens/mainHeader/mainHeader';
-import CreateBotForm from '../../componens/forms/createBotForm/createBotForm';
 import {connect} from 'react-redux';
-import {getAllBotsForUser} from "../../actions/actionCreator";
-import BotsElement from '../../componens/botsElement/botsElement';
+
 import Attention from '../../images/attention.png';
-import {deleteBot} from "../../actions/actionCreator";
 
+import CreateBotForm from '../../componens/forms/createBotForm/createBotForm';
+import BotsElement from '../../componens/botsElement/botsElement';
 
-const Bots = (props) => {
-   const {botsData} = props;
+import {deleteBot, getAllBotsForUser} from "../../actions/actionCreator";
+
+import style from '../bots/bots.module.sass';
+
+const Bots = ({botsData, deleteBot, getAllBots}) => {
    const [BotObj, setBotObj] = useState({name: null, id: null});
 
    const changeBotName = (name, id) => {
@@ -18,14 +18,11 @@ const Bots = (props) => {
    };
 
    useEffect(() => {
-      props.getAllBots();
-   }, [props.userData]);
+      getAllBots();
+   }, []);
 
    return (
       <div className={style.mainContainer}>
-         <MainHeader
-            isMainHeader={true}
-         />
          <main className={style.botsMainContainer}>
             <CreateBotForm/>
 
@@ -49,7 +46,7 @@ const Bots = (props) => {
                      <button
                         className={style.blueBtn + " " + style.remove}
                         onClick={() => {
-                           props.deleteBot({manager_id: BotObj.id});
+                           deleteBot({manager_id: BotObj.id});
                            setBotObj({name: null, id: null});
                         }}
                      >
@@ -65,22 +62,17 @@ const Bots = (props) => {
                </div>
             </div>
          ) : (<div/>)}
-
       </div>
    )
 };
 
-const mapStateToProps = state => {
-   const {botsData, isFetching} = state.botsReducers;
-
-   return {
-      botsData, isFetching
-   }
-};
+const mapStateToProps = ({botsReducers}) => ({
+   botsData: botsReducers.botsData,
+});
 
 const mapDispatchToProps = dispatch => ({
+   deleteBot: botData => dispatch(deleteBot(botData)),
    getAllBots: () => dispatch(getAllBotsForUser()),
-   deleteBot: (botData) => dispatch(deleteBot(botData))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bots);

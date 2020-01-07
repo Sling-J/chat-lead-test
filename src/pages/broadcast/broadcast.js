@@ -1,46 +1,47 @@
 import React, {useEffect} from 'react';
+import {compose} from "redux";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 
+import {getAllBroadCasts, getAllScenariesForBot} from "../../actions/actionCreator";
 import BroadCastContainer from '../../componens/broadCastContainer/broadCastContainer';
-import MainHeader from '../../componens/mainHeader/mainHeader';
-import NavBar from '../../componens/navbar/navbar';
+import PageLoader from "../../componens/Containers/PageLoader";
 
-import {changeScenarioId, getAllBroadCasts} from "../../actions/actionCreator";
 import style from './broadcast.module.sass';
 
-const BroadCast = (props) => {
+const BroadCast = ({broadCastData, scenariosForScenarioContainer, getBroadCasts, getScenarios, match, loadingOfBroadCasts, loadingOfScenarios}) => {
    useEffect(() => {
-      props.getBroadCasts(props.match.params.botId);
-   }, []);
+      if (broadCastData.length === 0) {
+         getBroadCasts(match.params.botId);
+      }
+
+      if (scenariosForScenarioContainer.length === 0) {
+         getScenarios(match.params.botId);
+      }
+   }, [match.params.botId]);
 
    return (
       <div className={style.mainContainer}>
-         <MainHeader
-            isMainHeader={false}
-         />
-         <NavBar/>
-         <div className={style.contentBlock}>
+         <PageLoader loading={loadingOfBroadCasts || loadingOfScenarios}>
             <BroadCastContainer/>
-         </div>
+         </PageLoader>
       </div>
    )
 };
 
-const mapStateToProps = state => {
-   const {broadCastData, isFetching, error} = state.broadCastReducers;
-   const {changedScenarioId} = state.singleBotReducers;
-
-
-   return {
-      broadCastData, isFetching, error, changedScenarioId
-   }
-};
+const mapStateToProps = ({broadCastReducers, singleBotReducers}) => ({
+   scenariosForScenarioContainer: singleBotReducers.scenariosForScenarioContainer,
+   loadingOfScenarios: singleBotReducers.loadingOfScenarios,
+   loadingOfBroadCasts: broadCastReducers.loadingOfBroadCasts,
+   broadCastData: broadCastReducers.broadCastData
+});
 
 const mapDispatchToProps = dispatch => ({
    getBroadCasts: (botId) => dispatch(getAllBroadCasts(botId)),
-   changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId)),
+   getScenarios: (botId) => dispatch(getAllScenariesForBot(botId))
 });
 
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BroadCast));
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(BroadCast);

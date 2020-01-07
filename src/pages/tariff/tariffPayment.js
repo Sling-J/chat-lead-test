@@ -6,8 +6,6 @@ import TariffPaymentContainer from "../../componens/tariffContainer/tariffPaymen
 
 const TariffPayment = () => (
    <div className="page-container">
-      <MainHeader isServiceHeader/>
-      <NavBar isServiceNav/>
       <TariffPaymentContainer/>
    </div>
 );

@@ -82,10 +82,6 @@ const ListElements = (props) => {
                      <ButtonsContainer
                         {...props}
                         changedSlideOrElement={indexInListArray}
-                        styleForControls={{borderRadius: '0'}}
-                        styleForButton={{fontSize: '12px'}}
-                        styleForCaption={{padding: '10px 5% 10px 5px', alignItems: 'center'}}
-                        styleForContextMenu={{left: '200px'}}
                      />
                   </div>
                   <div className={style.pictureContainer}>

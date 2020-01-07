@@ -3,108 +3,64 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 
+import CustomFlatPicker from "../../messages/timerElement/customFlatPicker/customFlatPicker";
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import {updateBroadCasts} from "../../../actions/actionCreator";
-import CustomFlatPicker from "../../messages/timerElement/customFlatPicker/customFlatPicker";
 
-import {Dropdown, Spin} from 'antd';
+import {Dropdown, Spin, Checkbox, Radio } from 'antd';
 import Button from '@material-ui/core/Button';
+
 import style from './broadCastMenu.module.sass';
 
-const BroadCastMenu = (props) => {
+const BroadCastMenu = props => {
+   const {broadCastId, isFetching, broadCastData} = props;
+
+   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
    const [isOpenTestTab, openTestTab] = useState(false);
 
-   const {broadCastId, changedTrigger, isFetching} = props;
-
-   const oldDate = new Date(2015, 0, 1).getTime();
    const futureTime = new Date().setFullYear(new Date().getFullYear() + 1);
+   const oldDate = new Date(2015, 0, 1).getTime();
+
+   const activeBroadCast = broadCastData.find(item => item.id === broadCastId);
 
    const DatePickerMenu = (
       <div className={style.calendarContainer}>
          <h2>Отложить рассылку</h2>
-
-         <CustomFlatPicker
-            styleForPicker={{
-               width: '100%',
-               padding: "8px 15px"
-            }}
-            defaultValue={
-               formatUnixToDate(
-                  props.broadCastData[broadCastId]
-                     ? props.broadCastData[broadCastId].time : '',
-                  true
-               )
-            }
-            onChange={value => updateBroadCast({
-               time: formatDateToUnix(value[0])
-            })}
-         />
       </div>
    );
-
-   const getAllTagsInTrigger = () => {
-      const allTags = [];
-
-      changedTrigger.messages[props.changedSocial].forEach(message => {
-         message.keyboard.forEach(button => {
-            if (button.Add_Tags) {
-               button.Add_Tags.forEach(tag => {
-                  allTags.push(tag);
-               });
-            }
-         });
-      });
-
-      return allTags;
-   };
 
    const updateBroadCast = (broadCastUpdatedData) => {
       const broadCastDataCopy = props.broadCastData.concat();
 
-      Object.assign(broadCastDataCopy[broadCastId], broadCastUpdatedData, {
+      const activeBroadCastCopy = broadCastDataCopy.find(item => item.id === broadCastId);
+
+      Object.assign(activeBroadCastCopy, broadCastUpdatedData, {
          managerId: props.match.params.botId,
       });
 
-      props.updateBroadcast(broadCastDataCopy[broadCastId]);
+      props.updateBroadcast(activeBroadCastCopy);
    };
 
    const sendBroadCastTab = () => (
       <div className={style.contentContainer}>
          <div className={style.userListBroadcast}>
             <div className={style.userListElement}>
-               <h2>Выберете список получателей:</h2>
-               <label htmlFor={'allUsers'}>
-                  <input
-                     type={'radio'}
-                     id={'allUsers'}
-                     name={'tagsChacker'}
-                     onChange={() => updateBroadCast({tag: ''})}
-                     defaultChecked={props.broadCastData[broadCastId] && props.broadCastData[broadCastId].tag.length === 0}
-                  />
-                  Все пользователи
-                  ({props.broadCastData[broadCastId] && props.broadCastData[broadCastId].users_count} пользователей)
-               </label>
-               <label htmlFor={'allTags'}>
-                  <input
-                     type={'radio'}
-                     id={'allTags'}
-                     name={'tagsChacker'}
-                     onChange={() => updateBroadCast({tag: getAllTagsInTrigger()})}
-                     defaultChecked={props.broadCastData[broadCastId] && props.broadCastData[broadCastId].tag.length > 0}
-                  />
-                  Все теги
-                  ({props.broadCastData[broadCastId] && props.broadCastData[broadCastId].users_count} пользователей)
-               </label>
-            </div>
-         </div>
-         <div className={style.options}>
-            <div>
-               <label htmlFor={'testBroadConfirm'}>
-                  <input type={'checkbox'} id={'testBroadConfirm'}/> тестовая рассылка проверена
-               </label>
-               <label htmlFor={'broadCastEnd'}>
-                  <input type={'checkbox'} id={'broadCastEnd'}/> уведомить об окончании рассылки
-               </label>
+               <h2>Список получателей:</h2>
+
+               <Radio
+                  id="allUsers"
+                  name="allUsers"
+                  checked
+               >
+                  Все пользователи ({activeBroadCast && activeBroadCast.users_count} пользователей)
+               </Radio>
+               <Checkbox
+                  id="allUsers"
+                  name="group"
+                  onChange={e => updateBroadCast({for_group: e.target.checked})}
+               >
+                  Все группы
+               </Checkbox>
             </div>
          </div>
          <div className={style.buttonsContainer}>
@@ -120,11 +76,34 @@ const BroadCastMenu = (props) => {
 
             <p>или</p>
 
-            <Dropdown overlay={DatePickerMenu} trigger={['click']} placement="topCenter">
+            <Dropdown overlay={DatePickerMenu} trigger={['click']} placement="topCenter" onVisibleChange={visible => setIsOpenDropdown(visible)}>
                <Button className={style.putOffButton} variant="outlined">
                   Отложить рассылку
                </Button>
             </Dropdown>
+
+            <div className={style.calendarPosition}>
+               <div className={`${style.calendarPositionItem} ${isOpenDropdown && style.calendarPositionItemVisibility}`}>
+                  <CustomFlatPicker
+                     styleForPicker={{
+                        width: '100%',
+                        padding: "8px 15px",
+                     }}
+                     defaultValue={
+                        formatUnixToDate(
+                           activeBroadCast
+                              ? activeBroadCast.time : '',
+                           true
+                        )
+                     }
+                     onChange={value =>
+                        updateBroadCast({
+                           time: formatDateToUnix(value[0])
+                        })
+                     }
+                  />
+               </div>
+            </div>
          </div>
       </div>
    );
@@ -147,7 +126,7 @@ const BroadCastMenu = (props) => {
       <div className={style.mainContainer}>
          <ul className={`
             ${style.navigation}
-            ${props.broadCastData[broadCastId] && props.broadCastData[broadCastId].sent && style.navigationSent}
+            ${activeBroadCast && activeBroadCast.sent && style.navigationSent}
          `}>
             <li
                className={!isOpenTestTab && style.activeNavigationElement}
@@ -155,7 +134,7 @@ const BroadCastMenu = (props) => {
             >
                Отправка рассылки
             </li>
-            {props.broadCastData[broadCastId] && !props.broadCastData[broadCastId].sent && (
+            {activeBroadCast && !activeBroadCast.sent && (
                <li
                   className={isOpenTestTab && style.activeNavigationElement}
                   onClick={() => openTestTab(true)}
@@ -165,7 +144,7 @@ const BroadCastMenu = (props) => {
             )}
          </ul>
          <Spin spinning={isFetching}>
-            {props.broadCastData[broadCastId] && props.broadCastData[broadCastId].sent ?
+            {activeBroadCast && activeBroadCast.sent ?
                (
                   <div className={style.completeMessage}>
                      Рассылка разослана!

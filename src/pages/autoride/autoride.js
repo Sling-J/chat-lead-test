@@ -1,27 +1,30 @@
 import React, {useEffect} from 'react';
 import {compose} from "redux";
-import style from './autoride.module.sass';
-import NavBar from '../../componens/navbar/navbar';
 import {connect} from "react-redux";
-import {changeScenarioId, getAllAutorides, getAllScenariesForBot} from "../../actions/actionCreator";
 import {withRouter} from "react-router-dom";
-import AutorideContainer from '../../componens/autorideContainer/autorideContainer';
-import MainHeader from "../../componens/mainHeader/mainHeader";
 
-const Autoride = (props) => {
+import AutorideContainer from '../../componens/autorideContainer/autorideContainer';
+import {getAllAutorides, getAllScenariesForBot} from "../../actions/actionCreator";
+import PageLoader from "../../componens/Containers/PageLoader";
+
+import style from './autoride.module.sass';
+
+const Autoride = ({autoridesData, getAutorides, scenariosForScenarioContainer, getScenarios, match, loadingOfAutoRides, loadingOfScenarios}) => {
    useEffect(() => {
-      props.getAutorides(props.match.params.botId);
-   }, []);
+      if (autoridesData.length === 0) {
+         getAutorides(match.params.botId);
+      }
+
+      if (scenariosForScenarioContainer.length === 0) {
+         getScenarios(match.params.botId);
+      }
+   }, [match.params.botId]);
 
    return (
       <div className={style.mainContainer}>
-         <MainHeader
-            isMainHeader={false}
-         />
-         <NavBar/>
-         <div className={style.contentBlock}>
+         <PageLoader loading={loadingOfAutoRides || loadingOfScenarios}>
             <AutorideContainer/>
-         </div>
+         </PageLoader>
       </div>
    )
 };
@@ -29,15 +32,14 @@ const Autoride = (props) => {
 
 const mapStateToProps = ({autoridesReducers, singleBotReducers}) => ({
    autoridesData: autoridesReducers.autoridesData,
-   isFetching: autoridesReducers.isFetching,
-   error: autoridesReducers.error,
-   changedScenarioId: singleBotReducers.changedScenarioId
+   loadingOfAutoRides: autoridesReducers.loadingOfAutoRides,
+   loadingOfScenarios: singleBotReducers.loadingOfScenarios,
+   scenariosForScenarioContainer: singleBotReducers.scenariosForScenarioContainer,
 });
 
 const mapDispatchToProps = dispatch => ({
    getAutorides: (botId) => dispatch(getAllAutorides(botId)),
-   getScenaries: (botId) => dispatch(getAllScenariesForBot(botId)),
-   changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId))
+   getScenarios: (botId) => dispatch(getAllScenariesForBot(botId)),
 });
 
 export default compose(

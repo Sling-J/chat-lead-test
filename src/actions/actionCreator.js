@@ -21,7 +21,7 @@ export const getAllBotsForUser = (botId) => ({
 });
 
 export const getAllScenariesForBot = (idBot) => ({
-   type: ACTION.GET_ALL_SCENARIES,
+   type: ACTION.GET_ALL_SCENARIOS,
    idBot
 });
 
@@ -163,11 +163,6 @@ export const resetUrl = () => ({
    type: ACTION.RESET_URL
 });
 
-// export const editFastButtonName = (idBtn) => ({
-//    type: ACTION.EDIT_FAST_BUTTON_NAME,
-//    idBtn
-// });
-
 export const getBotStatistics = data => ({
    type: ACTION.GET_BOT_STATISTICS_REQUEST,
    payload: data
@@ -180,4 +175,8 @@ export const addPayment = data => ({
 
 export const getTransactions = () => ({
    type: ACTION.GET_TRANSACTIONS_REQUEST
+});
+
+export const resetBotsData = () => ({
+   type: ACTION.RESET_BOTS_DATA
 });

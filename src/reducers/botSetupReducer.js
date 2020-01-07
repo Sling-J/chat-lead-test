@@ -5,12 +5,27 @@ const initialState = {
    botSetupData: {},
    isFetching: false,
    setupLoading: false,
+   loadingOfManager: false,
    errorOfSocial: null,
    error: null
 };
 
 export default function (state = initialState, action) {
    switch (action.type) {
+      case ACTION.RESET_BOTS_DATA:
+         return {
+            ...state,
+            botSetupData: {},
+            error: null
+         };
+
+      case ACTION.GET_BOT_SETUP_REQUEST:
+         return {
+            ...state,
+            loadingOfManager: true,
+            error: null
+         };
+
       case ACTION.RESET_URL:
          return {
             ...state,
@@ -60,6 +75,7 @@ export default function (state = initialState, action) {
          return {
             ...state,
             botSetupData: action.data,
+            loadingOfManager: false,
             isFetching: false,
             setupLoading: false,
             error: null
@@ -70,7 +86,8 @@ export default function (state = initialState, action) {
             ...state,
             error: action.error,
             setupLoading: false,
-            isFetching: false
+            loadingOfManager: false,
+            isFetching: false,
          }
       }
       default: {

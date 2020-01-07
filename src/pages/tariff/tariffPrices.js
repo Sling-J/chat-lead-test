@@ -6,8 +6,6 @@ import TariffPricesContainer from "../../componens/tariffContainer/tariffPricesC
 
 const TariffPrices = () => (
    <div className="page-container">
-      <MainHeader isServiceHeader/>
-      <NavBar isServiceNav/>
       <TariffPricesContainer/>
    </div>
 );

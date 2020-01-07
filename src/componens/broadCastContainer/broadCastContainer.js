@@ -19,7 +19,7 @@ import {appendBroadCast, changeScenarioId, deleteBroadcast} from "../../actions/
 const BroadCastContainer = props => {
    const {changeScenarioId, changedScenarioId, isFetching} = props;
 
-   const [changedBroadCastId, changeBroadCastId] = useState(false);
+   const [changedBroadCastId, changeBroadCastId] = useState(null);
    const [changedTypeBroadcast, changeTypeBroadcast] = useState('sended');
 
    const appendBroadcastHandler = () => {
@@ -27,16 +27,22 @@ const BroadCastContainer = props => {
    };
 
    useEffect(() => {
+      changeScenarioId(null);
+   }, []);
+
+   useEffect(() => {
       if (changedScenarioId) {
-         props.broadCastData.forEach((elem, index) => {
-            if (elem.scenario.id === changedScenarioId) {
-               changeBroadCastId(index);
-            }
-         })
+         const broadcast = props.broadCastData.find(elem => elem.scenario.id === changedScenarioId);
+         console.log(broadcast);
+
+         changeBroadCastId(broadcast ? broadcast.id : null);
       } else {
-         changeBroadCastId(false);
+         changeBroadCastId(null);
       }
    }, [changedScenarioId]);
+
+   console.log('CHANGED_SCENARIO', changedScenarioId);
+   console.log('CHANGED_SCENARIO', props.broadCastData);
 
    if (changedScenarioId && (changedBroadCastId || changedBroadCastId === 0)) {
       return (
@@ -58,32 +64,34 @@ const BroadCastContainer = props => {
       )
    }
 
+   const showBroadCastTitle = trigger => {
+      let text;
+
+      const textFacebook = trigger.messages.facebook.find(item => item.text && item.text.length !== 0);
+      const textTelegram = trigger.messages.telegram.find(item => item.text && item.text.length !== 0);
+      const textVk = trigger.messages.vk.find(item => item.text && item.text.length !== 0);
+      const textWhatsapp = trigger.messages.whatsapp.find(item => item.text && item.text.length !== 0);
+
+      if (textFacebook) {
+         text = textFacebook.text
+      } else if (textTelegram) {
+         text = textTelegram.text
+      } else if (textVk) {
+         text = textVk.text
+      } else if (textWhatsapp) {
+         text = textWhatsapp.text
+      }
+
+      return text;
+   };
+
    const broadCastData = () => {
       if (changedTypeBroadcast === 'sended') {
          return (
             <tbody className="main-table-content__body broadcast-table-sent-body">
             {props.broadCastData.filter(elem => elem.sent).length > 0 ? (
                props.broadCastData.map((elem, index) => {
-                  let text;
-
-                  if (elem.scenario) {
-                     const triggers = elem.scenario.triggers;
-
-                     const textFacebook = triggers[triggers.length - 1].messages.facebook.find(item => item.text && item.text.length !== 0);
-                     const textTelegram = triggers[triggers.length - 1].messages.telegram.find(item => item.text && item.text.length !== 0);
-                     const textVk = triggers[triggers.length - 1].messages.vk.find(item => item.text && item.text.length !== 0);
-                     const textWhatsapp = triggers[triggers.length - 1].messages.whatsapp.find(item => item.text && item.text.length !== 0);
-
-                     if (textFacebook) {
-                        text = textFacebook.text
-                     } else if (textTelegram) {
-                        text = textTelegram.text
-                     } else if (textVk) {
-                        text = textVk.text
-                     } else if (textWhatsapp) {
-                        text = textWhatsapp.text
-                     }
-                  }
+                  const text = showBroadCastTitle(elem.scenario.triggers[0]);
 
                   return elem.sent && (
                      <tr
@@ -93,7 +101,7 @@ const BroadCastContainer = props => {
                         }}
                      >
                         <td className="main-table-content-body__key-words">
-                           <span>{sliceExtraText(text, 41) || elem.scenario.triggers[elem.scenario.triggers.length - 1].caption}</span>
+                           <span>{text ? sliceExtraText(text, 41) : elem.scenario.triggers[0].caption}</span>
                         </td>
                         <td>
                            {elem.users_count}
@@ -124,33 +132,16 @@ const BroadCastContainer = props => {
             <tbody className="main-table-content__body broadcast-table-not-sent-body">
             {props.broadCastData.filter(elem => !elem.sent).length > 0 ? (
                props.broadCastData.map((elem, index) => {
-                  let text;
-
-                  if (elem.scenario) {
-                     const triggers = elem.scenario.triggers;
-
-                     const textFacebook = triggers[triggers.length - 1].messages.facebook.find(item => item.text && item.text.length !== 0);
-                     const textTelegram = triggers[triggers.length - 1].messages.telegram.find(item => item.text && item.text.length !== 0);
-                     const textVk = triggers[triggers.length - 1].messages.vk.find(item => item.text && item.text.length !== 0);
-                     const textWhatsapp = triggers[triggers.length - 1].messages.whatsapp.find(item => item.text && item.text.length !== 0);
-
-                     if (textFacebook) {
-                        text = textFacebook.text
-                     } else if (textTelegram) {
-                        text = textTelegram.text
-                     } else if (textVk) {
-                        text = textVk.text
-                     } else if (textWhatsapp) {
-                        text = textWhatsapp.text
-                     }
-                  }
+                  const text = showBroadCastTitle(elem.scenario.triggers[0]);
 
                   return !elem.sent && (
                      <tr key={index} onClick={() => {
                         changeScenarioId(elem.scenario.id);
                      }}>
                         <td className="main-table-content-body__key-words">
-                           <span>{sliceExtraText(text, 41) || elem.scenario.triggers[elem.scenario.triggers.length - 1].caption}</span>
+                           <span>
+                              {text ? sliceExtraText(text, 41) : elem.scenario.triggers[0].caption}
+                           </span>
                         </td>
                         <td>
                            {elem.users_count}
