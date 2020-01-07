@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
 import FastButtons from "../../scenariosAndTriggers/triggersContainer/fastButtons/fastButtons";
+import EmojiPicker from "./emojiPicker/emojiPicker";
 
 import style from './textArea.module.sass';
 
@@ -50,10 +51,7 @@ const PaymentTextArea = props => {
          />
          <div className={style.actionNav}>
             <div className={style.actionButtons}>
-               <div
-                  className={style.actionNavSmile}
-               >
-               </div>
+               <div className={style.actionNavSmile}/>
                <div
                   className={style.actionNavVars}
                   onMouseEnter={handleMouseHover}

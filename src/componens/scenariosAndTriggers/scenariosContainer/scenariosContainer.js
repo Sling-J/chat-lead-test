@@ -30,6 +30,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
+import EmojiPicker from "../../messages/textArea/emojiPicker/emojiPicker";
 
 const ScenariosContainer = props => {
    const {changeScenarioId, changedScenarioId, isFetching} = props;
@@ -312,6 +313,8 @@ const ScenariosContainer = props => {
                   </tbody>
                </table>
             </div>
+
+            <EmojiPicker/>
          </div>
       </div>
    )
