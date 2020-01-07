@@ -14,6 +14,7 @@ export default function (state = initialState, action) {
          return {
             ...state,
             autoridesData: [],
+            autoridesLinks: [],
             error: null
          };
 
@@ -48,6 +49,7 @@ export default function (state = initialState, action) {
             loadingOfAutoRides: false,
             isFetching: false
          };
+
       default:
          return state
    }

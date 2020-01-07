@@ -645,13 +645,15 @@ export function* getAutorideLinksSagas({autorideData}) {
          formData.append('autoride_id', autorideData.idAutoride);
          formData.append('social', 'all');
 
-         const {data} = yield call(getAutoridesLink, formData);
+         const [autoridesLinks, autoridesData] = yield all([
+            call(getAutoridesLink, formData),
+            call(getAllAutorides, formData)
+         ]);
 
-         if (data.ok) {
-            yield put({type: ACTION.AUTORIDE_RESPONSE, autoridesLinks: data.links});
-
+         if (autoridesLinks.data.ok && autoridesData.data.ok) {
+            yield put({type: ACTION.AUTORIDE_RESPONSE, autoridesLinks: autoridesLinks.data.links, autoridesData: autoridesData.data.auto_rides});
          } else {
-            yield put({type: ACTION.AUTORIDE_ERROR, error: signUpErrors[data.desc]})
+            yield put({type: ACTION.AUTORIDE_ERROR, error: signUpErrors[autoridesLinks.data.desc]})
          }
       } catch (e) {
          yield put({type: ACTION.AUTORIDE_ERROR, error: e.message})

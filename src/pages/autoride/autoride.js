@@ -11,7 +11,7 @@ import style from './autoride.module.sass';
 
 const Autoride = ({autoridesData, getAutorides, scenariosForScenarioContainer, getScenarios, match, loadingOfAutoRides, loadingOfScenarios}) => {
    useEffect(() => {
-      if (autoridesData.length === 0) {
+      if (autoridesData && autoridesData.length === 0) {
          getAutorides(match.params.botId);
       }
 
