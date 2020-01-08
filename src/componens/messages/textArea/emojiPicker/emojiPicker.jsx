@@ -1,9 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 
-import Popover from '@material-ui/core/Popover';
+import {Popover} from 'antd';
 import {Picker} from "emoji-mart";
-
-import style from '../textArea.module.sass';
 
 const i18n = {
    search: 'Поиск',
@@ -26,49 +24,44 @@ const i18n = {
 };
 
 function EmojiPicker({customStyle, setTextAreaValue, textAreaValue, handler, index, componentType, emojiSize}) {
-   const [anchorEl, setAnchorEl] = React.useState(null);
+   const [emojiPickedStatus, setEmojiPickedStatus] = useState(false);
+   const [visible, setVisible] = useState(false);
 
-   const handleClick = event => {
-      setAnchorEl(event.currentTarget);
+   const handleVisibleChange = visible => {
+      setVisible(visible);
+
+      if (!visible && handler && emojiPickedStatus) {
+         handler({target: {value: textAreaValue}}, index, componentType);
+         setEmojiPickedStatus(false);
+      }
    };
 
-   const handleClose = () => {
-      setAnchorEl(null);
-      handler && handler({target: {value: textAreaValue}}, index, componentType);
-   };
-
-   const open = Boolean(anchorEl);
-   const id = open ? 'simple-popover' : undefined;
+   const content = (
+      <Picker
+         onSelect={emoji => {
+            setTextAreaValue(textAreaValue + emoji.native);
+            setEmojiPickedStatus(true);
+         }}
+         i18n={i18n}
+         emojiSize={emojiSize}
+         emoji="point_up"
+         showSkinTones={false}
+         showPreview={false}
+         title={null}
+      />
+   );
 
    return (
-      <div className={style.emojiContainer}>
-         <div className={customStyle} onClick={handleClick} aria-describedby={id}/>
-
-         <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-               vertical: 'bottom',
-               horizontal: 'left',
-            }}
-            transformOrigin={{
-               vertical: 'top',
-               horizontal: 'left',
-            }}
-         >
-            <Picker
-               onSelect={emoji => setTextAreaValue(textAreaValue + emoji.native)}
-               i18n={i18n}
-               emojiSize={emojiSize}
-               emoji="point_up"
-               showSkinTones={false}
-               showPreview={false}
-               title={null}
-            />
-         </Popover>
-      </div>
+      <Popover
+         placement="bottomLeft"
+         title={null}
+         trigger="click"
+         content={content}
+         visible={visible}
+         onVisibleChange={handleVisibleChange}
+      >
+         <div className={customStyle}/>
+      </Popover>
    );
 }
 

@@ -7,7 +7,7 @@ import CustomFlatPicker from "../../messages/timerElement/customFlatPicker/custo
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import {updateBroadCasts} from "../../../actions/actionCreator";
 
-import {Dropdown, Spin, Checkbox, Radio } from 'antd';
+import {Popover, Spin, Checkbox, Radio} from 'antd';
 import Button from '@material-ui/core/Button';
 
 import style from './broadCastMenu.module.sass';
@@ -15,8 +15,12 @@ import style from './broadCastMenu.module.sass';
 const BroadCastMenu = props => {
    const {broadCastId, isFetching, broadCastData} = props;
 
-   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
+   const [visible, setVisible] = useState(false);
    const [isOpenTestTab, openTestTab] = useState(false);
+
+   const handleVisibleChange = visible => {
+      setVisible(visible);
+   };
 
    const futureTime = new Date().setFullYear(new Date().getFullYear() + 1);
    const oldDate = new Date(2015, 0, 1).getTime();
@@ -26,6 +30,25 @@ const BroadCastMenu = props => {
    const DatePickerMenu = (
       <div className={style.calendarContainer}>
          <h2>Отложить рассылку</h2>
+
+         <CustomFlatPicker
+            styleForPicker={{
+               width: '100%',
+               padding: "8px 15px",
+            }}
+            defaultValue={
+               formatUnixToDate(
+                  activeBroadCast
+                     ? activeBroadCast.time : '',
+                  true
+               )
+            }
+            onChange={value =>
+               updateBroadCast({
+                  time: formatDateToUnix(value[0])
+               })
+            }
+         />
       </div>
    );
 
@@ -76,34 +99,17 @@ const BroadCastMenu = props => {
 
             <p>или</p>
 
-            <Dropdown overlay={DatePickerMenu} trigger={['click']} placement="topCenter" onVisibleChange={visible => setIsOpenDropdown(visible)}>
+            <Popover
+               content={DatePickerMenu}
+               title={null}
+               trigger="click"
+               visible={visible}
+               onVisibleChange={handleVisibleChange}
+            >
                <Button className={style.putOffButton} variant="outlined">
                   Отложить рассылку
                </Button>
-            </Dropdown>
-
-            <div className={style.calendarPosition}>
-               <div className={`${style.calendarPositionItem} ${isOpenDropdown && style.calendarPositionItemVisibility}`}>
-                  <CustomFlatPicker
-                     styleForPicker={{
-                        width: '100%',
-                        padding: "8px 15px",
-                     }}
-                     defaultValue={
-                        formatUnixToDate(
-                           activeBroadCast
-                              ? activeBroadCast.time : '',
-                           true
-                        )
-                     }
-                     onChange={value =>
-                        updateBroadCast({
-                           time: formatDateToUnix(value[0])
-                        })
-                     }
-                  />
-               </div>
-            </div>
+            </Popover>
          </div>
       </div>
    );

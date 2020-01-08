@@ -4,24 +4,25 @@ import {Route, Switch, Redirect} from "react-router-dom";
 import SignUp from "../pages/signUp/signUp";
 import Auth from "../pages/auth/auth";
 import Statistics from "../pages/statistics/statistics";
-import Dialog from "../pages/dialog/dialog";
 import TariffPayment from "../pages/tariff/tariffPayment";
 import TariffPrices from "../pages/tariff/tariffPrices";
 import TariffHistory from "../pages/tariff/tariffHistory";
 
+import MainHeader from "./mainHeader/mainHeader";
+import NavBar from "./navbar/navbar";
 import Bots from "../pages/bots/bots";
 import BotSetup from "../pages/botSetup/botSetup";
 import SingleBot from "../pages/singleBot/singleBot";
 import Autoride from "../pages/autoride/autoride";
 import BroadCast from "../pages/broadcast/broadcast";
+import Profile from "../pages/profile/profile";
 import NotFound from "../pages/inDevelopment/inDevelopment";
 
 import onlyDontRegistrationUsers from "./hoc/onlyNotRegistration";
 import onlyAuthorizedUsers from "./hoc/onlyAuthorizedUsers";
 
 import history from "../config/history/history";
-import MainHeader from "./mainHeader/mainHeader";
-import NavBar from "./navbar/navbar";
+
 
 const Root = () => {
    const matched = history.location.pathname.match(/\d+/);
@@ -58,6 +59,11 @@ const Root = () => {
                   exact
                   path={"/bots"}
                   component={onlyAuthorizedUsers(Bots)}
+               />
+               <Route
+                  exact
+                  path={"/bots/profile"}
+                  component={onlyAuthorizedUsers(Profile)}
                />
 
                <div>

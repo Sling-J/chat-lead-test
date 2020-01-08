@@ -28,7 +28,8 @@ const MainHeader = props => {
    const isMainHeader = history.location.pathname === '/bots';
    const isServiceHeader = history.location.pathname === '/bots/tariff/payment'
       || history.location.pathname === '/bots/tariff/prices'
-      || history.location.pathname === '/bots/tariff/history';
+      || history.location.pathname === '/bots/tariff/history'
+      || history.location.pathname === '/bots/profile';
 
    const [isOpenMenu, setStatusToOpenMenu] = useState(false);
    const [isOpenBotContext, setStatusBotContext] = useState(false);
@@ -40,7 +41,7 @@ const MainHeader = props => {
    const menu = (
       <ul className={style.contextMenuContainer}>
          <li>
-            <Link to="/">Аккаунт</Link>
+            <Link to="/bots/profile">Аккаунт</Link>
          </li>
          <li>
             <Link to="/bots/tariff/payment">Тарифы</Link>
@@ -121,7 +122,7 @@ const MainHeader = props => {
                {isServiceHeader && (
                   <ul className={style.servicesMenuContainer}>
                      <li>
-                        <NavLink to="/bots">Аккаунт</NavLink>
+                        <NavLink to="/bots/profile" activeClassName={style.servicesMenuItem}>Аккаунт</NavLink>
                      </li>
                      <li>
                         <NavLink to="/bots/tariff/payment" activeClassName={style.servicesMenuItem}>Тарифы</NavLink>
