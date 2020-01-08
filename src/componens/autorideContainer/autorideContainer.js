@@ -8,6 +8,7 @@ import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 
 import ContextMenuForEditAutoride from "./contextMenuForEditAutoride/contextMenuForEditAutoride";
 import {destinationScenario} from "../../constants/defaultValues";
+import {matchWithoutSpaces} from "../../utils/textValidation";
 import {ScenarioIdContext} from "../../utils/Contexts";
 
 import {
@@ -165,8 +166,9 @@ const AutorideContainer = props => {
                   <p>Введите одно ключевое</p>
 
                   <textarea
-                     placeholder={'Введите ключевое слово'}
                      value={textArea}
+                     placeholder={'Введите ключевое слово'}
+                     onInput={matchWithoutSpaces}
                      onChange={e => {
                         setSnackOpen(false);
                         setTextArea(e.target.value);

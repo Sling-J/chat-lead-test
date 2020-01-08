@@ -4,16 +4,24 @@ export const sliceExtraText = (str, divider) => {
       : str
 };
 
-export const matchNumber = (e, length) => {
+export const matchNumber = (event, length) => {
    const reg = /\D*/g;
 
    if (length) {
-      if (e.target.value.search(reg) !== -1 && e.target.value > 4) {
-         e.target.value = e.target.value.replace(reg, '');
+      if (event.target.value.search(reg) !== -1 && event.target.value > 4) {
+         event.target.value = event.target.value.replace(reg, '');
       }
    } else {
-      if (e.target.value.search(reg) !== -1) {
-         e.target.value = e.target.value.replace(reg, '');
+      if (event.target.value.search(reg) !== -1) {
+         event.target.value = event.target.value.replace(reg, '');
       }
+   }
+};
+
+export const matchWithoutSpaces = event => {
+   const reg = /\s/g;
+
+   if (event.target.value.search(reg) !== -1) {
+      event.target.value = event.target.value.replace(reg, '');
    }
 };
