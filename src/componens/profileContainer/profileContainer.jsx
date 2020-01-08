@@ -26,7 +26,7 @@ const ProfileContainer = props => {
    const prefixSelector = getFieldDecorator('prefix', {
       initialValue: '+7',
    })(
-      <Select style={{ width: 52 }} size="small" o>
+      <Select style={{ width: 52 }} size="small">
          <Option value="7">+7</Option>
       </Select>,
    );
