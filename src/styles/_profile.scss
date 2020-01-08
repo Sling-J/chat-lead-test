@@ -46,13 +46,11 @@
 
       .profile-container-info__form-control {
          .profile-container-info-form-control__field {
-            margin-bottom: 20px;
+            margin-bottom: 0;
+         }
 
-            .profile-container-info-form-control-field__label {
-               margin-bottom: 7px;
-            }
-
-            .profile-container-info-form-control-field__input {
+         .profile-extra-class {
+            .profile-container-info-form-control__field {
                width: 48%;
             }
          }

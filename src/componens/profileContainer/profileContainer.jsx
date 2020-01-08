@@ -1,25 +1,35 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import Button from '@material-ui/core/Button';
-import {Avatar, Input} from 'antd';
+import {Avatar, Input, Form, Select} from 'antd';
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 
-import {matchNumber} from "../../utils/textValidation";
+const {Option} = Select;
 
-const ProfileContainer = () => {
-   const [name, setName] = useState('');
-   const [surname, setSurname] = useState('');
-   const [email, setEmail] = useState('');
-   const [phone, setPhone] = useState('');
-   const [oldPassword, setOldPassword] = useState('');
-   const [newPassword, setNewPassword] = useState('');
+const ProfileContainer = props => {
+   const {form} = props;
 
-   const handleSubmit = event => {
-      event.preventDefault();
-      console.log('Скоро!');
+   const {getFieldDecorator} = form;
+
+   const handleSubmit = e => {
+      e.preventDefault();
+
+      form.validateFields((err, values) => {
+         if (!err) {
+            console.log('Скоро: ', values);
+         }
+      });
    };
+
+   const prefixSelector = getFieldDecorator('prefix', {
+      initialValue: '+7',
+   })(
+      <Select style={{ width: 52 }} size="small" o>
+         <Option value="7">+7</Option>
+      </Select>,
+   );
 
    return (
       <div className="main-container profile-container">
@@ -38,86 +48,71 @@ const ProfileContainer = () => {
             </div>
 
             <div className="profile-container__info">
-               <form onSubmit={handleSubmit}>
-                  <div className="profile-container-info__form-control">
-                     <div className="profile-container-info-form-control__field">
-                        <label>
-                           <p className="profile-container-info-form-control-field__label">Имя</p>
+               <Form onSubmit={handleSubmit} className="profile-container-info__form-control">
+                  <Form.Item className="profile-container-info-form-control__field" label="Имя">
+                     {getFieldDecorator('name', {
+                        rules: [{required: true, message: 'Обязательно поле!'}],
+                     })(
+                        <Input
+                           placeholder="Елдос"
+                           type="text"
+                        />,
+                     )}
+                  </Form.Item>
 
-                           <Input
-                              placeholder="Елдос"
-                              type="text"
-                              value={name}
-                              onChange={e => setName(e.target.value)}
-                           />
-                        </label>
-                     </div>
+                  <Form.Item className="profile-container-info-form-control__field" label="Фамилия">
+                     {getFieldDecorator('surname', {
+                        rules: [{required: true, message: 'Обязательно поле!'}],
+                     })(
+                        <Input
+                           placeholder="Жақсынов"
+                           type="text"
+                        />,
+                     )}
+                  </Form.Item>
 
-                     <div className="profile-container-info-form-control__field">
-                        <label>
-                           <p className="profile-container-info-form-control-field__label">Фамилия</p>
+                  <Form.Item className="profile-container-info-form-control__field" label="Email">
+                     {getFieldDecorator('email', {
+                        rules: [
+                           {required: true, message: 'Обязательно поле!'},
+                           {type: 'email', message: 'Введите корректный E-mail',}
+                        ],
+                     })(
+                        <Input
+                           placeholder="eldos.12.02@gmail.com"
+                           type="email"
+                        />,
+                     )}
+                  </Form.Item>
 
-                           <Input
-                              placeholder="Жақсынов"
-                              type="text"
-                              value={surname}
-                              onChange={e => setSurname(e.target.value)}
-                           />
-                        </label>
-                     </div>
+                  <Form.Item className="profile-container-info-form-control__field" label="Телефон">
+                     {getFieldDecorator('phone', {
+                        rules: [{required: true, message: 'Обязательно поле!'}],
+                     })(
+                        <Input
+                           addonBefore={prefixSelector}
+                           placeholder="7782599040"
+                           type="text"
+                        />,
+                     )}
+                  </Form.Item>
 
-                     <div className="profile-container-info-form-control__field">
-                        <label>
-                           <p className="profile-container-info-form-control-field__label">Email</p>
+                  <div className="profile-extra-class pv1-flex pv1-j-sb">
+                     <Form.Item className="profile-container-info-form-control__field" label="Старый пароль:">
+                        {getFieldDecorator('oldPassword', {
+                           rules: [{required: true, message: 'Обязательно поле!'}],
+                        })(
+                           <Input.Password type="password"/>,
+                        )}
+                     </Form.Item>
 
-                           <Input
-                              placeholder="eldos.12.02@gmail.com"
-                              type="email"
-                              value={email}
-                              onChange={e => setEmail(e.target.value)}
-                           />
-                        </label>
-                     </div>
-
-                     <div className="profile-container-info-form-control__field">
-                        <label>
-                           <p className="profile-container-info-form-control-field__label">Телефон</p>
-
-                           <Input
-                              placeholder="87782599040"
-                              type="text"
-                              onInput={matchNumber}
-                              value={phone}
-                              onChange={e => setPhone(e.target.value)}
-                           />
-                        </label>
-                     </div>
-
-                     <div className="profile-container-info-form-control__field pv1-flex pv1-j-sb">
-                        <div className="profile-container-info-form-control-field__input">
-                           <label>
-                              <p className="profile-container-info-form-control-field__label">Старый пароль:</p>
-
-                              <Input.Password
-                                 type="password"
-                                 value={oldPassword}
-                                 onChange={e => setOldPassword(e.target.value)}
-                              />
-                           </label>
-                        </div>
-
-                        <div className="profile-container-info-form-control-field__input">
-                           <label>
-                              <p className="profile-container-info-form-control-field__label">Новый пароль:</p>
-
-                              <Input.Password
-                                 type="password"
-                                 value={newPassword}
-                                 onChange={e => setNewPassword(e.target.value)}
-                              />
-                           </label>
-                        </div>
-                     </div>
+                     <Form.Item className="profile-container-info-form-control__field" label="Новый пароль:">
+                        {getFieldDecorator('newPassword', {
+                           rules: [{required: true, message: 'Обязательно поле!'}],
+                        })(
+                           <Input.Password type="password"/>,
+                        )}
+                     </Form.Item>
                   </div>
 
                   <div className="profile-container-info__submit">
@@ -130,11 +125,13 @@ const ProfileContainer = () => {
                         Сохранить
                      </Button>
                   </div>
-               </form>
+               </Form>
             </div>
          </div>
       </div>
    );
 };
 
-export default ProfileContainer;
+const WrappedProfileInfo = Form.create({ name: 'profile_info' })(ProfileContainer);
+
+export default WrappedProfileInfo;
