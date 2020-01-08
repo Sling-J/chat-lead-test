@@ -7,7 +7,6 @@ import {updateTrigger} from "../../../../../actions/actionCreator";
 
 import style from './controls.module.sass';
 
-
 const Controls = ({handleCloseButtonMenu, typeButton, type, changedTrigger, indexButton, index, changedSocial, match, updateTrigger, changedSlideOrElement}) => {
    const deleteButton = () => {
       const messagesCopy = changedTrigger.messages;
@@ -30,9 +29,6 @@ const Controls = ({handleCloseButtonMenu, typeButton, type, changedTrigger, inde
 
       updateTrigger(triggerData, null, changedSocial);
    };
-
-   console.log(changedTrigger.messages);
-   console.log(changedSlideOrElement);
 
    return (
       <div className={style.controls}>

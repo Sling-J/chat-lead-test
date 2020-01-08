@@ -16,7 +16,7 @@ const PaymentTextArea = props => {
 
    useEffect(() => {
       setTextAreaValue(value.text);
-   }, []);
+   }, [value.text]);
 
    const addFullName = name => {
       let myValue;
