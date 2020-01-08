@@ -9,6 +9,7 @@ const initialState = {
    createdTriggerId: null,
    isFetching: false,
    loadingOfScenarios: false,
+   loadingOfTrigger: false,
    error: null
 };
 
@@ -29,6 +30,13 @@ export default function (state = initialState, action) {
             error: null
          };
 
+      case ACTION.EDIT_TRIGGER_REQUEST:
+         return {
+            ...state,
+            loadingOfTrigger: true,
+            error: null,
+         };
+
       case ACTION.SINGLE_BOT_DATA_REQUEST: {
          return {
             ...state,
@@ -45,6 +53,7 @@ export default function (state = initialState, action) {
             botScenarios: action.dataScenarios,
             scenariosForScenarioContainer: scenariosForScenarioContainer,
             loadingOfScenarios: false,
+            loadingOfTrigger: false,
             isFetching: false,
             error: null
          }
@@ -69,6 +78,7 @@ export default function (state = initialState, action) {
             ...state,
             error: action.error,
             loadingOfScenarios: false,
+            loadingOfTrigger: false,
             isFetching: false
          }
       }

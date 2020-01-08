@@ -270,7 +270,7 @@ export function* updateTriggerSaga({triggerData, updationData, changedSocial}) {
 
    if (userAccessToken()) {
       try {
-         yield put({type: ACTION.SINGLE_BOT_DATA_REQUEST});
+         yield put({type: ACTION.EDIT_TRIGGER_REQUEST});
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
@@ -302,10 +302,15 @@ export function* updateTriggerSaga({triggerData, updationData, changedSocial}) {
          const {data} = yield call(updateTrigger, formData);
 
          if (data.ok) {
-            const {data} = yield call(getScenariesForManager, formData);
-            yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: data.scenarios});
+            const allScenarios = yield call(getScenariesForManager, formData);
+
+            if (allScenarios.data.ok) {
+               yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: allScenarios.data.scenarios});
+            } else {
+               yield put({type: ACTION.SINGLE_BOT_DATA_ERROR, error: allScenarios.data.desc})
+            }
          } else {
-            yield put({type: ACTION.SINGLE_BOT_DATA_ERROR, error: signUpErrors[data.desc]})
+            yield put({type: ACTION.SINGLE_BOT_DATA_ERROR, error: data.desc})
          }
       } catch (e) {
          yield put({type: ACTION.SINGLE_BOT_DATA_ERROR, error: e.message})
@@ -318,7 +323,7 @@ export function* deleteTriggerSagas({triggerData}) {
 
    if (userAccessToken()) {
       try {
-         yield put({type: ACTION.SINGLE_BOT_DATA_REQUEST});
+         yield put({type: ACTION.EDIT_TRIGGER_REQUEST});
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
@@ -328,8 +333,11 @@ export function* deleteTriggerSagas({triggerData}) {
          const {data} = yield call(deleteTrigger, formData);
 
          if (data.ok) {
-            const {data} = yield call(getScenariesForManager, formData);
-            yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: data.scenarios});
+            const allScenarios = yield call(getScenariesForManager, formData);
+
+            if (allScenarios.data.ok) {
+               yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: allScenarios.data.scenarios});
+            }
          } else {
             yield put({type: ACTION.SINGLE_BOT_DATA_ERROR, error: signUpErrors[data.desc]})
          }
@@ -344,7 +352,7 @@ export function* updateCaptionTriggerSaga({triggerData}) {
 
    if (userAccessToken()) {
       try {
-         yield put({type: ACTION.SINGLE_BOT_DATA_REQUEST});
+         yield put({type: ACTION.EDIT_TRIGGER_REQUEST});
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
@@ -355,8 +363,11 @@ export function* updateCaptionTriggerSaga({triggerData}) {
          const {data} = yield call(updateTrigger, formData);
 
          if (data.ok) {
-            const {data} = yield call(getScenariesForManager, formData);
-            yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: data.scenarios});
+            const allScenarios = yield call(getScenariesForManager, formData);
+
+            if (allScenarios.data.ok) {
+               yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: allScenarios.data.scenarios});
+            }
          } else {
             yield put({type: ACTION.SINGLE_BOT_DATA_ERROR, error: signUpErrors[data.desc]})
          }

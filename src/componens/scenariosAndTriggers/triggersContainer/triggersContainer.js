@@ -14,7 +14,8 @@ import Triggers from './triggers/triggers';
 import {Spin} from 'antd';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClone} from "@fortawesome/free-regular-svg-icons";
-import {faPencilAlt} from "@fortawesome/free-solid-svg-icons";
+import {faPencilAlt, faCheck, faSpinner} from "@fortawesome/free-solid-svg-icons";
+
 
 import leftArrow from "../../../svg/db/left-arrow.svg";
 import style from './triggersContainer.module.sass';
@@ -69,15 +70,17 @@ const TriggersContainer = (props) => {
 
    const updateTriggerUpdateMessageHandler = (e, index, typeFile) => {
       const messagesCopy = changedTrigger.messages;
-      const updationData = {
-         type: typeFile,
-      };
+      let updationData;
 
       if (typeFile === 'text' || typeFile === 'payment' || typeFile === 'send_time') {
          messagesCopy[props.changedSocial][index].text = e.target.value;
       } else if (typeFile === 'failure_trigger_text') {
          messagesCopy[props.changedSocial][index].failure_trigger_text = e.target.value;
       } else {
+         updationData = {
+            type: typeFile,
+         };
+
          Object.assign(updationData, {file: e.target.files[0]})
       }
 
@@ -119,9 +122,9 @@ const TriggersContainer = (props) => {
                </div>
             </div>
             <div className={style.saveDataStatus}>
-               {props.isFetching
-                  ? 'Идет сохранение'
-                  : 'Ваши данные сохранены!'
+               {props.loadingOfTrigger
+                  ? (<span><FontAwesomeIcon icon={faSpinner} className={style.awesomeSpin}/> Идет сохранение ...</span>)
+                  : (<span><FontAwesomeIcon icon={faCheck}/> Ваши данные сохранены!</span>)
                }
             </div>
             <Triggers
@@ -226,7 +229,7 @@ const TriggersContainer = (props) => {
 
 const mapStateToProps = ({singleBotReducers, botsReducers}) => ({
    botScenarios: singleBotReducers.botScenarios,
-   isFetching: singleBotReducers.isFetching,
+   loadingOfTrigger: singleBotReducers.loadingOfTrigger,
    error: singleBotReducers.error,
    changedSocial: singleBotReducers.changedSocial,
    botsData: botsReducers.botsData,

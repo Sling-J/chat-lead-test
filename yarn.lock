@@ -11815,11 +11815,6 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-wdt-emoji-bundle@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/wdt-emoji-bundle/-/wdt-emoji-bundle-0.2.1.tgz#773cb8f42a246432a0e0b5d26bce64d112bfeb80"
-  integrity sha512-cULiJvzHMCYbz/A3gFfGXB9CcdepMnNSd4m0Slt3+ffCKLcQEGixM1B3GTWyjrGnjcPnWMdd7V8EXkCbszqn4g==
-
 webidl-conversions@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"

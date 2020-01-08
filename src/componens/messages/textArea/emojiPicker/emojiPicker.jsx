@@ -1,8 +1,6 @@
-import React, {useState} from "react";
+import React from "react";
 
-import {Input} from 'antd';
 import Popover from '@material-ui/core/Popover';
-import Button from '@material-ui/core/Button';
 import {Picker} from "emoji-mart";
 
 import style from '../textArea.module.sass';
