@@ -27,9 +27,7 @@ const i18n = {
    categorieslabel: 'Категории',
 };
 
-function EmojiPicker() {
-   const [message, SetMessage] = useState("");
-
+function EmojiPicker({customStyle, setTextAreaValue, textAreaValue, handler, index, componentType, emojiSize}) {
    const [anchorEl, setAnchorEl] = React.useState(null);
 
    const handleClick = event => {
@@ -38,6 +36,7 @@ function EmojiPicker() {
 
    const handleClose = () => {
       setAnchorEl(null);
+      handler && handler({target: {value: textAreaValue}}, index, componentType);
    };
 
    const open = Boolean(anchorEl);
@@ -45,13 +44,7 @@ function EmojiPicker() {
 
    return (
       <div className={style.emojiContainer}>
-         <Input
-            value={message}
-            onChange={event => SetMessage(event.target.value)}
-         />
-         <Button aria-describedby={id} variant="contained" color="primary" onClick={handleClick}>
-            Open Popover
-         </Button>
+         <div className={customStyle} onClick={handleClick} aria-describedby={id}/>
 
          <Popover
             id={id}
@@ -68,10 +61,9 @@ function EmojiPicker() {
             }}
          >
             <Picker
-               onSelect={emoji => SetMessage(message + emoji.native)}
+               onSelect={emoji => setTextAreaValue(textAreaValue + emoji.native)}
                i18n={i18n}
-               emojiSize={20}
-               sheetSize={32}
+               emojiSize={emojiSize}
                emoji="point_up"
                showSkinTones={false}
                showPreview={false}

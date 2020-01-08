@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from 'react';
+import React, {useState, Fragment, useEffect} from 'react';
 import {connect} from "react-redux";
 
 import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
@@ -9,11 +9,16 @@ import EmojiPicker from "./emojiPicker/emojiPicker";
 import style from './textArea.module.sass';
 
 const PaymentTextArea = props => {
-   const [isTextAreaHovering, setIsTextAreaHovering] = useState(false);
    const {value, handler, index, componentType} = props;
 
+   const [isTextAreaHovering, setIsTextAreaHovering] = useState(false);
+   const [textAreaValue, setTextAreaValue] = useState('');
+
+   useEffect(() => {
+      setTextAreaValue(value.text);
+   }, []);
+
    const addFullName = name => {
-      let myField = document.querySelector(`#insertVariable-${componentType}${index}`);
       let myValue;
 
       if (props.changedSocial === 'whatsapp') {
@@ -26,9 +31,8 @@ const PaymentTextArea = props => {
             : " {last_name}";
       }
 
-      let input = myField.value;
-      input += myValue;
-      myField.value = input;
+      setTextAreaValue(textAreaValue + myValue);
+      handler({target: {value: textAreaValue + myValue}}, index, componentType);
    };
 
    const handleMouseHover = () => {
@@ -46,31 +50,41 @@ const PaymentTextArea = props => {
          )}
          <textarea
             id={`insertVariable-${componentType}${index}`}
-            onBlur={(e) => handler(e, index, componentType)}
-            defaultValue={value.text}
+            onChange={e => setTextAreaValue(e.target.value)}
+            onBlur={() => handler({target: {value: textAreaValue}}, index, componentType)}
+            value={textAreaValue}
          />
          <div className={style.actionNav}>
             <div className={style.actionButtons}>
-               <div className={style.actionNavSmile}/>
+               <EmojiPicker
+                  handler={handler}
+                  index={index}
+                  textAreaValue={textAreaValue}
+                  componentType={componentType}
+                  customStyle={style.actionNavSmile}
+                  setTextAreaValue={setTextAreaValue}
+                  emojiSize={20}
+               />
+
                <div
                   className={style.actionNavVars}
                   onMouseEnter={handleMouseHover}
                   onMouseLeave={handleMouseHover}
                >
-                  {isTextAreaHovering &&
-                  <div className={style.actionNavVarsMenu}>
-                     <h3>Макросы</h3>
-                     <ul>
-                        <li onClick={() => addFullName('first_name')}>Имя</li>
-                        {props.changedSocial === 'whatsapp' ? (
-                           <li onClick={() => addFullName('phone')}>Телефон</li>
-                        ) : (
-                           <li onClick={() => addFullName('last_name')}>Фамилия</li>
-                        )}
-                     </ul>
-                  </div>}
+                  {isTextAreaHovering && (
+                     <div className={style.actionNavVarsMenu}>
+                        <h3>Макросы</h3>
+                        <ul>
+                           <li onClick={() => addFullName('first_name')}>Имя</li>
+                           {props.changedSocial === 'whatsapp' ? (
+                              <li onClick={() => addFullName('phone')}>Телефон</li>
+                           ) : (
+                              <li onClick={() => addFullName('last_name')}>Фамилия</li>
+                           )}
+                        </ul>
+                     </div>
+                  )}
                </div>
-
             </div>
             <div/>
          </div>

@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {connect} from "react-redux";
 
+import EmojiPicker from "../textArea/emojiPicker/emojiPicker";
 import {Dropdown} from 'antd';
 
 import style from './paymentTextArea.module.sass';
 
 const PaymentTextArea = props => {
-   const [isTextAreaHovering, setIsTextAreaHovering] = useState(false);
    const {index, componentType, failureAction, setFailureAction} = props;
 
    const menu = (
@@ -24,9 +24,7 @@ const PaymentTextArea = props => {
    );
 
    const addFullName = name => {
-      let myField = document.querySelector(`#insertVariable-${componentType}${index}`);
       let myValue;
-      console.log(myField);
 
       if (props.changedSocial === 'whatsapp') {
          myValue = name === 'first_name'
@@ -38,17 +36,8 @@ const PaymentTextArea = props => {
             : " {last_name}";
       }
 
-      let input = myField.value;
-      input += myValue;
-      myField.value = input;
-
-      console.log(input)
+      setFailureAction(failureAction + myValue);
    };
-
-   const handleMouseHover = () => {
-      setIsTextAreaHovering(!isTextAreaHovering);
-   };
-
    return (
       <div className={style.textArea}>
          <textarea
@@ -59,7 +48,15 @@ const PaymentTextArea = props => {
          />
          <div className={style.actionNav}>
             <div className={style.actionButtons}>
-               <div className={style.actionNavSmile}/>
+               <EmojiPicker
+                  className={style.actionNavSmile}
+                  index={index}
+                  textAreaValue={failureAction}
+                  componentType={componentType}
+                  customStyle={style.actionNavSmile}
+                  setTextAreaValue={setFailureAction}
+                  emojiSize={18}
+               />
 
                <Dropdown overlay={menu}>
                   <div className={`${style.actionNavVars} ${style.actionNavVarsMenu}`}/>
