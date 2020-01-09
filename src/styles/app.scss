@@ -26,6 +26,27 @@ body {
    border-top: none;
 }
 
+.fancy-file-uploader > .ant-upload {
+	width: 100%;
+}
+
+.fancy-file-uploader-img {
+	.ant-upload-list-picture-card-container {
+		height: auto;
+	}
+}
+
+.fancy-file-uploader {
+	.ant-upload-list-picture-card-container {
+		width: 100%;
+
+		.ant-upload-list-item {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+
 .messageButtons_buttonBoxInfoSelectContainer__11-RC .ant-select-selection.ant-select-selection--single {
    height: 45px !important;
    border-radius: 10px 0 0 10px !important;

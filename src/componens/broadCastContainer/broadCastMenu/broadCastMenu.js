@@ -54,7 +54,6 @@ const BroadCastMenu = props => {
 
    const updateBroadCast = (broadCastUpdatedData) => {
       const broadCastDataCopy = props.broadCastData.concat();
-
       const activeBroadCastCopy = broadCastDataCopy.find(item => item.id === broadCastId);
 
       Object.assign(activeBroadCastCopy, broadCastUpdatedData, {
