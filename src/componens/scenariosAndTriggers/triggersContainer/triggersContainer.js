@@ -81,8 +81,8 @@ const TriggersContainer = (props) => {
             type: typeFile,
          };
 
-         Object.assign(updationData, {file: e.target.files[0]})
-      }
+         Object.assign(updationData, {file: JSON.stringify(e.target.files)});
+		}
 
       const updatedTrigger = {
          ...changedTrigger,

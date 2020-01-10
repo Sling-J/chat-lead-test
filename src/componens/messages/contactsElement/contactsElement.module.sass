@@ -1,0 +1,37 @@
+.mainContainer
+   display: flex
+   flex-direction: column
+   font-family: 'Lato', sans-serif
+
+   &:hover
+      .hoverBar
+         display: block
+
+.hoverBar
+   position: absolute
+   right: -27px
+   top: 0
+   display: none
+
+.contanctsContainer
+	border: 2px solid #e0e6ed
+	border-radius: 7px
+	padding: 13px 16px
+	transition: border-color .15s
+
+	&:hover
+		border-color: #0084ff
+
+	.contanctsContainerForm
+		margin-top: 25px
+
+		.contanctsContainerFormField
+			display: flex
+			align-items: center
+			justify-content: space-between
+
+			.contanctsContainerFormFieldInput
+				width: 57%
+
+			.contanctsContainerFormFieldLabel
+				width: 41%

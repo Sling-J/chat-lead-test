@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
-import style from './typeProcessing.module.sass';
-import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
+
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
-import ClickOutsideHandler from "../../hoc/clickOutside";
-import {withRouter} from "react-router-dom";
-import {updateTrigger} from "../../../actions/actionCreator";
-import {connect} from "react-redux";
 
+import {updateTrigger} from "../../../actions/actionCreator";
+import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
+import ClickOutsideHandler from "../../hoc/clickOutside";
+
+import style from './typeProcessing.module.sass';
 
 const TypeProcessing = (props) => {
    const [isOpenWindow, setStatusIsOpenWindow] = useState(false);
@@ -90,17 +93,15 @@ const TypeProcessing = (props) => {
    )
 };
 
-
-const mapStateToProps = state => {
-   const {changedSocial} = state.singleBotReducers;
-
-   return {
-      changedSocial
-   }
-};
+const mapStateToProps = ({singleBotReducers}) => ({
+	changedSocial: singleBotReducers.changedSocial
+});
 
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData, updationData, social) => dispatch(updateTrigger(triggerData, updationData, social)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TypeProcessing));
+export default compose(
+	withRouter,
+	connect(mapStateToProps, mapDispatchToProps)
+)(TypeProcessing);

@@ -6,6 +6,7 @@ import {faImage, faVolumeDown, faVideo, faPaperclip} from "@fortawesome/free-sol
 import CardOrGalleryEllement from '../../componens/messages/cardOrGalleryElement/cardOrGalleryElement';
 import ListElement from '../../componens/messages/listElement/listElement';
 import FormElement from '../../componens/messages/formElement/formElement';
+import ContactsElement from '../../componens/messages/contactsElement/contactsElement';
 import TimerElement from '../../componens/messages/timerElement/timerElement';
 import TextArea from '../../componens/messages/textArea/textArea';
 import TypeProcessing from '../../componens/messages/typeProcessing/typeProcessing';
@@ -33,7 +34,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             type={'audio'}
             index={index}
             pictureForLabel={{
-               label: 'audio',
+               label: 'Audio',
                img: <FontAwesomeIcon icon={faVolumeDown}/>
             }}
             value={value}
@@ -50,7 +51,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             type={'video'}
             index={index}
             pictureForLabel={{
-               label: 'video',
+               label: 'Video',
                img: <FontAwesomeIcon icon={faVideo}/>
             }}
             value={value}
@@ -67,7 +68,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             type={'photo'}
             index={index}
             pictureForLabel={{
-               label: 'image',
+               label: 'Image',
                img: <FontAwesomeIcon icon={faImage}/>
             }}
             accept={'image/*'}
@@ -183,13 +184,12 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
       )
    } else if (key === 'contact') {
       return (
-         <FormElement
-            soon
-            type={'form'}
+         <ContactsElement
+            type={'contact'}
             index={index}
             changedTrigger={changedTrigger}
             value={value}
-            onChange={(e) => handler(e, index, key)}
+            onChange={handler}
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
             key={key}
@@ -214,7 +214,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             type={'file'}
             index={index}
             pictureForLabel={{
-               label: 'file',
+               label: 'File',
                img: <FontAwesomeIcon icon={faPaperclip}/>
             }}
             value={value}

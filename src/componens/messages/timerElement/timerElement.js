@@ -1,17 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {updateTrigger} from "../../../actions/actionCreator";
+import {compose} from "redux";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 
-import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
-import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import {Select, InputNumber} from 'antd';
 
 import TextArea from "../textArea/textArea";
-import style from './timerElement.module.sass';
 import CustomFlatPicker from './customFlatPicker/customFlatPicker';
+import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 
+import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import {timeToSeconds, secondsToTime} from "../../../utils/formatSecond";
+import {updateTrigger} from "../../../actions/actionCreator";
+
+import style from './timerElement.module.sass';
 
 const {Option} = Select;
 
@@ -364,20 +366,17 @@ const TimerElement = props => {
          </div>
       )
    }
-
 };
 
-
-const mapStateToProps = state => {
-   const {changedSocial} = state.singleBotReducers;
-
-   return {
-      changedSocial
-   }
-};
+const mapStateToProps = ({singleBotReducers}) => ({
+	changedSocial: singleBotReducers.changedSocial
+});
 
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData, updationData, social) => dispatch(updateTrigger(triggerData, updationData, social)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TimerElement));
+export default compose(
+	withRouter,
+	connect(mapStateToProps, mapDispatchToProps)
+)(TimerElement);

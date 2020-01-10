@@ -4,9 +4,9 @@ import {withRouter} from "react-router-dom";
 import uid from 'uid';
 
 import {Popover} from 'antd';
-import Button from '@material-ui/core/Button';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircle} from "@fortawesome/free-regular-svg-icons";
+import Button from '@material-ui/core/Button';
 
 import {markForButton} from "../../../constants/markForButon";
 import {buttonsTypes} from "../../../constants/defaultValues";
@@ -17,7 +17,15 @@ import ButtonsMenu from './buttonsMenu/buttonsMenu'
 import style from '../../../styles/messageButtons.module.scss';
 import {compose} from "redux";
 
-const ButtonsContainer = (props) => {
+const ButtonsContainer = props => {
+	const {
+		type, index,
+		changedSlideOrElement,
+		changedScenario,
+		changeTriggerId,
+      changedTrigger
+	} = props;
+	
    const [indexOpenButton, setIndexOpenButton] = useState({
       open: false,
       id: null
@@ -29,15 +37,6 @@ const ButtonsContainer = (props) => {
          id: null
       });
    };
-
-   const {
-      type,
-      index,
-      changedScenario,
-      changedTrigger,
-      changedSlideOrElement,
-      changeTriggerId
-   } = props;
 
    const appendNewButton = () => {
       const messagesCopy = changedTrigger.messages;

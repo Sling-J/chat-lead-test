@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 
 import Attention from '../../images/attention.png';
@@ -10,12 +10,16 @@ import {deleteBot, getAllBotsForUser} from "../../actions/actionCreator";
 
 import style from '../bots/bots.module.sass';
 
-const Bots = ({botsData, deleteBot}) => {
+const Bots = ({botsData, deleteBot, getAllBots}) => {
    const [BotObj, setBotObj] = useState({name: null, id: null});
 
    const changeBotName = (name, id) => {
       setBotObj({"name": name, "id": id});
-   };
+	};
+	
+	useEffect(() => {
+      getAllBots();
+   }, []);
 
    return (
       <div className={style.mainContainer}>

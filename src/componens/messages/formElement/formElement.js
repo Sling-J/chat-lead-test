@@ -1,12 +1,16 @@
 import React from 'react';
-import style from './formElement.module.sass';
+import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
-import {updateTrigger} from "../../../actions/actionCreator";
+
 import ButtonsContainer from '../../messages/buttonsContainer/buttonsContainer';
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 
-const FormElement = (props) => {
+import {updateTrigger} from "../../../actions/actionCreator";
+
+import style from './formElement.module.sass';
+
+const FormElement = props => {
    const {type, index, value, changedTrigger} = props;
 
    const updateTrigger = (e, inputIndex) => {
@@ -56,9 +60,6 @@ const FormElement = (props) => {
          type: type,
          caption: captionOfField
       };
-
-      console.log(type);
-
       const triggerData = {
          ...changedTrigger,
          index,
@@ -69,7 +70,6 @@ const FormElement = (props) => {
 
       props.updateTrigger(triggerData, null, props.changedSocial);
    };
-
 
    const newInput = () => {
       const messagesCopy = changedTrigger.messages;
@@ -88,7 +88,6 @@ const FormElement = (props) => {
 
       props.updateTrigger(triggerData, null, props.changedSocial);
    };
-
 
    return props.soon ? (
       <div className={style.mainContainer + ' ' + style.soon}>
@@ -130,17 +129,15 @@ const FormElement = (props) => {
 };
 
 
-const mapStateToProps = state => {
-   const {changedSocial} = state.singleBotReducers;
-
-   return {
-      changedSocial
-   }
-};
-
+const mapStateToProps = ({singleBotReducers}) => ({
+	changedSocial: singleBotReducers.changedSocial
+});
 
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData, updationData, social) => dispatch(updateTrigger(triggerData, updationData, social)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormElement));
+export default compose(
+	withRouter,
+	connect(mapStateToProps, mapDispatchToProps)
+)(FormElement);

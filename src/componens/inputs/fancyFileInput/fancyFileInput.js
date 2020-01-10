@@ -1,67 +1,22 @@
 import React, {Fragment, useState} from 'react';
-import {Spin, Upload, Modal, Icon, message} from "antd";
+import {Spin} from "antd";
 
-import HoverBarForMessage from "../../messages/hoverBarForMessage/hoverBarForMessage";
 import {staticMedia} from "../../../config/service/service";
+import HoverBarForMessage from "../../messages/hoverBarForMessage/hoverBarForMessage";
 
 import style from './fancyFileInput.module.sass';
 
-function getBase64(file) {
-	return new Promise((resolve, reject) => {
-	  const reader = new FileReader();
-	  reader.readAsDataURL(file);
-	  reader.onload = () => resolve(reader.result);
-	  reader.onerror = error => reject(error);
-	});
-}
+const FancyFileInput = (props) => {
+   const [sizeError, setSizeError] = useState('');
 
-const FancyFileInput = props => {
-	const {accept, onChange, index, pictureForLabel, value, type} = props;
-
-	const [previewVisible, setPreviewVisible] = useState(false);
-	const [previewImage, setPreviewImage] = useState('');
-	const [file, setFile] = useState(null);
-
+   const {accept, onChange, index, pictureForLabel, value} = props;
    const pathFile = Object.values(value)[0];
    let nameFile = pathFile ? pathFile.split('/')[pathFile.split('/').length - 1] : '';
 
-   if (pictureForLabel.label === 'photo') {
+   if (pictureForLabel.label === 'image') {
       nameFile = <img src={staticMedia + pathFile} alt={nameFile}/>
-	}
+   }
 
-	const beforeUpload = file => {
-		const isJpgOrPng = type === 'photo' && file.type === 'image/jpeg' || file.type === 'image/png';
-		const isLt2M = file.size / 1024 / 1024 < type === 'photo' ? 10 : 30;
-	
-		if (type === 'photo' && !isJpgOrPng) message.error('Вы можете загружать только JPG/PNG изображения!');	
-		if (!isLt2M) message.error(type === 'photo' ? 'Изображение должно быть меньше 10MБ' : 'Файл должен быть меньше 30MБ');
-	
-		return isJpgOrPng && isLt2M;
-	}
-
-	const handleCancel = () => setPreviewVisible(false);
-	const handleRemove = (s) => {
-		console.log(s)
-		setFile(null)
-	};
-	const handleChange = ({file}) => setFile(file);
-
-	const handlePreview = async file => {
-		if (!file.url && !file.preview) {
-		  file.preview = await getBase64(file.originFileObj);
-		}
-
-		setPreviewImage(file.url || file.preview);
-		setPreviewVisible(true);
-	};
-
-	const uploadButton = (
-      <div>
-        <Icon type="plus" />
-        <div className="ant-upload-text">Upload</div>
-      </div>
-	);
-	
    return (
       <div className={style.mainContainer}>
          <div className={style.hoverBar}>
@@ -69,27 +24,8 @@ const FancyFileInput = props => {
                {...props}
             />
          </div>
-					
          {pathFile !== undefined ? (
             <Fragment>
-					<div className="clearfix">
-						<Upload
-							action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-							className={`fancy-file-uploader ${type === 'photo' && 'fancy-file-uploader-img'}`}
-							listType="picture-card"
-							file={file}
-							onPreview={handlePreview}
-							beforeUpload={beforeUpload}
-							onChange={handleChange}
-							onRemove={handleRemove}
-						>
-							{(!file || (file && file.status === 'removed')) && uploadButton}
-						</Upload>
-						<Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
-							<img alt="example" style={{ width: '100%' }} src={previewImage} />
-						</Modal>
-					</div>
-{/* 
                <input
                   type={'file'}
                   accept={accept}
@@ -98,7 +34,7 @@ const FancyFileInput = props => {
                   onChange={(e) => {
                      if (e.target.files[0].size <= 3500000) {
                         onChange(e);
-                        setSizeError('');
+                        setSizeError('')
                      } else {
                         setSizeError('Размер файла слишком велик')
                      }
@@ -114,7 +50,7 @@ const FancyFileInput = props => {
 
                <p className={style.sizeError}>
                   {sizeError.length !== 0 && sizeError}
-               </p> */}
+               </p>
             </Fragment>
          ) : (
             <Spin spinning={pathFile}>
