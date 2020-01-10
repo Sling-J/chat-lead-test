@@ -23,8 +23,9 @@ import history from "../../config/history/history";
 import style from './mainHeader.module.sass';
 
 const MainHeader = props => {
-   const {changedBotData, botId, botSetupData} = props;
-
+	const {changedBotData, botId, botSetupData} = props;
+	
+	const isAuthPage = history.location.pathname === '/auth'|| history.location.pathname === '/signUp';
    const isMainHeader = history.location.pathname === '/bots';
    const isServiceHeader = history.location.pathname === '/bots/tariff/payment'
       || history.location.pathname === '/bots/tariff/prices'
@@ -56,7 +57,7 @@ const MainHeader = props => {
       </ul>
    );
 
-   return (
+   return isAuthPage ? null : (
       <Fragment>
          {(
             props.errorOfSetup ||

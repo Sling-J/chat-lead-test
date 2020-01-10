@@ -23,7 +23,6 @@ import onlyAuthorizedUsers from "./hoc/onlyAuthorizedUsers";
 
 import history from "../config/history/history";
 
-
 const Root = () => {
    const matched = history.location.pathname.match(/\d+/);
    const botId = matched && matched[0];

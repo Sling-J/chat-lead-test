@@ -8,8 +8,9 @@ import history from "../../config/history/history";
 import style from './navbar.module.sass';
 
 const NavBar = props => {
-   const {botId} = props;
-
+	const {botId} = props;
+	
+	const isAuthPage = history.location.pathname === '/auth'|| history.location.pathname === '/signUp';
    const isServiceNav = history.location.pathname === '/bots/tariff/payment'
       || history.location.pathname === '/bots/tariff/prices'
       || history.location.pathname === '/bots/tariff/history';
@@ -24,7 +25,7 @@ const NavBar = props => {
       }
    }, [history.location.pathname]);
 
-   return (
+   return isAuthPage ? null : (
       <div className={style.mainContainer}>
          <ul className={style.menuContainer}>
             {isServiceNav ? (
