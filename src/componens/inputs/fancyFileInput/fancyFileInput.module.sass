@@ -31,9 +31,8 @@
    box-sizing: border-box
    font-size: 1.25em
    font-weight: 700
-   //background-color: black
    position: relative
-   height: 150px
+   max-height: 350px
    border: 2px #e0e6ed dashed
    background: #fff
    border-radius: 15px
@@ -45,7 +44,10 @@
    justify-content: center
    align-items: center
    overflow: hidden
-//z-index: 100
+
+.spaces
+   padding: 32px 0
+   
 .pictureContainer
    display: flex
    flex-direction: column
@@ -54,23 +56,24 @@
    text-transform: capitalize
    font-weight: 300
    font-size: 15px
+   width: 100%
 
    h2
       font-size: 25px
       display: flex
       justify-content: center
       align-items: center
+      width: 100%
 
    p
       font-size: 15px
       margin-top: 5px
 
    img
-      width: 80%
-      height: 80%
+      width: 100%
+      min-height: 116px
 
 
 .inputFile:focus + label,
 .inputFile + label:hover
-   //background-color: red
    border: 2px #4680fe dashed

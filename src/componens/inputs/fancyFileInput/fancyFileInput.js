@@ -1,4 +1,5 @@
-import React, {Fragment, useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
 import {Spin} from "antd";
 
 import {staticMedia} from "../../../config/service/service";
@@ -6,16 +7,24 @@ import HoverBarForMessage from "../../messages/hoverBarForMessage/hoverBarForMes
 
 import style from './fancyFileInput.module.sass';
 
-const FancyFileInput = (props) => {
-   const [sizeError, setSizeError] = useState('');
+const FancyFileInput = props => {
+   const {accept, onChange, index, pictureForLabel, value, type, loadingOfTrigger} = props;
 
-   const {accept, onChange, index, pictureForLabel, value} = props;
-   const pathFile = Object.values(value)[0];
+   const [loading, setLoading] = useState(false);
+   const [sizeError, setSizeError] = useState('');
+   
+   const pathFile = value[type];
    let nameFile = pathFile ? pathFile.split('/')[pathFile.split('/').length - 1] : '';
 
-   if (pictureForLabel.label === 'image') {
+   if (pictureForLabel.label === 'Image') {
       nameFile = <img src={staticMedia + pathFile} alt={nameFile}/>
    }
+
+   useEffect(() => {
+      if (pathFile.length !== 0) {
+         setLoading(false);
+      }
+   }, [pathFile])
 
    return (
       <div className={style.mainContainer}>
@@ -25,33 +34,39 @@ const FancyFileInput = (props) => {
             />
          </div>
          {pathFile !== undefined ? (
-            <Fragment>
-               <input
-                  type={'file'}
-                  accept={accept}
-                  name={index}
-                  id={index}
-                  onChange={(e) => {
-                     if (e.target.files[0].size <= 3500000) {
-                        onChange(e);
-                        setSizeError('')
-                     } else {
-                        setSizeError('Размер файла слишком велик')
-                     }
-                  }}
-                  className={style.inputFile}
-               />
-               <label htmlFor={index}>
-                  <div className={style.pictureContainer}>
-                     <h2>{pathFile.length > 0 ? nameFile : pictureForLabel.img}</h2>
-                     <p>{pathFile.length === 0 && pictureForLabel.label}</p>
-                  </div>
-               </label>
+            <div>
+               <Spin spinning={loading}>
+                  <input
+                     type={'file'}
+                     accept={accept}
+                     name={index}
+                     id={index}
+                     onChange={e => {
+                        setLoading(true);
 
-               <p className={style.sizeError}>
-                  {sizeError.length !== 0 && sizeError}
-               </p>
-            </Fragment>
+                        if (e.target.files.length !== 0) {
+                           if (e.target.files[0].size <= 3500000) {
+                              onChange(e);
+                              setSizeError('')
+                           } else {
+                              setSizeError('Размер файла слишком велик')
+                           }
+                        }
+                     }}
+                     className={style.inputFile}
+                  />
+                  <label htmlFor={index}>
+                     <div className={`${style.pictureContainer} ${pathFile.length === 0 && style.spaces}`}>
+                        <h2>{pathFile.length !== 0 ? nameFile : pictureForLabel.img}</h2>
+                        <p>{pathFile.length === 0 && pictureForLabel.label}</p>
+                     </div>
+                  </label>
+
+                  <p className={style.sizeError}>
+                     {sizeError.length !== 0 && sizeError}
+                  </p>
+               </Spin>
+            </div>
          ) : (
             <Spin spinning={pathFile}>
                <input
@@ -70,4 +85,6 @@ const FancyFileInput = (props) => {
    )
 };
 
-export default FancyFileInput;
+export default connect(({singleBotReducers}) => ({
+   loadingOfTrigger: singleBotReducers.loadingOfTrigger,
+}))(FancyFileInput);

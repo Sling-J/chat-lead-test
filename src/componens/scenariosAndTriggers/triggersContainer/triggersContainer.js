@@ -16,7 +16,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClone} from "@fortawesome/free-regular-svg-icons";
 import {faPencilAlt, faCheck, faSpinner} from "@fortawesome/free-solid-svg-icons";
 
-
 import leftArrow from "../../../svg/db/left-arrow.svg";
 import style from './triggersContainer.module.sass';
 
@@ -81,7 +80,7 @@ const TriggersContainer = (props) => {
             type: typeFile,
          };
 
-         Object.assign(updationData, {file: JSON.stringify(e.target.files)});
+         Object.assign(updationData, {file: e.target.files[0]})
 		}
 
       const updatedTrigger = {
