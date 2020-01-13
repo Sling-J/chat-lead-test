@@ -20,11 +20,10 @@ import copy from "../../../images/duplicate.jpg";
 import trash from "../../../images/buttons/trash.png";
 import leftArrow from "../../../svg/db/left-arrow.svg";
 
-import ContextMenuForEditScenario from './contextMenuForEditScenario/contextMenuForEditScenario';
 import TriggersContainer from '../../scenariosAndTriggers/triggersContainer/triggersContainer';
 import SearchData from "../../searchData/searchData";
 
-import {Select} from 'antd';
+import {Select, Dropdown, Input, Menu} from 'antd';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -40,7 +39,6 @@ const ScenariosContainer = props => {
 
    const [scenariosDataInFilter, setScenariosDataInFilter] = useState([]);
    const [isOpenCreateScenarioField, setStatusCreateScenarioField] = useState(false);
-   const [idEditTriggerText, setIdEditTriggerText] = useState(false);
 
    function handleChange(value) {
       setTextArea(value);
@@ -232,45 +230,48 @@ const ScenariosContainer = props => {
                      <td/>
                   </tr>
                   </thead>
-
                   <tbody className="main-table-content__body">
                   {scenariosDataInFilter.length > 0 ? (
-                     scenariosDataInFilter.map((elem, index) => (
-                        <tr key={index}>
+                     scenariosDataInFilter.map((elem, index) => {
+								const menu = (
+									<Menu className="main-table-content-body__edit">
+										<div style={{padding: '15px'}}>
+											<h2 style={{marginBottom: '10px', fontSize: '15px'}}>Введите ключевое слово</h2>
+											<Input
+												defaultValue={elem.trigger_text}
+												onBlur={e => editScenario(e, elem.id)}
+											/>
+										</div>
+									</Menu>
+								)
+
+								return (
+									<tr key={index}>
                            <td
                               className="main-table-content-body__key-words"
-                              onClick={idEditTriggerText === elem.id
-                                 ? null :
-                                 () => changeScenarioId(elem.id)
-                              }
+                              onClick={() => changeScenarioId(elem.id)}
                            >
                               Сообщение в точности совпадает с <span>{elem.trigger_text.split(',').join(', ')}</span>
-
-                              <div className="main-table-content-body__editor">
-                                 {idEditTriggerText === elem.id && (
-                                    <ContextMenuForEditScenario
-                                       onInput={(e) => editScenario(e, elem.id)}
-                                       defaultValue={elem.trigger_text}
-                                       setIdEditTriggerText={(id) => setIdEditTriggerText(id)}
-                                    />
-                                 )}
-                              </div>
                            </td>
                            <td>
                               {elem.triggers.length} ответ
                            </td>
                            <td className="main-table-content-body__controls">
-                              <div
-                                 className="main-table-content-body__icon"
-                                 onClick={() => setIdEditTriggerText(elem.id)}
-                              >
-                                 <span className="main-table-content-body__tooltip tableTooltip">Редактировать</span>
-                                 <img
-                                    className="main-table-content-body__img"
-                                    src={edit}
-                                    alt={'edit'}
-                                 />
-                              </div>
+										<Dropdown 
+											overlay={menu}
+											trigger={['click']}
+											placement="bottomCenter"
+											className="main-table-content-body__icon"
+										>
+                                 <div>
+												<span className="main-table-content-body__tooltip tableTooltip">Редактировать</span>
+												<img
+													className="main-table-content-body__img"
+													src={edit}
+													alt={'edit'}
+												/>
+											</div>
+                              </Dropdown>
 
                               <div
                                  className="main-table-content-body__icon"
@@ -299,7 +300,8 @@ const ScenariosContainer = props => {
                               </div>
                            </td>
                         </tr>
-                     ))
+								)
+							})
                   ) : (
                      <tr>
                         <td className="main-table-content-body__key-words">

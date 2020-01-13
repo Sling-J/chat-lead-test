@@ -41,9 +41,6 @@ const BroadCastContainer = props => {
       }
    }, [changedScenarioId]);
 
-   console.log('CHANGED_SCENARIO', changedScenarioId);
-   console.log('CHANGED_SCENARIO', props.broadCastData);
-
    if (changedScenarioId && (changedBroadCastId || changedBroadCastId === 0)) {
       return (
          <div>

@@ -6,7 +6,6 @@ import {withRouter} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 
-import ContextMenuForEditAutoride from "./contextMenuForEditAutoride/contextMenuForEditAutoride";
 import {destinationScenario} from "../../constants/defaultValues";
 import {matchWithoutSpaces} from "../../utils/textValidation";
 import {ScenarioIdContext} from "../../utils/Contexts";
@@ -31,6 +30,7 @@ import trash from '../../images/buttons/trash.png';
 import copy from '../../images/duplicate.jpg';
 import leftArrow from '../../svg/db/left-arrow.svg';
 
+import {Input, Dropdown, Menu} from 'antd'
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -40,13 +40,12 @@ import SearchData from "../searchData/searchData";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const AutorideContainer = props => {
-   const {changeScenarioId, changedScenarioId, isFetching} = props;
+   const {changeScenarioId, changedScenarioId, isFetching, isFetchingScenario} = props;
 
    const [autoridesDataInFilter, setautoridesDataInFilter] = useState([]);
    const [textAreaErrMsg, setTextAreaErrMsg] = useState("");
    const [textArea, setTextArea] = useState('');
    const [isOpenCreateScenarioFiled, setStatusCreateScenarioFiled] = useState(false);
-   const [idEditTriggerText, setIdEditTriggerText] = useState(false);
    const [snackOpen, setSnackOpen] = useState(false);
 
    const scenariosForAutoride = [];
@@ -206,12 +205,12 @@ const AutorideContainer = props => {
          <div className="main-container-controls pv1-flex">
             <Button
                variant="contained"
-               disabled={isFetching}
+               disabled={isFetching || isFetchingScenario}
                className="main-container-controls__button main-theme-button"
                onClick={() => setStatusCreateScenarioFiled(true)}
                href=""
             >
-               {isFetching
+               {isFetching || isFetchingScenario
                   ? <CircularProgress size={23} color="white"/>
                   : 'Создать автоворонку'
                }
@@ -254,60 +253,69 @@ const AutorideContainer = props => {
                      <td/>
                   </tr>
                </thead>
-
+					
                <tbody className="main-table-content__body">
                   {autoridesDataInFilter.length > 0 ? (
-                     autoridesDataInFilter.map(elem => (
-                        <tr>
-                           <td
-                              className="main-table-content-body__key-words"
-                              onClick={
-                                 idEditTriggerText === elem.scenario.id ?
-                                    null :
-                                    () => changeScenarioId(elem.scenario.id)
-                              }
-                           >
-                              Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
-                              <div className="main-table-content-body__editor">
-                                 {
-                                    idEditTriggerText === elem.scenario.id && (
-                                       <ContextMenuForEditAutoride
-                                          onInput={(e) => editScenario(e, elem.scenario.id)}
-                                          defaultValue={elem.scenario.trigger_text}
-                                          setIdEditTriggerText={(id) => setIdEditTriggerText(id)}
-                                       />
-                                    )
-                                 }
-                              </div>
-                           </td>
-                           <td>
-                              <img className="social-icons" src={vk} alt={'vk'}/>
-                              <img className="social-icons" src={telegram} alt={'tg'}/>
-                              <img className="social-icons" src={facebook} alt={'fb'}/>
-                              <img className="social-icons" src={viber} alt={'viber'}/>
-                           </td>
-                           <td className="main-table-content-body__controls">
-                              <div
-                                 className="main-table-content-body__icon"
-                                 onClick={() => setIdEditTriggerText(elem.scenario.id)}
-                              >
-                                 <span className="main-table-content-body__tooltip tableTooltip">Редактировать</span>
-                                 <img className="main-table-content-body__img" src={edit} alt={'edit'}/>
-                              </div>
-                              <div className="main-table-content-body__icon">
-                                 <span className="main-table-content-body__tooltip tableTooltip">Копировать</span>
-                                 <img className="main-table-content-body__img" src={copy} alt={'copy'}/>
-                              </div>
-                              <div
-                                 className="main-table-content-body__icon"
-                                 onClick={() => props.deleteAutoride(props.match.params.botId, elem.id)}
-                              >
-                                 <span className="main-table-content-body__tooltip tableTooltip">Удалить</span>
-                                 <img className="main-table-content-body__img" src={trash} alt={'trash'}/>
-                              </div>
-                           </td>
-                        </tr>
-                     ))
+                     autoridesDataInFilter.map(elem => {
+								console.log(elem)
+								const menu = (
+									<Menu className="main-table-content-body__edit">
+										<div style={{padding: '15px'}}>
+											<h2 style={{marginBottom: '10px', fontSize: '15px'}}>Введите ключевое слово</h2>
+											<Input
+												defaultValue={elem.scenario.trigger_text}
+												onBlur={e => editScenario(e, elem.scenario.id)}
+												onInput={matchWithoutSpaces}
+											/>
+										</div>
+									</Menu>
+								)
+
+								return (
+									<tr>
+										<td
+											className="main-table-content-body__key-words"
+											onClick={() => changeScenarioId(elem.scenario.id)}
+										>
+											Сообщение в точности совпадает с <span>{elem.scenario.trigger_text}</span>
+										</td>
+										<td>
+											<img className="social-icons" src={vk} alt={'vk'}/>
+											<img className="social-icons" src={telegram} alt={'tg'}/>
+											<img className="social-icons" src={facebook} alt={'fb'}/>
+											<img className="social-icons" src={viber} alt={'viber'}/>
+										</td>
+										<td className="main-table-content-body__controls">
+											<Dropdown 
+												overlay={menu}
+												trigger={['click']}
+												placement="bottomCenter"
+												className="main-table-content-body__icon"
+											>
+												<div>
+													<span className="main-table-content-body__tooltip tableTooltip">Редактировать</span>
+													<img
+														className="main-table-content-body__img"
+														src={edit}
+														alt={'edit'}
+													/>
+												</div>
+											</Dropdown>
+											<div className="main-table-content-body__icon">
+												<span className="main-table-content-body__tooltip tableTooltip">Копировать</span>
+												<img className="main-table-content-body__img" src={copy} alt={'copy'}/>
+											</div>
+											<div
+												className="main-table-content-body__icon"
+												onClick={() => props.deleteAutoride(props.match.params.botId, elem.id)}
+											>
+												<span className="main-table-content-body__tooltip tableTooltip">Удалить</span>
+												<img className="main-table-content-body__img" src={trash} alt={'trash'}/>
+											</div>
+										</td>
+									</tr>
+								);
+							})
                   ) : (
                      <tr>
                         <td className="main-table-content-body__key-words">
@@ -326,7 +334,8 @@ const AutorideContainer = props => {
 
 const mapStateToProps = ({autoridesReducers, singleBotReducers}) => ({
    autoridesData: autoridesReducers.autoridesData,
-   isFetching: autoridesReducers.isFetching,
+	isFetching: autoridesReducers.isFetching,
+	isFetchingScenario: singleBotReducers.isFetching,
    error: autoridesReducers.error,
    changedScenarioId: singleBotReducers.changedScenarioId,
    autoridesLinks: autoridesReducers.autoridesLinks,
