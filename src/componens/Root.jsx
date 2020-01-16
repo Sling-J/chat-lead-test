@@ -9,6 +9,7 @@ import TariffPrices from "../pages/tariff/tariffPrices";
 import TariffHistory from "../pages/tariff/tariffHistory";
 import TariffSuccess from "../pages/tariff/tariffSuccess";
 import TariffFailure from "../pages/tariff/tariffFailure";
+import GrowthTool from "../pages/growthTool/growthTool"
 
 import MainHeader from "./mainHeader/mainHeader";
 import NavBar from "./navbar/navbar";
@@ -98,7 +99,7 @@ const Root = () => {
                   <Route
                      exact
                      path={"/bots/:botId/growth"}
-                     component={onlyAuthorizedUsers(NotFound)}
+                     component={onlyAuthorizedUsers(GrowthTool)}
                   />
                   <Route
                      exact
