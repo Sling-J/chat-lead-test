@@ -1,7 +1,7 @@
 import ACTION from '../actions/actionTypes';
 
 const initialState = {
-   payment: [],
+   payment: {},
    transactions: [],
    loadingOfPayment: false,
    loadingOfTransactions: false,

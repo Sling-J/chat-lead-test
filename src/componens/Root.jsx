@@ -7,6 +7,8 @@ import Statistics from "../pages/statistics/statistics";
 import TariffPayment from "../pages/tariff/tariffPayment";
 import TariffPrices from "../pages/tariff/tariffPrices";
 import TariffHistory from "../pages/tariff/tariffHistory";
+import TariffSuccess from "../pages/tariff/tariffSuccess";
+import TariffFailure from "../pages/tariff/tariffFailure";
 
 import MainHeader from "./mainHeader/mainHeader";
 import NavBar from "./navbar/navbar";
@@ -107,6 +109,16 @@ const Root = () => {
                      exact
                      path={"/bots/tariff/payment"}
                      component={onlyAuthorizedUsers(TariffPayment)}
+                  />
+						<Route
+                     exact
+                     path={"/bots/tariff/payment/success"}
+                     component={onlyAuthorizedUsers(TariffSuccess)}
+                  />
+						<Route
+                     exact
+                     path={"/bots/tariff/payment/failure"}
+                     component={onlyAuthorizedUsers(TariffFailure)}
                   />
                   <Route
                      exact

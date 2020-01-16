@@ -179,7 +179,6 @@ const AutorideContainer = props => {
       )
    }
 
-
    if (changedScenarioId && props.botScenarios.length > 0 && scenariosForAutoride.indexOf(changedScenarioId) !== -1) {
       return (
          <div>

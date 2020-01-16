@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -109,7 +109,7 @@ export const Step2 = ({checkedList, setSteps, onChange, visible, setVisible, onO
          price: '15$ / месяц',
          bonus: 'Выгода -25%',
          clickedText: 'Стандарт, за год',
-         clickedPrice: 15,
+         clickedPrice: 180,
          clickedPriceText: '15$ в месяц',
          period: 12,
          plan: 'standard',
@@ -133,12 +133,19 @@ export const Step2 = ({checkedList, setSteps, onChange, visible, setVisible, onO
          price: '39$ / месяц',
          bonus: 'Выгода -25%',
          clickedText: 'Премиум, за год',
-         clickedPrice: 39,
+         clickedPrice: 468,
          clickedPriceText: '39$ в месяц',
          period: 12,
          plan: 'premium',
       },
-   ]);
+	]);
+	
+	useEffect(() => {
+		if (Object.keys(payment).length !== 0) {
+			handleCancel();
+			window.open(payment.payment_link)
+		};
+	}, [payment]);
 
    const showModal = price => {
       setPrice(price);
@@ -147,7 +154,7 @@ export const Step2 = ({checkedList, setSteps, onChange, visible, setVisible, onO
 
    const handleCancel = () => {
       setVisible(false)
-   };
+	};
 
    const disabled = checkedList.filter(item => item.tariff === 'Выберите тариф');
 
@@ -223,9 +230,6 @@ export const Step2 = ({checkedList, setSteps, onChange, visible, setVisible, onO
          </table>
 
          <div className="tariff-payment-footer pv1-flex pv1-j-sb pv1-flex-align-center">
-            <p>
-               {/*Сумма: <span> {totalPrice}$</span>*/}
-            </p>
             <Button
                onClick={() => {
                   const price = checkedList.reduce((prev, cur) => prev + cur.totalPrice, 0);
@@ -244,53 +248,22 @@ export const Step2 = ({checkedList, setSteps, onChange, visible, setVisible, onO
 
          <Modal
             title={null}
-            wrapClassName={`tariff-payment-modal ${payment.length !== 0 && 'tariff-payment-modal-success'}`}
+            wrapClassName="tariff-payment-modal"
             okText="Оплатить"
             visible={visible}
             onOk={onOk}
             onCancel={handleCancel}
             footer={null}
          >
-            {payment.length === 0 ? (
-               <div className="tariff-payment-modal-container">
-                  <h2>{`Общая сумма оплаты ${price}$`}</h2>
-                  <p>Для произведения оплаты нажмите <span>оплатить</span></p>
+            <div className="tariff-payment-modal-container">
+					<h2>{`Общая сумма оплаты ${price}$`}</h2>
+					<p>Для произведения оплаты нажмите <span>оплатить</span></p>
 
-                  <div className="tariff-payment-modal-container__buttons">
-                     <AntdButton key="cancel" onClick={handleCancel}>Отмена</AntdButton>
-                     <AntdButton type="primary" key="buy" onClick={onOk} loading={loadingOfPayment}>Оплатить</AntdButton>
-                  </div>
-               </div>
-            ) : (
-               <Result
-                  status="success"
-                  title="Покупка прошла успешно"
-                  subTitle={[
-                     <div className="tariff-payment-modal-success-sub-title">
-                        <p>Покупки:</p>
-                        <ul>
-                           {checkedList.map(item => (
-                              <li>{item.name} - {item.tariff}</li>
-                           ))}
-                        </ul>
-                     </div>
-                  ]}
-                  extra={[
-                     <div>
-                        <Link to="/bots/tariff/history">
-                           <AntdButton type="primary" key="console">
-                              Посмотреть историю покупок
-                           </AntdButton>
-                        </Link>
-                     </div>,
-                     <div style={{marginTop: '20px'}}>
-                        <AntdButton key="buy" onClick={handleCancel}>
-                           Закрыть
-                        </AntdButton>
-                     </div>
-                  ]}
-               />
-            )}
+					<div className="tariff-payment-modal-container__buttons">
+						<AntdButton key="cancel" onClick={handleCancel}>Отмена</AntdButton>
+						<AntdButton type="primary" key="buy" onClick={onOk} loading={loadingOfPayment}>Оплатить</AntdButton>
+					</div>
+				</div>
          </Modal>
       </Fragment>
    );

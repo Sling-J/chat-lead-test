@@ -1,6 +1,4 @@
 import React from 'react';
-import MainHeader from "../../componens/mainHeader/mainHeader";
-import NavBar from "../../componens/navbar/navbar";
 
 import TariffPricesContainer from "../../componens/tariffContainer/tariffPricesContainer"
 

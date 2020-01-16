@@ -80,7 +80,7 @@ const BroadCastContainer = props => {
       }
 
       return text;
-   };
+	};
 
    const broadCastData = () => {
       if (changedTypeBroadcast === 'sended') {

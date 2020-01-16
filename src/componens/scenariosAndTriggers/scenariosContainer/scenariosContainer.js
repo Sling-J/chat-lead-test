@@ -87,7 +87,7 @@ const ScenariosContainer = props => {
 
    const TextAreaSnackBar = () => (
       <Snackbar
-         className="snackBar"
+         className=""
          anchorOrigin={{
             vertical: 'top',
             horizontal: 'center',

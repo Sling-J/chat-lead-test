@@ -28,7 +28,9 @@ const MainHeader = props => {
 	const isAuthPage = history.location.pathname === '/auth'|| history.location.pathname === '/signUp';
    const isMainHeader = history.location.pathname === '/bots';
    const isServiceHeader = history.location.pathname === '/bots/tariff/payment'
-      || history.location.pathname === '/bots/tariff/prices'
+		|| history.location.pathname === '/bots/tariff/payment/success'
+		|| history.location.pathname === '/bots/tariff/payment/failure'
+		|| history.location.pathname === '/bots/tariff/prices'
       || history.location.pathname === '/bots/tariff/history'
       || history.location.pathname === '/bots/profile';
 
