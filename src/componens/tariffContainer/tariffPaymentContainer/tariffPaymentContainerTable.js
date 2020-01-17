@@ -229,7 +229,7 @@ export const Step2 = ({checkedList, setSteps, onChange, visible, setVisible, onO
             </tbody>
          </table>
 
-         <div className="tariff-payment-footer pv1-flex pv1-j-sb pv1-flex-align-center">
+         <div className="tariff-payment-footer pv1-flex pv1-j-fd">
             <Button
                onClick={() => {
                   const price = checkedList.reduce((prev, cur) => prev + cur.totalPrice, 0);

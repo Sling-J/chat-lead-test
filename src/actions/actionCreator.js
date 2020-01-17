@@ -159,6 +159,25 @@ export const QRCodeUrl = (idBot) => ({
    idBot
 });
 
+export const getWpScreenshot = (idBot) => ({
+   type: ACTION.GET_WP_SCREENSHOT_REQUEST,
+   idBot
+});
+
+export const closeWpScreenshot = () => ({
+   type: ACTION.CLOSE_WP_SCREENSHOT_REQUEST
+});
+
+export const getWpStatus = (idBot) => ({
+   type: ACTION.GET_WP_STATUS_REQUEST,
+   idBot
+});
+
+export const logoutWp = (idBot) => ({
+   type: ACTION.LOGOUT_WP_STATUS_REQUEST,
+   idBot
+});
+
 export const resetUrl = () => ({
    type: ACTION.RESET_URL
 });

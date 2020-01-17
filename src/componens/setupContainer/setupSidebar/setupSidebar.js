@@ -2,8 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import {facebookAuthUrl, vkAuthUrl, QRCodeUrl, resetUrl, editManager} from "../../../actions/actionCreator";
-import {Spin} from "antd";
+import {
+	facebookAuthUrl, vkAuthUrl, QRCodeUrl, 
+	resetUrl, editManager, getWpStatus, 
+	getWpScreenshot, closeWpScreenshot,
+	logoutWp
+} from "../../../actions/actionCreator";
+import {Spin, Modal} from "antd";
 
 import {useTheme} from '@material-ui/core/styles';
 
@@ -13,7 +18,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import style from './setupSidebar.module.sass';
 import SwipeableViews from "react-swipeable-views";
 
-const TabPanel = ({value, index, handleSubmit, loading, socialName, setTelegramToken, error, isFetching}) => {
+const TabPanel = ({
+	value, index, handleSubmit, 
+	loading, socialName, logoutData, 
+	loadingOfLogout, setTelegramToken, 
+	error, isFetching, loadingOfScreenshot,
+	getWpScreenshot, logoutWp, loadingOfStatus,
+	wpStatus
+}) => {
    return value === index && (
       <p className={style.tabsContainerMenu}>
          {
@@ -26,25 +38,68 @@ const TabPanel = ({value, index, handleSubmit, loading, socialName, setTelegramT
 
          <p className={style.socialBotName}>{socialName}</p>
 
+			{value === 3 && socialName.length !== 0 && (
+				<div>
+					<Spin spinning={loadingOfStatus}>
+						<ul className={style.wpStatusList}>
+							<li>Статус: <span>{wpStatus.status || '-----'}</span></li>
+							<li>Доп. статус: <span>{wpStatus.substatus || '-----'}</span></li>
+							<li>Заголовок: <span>{wpStatus.title || '-----'}</span></li>
+							<li>Сообщение: <span>{wpStatus.msg || '-----'}</span></li>
+							<li>Доп. сообщение: <span>{wpStatus.submsg || '-----'}</span></li>
+						</ul>
+					</Spin>
+				</div>
+			)}
+
          {value === 1 && (
             <p className={style.tabsContainerField}>
                <input type="text" placeholder="Token" onChange={e => setTelegramToken(e.target.value)}/>
             </p>
          )}
 
-         <Button
-            type="button"
-            variant="contained"
-            onClick={handleSubmit}
-            className={style.ui_vmenu_sep_button}
-            disabled={loading || isFetching}
-         >
-            {socialName === '' || !socialName ?
-               loading ? <CircularProgress color="white"/> : 'АВТОРИЗОВАТЬСЯ'
-            : (
-               loading ? <CircularProgress color="white"/> : 'ПЕРЕАВТОРИЗАЦИЯ'
-            )}
-         </Button>
+			{value === 3 && socialName.length !== 0 && (
+            <Button
+					type="button"
+					variant="contained"
+					onClick={getWpScreenshot}
+					className={style.ui_vmenu_sep_button}
+					disabled={loadingOfScreenshot}
+					style={{marginBottom: '20px'}}
+				>
+					{loadingOfScreenshot ? <CircularProgress color="white"/> : 'СКРИНШОТ'}
+				</Button>
+         )}
+
+			{value !== 3 ? (
+            <Button
+					type="button"
+					variant="contained"
+					onClick={handleSubmit}
+					className={style.ui_vmenu_sep_button}
+					disabled={loading || isFetching}
+				>
+					{socialName === '' || !socialName ?
+						loading ? <CircularProgress color="white"/> : 'АВТОРИЗОВАТЬСЯ'
+					: (
+						loading ? <CircularProgress color="white"/> : 'ПЕРЕАВТОРИЗАЦИЯ'
+					)}
+				</Button>
+         ) : (
+				<Button
+					type="button"
+					variant="contained"
+					onClick={socialName === '' || !socialName || logoutData.ok ? handleSubmit : logoutWp}
+					className={style.ui_vmenu_sep_button}
+					disabled={loading || loadingOfLogout}
+				>
+					{socialName === '' || !socialName || logoutData.ok ?
+						loading ? <CircularProgress color="white"/> : 'АВТОРИЗОВАТЬСЯ'
+					: (
+						loadingOfLogout ? <CircularProgress color="white"/> : 'ВЫХОД'
+					)}
+				</Button>
+			)}	
 
          <p className={style.errorMsg}>
             {error === 'Network Error' ? '' : error}
@@ -54,24 +109,51 @@ const TabPanel = ({value, index, handleSubmit, loading, socialName, setTelegramT
 };
 
 const SetupSidebar = props => {
-   const [value, setValue] = useState(0);
-   const [telegramToken, setTelegramToken] = useState('');
+	const {
+		botSetupData, url, logoutWp, resetUrl, 
+		setupLoading, logoutData, isFetching, 
+		error, vkAuth, facebookAuthUrl, QRCodeUrl, 
+		closeWpScreenshot, loadingOfLogout, 
+		loadingOfScreenshot, getWpScreenshot, 
+		screenshot, getWpStatus, loadingOfStatus,
+		wpStatus
+	} = props;
 
-   const botId = props.botSetupData && Object.keys(props.botSetupData).length !== 0 && props.botSetupData.id;
-   const theme = useTheme();
+	const [value, setValue] = useState(0);
+	const [visible, setVisible] = useState('');
+	const [telegramToken, setTelegramToken] = useState('');
+
+   const botId = botSetupData && Object.keys(botSetupData).length !== 0 && botSetupData.id;
+	const theme = useTheme();
+
+	const showModal = () => setVisible(true);  
+	const hideModal = () => {
+		setVisible(false);
+		closeWpScreenshot();
+	};
+	
+	useEffect(() => {
+		botId && getWpStatus(botId);
+	}, [botSetupData.whatsapp_instance]);
+
+	useEffect(() => {
+		if (screenshot.length !== 0) {
+			showModal();
+		}
+	}, [screenshot])
 
    useEffect(() => {
-      if (props.url.length !== 0) {
-         props.resetUrl();
+      if (url.length !== 0) {
+         resetUrl();
       }
    }, []);
 
    useEffect(() => {
-      if (props.url.length !== 0) {
-         window.open(props.url);
-         props.resetUrl();
+      if (url.length !== 0) {
+         window.open(url);
+         resetUrl();
       }
-   }, [props.url]);
+   }, [url]);
 
    const handleChange = (value) => {
       setValue(value);
@@ -81,15 +163,28 @@ const SetupSidebar = props => {
       setValue(index);
    };
 
-   const paidDay = Object.keys(props.botSetupData).length !== 0 &&
-      props.botSetupData.payed_end_date >= 5 ? `Ваш пробный период заканчивается через ${props.botSetupData.payed_end_date} дней.` :
-         props.botSetupData.payed_end_date >= 2 ? `Ваш пробный период заканчивается через ${props.botSetupData.payed_end_date} дня.` :
-            props.botSetupData.payed_end_date === 1 ? `Ваш пробный период заканчивается через ${props.botSetupData.payed_end_date} день.` :
-               props.botSetupData.payed_end_date === 0 ? 'Пробный период закончился.' :
+   const paidDay = Object.keys(botSetupData).length !== 0 &&
+      botSetupData.payed_end_date >= 5 ? `Ваш пробный период заканчивается через ${botSetupData.payed_end_date} дней.` :
+         botSetupData.payed_end_date >= 2 ? `Ваш пробный период заканчивается через ${botSetupData.payed_end_date} дня.` :
+            botSetupData.payed_end_date === 1 ? `Ваш пробный период заканчивается через ${botSetupData.payed_end_date} день.` :
+               botSetupData.payed_end_date === 0 ? 'Пробный период закончился.' :
                   <Spin size="large"/>;
 
    return (
       <aside id="sidebar" className={style.setupSidebar}>
+			<div className={style.setupSidebarModal}>
+				<Modal
+					className={style.setupSidebarModal}
+					title="Скриншот"
+					visible={visible}
+					footer={null}
+					onCancel={hideModal}
+				>
+					<p style={{marginBottom: "15px"}}>Картинка может долго грузиться</p>
+					<img src={screenshot} alt="Screenshot" style={{width: '100%'}}/>
+				</Modal>
+			</div>
+
          <div className={style.groupBlock}>
             <p className={style.groupBlock__text}>
                {paidDay}
@@ -116,10 +211,53 @@ const SetupSidebar = props => {
                   axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                   index={value}
                >
-                  <TabPanel value={value} index={0} loading={props.setupLoading} isFetching={props.isFetching} socialName={props.botSetupData.facebook_name} handleSubmit={() => props.facebookAuthUrl(botId)} error={props.error}/>
-                  <TabPanel value={value} index={1} loading={props.setupLoading} isFetching={props.isFetching} socialName={props.botSetupData.telegram_name} handleSubmit={() => props.editManager({idBot: botId, telegram_token: telegramToken, optional_params: ["telegram_token"]})} setTelegramToken={setTelegramToken} error={props.error}/>
-                  <TabPanel value={value} index={2} loading={props.setupLoading} isFetching={props.isFetching} socialName={props.botSetupData.vk_name} handleSubmit={() => props.vkAuth(botId)} error={props.error}/>
-                  <TabPanel value={value} index={3} loading={props.isFetching} isFetching={props.isFetching} socialName={props.botSetupData.whatsapp_instance} handleSubmit={() => props.QRCodeUrl(botId)} error={props.error}/>
+						<TabPanel 
+							value={value} 
+							index={0} 
+							loading={setupLoading} 
+							isFetching={isFetching}
+							socialName={botSetupData.facebook_name} 
+							handleSubmit={() => facebookAuthUrl(botId)} 
+							error={error}
+						/>
+
+						<TabPanel 
+							value={value} 
+							index={1} 
+							loading={setupLoading} 
+							isFetching={isFetching} 
+							socialName={botSetupData.telegram_name} 
+							handleSubmit={() => editManager({idBot: botId, telegram_token: telegramToken, optional_params: ["telegram_token"]})} 
+							setTelegramToken={setTelegramToken} 
+							error={error}
+						/>
+
+						<TabPanel 
+							value={value}
+							index={2} 
+							loading={setupLoading} 
+							isFetching={isFetching} 
+							socialName={botSetupData.vk_name} 
+							handleSubmit={() => vkAuth(botId)} 
+							error={error}
+						/>
+
+						<TabPanel 
+							value={value} 
+							index={3} 
+							loading={setupLoading} 
+							isFetching={isFetching}
+							socialName={botSetupData.whatsapp_instance} 
+							handleSubmit={() => QRCodeUrl(botId)} 
+							error={error} 
+							getWpScreenshot={() => getWpScreenshot(botId)}
+							logoutWp={() => logoutWp(botId)}
+							logoutData={logoutData}
+							loadingOfLogout={loadingOfLogout}
+							loadingOfScreenshot={loadingOfScreenshot}
+							loadingOfStatus={loadingOfStatus}
+							wpStatus={wpStatus}
+						/>
                </SwipeableViews>
             </div>
          </div>
@@ -132,16 +270,27 @@ const mapStateToProps = ({botSetupReducers}) => ({
    setupLoading: botSetupReducers.setupLoading,
    isFetching: botSetupReducers.isFetching,
    errorOfSocial: botSetupReducers.errorOfSocial,
-   error: botSetupReducers.error,
+	error: botSetupReducers.error,
+	loadingOfScreenshot: botSetupReducers.loadingOfScreenshot,
+	loadingOfStatus: botSetupReducers.loadingOfStatus,
+	wpStatus: botSetupReducers.wpStatus,
+	loadingOfLogout: botSetupReducers.loadingOfLogout,
+	logoutData: botSetupReducers.logoutData,
+	screenshot: botSetupReducers.screenshot,
+	errorOfScreenshot: botSetupReducers.errorOfScreenshot,
    url: botSetupReducers.url
 });
 
 const mapDispatchToProps = dispatch => ({
-   editManager: telegramData => dispatch(editManager(telegramData)),
-   facebookAuthUrl: botId => dispatch(facebookAuthUrl(botId)),
-   QRCodeUrl: botId => dispatch(QRCodeUrl(botId)),
-   vkAuth: botId => dispatch(vkAuthUrl(botId)),
-   resetUrl: () => dispatch(resetUrl()),
+	editManager: telegramData => dispatch(editManager(telegramData)),
+	facebookAuthUrl: botId => dispatch(facebookAuthUrl(botId)),
+	getWpScreenshot: botId => dispatch(getWpScreenshot(botId)),
+	closeWpScreenshot: () => dispatch(closeWpScreenshot()),
+	getWpStatus: botId => dispatch(getWpStatus(botId)),
+	QRCodeUrl: botId => dispatch(QRCodeUrl(botId)),
+	logoutWp: botId => dispatch(logoutWp(botId)),
+	vkAuth: botId => dispatch(vkAuthUrl(botId)),
+	resetUrl: () => dispatch(resetUrl()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetupSidebar);

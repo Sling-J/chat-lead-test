@@ -31,6 +31,12 @@ $secondary__color: #82848B;
    justify-content: space-between;
 }
 
+.pv1-j-fd {
+   -webkit-box-pack: justify;
+   -ms-flex-pack: justify;
+   justify-content: flex-end;
+}
+
 .pv1-j-se {
    justify-content: space-evenly;
 }

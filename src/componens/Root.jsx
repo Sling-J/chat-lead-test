@@ -1,25 +1,25 @@
 import React, {Fragment} from 'react';
 import {Route, Switch, Redirect} from "react-router-dom";
 
-import SignUp from "../pages/signUp/signUp";
 import Auth from "../pages/auth/auth";
+import Bots from "../pages/bots/bots";
+import SignUp from "../pages/signUp/signUp";
+import Profile from "../pages/profile/profile";
+import BotSetup from "../pages/botSetup/botSetup";
+import Autoride from "../pages/autoride/autoride";
+import SingleBot from "../pages/singleBot/singleBot";
+import BroadCast from "../pages/broadcast/broadcast";
+import GrowthTool from "../pages/growthTool/growthTool";
 import Statistics from "../pages/statistics/statistics";
-import TariffPayment from "../pages/tariff/tariffPayment";
 import TariffPrices from "../pages/tariff/tariffPrices";
+import TariffPayment from "../pages/tariff/tariffPayment";
 import TariffHistory from "../pages/tariff/tariffHistory";
 import TariffSuccess from "../pages/tariff/tariffSuccess";
 import TariffFailure from "../pages/tariff/tariffFailure";
-import GrowthTool from "../pages/growthTool/growthTool"
+import NotFound from "../pages/inDevelopment/inDevelopment";
 
 import MainHeader from "./mainHeader/mainHeader";
 import NavBar from "./navbar/navbar";
-import Bots from "../pages/bots/bots";
-import BotSetup from "../pages/botSetup/botSetup";
-import SingleBot from "../pages/singleBot/singleBot";
-import Autoride from "../pages/autoride/autoride";
-import BroadCast from "../pages/broadcast/broadcast";
-import Profile from "../pages/profile/profile";
-import NotFound from "../pages/inDevelopment/inDevelopment";
 
 import onlyDontRegistrationUsers from "./hoc/onlyNotRegistration";
 import onlyAuthorizedUsers from "./hoc/onlyAuthorizedUsers";
@@ -99,7 +99,7 @@ const Root = () => {
                   <Route
                      exact
                      path={"/bots/:botId/growth"}
-                     component={onlyAuthorizedUsers(GrowthTool)}
+                     component={onlyAuthorizedUsers(NotFound)}
                   />
                   <Route
                      exact

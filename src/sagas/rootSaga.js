@@ -30,7 +30,10 @@ import {
    updateBotReactionsSaga,
    facebookAuthSaga,
    vkAuthSaga,
-   getQRCodeSaga
+	getQRCodeSaga,
+	getWpScreenshotSaga, 
+	getWpStatusSaga,
+	logoutWpSaga
 } from "./botSetupSagas";
 import {getBotStatisticsSaga} from "./botStatisticsSaga"
 import {
@@ -41,8 +44,11 @@ import {
 function* rootSaga() {
    yield  all([
       getBotStatisticsSaga(),
-      facebookAuthSaga(),
-      addPaymentSaga(),
+		getWpScreenshotSaga(),
+		facebookAuthSaga(),
+		getWpStatusSaga(),
+		addPaymentSaga(),
+		logoutWpSaga(),
       getQRCodeSaga(),
       vkAuthSaga(),
       authSaga(),

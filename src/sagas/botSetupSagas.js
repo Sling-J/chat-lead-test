@@ -5,7 +5,10 @@ import {
    editManager,
    getFacebookAuthUrl,
    getVkAuthUrl,
-   getQRCodeUrl,
+	getQRCodeUrl,
+	getWpScreenshot,
+	getWpStatus,
+	logoutWp,
    getScenariesForManager,
    addNewScenario
 } from "../api/rest/restContoller";
@@ -130,6 +133,78 @@ export function* getQRCodeSaga() {
             }
          } catch (err) {
             yield put({type: ACTION.GET_WA_QR_URL_FAILURE, error: err.message})
+         }
+      }
+   }
+}
+
+export function* getWpScreenshotSaga() {
+   if (userAccessToken()) {	
+      while (true) {
+         const action = yield take(ACTION.GET_WP_SCREENSHOT_REQUEST);
+			
+         try {
+            const formData = new FormData();
+            formData.append('user_token', userAccessToken());
+            formData.append('manager_id', action.idBot);
+
+            const {data} = yield call(getWpScreenshot, formData);
+
+            if (data.ok) {
+               yield put({type: ACTION.GET_WP_SCREENSHOT_SUCCESS, payload: data.url})
+            } else {
+               yield put({type: ACTION.GET_WP_SCREENSHOT_FAILURE, error: data.desc})
+            }
+         } catch (err) {
+            yield put({type: ACTION.GET_WP_SCREENSHOT_FAILURE, error: err.message})
+         }
+      }
+   }
+}
+
+export function* getWpStatusSaga() {
+   if (userAccessToken()) {
+      while (true) {
+			const action = yield take(ACTION.GET_WP_STATUS_REQUEST);
+			
+         try {
+            const formData = new FormData();
+            formData.append('user_token', userAccessToken());
+            formData.append('manager_id', action.idBot);
+
+            const {data} = yield call(getWpStatus, formData);
+
+            if (data.ok) {
+               yield put({type: ACTION.GET_WP_STATUS_SUCCESS, payload: data.status})
+            } else {
+               yield put({type: ACTION.GET_WP_STATUS_FAILURE, error: data.desc})
+            }
+         } catch (err) {
+            yield put({type: ACTION.GET_WP_STATUS_FAILURE, error: err.message})
+         }
+      }
+   }
+}
+
+export function* logoutWpSaga() {
+   if (userAccessToken()) {	
+      while (true) {
+         const action = yield take(ACTION.LOGOUT_WP_STATUS_REQUEST);
+			
+         try {
+            const formData = new FormData();
+            formData.append('user_token', userAccessToken());
+            formData.append('manager_id', action.idBot);
+
+            const {data} = yield call(logoutWp, formData);
+
+            if (data.ok) {
+               yield put({type: ACTION.LOGOUT_WP_STATUS_SUCCESS, payload: data})
+            } else {
+               yield put({type: ACTION.LOGOUT_WP_STATUS_FAILURE, error: data.desc})
+            }
+         } catch (err) {
+            yield put({type: ACTION.LOGOUT_WP_STATUS_FAILURE, error: err.message})
          }
       }
    }
