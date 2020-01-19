@@ -23,14 +23,6 @@ const ProfileContainer = props => {
       });
    };
 
-   const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '+7',
-   })(
-      <Select style={{ width: 52 }} size="small">
-         <Option value="7">+7</Option>
-      </Select>,
-   );
-
    return (
       <div className="main-container profile-container">
          <h1 className="profile-container__title">Профиль пользователя</h1>
@@ -90,8 +82,7 @@ const ProfileContainer = props => {
                         rules: [{required: true, message: 'Обязательно поле!'}],
                      })(
                         <Input
-                           addonBefore={prefixSelector}
-                           placeholder="7782599040"
+                           placeholder="87782599040"
                            type="text"
                         />,
                      )}

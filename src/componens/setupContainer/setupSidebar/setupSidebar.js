@@ -114,9 +114,9 @@ const SetupSidebar = props => {
 		setupLoading, logoutData, isFetching, 
 		error, vkAuth, facebookAuthUrl, QRCodeUrl, 
 		closeWpScreenshot, loadingOfLogout, 
-		loadingOfScreenshot, getWpScreenshot, 
+		loadingOfScreenshot, getWpScreenshot,
 		screenshot, getWpStatus, loadingOfStatus,
-		wpStatus
+		wpStatus, editManager
 	} = props;
 
 	const [value, setValue] = useState(0);

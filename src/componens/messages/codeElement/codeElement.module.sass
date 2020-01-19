@@ -1,12 +1,17 @@
+.hoverBar
+   position: absolute
+   right: -27px
+   top: 0
+   display: none
+
 .textArea
-   width: 70%
+   width: 100%
    display: flex
    flex-direction: column
    justify-content: center
    align-items: center
    background: transparent
    position: relative
-   margin-bottom: 30px
 
    &:hover
       .hoverBar
@@ -71,10 +76,8 @@
 
 .variableMenu
    background: #ffffff
-   width: 320px
-   margin-top: 5px
-   margin-left: -25px
-   border: 1px solid #e8e8e8
+   width: 150px
+   border-bottom: 1px solid #e8e8e8
    box-shadow: 0 0 25px 0 rgba(108,129,168,0.25)
 
    h3
@@ -87,11 +90,12 @@
    li
       width: 100%
       padding: 10px 15px
-      cursor: pointer
+      margin: 5px 0
 
       &:hover
          color: #1e88e5
          background-color: rgba(22, 105, 186, .075)
+         cursor: pointer
 
 .actionNavVarsMenu
    background: #fff

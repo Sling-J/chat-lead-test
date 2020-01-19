@@ -12,6 +12,7 @@ import TextArea from '../../componens/messages/textArea/textArea';
 import TypeProcessing from '../../componens/messages/typeProcessing/typeProcessing';
 import PaymentElement from "../../componens/messages/paymentElement/paymentElement";
 import FancyFileInput from "../../componens/inputs/fancyFileInput/fancyFileInput";
+import CodeElement from "../../componens/messages/codeElement/codeElement";
 
 export const fileDefinition = (key, value, handler, index, deleteHandler, changedTrigger, changedScenario, changeTriggerId) => {
    if (key === 'text') {
@@ -180,6 +181,20 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
             key={key}
+         />
+      )
+   } else if (key === 'customs') {
+      return (
+         <CodeElement
+            type={'customs'}
+            value={value}
+            handler={handler}
+            index={index}
+            key={key}
+            componentType={'customs'}
+            changedTrigger={changedTrigger}
+            changedScenario={changedScenario}
+            changeTriggerId={changeTriggerId}
          />
       )
    } else if (key === 'contact') {

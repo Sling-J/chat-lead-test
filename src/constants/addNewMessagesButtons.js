@@ -11,9 +11,10 @@ import activityLost from '../images/buttons/calendar.png';
 import form from '../images/buttons/form.png';
 import sendTime from '../images/buttons/warn.png';
 import print from '../images/buttons/print.png';
-import location from '../images/buttons/location.png'
-import payment from '../images/buttons/payment.png'
-import contact from '../images/buttons/contact.png'
+import location from '../images/buttons/location.png';
+import payment from '../images/buttons/payment.png';
+import contact from '../images/buttons/contact.png';
+import code from '../images/buttons/code.png'
 
 export const addNewMessagesButtons = {
    facebook: [
@@ -89,6 +90,11 @@ export const addNewMessagesButtons = {
          label: '+Оплата ',
          icon: <img src={payment} alt={'payment'}/>,
          type: 'payment'
+      },
+      {
+         label: '+Код ',
+         icon: <img src={code} alt={'code'}/>,
+         type: 'customs'
       }
    ],
    telegram: [
@@ -154,6 +160,11 @@ export const addNewMessagesButtons = {
          label: '+Оплата ',
          icon: <img src={payment} alt={'payment'}/>,
          type: 'payment'
+      },
+      {
+         label: '+Код ',
+         icon: <img src={code} alt={'code'}/>,
+         type: 'customs'
       }
    ],
    vk: [
@@ -219,6 +230,11 @@ export const addNewMessagesButtons = {
          label: '+Оплата ',
          icon: <img src={payment} alt={'payment'}/>,
          type: 'payment'
+      },
+      {
+         label: '+Код ',
+         icon: <img src={code} alt={'code'}/>,
+         type: 'customs'
       }
    ],
    whatsapp: [
@@ -279,6 +295,11 @@ export const addNewMessagesButtons = {
          label: '+Отправть контакт ',
          icon: <img src={contact} alt={'contact'}/>,
          type: 'contact'
+      },
+      {
+         label: '+Код ',
+         icon: <img src={code} alt={'code'}/>,
+         type: 'customs'
       }
    ]
 };

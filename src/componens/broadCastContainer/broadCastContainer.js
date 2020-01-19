@@ -17,7 +17,7 @@ import {sliceExtraText} from "../../utils/textValidation";
 import {appendBroadCast, changeScenarioId, deleteBroadcast} from "../../actions/actionCreator";
 
 const BroadCastContainer = props => {
-   const {changeScenarioId, changedScenarioId, isFetching} = props;
+   const {changeScenarioId, changedScenarioId, isFetching, deleteBroadcast} = props;
 
    const [changedBroadCastId, changeBroadCastId] = useState(null);
    const [changedTypeBroadcast, changeTypeBroadcast] = useState('sended');
@@ -33,8 +33,6 @@ const BroadCastContainer = props => {
    useEffect(() => {
       if (changedScenarioId) {
          const broadcast = props.broadCastData.find(elem => elem.scenario.id === changedScenarioId);
-         console.log(broadcast);
-
          changeBroadCastId(broadcast ? broadcast.id : null);
       } else {
          changeBroadCastId(null);
@@ -60,6 +58,8 @@ const BroadCastContainer = props => {
          </div>
       )
    }
+
+   console.log(props)
 
    const showBroadCastTitle = trigger => {
       let text;
@@ -146,7 +146,10 @@ const BroadCastContainer = props => {
                         <td>
                            {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
                         </td>
-                        <td>
+                        <td onClick={e => {
+                           e.stopPropagation();
+                           // deleteBroadcast(props.match.params.botId, elem.id);
+                        }}>
                            <FontAwesomeIcon icon={faTrash}/>
                         </td>
                      </tr>
@@ -250,9 +253,9 @@ const mapStateToProps = ({broadCastReducers, singleBotReducers}) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-   appendBroadcast: (managerId) => dispatch(appendBroadCast(managerId)),
-   changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId)),
-   deleteBroadCast: (managerId, broadCastId) => dispatch(deleteBroadcast(managerId, broadCastId)),
+   appendBroadcast: managerId => dispatch(appendBroadCast(managerId)),
+   changeScenarioId: scenarioId => dispatch(changeScenarioId(scenarioId)),
+   deleteBroadcast: (managerId, broadCastId) => dispatch(deleteBroadcast(managerId, broadCastId)),
 });
 
 export default compose(

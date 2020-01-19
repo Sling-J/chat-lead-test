@@ -71,7 +71,7 @@ const TriggersContainer = (props) => {
       const messagesCopy = changedTrigger.messages;
       let updationData;
 
-      if (typeFile === 'text' || typeFile === 'payment' || typeFile === 'send_time') {
+      if (typeFile === 'text' || typeFile === 'payment' || typeFile === 'send_time' || typeFile === 'customs') {
          messagesCopy[props.changedSocial][index].text = e.target.value;
       } else if (typeFile === 'failure_trigger_text') {
          messagesCopy[props.changedSocial][index].failure_trigger_text = e.target.value;
