@@ -24,8 +24,8 @@ const StatisticsContainer = ({match, getBotStatistics}) => {
    const defaultStartDay = new Date();
    const defaultEndDay = new Date();
 
-   defaultStartDay.setDate(defaultStartDay.getDate() - 1);
-   defaultEndDay.setDate(defaultEndDay.getDate() + 6);
+   defaultStartDay.setDate(defaultStartDay.getDate() - 6);
+   defaultEndDay.setDate(defaultEndDay.getDate());
 
    useEffect(() => {
       getBotStatistics({

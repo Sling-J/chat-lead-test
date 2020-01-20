@@ -121,6 +121,10 @@ export const getBotStatistics = data => (
    instance.post('/GetAnalytics/', data)
 );
 
+export const exportUsers = data => (
+   instance.post('/ExportUsers/', data)
+);
+
 export const addPayment = data => (
    instance.post('/AddPayment/', data)
 );

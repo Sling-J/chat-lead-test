@@ -3,7 +3,11 @@ import ACTION from '../actions/actionTypes';
 const initialState = {
    statistics: {},
    loadingOfStatistics: false,
-   errorOfStatistics: null
+	errorOfStatistics: null,
+	
+	exportedUsers: {},
+	loadingOfExport: false,
+	errorOfExport: null,
 };
 
 export default (state = initialState, action) => {
@@ -30,7 +34,39 @@ export default (state = initialState, action) => {
             statistics: {},
             loadingOfStatistics: false,
             errorOfStatistics: action.error
-         };
+			};
+			
+		case ACTION.EXPORT_USERS_REQUEST:
+			return {
+				...state,
+				exportedUsers: {},
+				loadingOfExport: true,
+				errorOfExport: null,
+			};
+
+		case ACTION.EXPORT_USERS_SUCCESS:
+			return {
+				...state,
+				exportedUsers: action.payload,
+				loadingOfExport: false,
+				errorOfExport: null,
+			};
+
+		case ACTION.EXPORT_USERS_FAILURE:
+			return {
+				...state,
+				exportedUsers: {},
+				loadingOfExport: false,
+				errorOfExport: action.error,
+			};
+
+		case ACTION.RESET_EXPORTED_USERS:
+			return {
+				...state,
+				exportedUsers: {},
+				loadingOfExport: false,
+				errorOfExport: null,
+			}
 
       default:
          return state;

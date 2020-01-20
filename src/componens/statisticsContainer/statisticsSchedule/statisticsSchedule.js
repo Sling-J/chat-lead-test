@@ -77,7 +77,6 @@ const StatisticsSchedule = ({
    }
 
    useEffect(() => {
-      console.log(statistics)
       if (Object.keys(statistics).length !== 0) {
          let daysArr = [];
 

@@ -187,6 +187,15 @@ export const getBotStatistics = data => ({
    payload: data
 });
 
+export const exportUsers = data => ({
+	type: ACTION.EXPORT_USERS_REQUEST,
+	payload: data
+});
+
+export const resetExportedUsers = () => ({
+	type: ACTION.RESET_EXPORTED_USERS
+})
+
 export const addPayment = data => ({
    type: ACTION.ADD_PAYMENT_REQUEST,
    payload: data

@@ -19,12 +19,11 @@ import style from './setupSidebar.module.sass';
 import SwipeableViews from "react-swipeable-views";
 
 const TabPanel = ({
-	value, index, handleSubmit, 
+	value, index, handleSubmit, wpStatus,
 	loading, socialName, logoutData, 
 	loadingOfLogout, setTelegramToken, 
-	error, isFetching, loadingOfScreenshot,
+	isFetching, loadingOfScreenshot, error,
 	getWpScreenshot, logoutWp, loadingOfStatus,
-	wpStatus
 }) => {
    return value === index && (
       <p className={style.tabsContainerMenu}>

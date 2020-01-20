@@ -1,7 +1,7 @@
 import {put, call, take} from 'redux-saga/effects';
 import ACTION from '../actions/actionTypes';
 
-import {getBotStatistics} from "../api/rest/restContoller";
+import {getBotStatistics, exportUsers} from "../api/rest/restContoller";
 import {userAccessToken} from "../utils/userToken";
 
 export function* getBotStatisticsSaga() {
@@ -26,6 +26,32 @@ export function* getBotStatisticsSaga() {
             }
          } catch (e) {
             yield put({type: ACTION.GET_BOT_STATISTICS_FAILURE, error: e.message});
+         }
+      }
+   }
+}
+
+export function* exportUsersSaga() {
+   if (userAccessToken()) {
+      while (true) {
+			const action = yield take(ACTION.EXPORT_USERS_REQUEST);
+
+         try {
+            const formData = new FormData();
+
+            formData.append('user_token', userAccessToken());
+				formData.append('bot_id', action.payload.botId);
+				formData.append('messenger', action.payload.messenger);
+
+            const {data} = yield call(exportUsers, formData);
+
+            if (data.ok) {
+               yield put({type: ACTION.EXPORT_USERS_SUCCESS, payload: data});
+            } else {
+               yield put({type: ACTION.EXPORT_USERS_FAILURE, error: data});
+            }
+         } catch (e) {
+            yield put({type: ACTION.EXPORT_USERS_FAILURE, error: e.message});
          }
       }
    }

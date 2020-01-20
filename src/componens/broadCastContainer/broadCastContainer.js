@@ -24,7 +24,7 @@ const BroadCastContainer = props => {
 
    const appendBroadcastHandler = () => {
       props.appendBroadcast(props.match.params.botId)
-   };
+	};
 
    useEffect(() => {
       changeScenarioId(null);
@@ -59,15 +59,13 @@ const BroadCastContainer = props => {
       )
    }
 
-   console.log(props)
-
    const showBroadCastTitle = trigger => {
-      let text;
-
-      const textFacebook = trigger.messages.facebook.find(item => item.text && item.text.length !== 0);
-      const textTelegram = trigger.messages.telegram.find(item => item.text && item.text.length !== 0);
-      const textVk = trigger.messages.vk.find(item => item.text && item.text.length !== 0);
-      const textWhatsapp = trigger.messages.whatsapp.find(item => item.text && item.text.length !== 0);
+		let text;
+		
+		const textFacebook = Array.isArray(trigger.messages.facebook) ? trigger.messages.facebook.find(item => item.text && item.text.length !== 0) : trigger.messages.facebook;
+		const textTelegram = Array.isArray(trigger.messages.telegram) ? trigger.messages.telegram.find(item => item.text && item.text.length !== 0) : trigger.messages.telegram;
+		const textVk = Array.isArray(trigger.messages.vk) ? trigger.messages.vk.find(item => item.text && item.text.length !== 0) : trigger.messages.vk;
+		const textWhatsapp = Array.isArray(trigger.messages.whatsapp) ? trigger.messages.whatsapp.find(item => item.text && item.text.length !== 0) : trigger.messages.whatsapp;
 
       if (textFacebook) {
          text = textFacebook.text
@@ -77,7 +75,7 @@ const BroadCastContainer = props => {
          text = textVk.text
       } else if (textWhatsapp) {
          text = textWhatsapp.text
-      }
+		}
 
       return text;
 	};

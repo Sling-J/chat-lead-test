@@ -35,7 +35,10 @@ import {
 	getWpStatusSaga,
 	logoutWpSaga
 } from "./botSetupSagas";
-import {getBotStatisticsSaga} from "./botStatisticsSaga"
+import {
+	getBotStatisticsSaga,
+	exportUsersSaga
+} from "./botStatisticsSaga"
 import {
    addPaymentSaga,
    getTransactionsSaga
@@ -47,9 +50,10 @@ function* rootSaga() {
 		getWpScreenshotSaga(),
 		facebookAuthSaga(),
 		getWpStatusSaga(),
+		exportUsersSaga(),
 		addPaymentSaga(),
+		getQRCodeSaga(),
 		logoutWpSaga(),
-      getQRCodeSaga(),
       vkAuthSaga(),
       authSaga(),
       takeEvery(ACTION.GET_TRANSACTIONS_REQUEST, getTransactionsSaga),
