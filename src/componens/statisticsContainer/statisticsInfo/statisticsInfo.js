@@ -19,7 +19,7 @@ const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers
 	
 	useEffect(() => {
 		if (Object.keys(exportedUsers).length !== 0) {
-			window.open(staticMedia + exportedUsers.filename);
+			window.open(exportedUsers.filename);
 			resetExportedUsers();
 		}
 	}, [exportedUsers]);
