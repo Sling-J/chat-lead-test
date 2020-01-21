@@ -24,12 +24,14 @@ import TriggersContainer from '../../scenariosAndTriggers/triggersContainer/trig
 import SearchData from "../../searchData/searchData";
 import Pagination from "../../Containers/Pagination";
 
-import {Select, Dropdown, Input, Menu} from 'antd';
+import {Select, Dropdown, Input, Menu, Modal} from 'antd';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
+
+const {confirm} = Modal;
 
 const ScenariosContainer = props => {
    const {changeScenarioId, changedScenarioId, isFetching} = props;
@@ -125,7 +127,18 @@ const ScenariosContainer = props => {
             </IconButton>,
          ]}
       />
-   );
+	);
+	
+	function showConfirm(botId, elemId) {
+		confirm({
+		  title: 'Вы уверены, что хотите удалить?',
+		  okText: 'Да',
+		  onOk() {
+				props.deleteScenario({botId, idScenario: elemId});
+		  },
+		  onCancel() {},
+		});
+	}
 
    if (isOpenCreateScenarioField) {
       return (
@@ -296,10 +309,7 @@ const ScenariosContainer = props => {
                               </div>
                               <div
                                  className="main-table-content-body__icon"
-                                 onClick={() => props.deleteScenario({
-                                    botId: props.match.params.botId,
-                                    idScenario: elem.id
-                                 })}
+                                 onClick={() => showConfirm(props.match.params.botId, elem.id)}
                               >
                                  <span className="main-table-content-body__tooltip tableTooltip">Удалить</span>
                                  <img
