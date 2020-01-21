@@ -10,6 +10,8 @@ import TextArea from '../textArea/textArea';
 import {Page, Page1, Page2, Page3} from "./paymentElementItems";
 import {updateTrigger} from "../../../actions/actionCreator";
 
+import ConditionsForElements from "../conditionsForElements/conditionsForElements";
+
 import style from "../../../styles/messageButtons.module.scss";
 
 const PaymentElement = props => {
@@ -110,8 +112,9 @@ const PaymentElement = props => {
    }, []);
 
    return (
-      <div>
-         <TextArea componentType={type} {...props}/>
+      <div className="paymentMainContainer">
+			<ConditionsForElements/>
+         <TextArea componentType={type} hideCondition {...props}/>
          <div className="payment-main-container">
             <p className="payment-main-info">
                Сумма: <span>{price}</span> тг.

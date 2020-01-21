@@ -1,0 +1,40 @@
+.conditionsContainer {
+	position: relative;
+	font-weight: 400 !important;
+	border-radius: 7px 7px 0 0 !important;
+	width: 100%;
+	text-transform: initial !important;
+	padding: 7px 0 !important;
+	color: rgb(132, 146, 166) !important;
+	border: 1px dashed #e1e1e1 !important;
+
+	&:hover {
+		border-color: #0084ff !important;
+		background: none !important;
+	}
+	
+	.conditionsContainerIcon {
+		font-size: 16px;
+		position: absolute;
+		color: rgb(132, 146, 166);
+		right: 3%;
+		top: 20%;
+
+		&:hover {
+			color: #0084ff;
+		}
+	}
+}
+
+.conditionsContainerInfo {
+	padding: 20px;
+}
+
+.conditionsContainerMenu {
+	padding: 10px 17px 25px;
+	width: 300px;
+
+	h2 {
+		margin-bottom: 10px;
+	}
+}

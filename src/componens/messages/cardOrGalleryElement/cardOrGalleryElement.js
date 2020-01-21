@@ -8,6 +8,7 @@ import {updateTrigger} from "../../../actions/actionCreator";
 import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
 import MiniImagesForSlider from './miniImagesForSlider/miniImagesForSlider';
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
+import ConditionsForElements from "../conditionsForElements/conditionsForElements";
 
 import style from './cardOrGallaryElement.module.sass';
 
@@ -71,6 +72,7 @@ const CardOrGalleryElement = (props) => {
 
    return (
       <div className={style.mainContainer}>
+			<ConditionsForElements/>
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}

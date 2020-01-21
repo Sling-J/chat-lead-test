@@ -1,0 +1,30 @@
+.hoverBar {
+	position: absolute;
+   right: -27px;
+   top: 0;
+   display: none;
+}
+
+.tagsElementContainer {
+	padding: 13px 16px;
+	border: 1px solid #e0e6ed;
+	border-radius: 7px;
+
+	.tagsElementContainerTitle {
+		margin-bottom: 20px;
+	}
+
+	.tagsElementContainerField {
+		margin-bottom: 12px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	&:hover {
+		.hoverBar {
+			display: block;
+		}
+	}
+}

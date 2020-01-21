@@ -3,6 +3,7 @@ import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 
+import ConditionsForElements from "../conditionsForElements/conditionsForElements"
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 import {updateTrigger} from "../../../actions/actionCreator";
 import {matchNumber} from "../../../utils/textValidation";
@@ -43,6 +44,7 @@ const ContactsElement = props => {
 
    return (
       <div className={style.mainContainer}>
+			<ConditionsForElements/>
          <div className={style.hoverBar}>
             <HoverBarForMessage {...props}/>
          </div>

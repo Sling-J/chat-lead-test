@@ -3,13 +3,14 @@ import {connect} from "react-redux";
 
 import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
+import ConditionsForElements from "../conditionsForElements/conditionsForElements";
 import FastButtons from "../../scenariosAndTriggers/triggersContainer/fastButtons/fastButtons";
 import EmojiPicker from "./emojiPicker/emojiPicker";
 
 import style from './textArea.module.sass';
 
 const PaymentTextArea = props => {
-   const {value, handler, index, componentType} = props;
+   const {value, handler, index, componentType, hideCondition} = props;
 
    const [isTextAreaHovering, setIsTextAreaHovering] = useState(false);
    const [textAreaValue, setTextAreaValue] = useState('');
@@ -37,10 +38,11 @@ const PaymentTextArea = props => {
 
    const handleMouseHover = () => {
       setIsTextAreaHovering(!isTextAreaHovering);
-   };
+	};
 
    return (
       <div className={style.textArea} key={Object.values(value)[0]}>
+			{!hideCondition && <ConditionsForElements/>}
          {componentType !== 'send_time' && (
             <div className={style.hoverBar}>
                <HoverBarForMessage

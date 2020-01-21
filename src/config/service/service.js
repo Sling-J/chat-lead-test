@@ -69,3 +69,7 @@ export const BotStatistics = {
 export const Payments = {
    addPayment: data => instance.post('/AddPayment/', data)
 };
+
+export const Tags = {
+	getTagsStatistic: data => instance.post('/GetTagStatistic/', data)
+};

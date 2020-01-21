@@ -1,6 +1,7 @@
 import {takeLatest, takeEvery, all} from 'redux-saga/effects';
 import ACTION from '../actions/actionTypes';
 import {saga as authSaga} from '../ducks/Auth';
+import {saga as tagsSaga} from '../ducks/Tags';
 import {
    createBotSaga,
    getAllBotsSagas,
@@ -45,7 +46,7 @@ import {
 } from "./botPaymentSaga"
 
 function* rootSaga() {
-   yield  all([
+   yield all([
       getBotStatisticsSaga(),
 		getWpScreenshotSaga(),
 		facebookAuthSaga(),
@@ -54,7 +55,8 @@ function* rootSaga() {
 		addPaymentSaga(),
 		getQRCodeSaga(),
 		logoutWpSaga(),
-      vkAuthSaga(),
+		vkAuthSaga(),
+		tagsSaga(),
       authSaga(),
       takeEvery(ACTION.GET_TRANSACTIONS_REQUEST, getTransactionsSaga),
       takeLatest(ACTION.CREATE_BOT_ACTION, createBotSaga),

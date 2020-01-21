@@ -6,6 +6,7 @@ import {updateTrigger} from "../../../actions/actionCreator";
 import {connect} from 'react-redux';
 import ButtonsContainer from '../buttonsContainer/buttonsContainer';
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
+import ConditionsForElements from "../conditionsForElements/conditionsForElements";
 
 const ListElements = (props) => {
    const {type, index, pictureForLabel, value, changedTrigger} = props;
@@ -59,6 +60,7 @@ const ListElements = (props) => {
 
    return (
       <div className={style.mainContainer}>
+			<ConditionsForElements/>
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}

@@ -8,6 +8,7 @@ import {Select, InputNumber} from 'antd';
 import TextArea from "../textArea/textArea";
 import CustomFlatPicker from './customFlatPicker/customFlatPicker';
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
+import ConditionsForElements from "../conditionsForElements/conditionsForElements";
 
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import {timeToSeconds, secondsToTime} from "../../../utils/formatSecond";
@@ -152,6 +153,7 @@ const TimerElement = props => {
    if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
       return (
          <div className={style.mainContentContainer}>
+				<ConditionsForElements/>
             <div className={style.hoverBar}>
                <HoverBarForMessage
                   {...props}
@@ -231,6 +233,7 @@ const TimerElement = props => {
    } else if (Object.keys(valuesForTimer)[0] === 'activity_lost') {
       return (
          <div className={style.mainContentContainer}>
+				<ConditionsForElements/>
             <div className={style.hoverBar}>
                <HoverBarForMessage
                   {...props}
@@ -265,6 +268,7 @@ const TimerElement = props => {
    } else {
       return (
          <div className={style.mainContentContainer}>
+				<ConditionsForElements/>
             <div className={style.hoverBar}>
                <HoverBarForMessage
                   {...props}
@@ -357,6 +361,7 @@ const TimerElement = props => {
                      <p className={style.datePickerTextAreaTitle}>Тогда надо отправить сообщение:</p>
 
                      <TextArea
+								hideCondition
                         componentType="send_time"
                         {...props}
                      />

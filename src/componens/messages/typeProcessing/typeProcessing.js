@@ -8,6 +8,7 @@ import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
 
 import {updateTrigger} from "../../../actions/actionCreator";
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
+import ConditionsForElements from "../conditionsForElements/conditionsForElements";
 import ClickOutsideHandler from "../../hoc/clickOutside";
 
 import style from './typeProcessing.module.sass';
@@ -38,6 +39,7 @@ const TypeProcessing = (props) => {
 
    return (
       <div className={style.mainContentContainer}>
+			<ConditionsForElements/>
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}

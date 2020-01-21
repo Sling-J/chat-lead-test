@@ -4,6 +4,7 @@ import {Spin} from "antd";
 
 import {staticMedia} from "../../../config/service/service";
 import HoverBarForMessage from "../../messages/hoverBarForMessage/hoverBarForMessage";
+import ConditionsForElements from "../../messages/conditionsForElements/conditionsForElements";
 
 import style from './fancyFileInput.module.sass';
 
@@ -28,6 +29,8 @@ const FancyFileInput = props => {
 
    return (
       <div className={style.mainContainer}>
+			<ConditionsForElements/>
+
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}

@@ -242,11 +242,9 @@ class ButtonsMenu extends Component {
                   <FontAwesomeIcon icon={faHandPointUp} size="lg" color="limegreen"/>
                   Выберите существующий шаг
                </div>
-
-               <Actions
-                  {...this.props}
-               />
+					
                <Controls
+						styles={{marginTop: "20px"}}
                   {...this.props}
                />
             </div>
@@ -306,10 +304,9 @@ class ButtonsMenu extends Component {
                      </div>
                   </div>
                </div>
-               <Actions
-                  {...this.props}
-               />
+						
                <Controls
+						styles={{marginTop: "20px"}}
                   {...this.props}
                />
             </div>
@@ -418,11 +415,9 @@ class ButtonsMenu extends Component {
                   defaultValue={buttonData.payload.call}
                   onBlur={this.editButton}
                />
-
-               <Actions
-                  {...this.props}
-               />
+					
                <Controls
+						styles={{marginTop: "20px"}}
                   {...this.props}
                />
             </div>
@@ -479,10 +474,9 @@ class ButtonsMenu extends Component {
                      </div>
                   </div>
                </div>
-               <Actions
-                  {...this.props}
-               />
+					
                <Controls
+						styles={{marginTop: "20px"}}
                   {...this.props}
                />
             </div>

@@ -14,7 +14,9 @@ import print from '../images/buttons/print.png';
 import location from '../images/buttons/location.png';
 import payment from '../images/buttons/payment.png';
 import contact from '../images/buttons/contact.png';
-import code from '../images/buttons/code.png'
+import code from '../images/buttons/code.png';
+import tags from '../images/buttons/tags.png';
+import sendLink from '../images/buttons/sendLink.png';
 
 export const addNewMessagesButtons = {
    facebook: [
@@ -87,14 +89,24 @@ export const addNewMessagesButtons = {
          type: 'location'
       },
       {
-         label: '+Оплата ',
+         label: '+Оплата',
          icon: <img src={payment} alt={'payment'}/>,
          type: 'payment'
       },
       {
-         label: '+Код ',
+         label: '+Код',
          icon: <img src={code} alt={'code'}/>,
          type: 'customs'
+		},
+		{
+         label: '+Теги',
+         icon: <img src={tags} alt={'code'}/>,
+         type: 'tags'
+		},
+		{
+         label: '+Ссылка',
+         icon: <img src={sendLink} alt={'code'}/>,
+         type: 'sendLink'
       }
    ],
    telegram: [
@@ -165,6 +177,16 @@ export const addNewMessagesButtons = {
          label: '+Код ',
          icon: <img src={code} alt={'code'}/>,
          type: 'customs'
+      },
+		{
+         label: '+Теги',
+         icon: <img src={tags} alt={'code'}/>,
+         type: 'tags'
+      },
+		{
+         label: '+Ссылка',
+         icon: <img src={sendLink} alt={'code'}/>,
+         type: 'sendLink'
       }
    ],
    vk: [
@@ -235,6 +257,16 @@ export const addNewMessagesButtons = {
          label: '+Код ',
          icon: <img src={code} alt={'code'}/>,
          type: 'customs'
+      },
+		{
+         label: '+Теги',
+         icon: <img src={tags} alt={'code'}/>,
+         type: 'tags'
+      },
+		{
+         label: '+Ссылка',
+         icon: <img src={sendLink} alt={'code'}/>,
+         type: 'sendLink'
       }
    ],
    whatsapp: [
@@ -300,6 +332,16 @@ export const addNewMessagesButtons = {
          label: '+Код ',
          icon: <img src={code} alt={'code'}/>,
          type: 'customs'
+      },
+		{
+         label: '+Теги',
+         icon: <img src={tags} alt={'code'}/>,
+         type: 'tags'
+      },
+		{
+         label: '+Ссылка',
+         icon: <img src={sendLink} alt={'code'}/>,
+         type: 'sendLink'
       }
    ]
 };

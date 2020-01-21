@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {connect} from "react-redux";
 
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
+import ConditionsForElements from '../conditionsForElements/conditionsForElements';
 import EmojiPicker from "../textArea/emojiPicker/emojiPicker";
 import {Dropdown} from 'antd';
 
@@ -49,6 +50,7 @@ const CodeElement = props => {
    
    return (
       <div className={style.textArea}>
+			<ConditionsForElements/>
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}

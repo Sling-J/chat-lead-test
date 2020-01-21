@@ -13,6 +13,8 @@ import TypeProcessing from '../../componens/messages/typeProcessing/typeProcessi
 import PaymentElement from "../../componens/messages/paymentElement/paymentElement";
 import FancyFileInput from "../../componens/inputs/fancyFileInput/fancyFileInput";
 import CodeElement from "../../componens/messages/codeElement/codeElement";
+import TagsElement from "../../componens/messages/tagsElement/tagsElement";
+import SendLinkElement from "../../componens/messages/sendLinkElement/sendLinkElement";
 
 export const fileDefinition = (key, value, handler, index, deleteHandler, changedTrigger, changedScenario, changeTriggerId) => {
    if (key === 'text') {
@@ -114,7 +116,6 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changeTriggerId={changeTriggerId}
          />
       )
-
    } else if (key === 'list') {
       return (
          <ListElement
@@ -167,6 +168,15 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedTrigger={changedTrigger}
             value={value}
             onChange={(e) => handler(e, index, key)}
+         />
+      )
+   } else if (key === 'tags') {
+      return (
+         <TagsElement
+            type={'tags'}
+            index={index}
+				value={value}
+				changedTrigger={changedTrigger}
          />
       )
    } else if (key === 'location') {

@@ -15,7 +15,9 @@ export const defaultValuesForNewMessages = {
    send_time: {timer: {send_time: {day: '', hours: '', min: ''}}, keyboard: [], text: ""},
    form: {form: [""], keyboard: []},
    location: {location: "", keyboard: []},
-   customs: {customs: "customs", text: "", keyboard: []},
+	customs: {customs: "customs", text: "", keyboard: []},
+	tags: {tags: "", keyboard: []},
+	sendLink: {sendLink: "", keyboard: []},
 	contact: {
 		contact: "",
 		sendContact: {

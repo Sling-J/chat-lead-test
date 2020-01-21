@@ -5,6 +5,7 @@ import {withRouter} from "react-router-dom";
 
 import ButtonsContainer from '../../messages/buttonsContainer/buttonsContainer';
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
+import ConditionsForElements from "../conditionsForElements/conditionsForElements";
 
 import {updateTrigger} from "../../../actions/actionCreator";
 
@@ -100,6 +101,8 @@ const FormElement = props => {
       </div>
    ) : (
       <div className={style.mainContainer}>
+			<ConditionsForElements/>
+
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}
