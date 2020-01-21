@@ -3,7 +3,6 @@ import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
-import {staticMedia} from "../../../config/service/service";
 import {exportUsers, resetExportedUsers} from '../../../actions/actionCreator';
 
 import Button from '@material-ui/core/Button';
@@ -114,7 +113,6 @@ const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers
                      Отписок
                   </h2>
                   <p className="statistics-info-box-item-info__desc">
-                     {/*19*/}
                      Скоро!
                   </p>
                </div>

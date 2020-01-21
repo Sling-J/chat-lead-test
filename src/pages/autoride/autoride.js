@@ -7,8 +7,6 @@ import AutorideContainer from '../../componens/autorideContainer/autorideContain
 import {getAllAutorides, getAllScenariesForBot} from "../../actions/actionCreator";
 import PageLoader from "../../componens/Containers/PageLoader";
 
-import style from './autoride.module.sass';
-
 const Autoride = ({autoridesData, getAutorides, scenariosForScenarioContainer, getScenarios, match, loadingOfAutoRides, loadingOfScenarios}) => {
    useEffect(() => {
       if (autoridesData && autoridesData.length === 0) {
@@ -21,7 +19,7 @@ const Autoride = ({autoridesData, getAutorides, scenariosForScenarioContainer, g
    }, [match.params.botId]);
 
    return (
-      <div className={style.mainContainer}>
+      <div className="page-container">
          <PageLoader loading={loadingOfAutoRides || loadingOfScenarios}>
             <AutorideContainer/>
          </PageLoader>

@@ -6,8 +6,6 @@ import {Avatar, Input, Form, Select} from 'antd';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 
-const {Option} = Select;
-
 const ProfileContainer = props => {
    const {form} = props;
 

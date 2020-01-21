@@ -53,7 +53,7 @@ const BotSetup = ({changeScenarioId, changedScenarioId, match, getManager, getSc
    };
 
    return (
-      <div className="main_layout" style={{backgroundColor: "#F9FAFC"}}>
+      <div className="main_layout main-setup-container">
          {contentContainer()}
       </div>
    )

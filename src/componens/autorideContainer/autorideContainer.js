@@ -20,6 +20,8 @@ import {
 } from "../../actions/actionCreator";
 
 import TriggersContainer from "../scenariosAndTriggers/triggersContainer/triggersContainer";
+import Pagination from "../Containers/Pagination";
+import SearchData from "../searchData/searchData";
 
 import vk from '../../images/imageForTable/vk-icon.png';
 import telegram from '../../images/imageForTable/tlg-icon.png';
@@ -31,13 +33,11 @@ import copy from '../../images/duplicate.jpg';
 import leftArrow from '../../svg/db/left-arrow.svg';
 
 import {Input, Dropdown, Menu} from 'antd'
-import Snackbar from '@material-ui/core/Snackbar';
+import CircularProgress from "@material-ui/core/CircularProgress";
 import IconButton from '@material-ui/core/IconButton';
+import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
-
-import SearchData from "../searchData/searchData";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 const AutorideContainer = props => {
    const {changeScenarioId, changedScenarioId, isFetching, isFetchingScenario} = props;
@@ -46,7 +46,16 @@ const AutorideContainer = props => {
    const [textAreaErrMsg, setTextAreaErrMsg] = useState("");
    const [textArea, setTextArea] = useState('');
    const [isOpenCreateScenarioFiled, setStatusCreateScenarioFiled] = useState(false);
-   const [snackOpen, setSnackOpen] = useState(false);
+	const [snackOpen, setSnackOpen] = useState(false);
+	
+	const [currentPage, setCurrentPage] = useState(1);
+	const [dataPerPage] = useState(9);
+
+	const indexOfLastPost = currentPage * dataPerPage;
+	const indexOfFirstPost = indexOfLastPost - dataPerPage;
+
+	const currentData = data => data.slice(indexOfFirstPost, indexOfLastPost);
+	const paginate = pageNumber => setCurrentPage(pageNumber);
 
    const scenariosForAutoride = [];
 
@@ -227,6 +236,7 @@ const AutorideContainer = props => {
                </div>
             </div>
          </div>
+
          <div className="main-table">
             <div className="main-table__search">
                <div className="pv1-flex">
@@ -244,6 +254,7 @@ const AutorideContainer = props => {
                   />
                </div>
             </div>
+				
             <table className="main-table-content">
                <thead className="main-table-content__head">
                   <tr>
@@ -255,8 +266,7 @@ const AutorideContainer = props => {
 					
                <tbody className="main-table-content__body">
                   {autoridesDataInFilter.length > 0 ? (
-                     autoridesDataInFilter.map(elem => {
-								console.log(elem)
+                     currentData(autoridesDataInFilter).map(elem => {
 								const menu = (
 									<Menu className="main-table-content-body__edit">
 										<div style={{padding: '15px'}}>
@@ -326,6 +336,15 @@ const AutorideContainer = props => {
                   )}
                </tbody>
             </table>
+
+				{autoridesDataInFilter.length > 9 && (
+					<Pagination
+						dataPerPage={dataPerPage}
+						totalData={autoridesDataInFilter.length}
+						currentPage={currentPage}
+						paginate={paginate}
+					/>
+					)}
          </div>
       </div>
    )

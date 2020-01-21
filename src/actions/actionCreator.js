@@ -1,26 +1,26 @@
 import ACTION from './actionTypes';
 
-export const logout = (history) => ({
+export const logout = history => ({
    type: ACTION.LOGOUT_ACTION,
    history
 });
 
-export const createBot = (createBotData) => ({
+export const createBot = createBotData => ({
    type: ACTION.CREATE_BOT_ACTION,
    createBotData
 });
 
-export const deleteBot = (deleteBotData) => ({
+export const deleteBot = deleteBotData => ({
    type: ACTION.DELETE_BOT_ACTION,
    deleteBotData
 });
 
-export const getAllBotsForUser = (botId) => ({
+export const getAllBotsForUser = botId => ({
    type: ACTION.GET_ALL_BOTS_ACTION,
    botId
 });
 
-export const getAllScenariesForBot = (idBot) => ({
+export const getAllScenariesForBot = idBot => ({
    type: ACTION.GET_ALL_SCENARIOS,
    idBot
 });
@@ -32,32 +32,32 @@ export const addNewScenario = (botId, destination, trigger_text) => ({
    trigger_text
 });
 
-export const changeScenarioId = (scenarioId) => ({
+export const changeScenarioId = scenarioId => ({
    type: ACTION.CHANGE_SCENARIO_ID,
    scenarioId
 });
 
-export const changeSocial = (social) => ({
+export const changeSocial = social => ({
    type: ACTION.CHANGE_SOCIAL,
    social
 });
 
-export const copyScenario = (scenarioData) => ({
+export const copyScenario = scenarioData => ({
    type: ACTION.COPY_SCENARIO,
    scenarioData
 });
 
-export const editScenario = (scenarioData) => ({
+export const editScenario = scenarioData => ({
    type: ACTION.EDIT_SCENARIO,
    scenarioData
 });
 
-export const deleteScenario = (scenarioData) => ({
+export const deleteScenario = scenarioData => ({
    type: ACTION.DELETE_SCENARIO,
    scenarioData
 });
 
-export const addNewTrigger = (triggerData) => ({
+export const addNewTrigger = triggerData => ({
    type: ACTION.ADD_NEW_TRIGGER,
    triggerData
 });
@@ -69,27 +69,27 @@ export const updateTrigger = (triggerData, updationData, changedSocial) => ({
    changedSocial
 });
 
-export const deleteTrigger = (triggerData) => ({
+export const deleteTrigger = triggerData => ({
    type: ACTION.DELETE_TRIGGER,
    triggerData
 });
 
-export const editTriggerCaption = (triggerData) => ({
+export const editTriggerCaption = triggerData => ({
    type: ACTION.UPDATE_TRIGGER_TEXT,
    triggerData
 });
 
-export const updateSocialInTrigger = (triggerData) => ({
+export const updateSocialInTrigger = triggerData => ({
    type: ACTION.UPDATE_SOCIAL_IN_TRIGGER,
    triggerData
 });
 
-export const getAllAutorides = (botId) => ({
+export const getAllAutorides = botId => ({
    type: ACTION.GET_ALL_AUTORIDES,
    botId
 });
 
-export const getAutorideLinks = (autorideData) => ({
+export const getAutorideLinks = autorideData => ({
    type: ACTION.GET_AUTORDIDE_LINKS,
    autorideData
 });
@@ -106,17 +106,17 @@ export const deleteAutoride = (managerId, idAutoride) => ({
    idAutoride
 });
 
-export const getAllBroadCasts = (managerId) => ({
+export const getAllBroadCasts = managerId => ({
    type: ACTION.GET_ALL_BROADCASTS,
    managerId
 });
 
-export const updateBroadCasts = (broadCastData) => ({
+export const updateBroadCasts = broadCastData => ({
    type: ACTION.UPDATE_BROADCAST,
    broadCastData
 });
 
-export const appendBroadCast = (managerId) => ({
+export const appendBroadCast = managerId => ({
    type: ACTION.APPEND_BROADCAST,
    managerId
 });
@@ -129,37 +129,37 @@ export const deleteBroadcast = (managerId, broadCastId) => ({
 
 // setup
 
-export const getManager = (idBot) => ({
+export const getManager = idBot => ({
    type: ACTION.GET_BOT_SETUP,
    idBot
 });
 
-export const editManager = (setupData) => ({
+export const editManager = setupData => ({
    type: ACTION.UPDATE_BOT_SETUP,
    setupData
 });
 
-export const updateBotReactions = (reactionsData) => ({
+export const updateBotReactions = reactionsData => ({
    type: ACTION.UPDATE_BOT_REACTIONS,
    reactionsData
 });
 
-export const facebookAuthUrl = (idBot) => ({
+export const facebookAuthUrl = idBot => ({
    type: ACTION.GET_FACEBOOK_AUTH_URL_REQUEST,
    idBot
 });
 
-export const vkAuthUrl = (idBot) => ({
+export const vkAuthUrl = idBot => ({
    type: ACTION.GET_VK_AUTH_URL_REQUEST,
    idBot
 });
 
-export const QRCodeUrl = (idBot) => ({
+export const QRCodeUrl = idBot => ({
    type: ACTION.GET_WA_QR_URL_REQUEST,
    idBot
 });
 
-export const getWpScreenshot = (idBot) => ({
+export const getWpScreenshot = idBot => ({
    type: ACTION.GET_WP_SCREENSHOT_REQUEST,
    idBot
 });
@@ -168,12 +168,12 @@ export const closeWpScreenshot = () => ({
    type: ACTION.CLOSE_WP_SCREENSHOT_REQUEST
 });
 
-export const getWpStatus = (idBot) => ({
+export const getWpStatus = idBot => ({
    type: ACTION.GET_WP_STATUS_REQUEST,
    idBot
 });
 
-export const logoutWp = (idBot) => ({
+export const logoutWp = idBot => ({
    type: ACTION.LOGOUT_WP_STATUS_REQUEST,
    idBot
 });

@@ -8,8 +8,6 @@ import PageLoader from "../../componens/Containers/PageLoader";
 
 import {getAllScenariesForBot} from "../../actions/actionCreator";
 
-import style from './singleBot.module.sass';
-
 const SingleBot = ({scenariosForScenarioContainer, getScenarios, match, loadingOfScenarios}) => {
    useEffect(() => {
       if (scenariosForScenarioContainer.length === 0) {
@@ -18,7 +16,7 @@ const SingleBot = ({scenariosForScenarioContainer, getScenarios, match, loadingO
    }, [match.params.botId]);
 
    return (
-      <div className={style.mainContainer}>
+      <div className="page-container">
          <PageLoader loading={loadingOfScenarios}>
             <ScenariosContainer/>
          </PageLoader>

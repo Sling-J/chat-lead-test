@@ -1,11 +1,16 @@
 @import "partials";
 
 .page-container {
-   background: $main__bg-color;
-   min-height: 100vh;
-   padding-bottom: 60px;
-   width: 100%;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
+	background: $main__bg-color;
+	min-height: 81vh;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.pagination-container {
+	margin-top: 30px;
+	padding-bottom: 40px;
+	width: 100%;
 }

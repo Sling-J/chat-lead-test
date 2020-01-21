@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 
 import {destinationScenario} from "../../../constants/defaultValues";
-import CopyToClipboard from "../../Containers/CopyToClipboard";
+
+import CopyToClipboard from "../../Containers/CopyToClipboard.jsx";
 import ButtonsForAddNewMessage from '../../inputs/buttons/buttonsForAddNewMessages/buttonsForAddNewMessage';
 import SideBarSocial from '../../sideBarSocial/sideBarSocial';
 import MessagesContainer from './messagesContainer/messagesContainer';

@@ -1,12 +1,22 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 
-import {getTransactions} from '../../actions/actionCreator';
-
 import {Spin} from 'antd';
+
+import {getTransactions} from '../../actions/actionCreator';
 import {formatUnixToDate} from "../../utils/formatDate";
+import Pagination from "../Containers/Pagination";
 
 const TariffHistoryContainer = ({getTransactions, loadingOfTransactions, transactions, botsData}) => {
+	const [currentPage, setCurrentPage] = useState(1);
+	const [dataPerPage] = useState(10);
+
+	const indexOfLastPost = currentPage * dataPerPage;
+	const indexOfFirstPost = indexOfLastPost - dataPerPage;
+
+	const currentData = data => data.slice(indexOfFirstPost, indexOfLastPost);
+	const paginate = pageNumber => setCurrentPage(pageNumber);
+
    useEffect(() => {
       getTransactions();
    }, []);
@@ -26,7 +36,7 @@ const TariffHistoryContainer = ({getTransactions, loadingOfTransactions, transac
                   </thead>
 
                   <tbody className="main-table-content__body tariff-table-content__body">
-                  {transactions.length !== 0 ? transactions.map(item => {
+                  {transactions.length !== 0 ? currentData(transactions).map(item => {
                      const botName = botsData.find(bot => bot.id === item.bot_id);
 
                      return (
@@ -47,6 +57,15 @@ const TariffHistoryContainer = ({getTransactions, loadingOfTransactions, transac
                   )}
                   </tbody>
                </table>
+
+					{transactions.length > 10 && (
+						<Pagination
+							dataPerPage={dataPerPage}
+							totalData={transactions.length}
+							currentPage={currentPage}
+							paginate={paginate}
+						/>
+					)}
             </div>
          </Spin>
       </div>

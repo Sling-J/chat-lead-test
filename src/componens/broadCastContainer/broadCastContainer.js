@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
@@ -11,6 +11,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 import TriggersContainer from "../scenariosAndTriggers/triggersContainer/triggersContainer";
+import Pagination from "../Containers/Pagination";
 import {ScenarioIdContext} from "../../utils/Contexts";
 import {sliceExtraText} from "../../utils/textValidation";
 
@@ -20,9 +21,18 @@ const BroadCastContainer = props => {
    const {changeScenarioId, changedScenarioId, isFetching, deleteBroadcast} = props;
 
    const [changedBroadCastId, changeBroadCastId] = useState(null);
-   const [changedTypeBroadcast, changeTypeBroadcast] = useState('sended');
+	const [changedTypeBroadcast, changeTypeBroadcast] = useState('sended');
 
-   const appendBroadcastHandler = () => {
+	const [currentPage, setCurrentPage] = useState(1);
+	const [dataPerPage] = useState(9);
+
+	const indexOfLastPost = currentPage * dataPerPage;
+	const indexOfFirstPost = indexOfLastPost - dataPerPage;
+
+	const currentData = data => data.slice(indexOfFirstPost, indexOfLastPost);
+	const paginate = pageNumber => setCurrentPage(pageNumber);
+
+	const appendBroadcastHandler = () => {
       props.appendBroadcast(props.match.params.botId)
 	};
 
@@ -83,87 +93,130 @@ const BroadCastContainer = props => {
    const broadCastData = () => {
       if (changedTypeBroadcast === 'sended') {
          return (
-            <tbody className="main-table-content__body broadcast-table-sent-body">
-            {props.broadCastData.filter(elem => elem.sent).length > 0 ? (
-               props.broadCastData.map((elem, index) => {
-                  const text = showBroadCastTitle(elem.scenario.triggers[0]);
+            <Fragment>
+					<table className="main-table-content">
+						<thead className="main-table-content__head">
+							<tr>
+								<td>Сообщение</td>
+								<td>Получателей</td>
+								<td>Дата</td>
+								<td/>
+							</tr>
+						</thead>
+						<tbody className="main-table-content__body broadcast-table-sent-body">
+						{props.broadCastData.filter(elem => elem.sent).length > 0 ? (
+							currentData(props.broadCastData).map((elem, index) => {
+								const text = showBroadCastTitle(elem.scenario.triggers[0]);
 
-                  return elem.sent && (
-                     <tr
-                        key={index}
-                        onClick={() => {
-                           changeScenarioId(elem.scenario.id);
-                        }}
-                     >
-                        <td className="main-table-content-body__key-words">
-                           <span>{text ? sliceExtraText(text, 41) : elem.scenario.triggers[0].caption}</span>
-                        </td>
-                        <td>
-                           {elem.users_count}
-                        </td>
-                        <td>
-                           {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
-                        </td>
-                        <td>
-                           <FontAwesomeIcon icon={faTrash}/>
-                        </td>
-                     </tr>
-                  )
-               })
-            ) : (
-               <tr>
-                  <td className="main-table-content-body__key-words">
-                     Тут пока пусто
-                  </td>
-                  <td/>
-                  <td/>
-                  <td/>
-               </tr>
-            )}
-            </tbody>
+								return elem.sent && (
+									<tr
+										key={index}
+										onClick={() => {
+											changeScenarioId(elem.scenario.id);
+										}}
+									>
+										<td className="main-table-content-body__key-words">
+											<span>{text ? sliceExtraText(text, 41) : elem.scenario.triggers[0].caption}</span>
+										</td>
+										<td>
+											{elem.users_count}
+										</td>
+										<td>
+											{moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
+										</td>
+										<td>
+											<FontAwesomeIcon icon={faTrash}/>
+										</td>
+									</tr>
+								)
+							})
+						) : (
+							<tr>
+								<td className="main-table-content-body__key-words">
+									Тут пока пусто
+								</td>
+								<td/>
+								<td/>
+								<td/>
+							</tr>
+						)}
+						</tbody>
+					</table>
+
+					{props.broadCastData.filter(elem => elem.sent).length > 9 && (
+						<Pagination
+							dataPerPage={dataPerPage}
+							totalData={props.broadCastData.filter(elem => elem.sent).length}
+							currentPage={currentPage}
+							paginate={paginate}
+						/>
+					)}
+				</Fragment>
          )
       } else {
          return (
-            <tbody className="main-table-content__body broadcast-table-not-sent-body">
-            {props.broadCastData.filter(elem => !elem.sent).length > 0 ? (
-               props.broadCastData.map((elem, index) => {
-                  const text = showBroadCastTitle(elem.scenario.triggers[0]);
+				<Fragment>
+					<table className="main-table-content">
+						<thead className="main-table-content__head">
+							<tr>
+								<td>Сообщение</td>
+								<td>Получателей</td>
+								<td>Дата</td>
+								<td/>
+							</tr>
+						</thead>
 
-                  return !elem.sent && (
-                     <tr key={index} onClick={() => {
-                        changeScenarioId(elem.scenario.id);
-                     }}>
-                        <td className="main-table-content-body__key-words">
-                           <span>
-                              {text ? sliceExtraText(text, 41) : elem.scenario.triggers[0].caption}
-                           </span>
-                        </td>
-                        <td>
-                           {elem.users_count}
-                        </td>
-                        <td>
-                           {moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
-                        </td>
-                        <td onClick={e => {
-                           e.stopPropagation();
-                           // deleteBroadcast(props.match.params.botId, elem.id);
-                        }}>
-                           <FontAwesomeIcon icon={faTrash}/>
-                        </td>
-                     </tr>
-                  )
-               })
-            ) : (
-               <tr>
-                  <td className="main-table-content-body__key-words">
-                     Тут пока пусто
-                  </td>
-                  <td/>
-                  <td/>
-                  <td/>
-               </tr>
-            )}
-            </tbody>
+						<tbody className="main-table-content__body broadcast-table-not-sent-body">
+							{props.broadCastData.filter(elem => !elem.sent).length > 0 ? (
+								currentData(props.broadCastData).map((elem, index) => {
+									const text = showBroadCastTitle(elem.scenario.triggers[0]);
+
+									return !elem.sent && (
+										<tr key={index} onClick={() => {
+											changeScenarioId(elem.scenario.id);
+										}}>
+											<td className="main-table-content-body__key-words">
+												<span>
+													{text ? sliceExtraText(text, 41) : elem.scenario.triggers[0].caption}
+												</span>
+											</td>
+											<td>
+												{elem.users_count}
+											</td>
+											<td>
+												{moment(elem.time * 1000).format('YYYY-MM-DD hh:mm')}
+											</td>
+											<td onClick={e => {
+												e.stopPropagation();
+												// deleteBroadcast(props.match.params.botId, elem.id);
+											}}>
+												<FontAwesomeIcon icon={faTrash}/>
+											</td>
+										</tr>
+									)
+								})
+							) : (
+								<tr>
+									<td className="main-table-content-body__key-words">
+										Тут пока пусто
+									</td>
+									<td/>
+									<td/>
+									<td/>
+								</tr>
+							)}
+						</tbody>
+					</table>
+
+					{props.broadCastData.filter(elem => !elem.sent).length > 9 && (
+						<Pagination
+							dataPerPage={dataPerPage}
+							totalData={props.broadCastData.filter(elem => !elem.sent).length}
+							currentPage={currentPage}
+							paginate={paginate}
+						/>
+					)}
+				</Fragment>
          );
       }
    };
@@ -227,17 +280,8 @@ const BroadCastContainer = props => {
                   </li>
                </ul>
             </div>
-            <table className="main-table-content">
-               <thead className="main-table-content__head">
-               <tr>
-                  <td>Сообщение</td>
-                  <td>Получателей</td>
-                  <td>Дата</td>
-                  <td/>
-               </tr>
-               </thead>
-               {broadCastData()}
-            </table>
+
+				{broadCastData()}
          </div>
       </div>
    )

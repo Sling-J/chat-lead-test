@@ -22,6 +22,7 @@ import leftArrow from "../../../svg/db/left-arrow.svg";
 
 import TriggersContainer from '../../scenariosAndTriggers/triggersContainer/triggersContainer';
 import SearchData from "../../searchData/searchData";
+import Pagination from "../../Containers/Pagination";
 
 import {Select, Dropdown, Input, Menu} from 'antd';
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -38,7 +39,16 @@ const ScenariosContainer = props => {
    const [snackOpen, setSnackOpen] = useState(false);
 
    const [scenariosDataInFilter, setScenariosDataInFilter] = useState([]);
-   const [isOpenCreateScenarioField, setStatusCreateScenarioField] = useState(false);
+	const [isOpenCreateScenarioField, setStatusCreateScenarioField] = useState(false);
+
+	const [currentPage, setCurrentPage] = useState(1);
+	const [dataPerPage] = useState(9);
+
+	const indexOfLastPost = currentPage * dataPerPage;
+	const indexOfFirstPost = indexOfLastPost - dataPerPage;
+
+	const currentData = data => data.slice(indexOfFirstPost, indexOfLastPost);
+	const paginate = pageNumber => setCurrentPage(pageNumber);
 
    function handleChange(value) {
       setTextArea(value);
@@ -232,7 +242,7 @@ const ScenariosContainer = props => {
                   </thead>
                   <tbody className="main-table-content__body">
                   {scenariosDataInFilter.length > 0 ? (
-                     scenariosDataInFilter.map((elem, index) => {
+                     currentData(scenariosDataInFilter).map((elem, index) => {
 								const menu = (
 									<Menu className="main-table-content-body__edit">
 										<div style={{padding: '15px'}}>
@@ -313,6 +323,15 @@ const ScenariosContainer = props => {
                   )}
                   </tbody>
                </table>
+
+					{scenariosDataInFilter.length > 9 && (
+						<Pagination
+							dataPerPage={dataPerPage}
+							totalData={scenariosDataInFilter.length}
+							currentPage={currentPage}
+							paginate={paginate}
+						/>
+					)}
             </div>
          </div>
       </div>
