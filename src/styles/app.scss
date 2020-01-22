@@ -5,7 +5,7 @@
 @import "tariff";
 @import "payment";
 @import "profile";
-@import "growthTool";	
+@import "growthTool";
 @import "partials";
 
 body {
@@ -87,4 +87,10 @@ body {
 
 .search-data-form .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl {
    border-radius: 25px;
+}
+
+.sendLinkElement_sendLinkBox__KfoW0 {
+   .ant-input:hover {
+      border-color: #0084ff !important;
+   }
 }

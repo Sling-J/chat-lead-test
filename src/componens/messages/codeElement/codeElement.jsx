@@ -1,53 +1,47 @@
 import React, {useState, useEffect} from 'react';
+import {compose} from "redux";
 import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
+import {updateTrigger} from "../../../actions/actionCreator";
 
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
-import ConditionsForElements from '../conditionsForElements/conditionsForElements';
-import EmojiPicker from "../textArea/emojiPicker/emojiPicker";
-import {Dropdown} from 'antd';
+import ConditionsForElements from "../conditionsForElements/conditionsForElements";
 
 import style from "./codeElement.module.sass";
 
 const CodeElement = props => {
-   const {value, handler, index, componentType} = props;
-   
-   const [textAreaValue, setTextAreaValue] = useState('');
+   const {value, index, componentType, changedTrigger, type, match} = props;
+
+   const [textAreaValue, setTextAreaValue] = useState("");
+   const [errorText, setErrorText] = useState(null);
 
    useEffect(() => {
-      setTextAreaValue(value.text);
-   }, [value.text]);
+      setTextAreaValue(JSON.stringify(value.customs));
+   }, [value.customs]);
 
-   const menu = (
-      <div className={style.variableMenu}>
-         <h3>Макросы</h3>
-         <ul>
-            <li onClick={() => addFullName('first_name')}>Имя</li>
-            {props.changedSocial === 'whatsapp' ? (
-               <li onClick={() => addFullName('phone')}>Телефон</li>
-            ) : (
-               <li onClick={() => addFullName('last_name')}>Фамилия</li>
-            )}
-         </ul>
-      </div>
-   );
+   const updateTrigger = () => {
+      const messagesCopy = changedTrigger.messages;
+      const customs = messagesCopy[props.changedSocial][index];
 
-   const addFullName = name => {
-      let myValue;
+      try {
+         customs.customs = JSON.parse(textAreaValue);
 
-      if (props.changedSocial === 'whatsapp') {
-         myValue = name === 'first_name'
-            ? " {name}"
-            : " {phone}";
-      } else {
-         myValue = name === 'first_name'
-            ? " {first_name}"
-            : " {last_name}";
+         const triggerData = {
+            ...changedTrigger,
+            index,
+            type,
+            messages: messagesCopy,
+            botId: match.params.botId
+         };
+
+         setErrorText(null);
+         JSON.stringify(value.customs) !== textAreaValue && props.updateTrigger(triggerData, null, props.changedSocial);
+      } catch (e) {
+         console.log(e.message);
+         setErrorText('Неверный формат кода');
       }
-
-      setTextAreaValue(textAreaValue + myValue);
-      handler({target: {value: textAreaValue + myValue}}, index, componentType);
    };
-   
+
    return (
       <div className={style.textArea}>
 			<ConditionsForElements/>
@@ -59,33 +53,25 @@ const CodeElement = props => {
          <textarea
             id={`insertVariable-${componentType}${index}`}
             onChange={e => setTextAreaValue(e.target.value)}
-            onBlur={() => handler({target: {value: textAreaValue}}, index, componentType)}
-            value={textAreaValue}
+            onBlur={updateTrigger}
+            value={textAreaValue === '""' ? "" : textAreaValue}
             placeholder="Напишите обработчик"
          />
-         <div className={style.actionNav}>
-            <div className={style.actionButtons}>
-               <EmojiPicker
-                  className={style.actionNavSmile}
-                  handler={handler}
-                  index={index}
-                  textAreaValue={textAreaValue}
-                  componentType={componentType}
-                  customStyle={style.actionNavSmile}
-                  setTextAreaValue={setTextAreaValue}
-                  emojiSize={20}
-               />
 
-               <Dropdown overlay={menu}>
-                  <div className={`${style.actionNavVars} ${style.actionNavVarsMenu}`}/>
-               </Dropdown>
-            </div>
-            <div/>
-         </div>
+         <p className={style.errorText}>{errorText}</p>
       </div>
    )
 };
 
-export default connect(({singleBotReducers}) => ({
+const mapStateToProps = ({singleBotReducers}) => ({
    changedSocial: singleBotReducers.changedSocial
-}))(CodeElement);
+});
+
+const mapDispatchToProps = dispatch => ({
+   updateTrigger: (triggerData, updationData, social) => dispatch(updateTrigger(triggerData, updationData, social)),
+});
+
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(CodeElement);

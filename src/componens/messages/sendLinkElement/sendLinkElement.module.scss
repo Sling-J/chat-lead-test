@@ -16,10 +16,30 @@
 		padding: 13px 16px;
 		border: 1px solid #e0e6ed;
 		border-radius: 0 0 7px 7px;
-      transition: all 0.2s;
 
-      &:hover {
-         border-color: #4680fe;
+      .sendLinkBoxField {
+         margin-bottom: 15px;
+
+         .sendLinkBoxTitle {
+            margin-bottom: 7px;
+            font-size: 15px;
+         }
+
+         .sendLinkBoxSelect {
+            border: 1px solid #d9d9d9;
+            color: #BFBFBF;
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 4px 11px;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &:hover {
+               border-color: #0084ff;
+            }
+         }
       }
 	}
 }

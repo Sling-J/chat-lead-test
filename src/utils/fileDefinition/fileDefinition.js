@@ -210,14 +210,12 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
       return (
          <CodeElement
             type={'customs'}
-            value={value}
-            handler={handler}
             index={index}
-            key={key}
-            componentType={'customs'}
             changedTrigger={changedTrigger}
+            value={value}
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
+            key={key}
          />
       )
    } else if (key === 'contact') {
