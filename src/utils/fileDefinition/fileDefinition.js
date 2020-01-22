@@ -116,6 +116,19 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changeTriggerId={changeTriggerId}
          />
       )
+   } else if (key === 'sendLink') {
+      return (
+         <SendLinkElement
+            type={'sendLink'}
+            value={Object.values(value)[0]}
+            onChange={(e) => handler(e, index, key)}
+            index={index}
+            key={key}
+            changedTrigger={changedTrigger}
+            changedScenario={changedScenario}
+            changeTriggerId={changeTriggerId}
+         />
+      )
    } else if (key === 'list') {
       return (
          <ListElement

@@ -13,7 +13,7 @@ const FancyFileInput = props => {
 
    const [loading, setLoading] = useState(false);
    const [sizeError, setSizeError] = useState('');
-   
+
    const pathFile = value[type];
    let nameFile = pathFile ? pathFile.split('/')[pathFile.split('/').length - 1] : '';
 
@@ -25,7 +25,7 @@ const FancyFileInput = props => {
       if (pathFile.length !== 0) {
          setLoading(false);
       }
-   }, [pathFile])
+   }, [pathFile]);
 
    return (
       <div className={style.mainContainer}>

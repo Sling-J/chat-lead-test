@@ -12,31 +12,25 @@ import {getTags, moduleName as tagsModule} from "../../../ducks/Tags";
 
 import style from './conditionsForElements.module.scss';
 
-const {Option} = Select;
+// const {Option} = Select;
 
 const info = (
 	<div className={style.conditionsContainerInfo}>
-	  	<p>Infromation about ...</p>
+	  	<p>Information about ...</p>
 	</div>
 );
 
-const ConditionsForElements = ({getTags, match, tags, loadingOfTags}) => {
-	const children = [];
+const ConditionsForElements = ({getTags, match}) => {
+	// const children = [];
 
 	useEffect(() => {
 		getTags(match.params.botId);
 	}, []);
 
-	useEffect(() => {
-		if (tags.length !== 0) {
-			
-		}
-	}, [tags]);
+	// for (let i = 10; i < 36; i++) {
+	// 	children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+	// }
 
-	for (let i = 10; i < 36; i++) {
-		children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-	}
-	 
 	function handleChange(value) {
 		console.log(`selected ${value}`);
 	}
@@ -49,9 +43,7 @@ const ConditionsForElements = ({getTags, match, tags, loadingOfTags}) => {
 				style={{ width: '100%' }}
 				placeholder="Выберите теги"
 				onChange={handleChange}
-			>
-				{children}
-			</Select>
+			/>
 		</div>
 	);
 

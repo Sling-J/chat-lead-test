@@ -16,5 +16,10 @@
 		padding: 13px 16px;
 		border: 1px solid #e0e6ed;
 		border-radius: 0 0 7px 7px;
+      transition: all 0.2s;
+
+      &:hover {
+         border-color: #4680fe;
+      }
 	}
 }
