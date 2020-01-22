@@ -47,3 +47,28 @@
       }
 	}
 }
+
+.sendLinkBoxSelectBox {
+   width: 292px;
+
+   .sendLinkItem {
+      padding: 8px 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      i {
+         color: #BFBFBF;
+      }
+
+      &:hover {
+         background: #e6f7ff;
+      }
+   }
+}
+
+.sendLinkTMenu {
+   padding: 10px;
+}

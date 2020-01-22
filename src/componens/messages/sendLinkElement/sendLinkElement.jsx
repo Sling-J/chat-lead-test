@@ -2,59 +2,95 @@ import React from "react";
 
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
 
-import {Input, Menu, Dropdown, Select, Icon} from "antd";
+import {Input, Select, Icon, Popover} from "antd";
 
 import style from "./sendLinkElement.module.scss"
 import ConditionsToggle from "../conditionsForElements/conditionsToggle";
 import ConditionsContainer from "../conditionsForElements/conditionsContainer";
-
-const {SubMenu} = Menu;
 
 const SendLinkElement = props => {
    function handleChange(value) {
       console.log(`selected ${value}`);
    }
 
+   const tMenuSelectTags = (
+      <div className={style.sendLinkTMenu}>
+         <Select
+            mode="tags"
+            style={{width: '250px'}}
+            placeholder="Добавить теги"
+            onChange={handleChange}
+         />
+      </div>
+   );
+
+   const tMenuSelectMultiple = (
+      <div className={style.sendLinkTMenu}>
+         <Select
+            mode="multiple"
+            style={{width: '250px'}}
+            placeholder="Убрать теги"
+            onChange={handleChange}
+         />
+      </div>
+   );
+
+   const fMenuSelectTags = (
+      <div className={style.sendLinkTMenu}>
+         <Select
+            mode="tags"
+            style={{width: '250px'}}
+            placeholder="Добавить теги"
+            onChange={handleChange}
+         />
+      </div>
+   );
+
+   const fMenuSelectMultiple = (
+      <div className={style.sendLinkTMenu}>
+         <Select
+            mode="multiple"
+            style={{width: '250px'}}
+            placeholder="Убрать теги"
+            onChange={handleChange}
+         />
+      </div>
+   );
+
    const tMenu = (
-      <Menu>
-         <SubMenu title="Добавить теги">
-            <Select
-               mode="tags"
-               style={{width: '250px'}}
-               placeholder="Добавить теги"
-               onChange={handleChange}
-            />
-         </SubMenu>
-         <SubMenu title="Убрать теги">
-            <Select
-               mode="tags"
-               style={{width: '250px'}}
-               placeholder="Убрать теги"
-               onChange={handleChange}
-            />
-         </SubMenu>
-      </Menu>
+      <div className={style.sendLinkBoxSelectBox}>
+         <Popover content={tMenuSelectTags} trigger="click" placement="rightTop">
+            <div className={style.sendLinkItem}>
+               <p>Добавить теги</p>
+               <Icon type="right"/>
+            </div>
+         </Popover>
+
+         <Popover content={tMenuSelectMultiple} trigger="click" placement="rightBottom">
+            <div className={style.sendLinkItem}>
+               <p>Убрать теги</p>
+               <Icon type="right"/>
+            </div>
+         </Popover>
+      </div>
    );
 
    const fMenu = (
-      <Menu>
-         <SubMenu title="Добавить теги">
-            <Select
-               mode="tags"
-               style={{width: '250px'}}
-               placeholder="Добавить теги"
-               onChange={handleChange}
-            />
-         </SubMenu>
-         <SubMenu title="Убрать теги">
-            <Select
-               mode="multiple"
-               style={{width: '250px'}}
-               placeholder="Убрать теги"
-               onChange={handleChange}
-            />
-         </SubMenu>
-      </Menu>
+      <div className={style.sendLinkBoxSelectBox}>
+         <Popover content={fMenuSelectTags} trigger="click" placement="rightTop">
+            <div className={style.sendLinkItem}>
+               <p>Добавить теги</p>
+               <Icon type="right"/>
+            </div>
+         </Popover>
+
+         <Popover content={fMenuSelectMultiple} trigger="click" placement="rightBottom">
+            <div className={style.sendLinkItem}>
+               <p>Убрать теги</p>
+               <Icon type="right"/>
+            </div>
+         </Popover>
+      </div>
    );
 
    return (
@@ -76,22 +112,22 @@ const SendLinkElement = props => {
 
             <div className={style.sendLinkBoxField}>
                <p className={style.sendLinkBoxTitle}>Если кликнул по ссылке:</p>
-               <Dropdown overlay={tMenu} trigger={['click']}>
+               <Popover content={tMenu} trigger="click" placement="bottom">
                   <div className={style.sendLinkBoxSelect}>
                      <p>Выберите действия</p>
                      <Icon type="down"/>
                   </div>
-               </Dropdown>
+               </Popover>
             </div>
 
             <div className={style.sendLinkBoxField}>
                <p className={style.sendLinkBoxTitle}>Если не кликнул по ссылке:</p>
-               <Dropdown overlay={fMenu} trigger={['click']}>
+               <Popover content={fMenu} trigger="click" placement="bottom">
                   <div className={style.sendLinkBoxSelect}>
                      <p>Выберите действия</p>
                      <Icon type="down"/>
                   </div>
-               </Dropdown>
+               </Popover>
             </div>
          </div>
       </div>
