@@ -3,7 +3,6 @@ import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 
-import ConditionsForElements from "../conditionsForElements/conditionsForElements"
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 import {updateTrigger} from "../../../actions/actionCreator";
 import {matchNumber} from "../../../utils/textValidation";
@@ -11,6 +10,8 @@ import {matchNumber} from "../../../utils/textValidation";
 import {Input} from 'antd';
 
 import style from './contactsElement.module.sass';
+import ConditionsToggle from "../conditionsForElements/conditionsToggle";
+import ConditionsContainer from "../conditionsForElements/conditionsContainer";
 
 const ContactsElement = props => {
 	const {type, index, match, value, changedTrigger} = props;
@@ -29,7 +30,7 @@ const ContactsElement = props => {
 
 		contact.contact = 'done';
 		contact.sendContact.contactId = parseInt(event.target.value);
-		
+
 		const triggerData = {
 			...changedTrigger,
          index,
@@ -44,19 +45,21 @@ const ContactsElement = props => {
 
    return (
       <div className={style.mainContainer}>
-			<ConditionsForElements/>
+         <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+         <ConditionsContainer conditions={value.conditions}/>
+
          <div className={style.hoverBar}>
             <HoverBarForMessage {...props}/>
          </div>
-			
-			<div className={style.contanctsContainer}>
-				<p className={style.contanctsContainerTitle}>Отправление контакта</p>
 
-				<form className={style.contanctsContainerForm}>
-					<label className={style.contanctsContainerFormField}>
-						<div className={style.contanctsContainerFormFieldLabel}>Номер телефона</div>
+			<div className={`${style.contactsContainer} ${value.conditions && style.contactsRadius}`}>
+				<p>Отправление контакта</p>
+
+				<form className={style.contactsContainerForm}>
+					<label className={style.contactsContainerFormField}>
+						<div className={style.contactsContainerFormFieldLabel}>Номер телефона</div>
 						<Input
-							className={style.contanctsContainerFormFieldInput}
+							className={style.contactsContainerFormFieldInput}
 							defaultValue={value.sendContact.contactId}
 							placeholder="77077206590"
 							onBlur={updateTrigger}

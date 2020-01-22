@@ -8,12 +8,13 @@ import {updateTrigger} from "../../../actions/actionCreator";
 import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
 import MiniImagesForSlider from './miniImagesForSlider/miniImagesForSlider';
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
-import ConditionsForElements from "../conditionsForElements/conditionsForElements";
 
 import style from './cardOrGallaryElement.module.sass';
+import ConditionsToggle from "../conditionsForElements/conditionsToggle";
+import ConditionsContainer from "../conditionsForElements/conditionsContainer";
 
 const CardOrGalleryElement = (props) => {
-   const {type, index, pictureForLabel, value, changedTrigger} = props;
+   const {type, index, pictureForLabel, value, changedTrigger, conditionalsValue} = props;
    const [changedSlide, changeSlide] = useState(0);
 
    const updateTrigger = (e, typeInput) => {
@@ -72,13 +73,15 @@ const CardOrGalleryElement = (props) => {
 
    return (
       <div className={style.mainContainer}>
-			<ConditionsForElements/>
+         <ConditionsToggle isOpenConditions={conditionalsValue.conditions} {...props}/>
+         <ConditionsContainer conditions={conditionalsValue.conditions}/>
+
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}
             />
          </div>
-         <div className={style.contentContainer}>
+         <div className={`${style.contentContainer} ${conditionalsValue.conditions && style.cardRadius}`}>
             <div className={style.controlsLeft} onClick={newSlideOrNextSlide}>+</div>
             <div className={style.pictureContainer}>
                <input

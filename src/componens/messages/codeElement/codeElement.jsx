@@ -5,9 +5,10 @@ import {withRouter} from "react-router-dom";
 import {updateTrigger} from "../../../actions/actionCreator";
 
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
-import ConditionsForElements from "../conditionsForElements/conditionsForElements";
 
 import style from "./codeElement.module.sass";
+import ConditionsToggle from "../conditionsForElements/conditionsToggle";
+import ConditionsContainer from "../conditionsForElements/conditionsContainer";
 
 const CodeElement = props => {
    const {value, index, componentType, changedTrigger, type, match} = props;
@@ -37,20 +38,22 @@ const CodeElement = props => {
          setErrorText(null);
          JSON.stringify(value.customs) !== textAreaValue && props.updateTrigger(triggerData, null, props.changedSocial);
       } catch (e) {
-         console.log(e.message);
          setErrorText('Неверный формат кода');
       }
    };
 
    return (
       <div className={style.textArea}>
-			<ConditionsForElements/>
+         <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+         <ConditionsContainer conditions={value.conditions}/>
+
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}
             />
          </div>
          <textarea
+            className={value.conditions && style.textRadius}
             id={`insertVariable-${componentType}${index}`}
             onChange={e => setTextAreaValue(e.target.value)}
             onBlur={updateTrigger}

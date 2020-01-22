@@ -9,8 +9,8 @@ import {Modal} from 'antd';
 import TextArea from '../textArea/textArea';
 import {Page, Page1, Page2, Page3} from "./paymentElementItems";
 import {updateTrigger} from "../../../actions/actionCreator";
-
-import ConditionsForElements from "../conditionsForElements/conditionsForElements";
+import ConditionsToggle from "../conditionsForElements/conditionsToggle";
+import ConditionsContainer from "../conditionsForElements/conditionsContainer";
 
 import style from "../../../styles/messageButtons.module.scss";
 
@@ -113,8 +113,10 @@ const PaymentElement = props => {
 
    return (
       <div className="paymentMainContainer">
-			<ConditionsForElements/>
-         <TextArea componentType={type} hideCondition {...props}/>
+         <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+         <ConditionsContainer conditions={value.conditions}/>
+
+         <TextArea componentType={type} hideCondition timerMargin {...props}/>
          <div className="payment-main-container">
             <p className="payment-main-info">
                Сумма: <span>{price}</span> тг.

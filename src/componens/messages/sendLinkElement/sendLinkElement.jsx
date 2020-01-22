@@ -1,11 +1,12 @@
 import React from "react";
 
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
-import ConditionsForElements from '../conditionsForElements/conditionsForElements';
 
 import {Input, Menu, Dropdown, Select, Icon} from "antd";
 
 import style from "./sendLinkElement.module.scss"
+import ConditionsToggle from "../conditionsForElements/conditionsToggle";
+import ConditionsContainer from "../conditionsForElements/conditionsContainer";
 
 const {SubMenu} = Menu;
 
@@ -47,7 +48,7 @@ const SendLinkElement = props => {
          </SubMenu>
          <SubMenu title="Убрать теги">
             <Select
-               mode="tags"
+               mode="multiple"
                style={{width: '250px'}}
                placeholder="Убрать теги"
                onChange={handleChange}
@@ -58,14 +59,16 @@ const SendLinkElement = props => {
 
    return (
       <div className={style.sendLinkContainer}>
-         <ConditionsForElements/>
+         <ConditionsToggle isOpenConditions={props.value.conditions} {...props}/>
+         <ConditionsContainer conditions={props.value.conditions}/>
+
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}
             />
          </div>
 
-         <div className={style.sendLinkBox}>
+         <div className={`${style.sendLinkBox} ${props.value.conditions && style.linkRadius}`}>
             <div className={style.sendLinkBoxField}>
                <p className={style.sendLinkBoxTitle}>Напишите URL:</p>
                <Input type="text" placeholder="https://chatlead.io"/>

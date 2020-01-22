@@ -23,6 +23,7 @@ const HoverBarForMessage = (props) => {
          messages: messagesCopy,
          botId: props.match.params.botId
       };
+
       props.updateTrigger(updatedTrigger);
    };
 
@@ -100,8 +101,6 @@ const mapStateToProps = ({singleBotReducers}) => ({
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData) => dispatch(updateTrigger(triggerData)),
 });
-
-
 
 export default compose(
    withRouter,

@@ -87,6 +87,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <CardOrGalleryEllement
             type={'card'}
             value={Object.values(value)[0]}
+            conditionalsValue={value}
             onChange={(e) => handler(e, index, key)}
             index={index}
             key={key}
@@ -105,6 +106,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             type={'gallery'}
             value={Object.values(value)[0]}
             onChange={(e) => handler(e, index, key)}
+            conditionalsValue={value}
             index={index}
             key={key}
             pictureForLabel={{
@@ -120,7 +122,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
       return (
          <SendLinkElement
             type={'sendLink'}
-            value={Object.values(value)[0]}
+            value={value}
             onChange={(e) => handler(e, index, key)}
             index={index}
             key={key}
@@ -140,6 +142,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             }}
             changedTrigger={changedTrigger}
             value={Object.values(value)[0]}
+            conditionValue={value}
             onChange={(e) => handler(e, index, key)}
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}

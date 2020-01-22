@@ -94,3 +94,21 @@ body {
       border-color: #0084ff !important;
    }
 }
+
+.conditions-tr-enter {
+   opacity: 0.01;
+}
+
+.conditions-tr-enter.conditions-tr-enter-active {
+   opacity: 1;
+   transition: opacity 500ms;
+}
+
+.conditions-tr-leave {
+   opacity: 1;
+}
+
+.conditions-tr-leave.conditions-tr-leave-active {
+   opacity: 0.01;
+   transition: opacity 300ms;
+}

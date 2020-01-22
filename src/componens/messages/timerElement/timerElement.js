@@ -8,13 +8,14 @@ import {Select, InputNumber} from 'antd';
 import TextArea from "../textArea/textArea";
 import CustomFlatPicker from './customFlatPicker/customFlatPicker';
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
-import ConditionsForElements from "../conditionsForElements/conditionsForElements";
 
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import {timeToSeconds, secondsToTime} from "../../../utils/formatSecond";
 import {updateTrigger} from "../../../actions/actionCreator";
 
 import style from './timerElement.module.sass';
+import ConditionsToggle from "../conditionsForElements/conditionsToggle";
+import ConditionsContainer from "../conditionsForElements/conditionsContainer";
 
 const {Option} = Select;
 
@@ -153,13 +154,15 @@ const TimerElement = props => {
    if (Object.keys(valuesForTimer)[0] === 'pause_delay') {
       return (
          <div className={style.mainContentContainer}>
-				<ConditionsForElements/>
+            <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+            <ConditionsContainer conditions={value.conditions}/>
+
             <div className={style.hoverBar}>
                <HoverBarForMessage
                   {...props}
                />
             </div>
-            <div className={style.mainContainer}>
+            <div className={`${style.mainContainer} ${value.conditions && style.pauseRadius}`}>
                <p>Используйте этот блок, чтобы добавить задержку в работе цепочки</p>
 
                <form>
@@ -233,13 +236,15 @@ const TimerElement = props => {
    } else if (Object.keys(valuesForTimer)[0] === 'activity_lost') {
       return (
          <div className={style.mainContentContainer}>
-				<ConditionsForElements/>
+            <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+            <ConditionsContainer conditions={value.conditions}/>
+
             <div className={style.hoverBar}>
                <HoverBarForMessage
                   {...props}
                />
             </div>
-            <div className={style.datePickerContainer}>
+            <div className={`${style.datePickerContainer} ${value.conditions && style.pauseRadius}`}>
                <div className={style.datePickerTitle}>
                   <p>Ждать до</p>
                   <p>Дата / Время</p>
@@ -268,7 +273,9 @@ const TimerElement = props => {
    } else {
       return (
          <div className={style.mainContentContainer}>
-				<ConditionsForElements/>
+            <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+            <ConditionsContainer conditions={value.conditions}/>
+
             <div className={style.hoverBar}>
                <HoverBarForMessage
                   {...props}
@@ -276,11 +283,11 @@ const TimerElement = props => {
             </div>
 
             <div className={style.datePickerContainerAuto}>
-               <div className={style.datePickerTitle}>
-                  <p>Если нет активности через:</p>
-               </div>
-               <div>
-                  <form>
+               <form>
+                  <div className={`${style.datePickerContainerText} ${value.conditions && style.waitinRaidus}`}>
+                     <div className={style.datePickerTitle}>
+                        <p>Если нет активности через:</p>
+                     </div>
                      <div className={style.datePickerBox}>
                         <div className={style.datePickerItem}>
                            <div>
@@ -359,14 +366,15 @@ const TimerElement = props => {
                      </div>
 
                      <p className={style.datePickerTextAreaTitle}>Тогда надо отправить сообщение:</p>
+                  </div>
 
-                     <TextArea
-								hideCondition
-                        componentType="send_time"
-                        {...props}
-                     />
-                  </form>
-               </div>
+                  <TextArea
+                     hideCondition
+                     timerBorder
+                     componentType="send_time"
+                     {...props}
+                  />
+               </form>
             </div>
          </div>
       )

@@ -38,3 +38,21 @@
 		margin-bottom: 10px;
 	}
 }
+
+.conditionsButton {
+   z-index: 999;
+   cursor: pointer;
+   transition: all 0.3s;
+   position: absolute;
+   font-size: 16px;
+   right: 6.5px;
+   top: 5px;
+
+   .conditionsButtonOpenIcon {
+      color: #8492a6;
+   }
+
+   .conditionsButtonIcon {
+      color: #0084ff;
+   }
+}

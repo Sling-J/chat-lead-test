@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {connect} from 'react-redux';
 import {Spin} from "antd";
 
 import {staticMedia} from "../../../config/service/service";
 import HoverBarForMessage from "../../messages/hoverBarForMessage/hoverBarForMessage";
-import ConditionsForElements from "../../messages/conditionsForElements/conditionsForElements";
 
 import style from './fancyFileInput.module.sass';
+import ConditionsContainer from "../../messages/conditionsForElements/conditionsContainer";
+import ConditionsToggle from "../../messages/conditionsForElements/conditionsToggle";
 
 const FancyFileInput = props => {
-   const {accept, onChange, index, pictureForLabel, value, type, loadingOfTrigger} = props;
+   const {accept, onChange, index, pictureForLabel, value, type} = props;
 
    const [loading, setLoading] = useState(false);
    const [sizeError, setSizeError] = useState('');
@@ -29,7 +29,8 @@ const FancyFileInput = props => {
 
    return (
       <div className={style.mainContainer}>
-			<ConditionsForElements/>
+         <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+         <ConditionsContainer conditions={value.conditions}/>
 
          <div className={style.hoverBar}>
             <HoverBarForMessage
@@ -58,7 +59,7 @@ const FancyFileInput = props => {
                      }}
                      className={style.inputFile}
                   />
-                  <label htmlFor={index}>
+                  <label htmlFor={index} className={value.conditions && style.radiusLabel}>
                      <div className={`${style.pictureContainer} ${pathFile.length === 0 && style.spaces}`}>
                         <h2>{pathFile.length !== 0 ? nameFile : pictureForLabel.img}</h2>
                         <p>{pathFile.length === 0 && pictureForLabel.label}</p>
@@ -88,6 +89,4 @@ const FancyFileInput = props => {
    )
 };
 
-export default connect(({singleBotReducers}) => ({
-   loadingOfTrigger: singleBotReducers.loadingOfTrigger,
-}))(FancyFileInput);
+export default FancyFileInput;

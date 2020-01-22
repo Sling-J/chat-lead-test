@@ -5,11 +5,12 @@ import {withRouter} from "react-router-dom";
 
 import ButtonsContainer from '../../messages/buttonsContainer/buttonsContainer';
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
-import ConditionsForElements from "../conditionsForElements/conditionsForElements";
 
 import {updateTrigger} from "../../../actions/actionCreator";
 
 import style from './formElement.module.sass';
+import ConditionsToggle from "../conditionsForElements/conditionsToggle";
+import ConditionsContainer from "../conditionsForElements/conditionsContainer";
 
 const FormElement = props => {
    const {type, index, value, changedTrigger} = props;
@@ -101,7 +102,8 @@ const FormElement = props => {
       </div>
    ) : (
       <div className={style.mainContainer}>
-			<ConditionsForElements/>
+         <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+         <ConditionsContainer conditions={value.conditions}/>
 
          <div className={style.hoverBar}>
             <HoverBarForMessage

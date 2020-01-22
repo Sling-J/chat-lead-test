@@ -1,16 +1,17 @@
 import React, {useState, Fragment, useEffect} from 'react';
 import {connect} from "react-redux";
 
-import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
+import ConditionsToggle from "../conditionsForElements/conditionsToggle";
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
-import ConditionsForElements from "../conditionsForElements/conditionsForElements";
+import ConditionsContainer from "../conditionsForElements/conditionsContainer";
+import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
 import FastButtons from "../../scenariosAndTriggers/triggersContainer/fastButtons/fastButtons";
 import EmojiPicker from "./emojiPicker/emojiPicker";
 
 import style from './textArea.module.sass';
 
 const PaymentTextArea = props => {
-   const {value, handler, index, componentType, hideCondition} = props;
+   const {value, handler, index, componentType, hideCondition, timerBorder} = props;
 
    const [isTextAreaHovering, setIsTextAreaHovering] = useState(false);
    const [textAreaValue, setTextAreaValue] = useState('');
@@ -42,7 +43,15 @@ const PaymentTextArea = props => {
 
    return (
       <div className={style.textArea} key={Object.values(value)[0]}>
-			{!hideCondition && <ConditionsForElements/>}
+         {componentType !== 'send_time' && (
+            <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+         )}
+
+         <ConditionsContainer
+            conditions={value.conditions}
+            hideCondition={hideCondition}
+         />
+
          {componentType !== 'send_time' && (
             <div className={style.hoverBar}>
                <HoverBarForMessage
@@ -50,7 +59,9 @@ const PaymentTextArea = props => {
                />
             </div>
          )}
+
          <textarea
+            className={(value.conditions || timerBorder) && style.textAreaRadius}
             id={`insertVariable-${componentType}${index}`}
             onChange={e => setTextAreaValue(e.target.value)}
             onBlur={() => handler({target: {value: textAreaValue}}, index, componentType)}

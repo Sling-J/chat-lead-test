@@ -24,7 +24,7 @@ export const getFilledStatus = (social, changedTrigger) => {
          (item.form && item.form.length !== 0) ||
          (item.location && item.location.length !== 0) ||
          (item.payment && item.text.length !== 0) ||
-         (item.customs && item.text.length !== 0) ||
+         (item.customs && Object.keys(item.customs).length !== 0) ||
          (item.contact && item.contact.length !== 0));
    });
 
