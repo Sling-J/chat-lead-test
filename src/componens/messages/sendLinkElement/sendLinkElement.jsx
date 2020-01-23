@@ -2,57 +2,49 @@ import React from "react";
 
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
 
-import {Input, Select, Icon, Popover} from "antd";
+import {Input, Icon, Popover} from "antd";
 
-import style from "./sendLinkElement.module.scss"
 import ConditionsToggle from "../conditionsForElements/conditionsToggle";
 import ConditionsContainer from "../conditionsForElements/conditionsContainer";
+import SelectForTags from "../SelectForTags/SelectForTags";
+
+import style from "./sendLinkElement.module.scss"
 
 const SendLinkElement = props => {
-   function handleChange(value) {
-      console.log(`selected ${value}`);
-   }
-
    const tMenuSelectTags = (
       <div className={style.sendLinkTMenu}>
-         <Select
-            mode="tags"
+         <SelectForTags
             style={{width: '250px'}}
             placeholder="Добавить теги"
-            onChange={handleChange}
+            isTagCreator
          />
       </div>
    );
 
    const tMenuSelectMultiple = (
       <div className={style.sendLinkTMenu}>
-         <Select
-            mode="multiple"
+         <SelectForTags
             style={{width: '250px'}}
             placeholder="Убрать теги"
-            onChange={handleChange}
          />
       </div>
    );
 
    const fMenuSelectTags = (
       <div className={style.sendLinkTMenu}>
-         <Select
-            mode="tags"
+         <SelectForTags
             style={{width: '250px'}}
             placeholder="Добавить теги"
-            onChange={handleChange}
+            isTagCreator
          />
       </div>
    );
 
    const fMenuSelectMultiple = (
       <div className={style.sendLinkTMenu}>
-         <Select
-            mode="multiple"
+         <SelectForTags
             style={{width: '250px'}}
             placeholder="Убрать теги"
-            onChange={handleChange}
          />
       </div>
    );
