@@ -88,7 +88,7 @@ const SendLinkElement = props => {
    return (
       <div className={style.sendLinkContainer}>
          <ConditionsToggle isOpenConditions={props.value.conditions} {...props}/>
-         <ConditionsContainer conditions={props.value.conditions}/>
+         <ConditionsContainer conditions={props.value.conditions} {...props}/>
 
          <div className={style.hoverBar}>
             <HoverBarForMessage

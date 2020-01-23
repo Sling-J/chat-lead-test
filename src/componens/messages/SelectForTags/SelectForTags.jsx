@@ -1,13 +1,85 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {compose} from 'redux';
+import {connect} from 'react-redux';
+import {withRouter} from "react-router-dom";
+
 import {Divider, Icon, Select} from "antd";
+import {updateTrigger} from "../../../actions/actionCreator";
 
-const SelectForTags = ({isTagCreator, placeholder, style}) => {
+const {Option} = Select;
+
+const SelectForTags = ({
+   isTagCreator, placeholder, style,
+   changedTrigger, index, match, value,
+   updateTrigger, type, changedSocial,
+   tagsValue
+}) => {
    const [searchValue, setSearchValue] = useState('');
-   const [children] = useState([]);
+   const [sTagsArr, setTagsArr] = useState([]);
 
-   const handleChange = value => {
-      console.log(`selected ${value}`);
+   const setTags = [];
+
+   useEffect(() => {
+
+      if (Object.keys(tagsValue[type])[0] === 'send_time') {
+         if (tagsValue[type].send_time.tag.length !== 0) {
+            tagsValue[type].send_time.tag.split(',').forEach(item => {
+               setTags.push(<Option key={item}>{item}</Option>);
+            });
+
+            setTagsArr([...tagsValue[type].send_time.tag.split(',')]);
+         }
+      } else if (Object.keys(tagsValue[type])[0] === 'activity_lost') {
+         if (tagsValue[type].tag.length !== 0) {
+            tagsValue[type].tag.split(',').forEach(item => {
+               setTags.push(<Option key={item}>{item}</Option>);
+            });
+
+            setTagsArr([...tagsValue[type].tag.split(',')]);
+         }
+      } else if (Object.keys(tagsValue[type])[0] === 'pause_delay') {
+         if (tagsValue[type].format.tag.length !== 0) {
+            tagsValue[type].format.tag.split(',').forEach(item => {
+               setTags.push(<Option key={item}>{item}</Option>);
+            });
+
+            setTagsArr([...tagsValue[type].format.tag.split(',')]);
+         }
+      } else {
+         if (tagsValue.tag.length !== 0) {
+            tagsValue.tag.split(',').forEach(item => {
+               setTags.push(<Option key={item}>{item}</Option>);
+            });
+
+            setTagsArr([...tagsValue.tag.split(',')]);
+         }
+      }
+   }, [tagsValue]);
+
+   const handleChange = valueOf => {
       setSearchValue('');
+
+      const messagesCopy = changedTrigger.messages;
+
+      if (Object.keys(value[type])[0] === 'send_time') {
+         messagesCopy[changedSocial][index].timer.send_time.tag = valueOf.toString();
+      } else if (Object.keys(value[type])[0] === 'activity_lost') {
+         messagesCopy[changedSocial][index].timer.tag = valueOf.toString();
+      } else if (Object.keys(value[type])[0] === 'pause_delay') {
+         messagesCopy[changedSocial][index].timer.format.tag = valueOf.toString();
+      } else {
+         messagesCopy[changedSocial][index].tag = valueOf.toString();
+      }
+
+      const triggerData = {
+         ...changedTrigger,
+         index,
+         type,
+         messages: messagesCopy,
+         botId: match.params.botId
+      };
+
+      updateTrigger(triggerData, null, changedSocial);
    };
 
    return isTagCreator ? (
@@ -16,9 +88,10 @@ const SelectForTags = ({isTagCreator, placeholder, style}) => {
          style={style}
          placeholder={placeholder}
          onChange={handleChange}
+         defaultValue={sTagsArr}
          onSearch={value => setSearchValue(value)}
          dropdownRender={menu => {
-            const result = children.find(item => item === searchValue);
+            const result = sTagsArr.find(item => item === searchValue);
 
             return (
                <div>
@@ -33,15 +106,28 @@ const SelectForTags = ({isTagCreator, placeholder, style}) => {
                </div>
             )
          }}
-      />
+      >
+         {setTags}
+      </Select>
    ) : (
       <Select
          mode="multiple"
          style={style}
-         placeholder={placeholder}
          onChange={handleChange}
+         placeholder={placeholder}
       />
    );
 };
 
-export default SelectForTags;
+const mapStateToProps = ({singleBotReducers}) => ({
+   changedSocial: singleBotReducers.changedSocial
+});
+
+const mapDispatchToProps = dispatch => ({
+   updateTrigger: (triggerData, updationData, social) => dispatch(updateTrigger(triggerData, updationData, social)),
+});
+
+export default compose(
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
+)(SelectForTags);

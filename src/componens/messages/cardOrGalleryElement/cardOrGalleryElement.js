@@ -74,7 +74,7 @@ const CardOrGalleryElement = (props) => {
    return (
       <div className={style.mainContainer}>
          <ConditionsToggle isOpenConditions={conditionalsValue.conditions} {...props}/>
-         <ConditionsContainer conditions={conditionalsValue.conditions}/>
+         <ConditionsContainer conditions={conditionalsValue.conditions} {...props}/>
 
          <div className={style.hoverBar}>
             <HoverBarForMessage

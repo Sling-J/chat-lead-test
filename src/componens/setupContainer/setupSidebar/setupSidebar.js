@@ -3,8 +3,8 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {
-	facebookAuthUrl, vkAuthUrl, QRCodeUrl, 
-	resetUrl, editManager, getWpStatus, 
+	facebookAuthUrl, vkAuthUrl, QRCodeUrl,
+	resetUrl, editManager, getWpStatus,
 	getWpScreenshot, closeWpScreenshot,
 	logoutWp
 } from "../../../actions/actionCreator";
@@ -20,10 +20,11 @@ import SwipeableViews from "react-swipeable-views";
 
 const TabPanel = ({
 	value, index, handleSubmit, wpStatus,
-	loading, socialName, logoutData, 
-	loadingOfLogout, setTelegramToken, 
+	loading, socialName, logoutData,
+	loadingOfLogout, setTelegramToken,
 	isFetching, loadingOfScreenshot, error,
 	getWpScreenshot, logoutWp, loadingOfStatus,
+   isAuth,
 }) => {
    return value === index && (
       <p className={style.tabsContainerMenu}>
@@ -37,7 +38,7 @@ const TabPanel = ({
 
          <p className={style.socialBotName}>{socialName}</p>
 
-			{value === 3 && socialName.length !== 0 && (
+			{value === 3 && (isAuth && isAuth.length !== 0) && (
 				<div>
 					<Spin spinning={loadingOfStatus}>
 						<ul className={style.wpStatusList}>
@@ -57,7 +58,7 @@ const TabPanel = ({
             </p>
          )}
 
-			{value === 3 && socialName.length !== 0 && (
+			{value === 3 && (isAuth && isAuth.length !== 0) && (
             <Button
 					type="button"
 					variant="contained"
@@ -78,7 +79,7 @@ const TabPanel = ({
 					className={style.ui_vmenu_sep_button}
 					disabled={loading || isFetching}
 				>
-					{socialName === '' || !socialName ?
+					{isAuth === '' || !isAuth ?
 						loading ? <CircularProgress color="white"/> : 'АВТОРИЗОВАТЬСЯ'
 					: (
 						loading ? <CircularProgress color="white"/> : 'ПЕРЕАВТОРИЗАЦИЯ'
@@ -92,13 +93,13 @@ const TabPanel = ({
 					className={style.ui_vmenu_sep_button}
 					disabled={loading || loadingOfLogout}
 				>
-					{socialName === '' || !socialName || logoutData.ok ?
+					{isAuth === '' || !isAuth || logoutData.ok ?
 						loading ? <CircularProgress color="white"/> : 'АВТОРИЗОВАТЬСЯ'
 					: (
 						loadingOfLogout ? <CircularProgress color="white"/> : 'ВЫХОД'
 					)}
 				</Button>
-			)}	
+			)}
 
          <p className={style.errorMsg}>
             {error === 'Network Error' ? '' : error}
@@ -109,10 +110,10 @@ const TabPanel = ({
 
 const SetupSidebar = props => {
 	const {
-		botSetupData, url, logoutWp, resetUrl, 
-		setupLoading, logoutData, isFetching, 
-		error, vkAuth, facebookAuthUrl, QRCodeUrl, 
-		closeWpScreenshot, loadingOfLogout, 
+		botSetupData, url, logoutWp, resetUrl,
+		setupLoading, logoutData, isFetching,
+		error, vkAuth, facebookAuthUrl, QRCodeUrl,
+		closeWpScreenshot, loadingOfLogout,
 		loadingOfScreenshot, getWpScreenshot,
 		screenshot, getWpStatus, loadingOfStatus,
 		wpStatus, editManager
@@ -125,12 +126,12 @@ const SetupSidebar = props => {
    const botId = botSetupData && Object.keys(botSetupData).length !== 0 && botSetupData.id;
 	const theme = useTheme();
 
-	const showModal = () => setVisible(true);  
+	const showModal = () => setVisible(true);
 	const hideModal = () => {
 		setVisible(false);
 		closeWpScreenshot();
 	};
-	
+
 	useEffect(() => {
 		botId && getWpStatus(botId);
 	}, [botSetupData.whatsapp_instance]);
@@ -139,7 +140,7 @@ const SetupSidebar = props => {
 		if (screenshot.length !== 0) {
 			showModal();
 		}
-	}, [screenshot])
+	}, [screenshot]);
 
    useEffect(() => {
       if (url.length !== 0) {
@@ -210,45 +211,49 @@ const SetupSidebar = props => {
                   axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                   index={value}
                >
-						<TabPanel 
-							value={value} 
-							index={0} 
-							loading={setupLoading} 
-							isFetching={isFetching}
-							socialName={botSetupData.facebook_name} 
-							handleSubmit={() => facebookAuthUrl(botId)} 
-							error={error}
-						/>
-
-						<TabPanel 
-							value={value} 
-							index={1} 
-							loading={setupLoading} 
-							isFetching={isFetching} 
-							socialName={botSetupData.telegram_name} 
-							handleSubmit={() => editManager({idBot: botId, telegram_token: telegramToken, optional_params: ["telegram_token"]})} 
-							setTelegramToken={setTelegramToken} 
-							error={error}
-						/>
-
-						<TabPanel 
+						<TabPanel
 							value={value}
-							index={2} 
-							loading={setupLoading} 
-							isFetching={isFetching} 
-							socialName={botSetupData.vk_name} 
-							handleSubmit={() => vkAuth(botId)} 
+							index={0}
+							loading={setupLoading}
+							isFetching={isFetching}
+							socialName={botSetupData.facebook_name}
+							isAuth={botSetupData.facebook_name}
+							handleSubmit={() => facebookAuthUrl(botId)}
 							error={error}
 						/>
 
-						<TabPanel 
-							value={value} 
-							index={3} 
-							loading={setupLoading} 
+						<TabPanel
+							value={value}
+							index={1}
+							loading={setupLoading}
 							isFetching={isFetching}
-							socialName={botSetupData.whatsapp_instance} 
-							handleSubmit={() => QRCodeUrl(botId)} 
-							error={error} 
+							socialName={botSetupData.telegram_name}
+                     isAuth={botSetupData.telegram_name}
+							handleSubmit={() => editManager({idBot: botId, telegram_token: telegramToken, optional_params: ["telegram_token"]})}
+							setTelegramToken={setTelegramToken}
+							error={error}
+						/>
+
+						<TabPanel
+							value={value}
+							index={2}
+							loading={setupLoading}
+							isFetching={isFetching}
+							socialName={botSetupData.vk_name}
+                     isAuth={botSetupData.vk_name}
+							handleSubmit={() => vkAuth(botId)}
+							error={error}
+						/>
+
+						<TabPanel
+							value={value}
+							index={3}
+							loading={setupLoading}
+							isFetching={isFetching}
+							socialName={botSetupData.whatsapp_instance}
+                     isAuth={wpStatus.status}
+							handleSubmit={() => QRCodeUrl(botId)}
+							error={error}
 							getWpScreenshot={() => getWpScreenshot(botId)}
 							logoutWp={() => logoutWp(botId)}
 							logoutData={logoutData}

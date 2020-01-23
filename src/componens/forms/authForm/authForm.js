@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {withRouter, Link} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
@@ -90,7 +90,7 @@ const AuthForm = props => {
          </p>
 
          <p className={style.error}>
-            {(props.errorOfUser && 'Проводим технические работы!') || (customError)}
+            {props.errorOfUser || customError}
          </p>
       </form>
    )

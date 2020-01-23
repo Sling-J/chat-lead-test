@@ -1,31 +1,41 @@
 import moment from 'moment';
 
 export const defaultValuesForNewMessages = {
-   text: {text: '', keyboard: [], conditions: false},
-   photo: {photo: '', keyboard: [], conditions: false},
-   audio: {audio: '', keyboard: [], conditions: false},
-   video: {video: '', keyboard: [], conditions: false},
-   file: {file: '', keyboard: [], conditions: false},
-   type_processing: {type_processing: {delay: 5}, conditions: false},
-   card: {card: [{photo: '', title: '', text: '', keyboard: []}], conditions: false},
-   gallery: {gallery: [{photo: '', title: '', text: '', keyboard: []}], conditions: false},
-   list: {list: [{photo: '', title: '', text: '', keyboard: []}, {photo: '', title: '', text: '', keyboard: []}], conditions: false},
-   pause_delay: {timer: {pause_delay: '', format: {value: 0, key: 'sec', keyValue: 'Секунды'}}, keyboard: [], text: "", conditions: false},
-   activity_lost: {timer: {activity_lost: moment().format('YYYY-MM-DD, h:mm')}, keyboard: [], text: "", conditions: false},
-   send_time: {timer: {send_time: {day: '', hours: '', min: ''}}, keyboard: [], text: "", conditions: false},
-   form: {form: [""], keyboard: [], conditions: false},
-   location: {location: "", keyboard: [], conditions: false},
-	tags: {tags: "", keyboard: [], conditions: false},
-	sendLink: {sendLink: "", keyboard: [], conditions: false},
-   customs: {customs: {}, keyboard: [], conditions: false},
-	contact: {
-		contact: "",
-		sendContact: {
-			contactId: ""
-		},
-		keyboard: [],
+   text: {text: '', keyboard: [], conditions: false, tag: ''},
+   file: {file: '', keyboard: [], conditions: false, tag: ''},
+   tags: {tags: "", keyboard: [], conditions: false, tag: ''},
+   photo: {photo: '', keyboard: [], conditions: false, tag: ''},
+   audio: {audio: '', keyboard: [], conditions: false, tag: ''},
+   video: {video: '', keyboard: [], conditions: false, tag: ''},
+   form: {form: [""], keyboard: [], conditions: false, tag: ''},
+   customs: {customs: {}, keyboard: [], conditions: false, tag: ''},
+   sendLink: {sendLink: "", keyboard: [], conditions: false, tag: ''},
+   location: {location: "", keyboard: [], conditions: false, tag: ''},
+   type_processing: {type_processing: {delay: 5}, conditions: false, tag: ''},
+   card: {card: [{photo: '', title: '', text: '', keyboard: []}], conditions: false, tag: ''},
+   gallery: {gallery: [{photo: '', title: '', text: '', keyboard: []}], conditions: false, tag: ''},
+   pause_delay: {
+      timer: {pause_delay: '', format: {value: 0, key: 'sec', tag: '', keyValue: 'Секунды'}},
+      keyboard: [],
+      text: "",
       conditions: false
-	},
+   },
+   activity_lost: {
+      timer: {activity_lost: moment().format('YYYY-MM-DD, h:mm'), tag: '',},
+      keyboard: [],
+      text: "",
+      conditions: false
+   },
+   send_time: {timer: {send_time: {day: '', hours: '', min: '', tag: '',}}, keyboard: [], text: "", conditions: false},
+   contact: {
+      contact: "",
+      sendContact: {
+         contactId: ""
+      },
+      keyboard: [],
+      tag: '',
+      conditions: false
+   },
    payment: {
       payment: 'payment',
       amount: 0,
@@ -36,7 +46,14 @@ export const defaultValuesForNewMessages = {
       patronymic: '',
       recipient_card_info: '',
       trigger_id: '',
-		failure_text: '',
+      failure_text: '',
+      tag: '',
+      conditions: false
+   },
+
+
+   list: {
+      list: [{photo: '', title: '', text: '', keyboard: []}, {photo: '', title: '', text: '', keyboard: []}],
       conditions: false
    },
 };

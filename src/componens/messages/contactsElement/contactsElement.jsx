@@ -46,7 +46,7 @@ const ContactsElement = props => {
    return (
       <div className={style.mainContainer}>
          <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
-         <ConditionsContainer conditions={value.conditions}/>
+         <ConditionsContainer conditions={value.conditions} {...props}/>
 
          <div className={style.hoverBar}>
             <HoverBarForMessage {...props}/>
@@ -72,7 +72,6 @@ const ContactsElement = props => {
       </div>
    )
 };
-
 
 const mapStateToProps = ({singleBotReducers}) => ({
 	changedSocial: singleBotReducers.changedSocial

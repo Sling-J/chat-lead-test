@@ -45,7 +45,7 @@ const CodeElement = props => {
    return (
       <div className={style.textArea}>
          <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
-         <ConditionsContainer conditions={value.conditions}/>
+         <ConditionsContainer conditions={value.conditions} {...props}/>
 
          <div className={style.hoverBar}>
             <HoverBarForMessage

@@ -50,6 +50,7 @@ const PaymentTextArea = props => {
          <ConditionsContainer
             conditions={value.conditions}
             hideCondition={hideCondition}
+            {...props}
          />
 
          {componentType !== 'send_time' && (

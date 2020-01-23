@@ -22,6 +22,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <TextArea
             type={'text'}
             value={value}
+            tagsValue={value}
             handler={handler}
             index={index}
             changedTrigger={changedTrigger}
@@ -36,6 +37,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <FancyFileInput
             type={'audio'}
             index={index}
+            tagsValue={value}
             pictureForLabel={{
                label: 'Audio',
                img: <FontAwesomeIcon icon={faVolumeDown}/>
@@ -53,6 +55,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <FancyFileInput
             type={'video'}
             index={index}
+            tagsValue={value}
             pictureForLabel={{
                label: 'Video',
                img: <FontAwesomeIcon icon={faVideo}/>
@@ -70,6 +73,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <FancyFileInput
             type={'photo'}
             index={index}
+            tagsValue={value}
             pictureForLabel={{
                label: 'Image',
                img: <FontAwesomeIcon icon={faImage}/>
@@ -87,6 +91,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <CardOrGalleryEllement
             type={'card'}
             value={Object.values(value)[0]}
+            tagsValue={value}
             conditionalsValue={value}
             onChange={(e) => handler(e, index, key)}
             index={index}
@@ -105,6 +110,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <CardOrGalleryEllement
             type={'gallery'}
             value={Object.values(value)[0]}
+            tagsValue={value}
             onChange={(e) => handler(e, index, key)}
             conditionalsValue={value}
             index={index}
@@ -123,6 +129,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <SendLinkElement
             type={'sendLink'}
             value={value}
+            tagsValue={value}
             onChange={(e) => handler(e, index, key)}
             index={index}
             key={key}
@@ -136,6 +143,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <ListElement
             type={'list'}
             index={index}
+            tagsValue={value}
             pictureForLabel={{
                label: 'image',
                img: <FontAwesomeIcon icon={faImage}/>
@@ -154,6 +162,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <FormElement
             type={'form'}
             index={index}
+            tagsValue={value}
             changedTrigger={changedTrigger}
             value={value}
             onChange={(e) => handler(e, index, key)}
@@ -167,6 +176,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <TimerElement
             type={'timer'}
             index={index}
+            tagsValue={value}
             handler={handler}
             changedTrigger={changedTrigger}
             key={key}
@@ -181,6 +191,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <TypeProcessing
             type={'type_processing'}
             index={index}
+            tagsValue={value}
             changedTrigger={changedTrigger}
             value={value}
             onChange={(e) => handler(e, index, key)}
@@ -191,8 +202,9 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
          <TagsElement
             type={'tags'}
             index={index}
-				value={value}
-				changedTrigger={changedTrigger}
+            value={value}
+            tagsValue={value}
+            changedTrigger={changedTrigger}
          />
       )
    } else if (key === 'location') {
@@ -203,6 +215,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             index={index}
             changedTrigger={changedTrigger}
             value={value}
+            tagsValue={value}
             onChange={(e) => handler(e, index, key)}
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
@@ -216,6 +229,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             index={index}
             changedTrigger={changedTrigger}
             value={value}
+            tagsValue={value}
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
             key={key}
@@ -229,6 +243,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedTrigger={changedTrigger}
             value={value}
             onChange={handler}
+            tagsValue={value}
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
             key={key}
@@ -242,6 +257,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             handler={handler}
             index={index}
             key={key}
+            tagsValue={value}
             changedTrigger={changedTrigger}
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
@@ -257,6 +273,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
                img: <FontAwesomeIcon icon={faPaperclip}/>
             }}
             value={value}
+            tagsValue={value}
             onChange={(e) => handler(e, index, key)}
             changedTrigger={changedTrigger}
             changedScenario

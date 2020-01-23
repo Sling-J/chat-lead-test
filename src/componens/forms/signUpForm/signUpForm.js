@@ -126,7 +126,7 @@ const SignUpForm = (props) => {
          </p>
 
          <p className={style.error}>
-            {(props.errorOfUser && 'Проводим технические работы!') || (customError)}
+            {props.errorOfUser || customError}
          </p>
       </form>
    );

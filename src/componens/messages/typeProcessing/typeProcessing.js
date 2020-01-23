@@ -41,7 +41,7 @@ const TypeProcessing = (props) => {
    return (
       <div className={style.mainContentContainer}>
          <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
-         <ConditionsContainer conditions={value.conditions}/>
+         <ConditionsContainer conditions={value.conditions} {...props}/>
 
          <div className={style.hoverBar}>
             <HoverBarForMessage

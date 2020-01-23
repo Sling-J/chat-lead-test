@@ -114,7 +114,7 @@ const PaymentElement = props => {
    return (
       <div className="paymentMainContainer">
          <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
-         <ConditionsContainer conditions={value.conditions}/>
+         <ConditionsContainer conditions={value.conditions} {...props}/>
 
          <TextArea componentType={type} hideCondition timerMargin {...props}/>
          <div className="payment-main-container">

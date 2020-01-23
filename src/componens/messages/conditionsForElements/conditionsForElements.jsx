@@ -19,7 +19,7 @@ const info = (
 	</div>
 );
 
-const ConditionsForElements = () => {
+const ConditionsForElements = props => {
 	const Menu = (
 		<div className={style.conditionsContainerMenu}>
 			<h2>Отправить если есть тег:</h2>
@@ -27,6 +27,7 @@ const ConditionsForElements = () => {
             placeholder="Выберите теги"
             style={{width: '100%'}}
             isTagCreator
+            {...props}
          />
 		</div>
 	);
