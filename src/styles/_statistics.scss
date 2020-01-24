@@ -37,18 +37,19 @@
          margin-top: 35px;
 
          .statistics-info-export__btn {
+            margin-bottom: 15px;
             border: 1px solid $theme__bg-color;
             color: $theme__bg-color;
             font-weight: 400;
             width: 100%;
             border-radius: 4px;
 				text-transform: inherit;
-				
+
 				div {
 					width: 24.5px !important;
       			height: 24.5px !important;
 				}
-				
+
 				&:disabled {
 					opacity: 0.6;
 				}
@@ -60,7 +61,6 @@
          }
 
          .statistics-info-export__social {
-            margin-top: 7px;
             text-align: center;
             font-size: 14px;
          }
@@ -81,4 +81,9 @@
          }
       }
    }
+}
+
+.statistics-info-import-field {
+   margin-bottom: 7px;
+   margin-top: -8px;
 }

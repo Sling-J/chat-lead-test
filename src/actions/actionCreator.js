@@ -192,9 +192,14 @@ export const exportUsers = data => ({
 	payload: data
 });
 
+export const importUsers = data => ({
+   type: ACTION.IMPORT_USERS_REQUEST,
+   payload: data
+});
+
 export const resetExportedUsers = () => ({
 	type: ACTION.RESET_EXPORTED_USERS
-})
+});
 
 export const addPayment = data => ({
    type: ACTION.ADD_PAYMENT_REQUEST,

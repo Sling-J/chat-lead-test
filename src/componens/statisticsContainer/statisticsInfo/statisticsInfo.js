@@ -1,30 +1,50 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
-import {exportUsers, resetExportedUsers} from '../../../actions/actionCreator';
-
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {Modal, Upload, Icon, Input, message} from "antd";
+
+import {exportUsers, importUsers, resetExportedUsers} from '../../../actions/actionCreator';
 
 import nloImg from '../../../images/statistics/alien_abduction_icon-icons.com_60295.png';
 import alienSmileImg from '../../../images/statistics/alien_icon-icons.com_60286.png';
 import alienSadImg from '../../../images/statistics/alien_sad_icon-icons.com_60288.png';
 import csvExport from '../../../images/statistics/export-csv.png';
 
-const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers, loadingOfExport, match, resetExportedUsers}) => {
-	const exportedSocial = tabs[activeTab];
-	
-	useEffect(() => {
-		if (Object.keys(exportedUsers).length !== 0) {
-			window.open(exportedUsers.filename);
-			resetExportedUsers();
-		}
-	}, [exportedUsers]);
+const {Dragger} = Upload;
+
+const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers, loadingOfExport, match, resetExportedUsers, loadingOfImport}) => {
+   const [visible, setVisible] = useState(false);
+   const [field, setField] = useState('');
+
+   const exportedSocial = tabs[activeTab];
+
+   useEffect(() => {
+      if (Object.keys(exportedUsers).length !== 0) {
+         window.open(exportedUsers.filename);
+         resetExportedUsers();
+      }
+   }, [exportedUsers]);
+
+   function beforeUpload(file) {
+      const regex = new RegExp("(.*?)\.(csv)$");
+
+      if (!(regex.test(file.name.toLowerCase()))) {
+         message.error('Вы можете загрузить только CSV файл!');
+      }
+
+      return (regex.test(file.name.toLowerCase()));
+   }
 
    let applications = 'Загрузка...';
    let subscribers = 'Загрузка...';
+
+   const showModal = () => setVisible(true);
+   const handleCancel = () => setVisible(false);
+   const handleOk = () => setVisible(false);
 
    if (Object.keys(statistics).length !== 0) {
       switch (activeTab) {
@@ -68,7 +88,7 @@ const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers
    } else {
       applications = 'Загрузка...';
       subscribers = 'Загрузка...';
-	}
+   }
 
    return (
       <div className="statistics-info">
@@ -120,42 +140,110 @@ const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers
          </div>
 
          <div className="statistics-info-export">
-				<Button 
-					className="statistics-info-export__btn"
-					disabled={activeTab === 0 || loadingOfExport}
-					href="" 
-					onClick={() => exportUsers({botId: match.params.botId, messenger: exportedSocial.name === 'ВКонтакте' ? 'vk' : exportedSocial.name.toLowerCase()})}
-				>
-					{loadingOfExport 
-					? <CircularProgress color="white"/> 
-					: (
-						<Fragment>
-							Экспорт аудитории
-							<img src={csvExport} alt=""/>
-						</Fragment>
-					)}
+            <Button
+               className="statistics-info-export__btn"
+               disabled={activeTab === 0 || loadingOfExport}
+               href=""
+               onClick={() => exportUsers({
+                  botId: match.params.botId,
+                  messenger: exportedSocial.name === 'ВКонтакте' ? 'vk' : exportedSocial.name.toLowerCase()
+               })}
+            >
+               {loadingOfExport
+                  ? <CircularProgress color="white"/>
+                  : (
+                     <Fragment>
+                        Экспорт аудитории
+                        <img src={csvExport} alt=""/>
+                     </Fragment>
+                  )}
+            </Button>
+
+            <Button
+               className="statistics-info-export__btn"
+               disabled={activeTab === 0 || loadingOfImport}
+               href=""
+               onClick={showModal}
+            >
+               {loadingOfImport
+                  ? <CircularProgress color="white"/>
+                  : (
+                     <Fragment>
+                        Импорт аудитории
+                        <img src={csvExport} alt=""/>
+                     </Fragment>
+                  )}
             </Button>
 
             <p className="statistics-info-export__social">
                {exportedSocial.name}
             </p>
          </div>
+
+         <Modal
+            title="Импорт аудитории"
+            visible={visible}
+            onOk={handleOk}
+            onCancel={handleCancel}
+         >
+            <p className="statistics-info-import-field">Название поля</p>
+            <Input
+               value={field}
+               style={{marginBottom: '20px'}}
+               onChange={e => setField(e.target.value)}
+               placeholder="Введите название поля user_id в csv"
+            />
+            <Dragger
+               name="file"
+               multiple={false}
+               disabled={field.length === 0}
+               beforeUpload={beforeUpload}
+               action="https://api.chatlead.io/app/api/ImportUsers/"
+               data={(file) => ({
+                  botId: match.params.botId,
+                  messenger: exportedSocial.name === 'ВКонтакте' ? 'vk' : exportedSocial.name.toLowerCase(),
+                  fileName: file.name,
+                  field: field
+               })}
+               onChange={info => {
+                  const { status } = info.file;
+
+                  if (status === 'done') {
+                     message.success(`${info.file.name} Файл успешно загружен.`);
+                  } else if (status === 'error') {
+                     message.error(`${info.file.name} Не удалось загрузить файл.`);
+                  }
+               }}
+            >
+               <p className="ant-upload-drag-icon">
+                  <Icon type="inbox"/>
+               </p>
+               <p className="ant-upload-text">Нажмите или перетащите файл в эту область, чтобы загрузить</p>
+               <p className="ant-upload-hint">
+                  Поддержка только CSV файлов.
+               </p>
+            </Dragger>
+         </Modal>
       </div>
    );
 };
 
 const mapStateToProps = ({botStatisticsReducer}) => ({
-	statistics: botStatisticsReducer.statistics,
-	loadingOfStatistics: botStatisticsReducer.loadingOfStatistics,
-	exportedUsers: botStatisticsReducer.exportedUsers,
-	loadingOfExport: botStatisticsReducer.loadingOfExport,
+   statistics: botStatisticsReducer.statistics,
+
+   loadingOfStatistics: botStatisticsReducer.loadingOfStatistics,
+   exportedUsers: botStatisticsReducer.exportedUsers,
+   loadingOfExport: botStatisticsReducer.loadingOfExport,
+
+   loadingOfImport: botStatisticsReducer.loadingOfImport,
+   importedUsers: botStatisticsReducer.importedUsers,
 });
 
 const mapDispatchToProps = {
-	exportUsers, resetExportedUsers
+   exportUsers, resetExportedUsers, importUsers
 };
 
 export default compose(
-	connect(mapStateToProps, mapDispatchToProps),
-	withRouter
+   connect(mapStateToProps, mapDispatchToProps),
+   withRouter
 )(StatisticsInfo);
