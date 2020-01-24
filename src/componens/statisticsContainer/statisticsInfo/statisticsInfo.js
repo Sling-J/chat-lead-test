@@ -160,7 +160,7 @@ const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers
             </Button>
 
             <Button
-               className="statistics-info-export__btn"
+               className="statistics-info-export__btn"f
                disabled={activeTab === 0 || loadingOfImport}
                href=""
                onClick={showModal}
@@ -202,8 +202,8 @@ const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers
                data={(file) => ({
                   botId: match.params.botId,
                   messenger: exportedSocial.name === 'ВКонтакте' ? 'vk' : exportedSocial.name.toLowerCase(),
-                  fileName: file.name,
-                  field: field
+                  filename: file.name,
+                  user_id_field: field
                })}
                onChange={info => {
                   const { status } = info.file;
