@@ -22,8 +22,10 @@ const FancyFileInput = props => {
    }
 
    useEffect(() => {
-      if (pathFile.length !== 0) {
-         setLoading(false);
+      if (pathFile) {
+         if (pathFile.length !== 0) {
+            setLoading(false);
+         }
       }
    }, [pathFile]);
 

@@ -112,3 +112,51 @@ body {
    opacity: 0.01;
    transition: opacity 300ms;
 }
+
+.tagsElement_tagsElementContainerField__3MTj0 {
+   .ant-select-selection__rendered li {
+      &:first-child {
+         padding-left: 105px;
+      }
+   }
+
+   .ant-select-selection.ant-select-selection--multiple {
+      position: relative;
+
+      &::before {
+         content: "Добавить теги:";
+         color: #BFBFBF;
+         position: absolute;
+         top: 4px;
+         left: 8px;
+      }
+
+      .ant-select-selection__choice {
+         &:first-child {
+            padding: 0 20px 0 10px;
+            margin-left: 105px;
+         }
+      }
+   }
+
+   &:last-child {
+      .ant-select-selection.ant-select-selection--multiple {
+         &::before {
+            content: "Убрать теги:";
+         }
+      }
+
+      .ant-select-selection__choice {
+         &:first-child {
+            padding: 0 20px 0 10px !important;
+            margin-left: 85px !important;
+         }
+      }
+
+      .ant-select-selection__rendered li {
+         &:first-child {
+            padding-left: 85px;
+         }
+      }
+   }
+}

@@ -99,7 +99,7 @@ const Root = () => {
                   <Route
                      exact
                      path={"/bots/:botId/growth"}
-                     component={onlyAuthorizedUsers(NotFound)}
+                     component={onlyAuthorizedUsers(GrowthTool)}
                   />
                   <Route
                      exact

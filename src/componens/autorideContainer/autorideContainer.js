@@ -49,7 +49,7 @@ const AutorideContainer = props => {
    const [textArea, setTextArea] = useState('');
    const [isOpenCreateScenarioFiled, setStatusCreateScenarioFiled] = useState(false);
 	const [snackOpen, setSnackOpen] = useState(false);
-	
+
 	const [currentPage, setCurrentPage] = useState(1);
 	const [dataPerPage] = useState(9);
 
@@ -106,7 +106,7 @@ const AutorideContainer = props => {
       setSnackOpen(false);
       setTextAreaErrMsg('');
 	};
-	
+
 	function showConfirm(botId, elemId) {
 		confirm({
 		  title: 'Вы уверены, что хотите удалить?',
@@ -267,7 +267,7 @@ const AutorideContainer = props => {
                   />
                </div>
             </div>
-				
+
             <table className="main-table-content">
                <thead className="main-table-content__head">
                   <tr>
@@ -276,10 +276,10 @@ const AutorideContainer = props => {
                      <td/>
                   </tr>
                </thead>
-					
+
                <tbody className="main-table-content__body">
                   {autoridesDataInFilter.length > 0 ? (
-                     currentData(autoridesDataInFilter).map(elem => {
+                     currentData(autoridesDataInFilter).map((elem, idx) => {
 								const menu = (
 									<Menu className="main-table-content-body__edit">
 										<div style={{padding: '15px'}}>
@@ -291,10 +291,10 @@ const AutorideContainer = props => {
 											/>
 										</div>
 									</Menu>
-								)
+								);
 
 								return (
-									<tr>
+									<tr key={idx}>
 										<td
 											className="main-table-content-body__key-words"
 											onClick={() => changeScenarioId(elem.scenario.id)}
@@ -308,7 +308,7 @@ const AutorideContainer = props => {
 											<img className="social-icons" src={viber} alt={'viber'}/>
 										</td>
 										<td className="main-table-content-body__controls">
-											<Dropdown 
+											<Dropdown
 												overlay={menu}
 												trigger={['click']}
 												placement="bottomCenter"

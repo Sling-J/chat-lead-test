@@ -2,11 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {compose} from "redux";
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
-import {DatePicker, Tabs} from 'antd';
+import {DatePicker, Tabs, Spin} from 'antd';
 
-import Schedule from "./schedule";
 import {dateFormat, formatUnixToDate} from "../../../utils/formatDate";
 import {getBotStatistics} from "../../../actions/actionCreator";
+
+import Schedule from "./schedule";
 import moment from "moment";
 
 const {RangePicker} = DatePicker;
@@ -121,6 +122,7 @@ const StatisticsSchedule = ({
       <RangePicker
          format={dateFormat}
          disabled={Object.values(statistics).length === 0 || loadingOfStatistics}
+         disabledDate={current => current && current > moment().endOf('day')}
          defaultValue={[moment(defaultStartDay, dateFormat), moment(defaultEndDay, dateFormat)]}
          onChange={(value) => {
             getBotStatistics({
@@ -135,13 +137,15 @@ const StatisticsSchedule = ({
    return (
       <div className="statistics-schedule">
          <div className="chart">
-            <Tabs defaultActiveKey="2" tabBarExtraContent={datePicker} onChange={activeKey => changeTab(activeKey - 1)}>
-               {tabs.map(tab => (
-                  <TabPane tab={tab.name} key={tab.key}>
-                     <Schedule chartData={chartData}/>
-                  </TabPane>
-               ))}
-            </Tabs>
+            <Spin spinning={loadingOfStatistics}>
+               <Tabs defaultActiveKey="2" tabBarExtraContent={datePicker} onChange={activeKey => changeTab(activeKey - 1)}>
+                  {tabs.map(tab => (
+                     <TabPane tab={tab.name} key={tab.key}>
+                        <Schedule chartData={chartData}/>
+                     </TabPane>
+                  ))}
+               </Tabs>
+            </Spin>
          </div>
       </div>
    )

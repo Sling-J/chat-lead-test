@@ -17,6 +17,7 @@ const SendLinkElement = props => {
             style={{width: '250px'}}
             placeholder="Добавить теги"
             isTagCreator
+            {...props}
          />
       </div>
    );
@@ -26,6 +27,7 @@ const SendLinkElement = props => {
          <SelectForTags
             style={{width: '250px'}}
             placeholder="Убрать теги"
+            {...props}
          />
       </div>
    );
@@ -36,6 +38,7 @@ const SendLinkElement = props => {
             style={{width: '250px'}}
             placeholder="Добавить теги"
             isTagCreator
+            {...props}
          />
       </div>
    );
@@ -45,6 +48,7 @@ const SendLinkElement = props => {
          <SelectForTags
             style={{width: '250px'}}
             placeholder="Убрать теги"
+            {...props}
          />
       </div>
    );

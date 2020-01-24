@@ -3,7 +3,7 @@ import moment from 'moment';
 export const defaultValuesForNewMessages = {
    text: {text: '', keyboard: [], conditions: false, tag: ''},
    file: {file: '', keyboard: [], conditions: false, tag: ''},
-   tags: {tags: "", keyboard: [], conditions: false, tag: ''},
+   updateTag: {updateTag: {setTag: [], removeTag: []}, keyboard: [], conditions: false, tag: ''},
    photo: {photo: '', keyboard: [], conditions: false, tag: ''},
    audio: {audio: '', keyboard: [], conditions: false, tag: ''},
    video: {video: '', keyboard: [], conditions: false, tag: ''},
@@ -15,7 +15,7 @@ export const defaultValuesForNewMessages = {
    card: {card: [{photo: '', title: '', text: '', keyboard: []}], conditions: false, tag: ''},
    gallery: {gallery: [{photo: '', title: '', text: '', keyboard: []}], conditions: false, tag: ''},
    pause_delay: {
-      timer: {pause_delay: '', format: {value: 0, key: 'sec', tag: '', keyValue: 'Секунды'}},
+      timer: {pause_delay: '', format: {key: 'sec', tag: '', keyValue: 'Секунды'}},
       keyboard: [],
       text: "",
       conditions: false

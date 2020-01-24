@@ -197,10 +197,10 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             onChange={(e) => handler(e, index, key)}
          />
       )
-   } else if (key === 'tags') {
+   } else if (key === 'updateTag') {
       return (
          <TagsElement
-            type={'tags'}
+            type={'updateTag'}
             index={index}
             value={value}
             tagsValue={value}

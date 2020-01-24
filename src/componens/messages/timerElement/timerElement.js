@@ -91,7 +91,8 @@ const TimerElement = props => {
          props.updateTrigger(triggerData, null, props.changedSocial);
       } else if (typeInput === 'activity_lost') {
          Object.assign(messagesCopy[props.changedSocial][index].timer, {
-            [typeInput]: e.target.value
+            [typeInput]: e.target.value,
+            tag: e.target.tag
          });
 
          const triggerData = {
@@ -129,6 +130,7 @@ const TimerElement = props => {
                   day: (dayField === '') ? timeToSeconds(valuesForTimer.send_time.day, key) : dayField,
                   hours: (hoursField === '') ? timeToSeconds(valuesForTimer.send_time.hours, key) : hoursField,
                   min: (minField === '') ? timeToSeconds(valuesForTimer.send_time.min, key) : minField,
+                  tag: valuesForTimer.send_time.tag
                }
             }
          };
@@ -137,13 +139,14 @@ const TimerElement = props => {
       }
    };
 
-   const handleSendPause = time => {
+   const handleSendPause = (time) => {
       const pauseObject = {
          target: {
             value: timeToSeconds(time, pauseKeyField.key),
             format: {
                keyValue: pauseKeyField.keyValue,
                key: pauseKeyField.key,
+               tag: valuesForTimer.format.tag
             }
          }
       };
@@ -260,7 +263,8 @@ const TimerElement = props => {
                   onChange={(value) => {
                      const dateObject = {
                         target: {
-                           value: formatDateToUnix(value[0])
+                           value: formatDateToUnix(value[0]),
+                           tag: valuesForTimer.tag
                         }
                      };
 

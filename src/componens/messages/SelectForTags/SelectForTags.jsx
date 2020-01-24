@@ -10,21 +10,20 @@ const {Option} = Select;
 
 const SelectForTags = ({
    isTagCreator, placeholder, style,
-   changedTrigger, index, match, value,
+   changedTrigger, index, match,
    updateTrigger, type, changedSocial,
    tagsValue
 }) => {
    const [searchValue, setSearchValue] = useState('');
    const [sTagsArr, setTagsArr] = useState([]);
 
-   const setTags = [];
+   const tagsSelectOptions = [];
 
    useEffect(() => {
-
       if (Object.keys(tagsValue[type])[0] === 'send_time') {
          if (tagsValue[type].send_time.tag.length !== 0) {
             tagsValue[type].send_time.tag.split(',').forEach(item => {
-               setTags.push(<Option key={item}>{item}</Option>);
+               tagsSelectOptions.push(<Option key={item}>{item}</Option>);
             });
 
             setTagsArr([...tagsValue[type].send_time.tag.split(',')]);
@@ -32,40 +31,43 @@ const SelectForTags = ({
       } else if (Object.keys(tagsValue[type])[0] === 'activity_lost') {
          if (tagsValue[type].tag.length !== 0) {
             tagsValue[type].tag.split(',').forEach(item => {
-               setTags.push(<Option key={item}>{item}</Option>);
+               tagsSelectOptions.push(<Option key={item}>{item}</Option>);
             });
 
             setTagsArr([...tagsValue[type].tag.split(',')]);
          }
       } else if (Object.keys(tagsValue[type])[0] === 'pause_delay') {
          if (tagsValue[type].format.tag.length !== 0) {
-            tagsValue[type].format.tag.split(',').forEach(item => {
-               setTags.push(<Option key={item}>{item}</Option>);
-            });
+            tagsValue[type].format.tag.split(',').forEach(item => tagsSelectOptions.push(<Option key={item}>{item}</Option>));
 
             setTagsArr([...tagsValue[type].format.tag.split(',')]);
          }
       } else {
          if (tagsValue.tag.length !== 0) {
             tagsValue.tag.split(',').forEach(item => {
-               setTags.push(<Option key={item}>{item}</Option>);
+               tagsSelectOptions.push(<Option key={item}>{item}</Option>);
             });
 
             setTagsArr([...tagsValue.tag.split(',')]);
          }
       }
-   }, [tagsValue]);
+   }, []);
 
    const handleChange = valueOf => {
       setSearchValue('');
+      setTagsArr(valueOf);
+
+      valueOf.forEach(item => {
+         tagsSelectOptions.push(<Option key={item}>{item}</Option>);
+      });
 
       const messagesCopy = changedTrigger.messages;
 
-      if (Object.keys(value[type])[0] === 'send_time') {
+      if (Object.keys(tagsValue[type])[0] === 'send_time') {
          messagesCopy[changedSocial][index].timer.send_time.tag = valueOf.toString();
-      } else if (Object.keys(value[type])[0] === 'activity_lost') {
+      } else if (Object.keys(tagsValue[type])[0] === 'activity_lost') {
          messagesCopy[changedSocial][index].timer.tag = valueOf.toString();
-      } else if (Object.keys(value[type])[0] === 'pause_delay') {
+      } else if (Object.keys(tagsValue[type])[0] === 'pause_delay') {
          messagesCopy[changedSocial][index].timer.format.tag = valueOf.toString();
       } else {
          messagesCopy[changedSocial][index].tag = valueOf.toString();
@@ -88,7 +90,7 @@ const SelectForTags = ({
          style={style}
          placeholder={placeholder}
          onChange={handleChange}
-         defaultValue={sTagsArr}
+         value={sTagsArr}
          onSearch={value => setSearchValue(value)}
          dropdownRender={menu => {
             const result = sTagsArr.find(item => item === searchValue);
@@ -107,7 +109,7 @@ const SelectForTags = ({
             )
          }}
       >
-         {setTags}
+         {tagsSelectOptions}
       </Select>
    ) : (
       <Select

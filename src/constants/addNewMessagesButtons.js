@@ -101,7 +101,7 @@ export const addNewMessagesButtons = {
 		{
          label: '+Теги',
          icon: <img src={tags} alt={'code'}/>,
-         type: 'tags'
+         type: 'updateTag'
 		},
 		{
          label: '+Ссылка',
@@ -181,7 +181,7 @@ export const addNewMessagesButtons = {
 		{
          label: '+Теги',
          icon: <img src={tags} alt={'code'}/>,
-         type: 'tags'
+         type: 'updateTag'
       },
 		{
          label: '+Ссылка',
@@ -261,7 +261,7 @@ export const addNewMessagesButtons = {
 		{
          label: '+Теги',
          icon: <img src={tags} alt={'code'}/>,
-         type: 'tags'
+         type: 'updateTag'
       },
 		{
          label: '+Ссылка',
@@ -336,7 +336,7 @@ export const addNewMessagesButtons = {
 		{
          label: '+Теги',
          icon: <img src={tags} alt={'code'}/>,
-         type: 'tags'
+         type: 'updateTag'
       },
 		{
          label: '+Ссылка',
