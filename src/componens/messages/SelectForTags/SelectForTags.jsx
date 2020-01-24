@@ -20,36 +20,12 @@ const SelectForTags = ({
    const tagsSelectOptions = [];
 
    useEffect(() => {
-      if (Object.keys(tagsValue[type])[0] === 'send_time') {
-         if (tagsValue[type].send_time.tag.length !== 0) {
-            tagsValue[type].send_time.tag.split(',').forEach(item => {
-               tagsSelectOptions.push(<Option key={item}>{item}</Option>);
-            });
+      if (tagsValue.tag.length !== 0) {
+         tagsValue.tag.split(',').forEach(item => {
+            tagsSelectOptions.push(<Option key={item}>{item}</Option>);
+         });
 
-            setTagsArr([...tagsValue[type].send_time.tag.split(',')]);
-         }
-      } else if (Object.keys(tagsValue[type])[0] === 'activity_lost') {
-         if (tagsValue[type].tag.length !== 0) {
-            tagsValue[type].tag.split(',').forEach(item => {
-               tagsSelectOptions.push(<Option key={item}>{item}</Option>);
-            });
-
-            setTagsArr([...tagsValue[type].tag.split(',')]);
-         }
-      } else if (Object.keys(tagsValue[type])[0] === 'pause_delay') {
-         if (tagsValue[type].format.tag.length !== 0) {
-            tagsValue[type].format.tag.split(',').forEach(item => tagsSelectOptions.push(<Option key={item}>{item}</Option>));
-
-            setTagsArr([...tagsValue[type].format.tag.split(',')]);
-         }
-      } else {
-         if (tagsValue.tag.length !== 0) {
-            tagsValue.tag.split(',').forEach(item => {
-               tagsSelectOptions.push(<Option key={item}>{item}</Option>);
-            });
-
-            setTagsArr([...tagsValue.tag.split(',')]);
-         }
+         setTagsArr([...tagsValue.tag.split(',')]);
       }
    }, []);
 
@@ -62,16 +38,7 @@ const SelectForTags = ({
       });
 
       const messagesCopy = changedTrigger.messages;
-
-      if (Object.keys(tagsValue[type])[0] === 'send_time') {
-         messagesCopy[changedSocial][index].timer.send_time.tag = valueOf.toString();
-      } else if (Object.keys(tagsValue[type])[0] === 'activity_lost') {
-         messagesCopy[changedSocial][index].timer.tag = valueOf.toString();
-      } else if (Object.keys(tagsValue[type])[0] === 'pause_delay') {
-         messagesCopy[changedSocial][index].timer.format.tag = valueOf.toString();
-      } else {
-         messagesCopy[changedSocial][index].tag = valueOf.toString();
-      }
+      messagesCopy[changedSocial][index].tag = valueOf.toString();
 
       const triggerData = {
          ...changedTrigger,

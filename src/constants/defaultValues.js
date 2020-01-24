@@ -15,18 +15,20 @@ export const defaultValuesForNewMessages = {
    card: {card: [{photo: '', title: '', text: '', keyboard: []}], conditions: false, tag: ''},
    gallery: {gallery: [{photo: '', title: '', text: '', keyboard: []}], conditions: false, tag: ''},
    pause_delay: {
-      timer: {pause_delay: '', format: {key: 'sec', tag: '', keyValue: 'Секунды'}},
+      timer: {pause_delay: '', format: {key: 'sec', keyValue: 'Секунды'}},
       keyboard: [],
       text: "",
-      conditions: false
+      conditions: false,
+      tag: '',
    },
    activity_lost: {
-      timer: {activity_lost: moment().format('YYYY-MM-DD, h:mm'), tag: '',},
+      timer: {activity_lost: moment().format('YYYY-MM-DD, h:mm')},
       keyboard: [],
       text: "",
-      conditions: false
+      conditions: false,
+      tag: ''
    },
-   send_time: {timer: {send_time: {day: '', hours: '', min: '', tag: '',}}, keyboard: [], text: "", conditions: false},
+   send_time: {timer: {send_time: {day: '', hours: '', min: ''}}, keyboard: [], text: "", conditions: false, tag: ''},
    contact: {
       contact: "",
       sendContact: {
@@ -34,7 +36,7 @@ export const defaultValuesForNewMessages = {
       },
       keyboard: [],
       tag: '',
-      conditions: false
+      conditions: false,
    },
    payment: {
       payment: 'payment',

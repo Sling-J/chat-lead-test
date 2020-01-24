@@ -72,13 +72,11 @@ const TimerElement = props => {
    }, []);
 
    const updateTrigger = (e, typeInput) => {
-      const messagesCopy = changedTrigger.messages;
-
       if (typeInput === 'pause_delay') {
-         Object.assign(messagesCopy[props.changedSocial][index].timer, {
-            [typeInput]: e.target.value,
-            format: e.target.format
-         });
+         const messagesCopy = changedTrigger.messages;
+
+         messagesCopy[props.changedSocial][index].timer.pause_delay = e.target.value;
+         messagesCopy[props.changedSocial][index].timer.format = e.target.format;
 
          const triggerData = {
             ...changedTrigger,
@@ -90,10 +88,9 @@ const TimerElement = props => {
 
          props.updateTrigger(triggerData, null, props.changedSocial);
       } else if (typeInput === 'activity_lost') {
-         Object.assign(messagesCopy[props.changedSocial][index].timer, {
-            [typeInput]: e.target.value,
-            tag: e.target.tag
-         });
+         const messagesCopy = changedTrigger.messages;
+
+         messagesCopy[props.changedSocial][index].timer.activity_lost  = e.target.value;
 
          const triggerData = {
             ...changedTrigger,
@@ -106,9 +103,9 @@ const TimerElement = props => {
          props.updateTrigger(triggerData, null, props.changedSocial);
 
       } else {
-         Object.assign(messagesCopy[props.changedSocial][index].timer, {
-            [typeInput]: e.target.value
-         });
+         const messagesCopy = changedTrigger.messages;
+
+         messagesCopy[props.changedSocial][index].timer.send_time = e.target.value;
 
          const triggerData = {
             ...changedTrigger,
@@ -130,7 +127,6 @@ const TimerElement = props => {
                   day: (dayField === '') ? timeToSeconds(valuesForTimer.send_time.day, key) : dayField,
                   hours: (hoursField === '') ? timeToSeconds(valuesForTimer.send_time.hours, key) : hoursField,
                   min: (minField === '') ? timeToSeconds(valuesForTimer.send_time.min, key) : minField,
-                  tag: valuesForTimer.send_time.tag
                }
             }
          };
@@ -146,7 +142,6 @@ const TimerElement = props => {
             format: {
                keyValue: pauseKeyField.keyValue,
                key: pauseKeyField.key,
-               tag: valuesForTimer.format.tag
             }
          }
       };
@@ -264,7 +259,6 @@ const TimerElement = props => {
                      const dateObject = {
                         target: {
                            value: formatDateToUnix(value[0]),
-                           tag: valuesForTimer.tag
                         }
                      };
 

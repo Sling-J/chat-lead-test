@@ -125,6 +125,10 @@ export const exportUsers = data => (
    instance.post('/ExportUsers/', data)
 );
 
+export const importUsers = data => (
+   instance.post('/ImportUsers/', data)
+);
+
 export const addPayment = data => (
    instance.post('/AddPayment/', data)
 );

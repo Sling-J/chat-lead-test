@@ -4,10 +4,14 @@ const initialState = {
    statistics: {},
    loadingOfStatistics: false,
 	errorOfStatistics: null,
-	
+
 	exportedUsers: {},
 	loadingOfExport: false,
 	errorOfExport: null,
+
+   importedUsers: {},
+   loadingOfImport: false,
+   errorOfImport: null,
 };
 
 export default (state = initialState, action) => {
@@ -35,7 +39,7 @@ export default (state = initialState, action) => {
             loadingOfStatistics: false,
             errorOfStatistics: action.error
 			};
-			
+
 		case ACTION.EXPORT_USERS_REQUEST:
 			return {
 				...state,
@@ -60,13 +64,37 @@ export default (state = initialState, action) => {
 				errorOfExport: action.error,
 			};
 
+      case ACTION.IMPORT_USERS_REQUEST:
+         return {
+            ...state,
+            importedUsers: {},
+            loadingOfImport: true,
+            errorOfImport: action.error,
+         };
+
+      case ACTION.IMPORT_USERS_SUCCESS:
+         return {
+            ...state,
+            importedUsers: action.payload,
+            loadingOfImport: false,
+            errorOfImport: null,
+         };
+
+      case ACTION.IMPORT_USERS_FAILURE:
+         return {
+            ...state,
+            importedUsers: {},
+            loadingOfImport: false,
+            errorOfImport: action.error,
+         };
+
 		case ACTION.RESET_EXPORTED_USERS:
 			return {
 				...state,
 				exportedUsers: {},
 				loadingOfExport: false,
 				errorOfExport: null,
-			}
+			};
 
       default:
          return state;

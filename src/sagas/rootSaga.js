@@ -32,13 +32,14 @@ import {
    facebookAuthSaga,
    vkAuthSaga,
 	getQRCodeSaga,
-	getWpScreenshotSaga, 
+	getWpScreenshotSaga,
 	getWpStatusSaga,
 	logoutWpSaga
 } from "./botSetupSagas";
 import {
-	getBotStatisticsSaga,
-	exportUsersSaga
+   getBotStatisticsSaga,
+   exportUsersSaga,
+   importUsersSaga
 } from "./botStatisticsSaga"
 import {
    addPaymentSaga,
@@ -52,6 +53,7 @@ function* rootSaga() {
 		facebookAuthSaga(),
 		getWpStatusSaga(),
 		exportUsersSaga(),
+		importUsersSaga(),
 		addPaymentSaga(),
 		getQRCodeSaga(),
 		logoutWpSaga(),
