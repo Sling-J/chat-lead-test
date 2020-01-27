@@ -8,10 +8,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {Modal, Upload, Icon, Input, message} from "antd";
 
 import {exportUsers, importUsers, resetExportedUsers} from '../../../actions/actionCreator';
+import {userAccessToken} from "../../../utils/userToken";
 
 import nloImg from '../../../images/statistics/alien_abduction_icon-icons.com_60295.png';
-import alienSmileImg from '../../../images/statistics/alien_icon-icons.com_60286.png';
 import alienSadImg from '../../../images/statistics/alien_sad_icon-icons.com_60288.png';
+import alienSmileImg from '../../../images/statistics/alien_icon-icons.com_60286.png';
 import csvExport from '../../../images/statistics/export-csv.png';
 
 const {Dragger} = Upload;
@@ -200,7 +201,8 @@ const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers
                beforeUpload={beforeUpload}
                action="https://api.chatlead.io/app/api/ImportUsers/"
                data={(file) => ({
-                  botId: match.params.botId,
+                  user_token: userAccessToken(),
+                  bot_id: match.params.botId,
                   messenger: exportedSocial.name === 'ВКонтакте' ? 'vk' : exportedSocial.name.toLowerCase(),
                   filename: file.name,
                   user_id_field: field

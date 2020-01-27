@@ -20,7 +20,7 @@ const SelectForTags = ({
    const tagsSelectOptions = [];
 
    useEffect(() => {
-      if (tagsValue.tag.length !== 0) {
+      if (tagsValue.tag && tagsValue.tag.length !== 0) {
          tagsValue.tag.split(',').forEach(item => {
             tagsSelectOptions.push(<Option key={item}>{item}</Option>);
          });

@@ -20,11 +20,11 @@ const TagsElement = props => {
    const [rTagsValue, setRTagsValue] = useState([]);
 
    useEffect(() => {
-      if (value.updateTag.setTag.length !== 0) {
+      if (value.updateTag && value.updateTag.setTag.length !== 0) {
          setTagsArr([...value.updateTag.setTag]);
       }
 
-      if (value.updateTag.removeTag.length !== 0) {
+      if (value.updateTag && value.updateTag.removeTag.length !== 0) {
          setRTagsValue([...value.updateTag.removeTag]);
       }
    }, []);

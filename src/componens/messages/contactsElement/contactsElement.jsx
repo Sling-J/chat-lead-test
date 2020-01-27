@@ -19,7 +19,7 @@ const ContactsElement = props => {
 	const [phone, setPhone] = useState('');
 
 	useEffect(() => {
-		if (value.sendContact.contactId.length !== 0) {
+		if (value.sendContact.contactId && value.sendContact.contactId.length !== 0) {
 			setPhone(value.sendContact.contactId);
 		}
 	}, []);

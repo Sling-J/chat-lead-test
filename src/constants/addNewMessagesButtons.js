@@ -106,7 +106,7 @@ export const addNewMessagesButtons = {
 		{
          label: '+Ссылка',
          icon: <img src={sendLink} alt={'code'}/>,
-         type: 'sendLink'
+         type: 'sendUrl'
       }
    ],
    telegram: [
@@ -186,7 +186,7 @@ export const addNewMessagesButtons = {
 		{
          label: '+Ссылка',
          icon: <img src={sendLink} alt={'code'}/>,
-         type: 'sendLink'
+         type: 'sendUrl'
       }
    ],
    vk: [
@@ -266,7 +266,7 @@ export const addNewMessagesButtons = {
 		{
          label: '+Ссылка',
          icon: <img src={sendLink} alt={'code'}/>,
-         type: 'sendLink'
+         type: 'sendUrl'
       }
    ],
    whatsapp: [
@@ -341,7 +341,7 @@ export const addNewMessagesButtons = {
 		{
          label: '+Ссылка',
          icon: <img src={sendLink} alt={'code'}/>,
-         type: 'sendLink'
+         type: 'sendUrl'
       }
    ]
 };

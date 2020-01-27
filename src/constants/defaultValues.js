@@ -9,7 +9,7 @@ export const defaultValuesForNewMessages = {
    video: {video: '', keyboard: [], conditions: false, tag: ''},
    form: {form: [""], keyboard: [], conditions: false, tag: ''},
    customs: {customs: {}, keyboard: [], conditions: false, tag: ''},
-   sendLink: {sendLink: "", keyboard: [], conditions: false, tag: ''},
+   sendUrl: {sendUrl: {url: "", setTag: [], delTag: []}, keyboard: [], conditions: false, tag: ''},
    location: {location: "", keyboard: [], conditions: false, tag: ''},
    type_processing: {type_processing: {delay: 5}, conditions: false, tag: ''},
    card: {card: [{photo: '', title: '', text: '', keyboard: []}], conditions: false, tag: ''},

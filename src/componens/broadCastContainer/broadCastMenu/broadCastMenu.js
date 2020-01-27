@@ -56,8 +56,11 @@ const BroadCastMenu = props => {
       const broadCastDataCopy = props.broadCastData.concat();
       const activeBroadCastCopy = broadCastDataCopy.find(item => item.id === broadCastId);
 
+      const sent = broadCastUpdatedData.sent === 'True' || broadCastUpdatedData.sent ? broadCastUpdatedData.sent : "False";
+
       Object.assign(activeBroadCastCopy, broadCastUpdatedData, {
          managerId: props.match.params.botId,
+         sent: sent
       });
 
       props.updateBroadcast(activeBroadCastCopy);
@@ -90,7 +93,8 @@ const BroadCastMenu = props => {
                className={style.submitButton}
                variant="contained"
                onClick={() => updateBroadCast({
-                  time: oldDate / 1000
+                  time: oldDate / 1000,
+                  sent: 'True'
                })}
             >
                Начать рассылку

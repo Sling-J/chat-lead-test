@@ -124,10 +124,10 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changeTriggerId={changeTriggerId}
          />
       )
-   } else if (key === 'sendLink') {
+   } else if (key === 'sendUrl') {
       return (
          <SendLinkElement
-            type={'sendLink'}
+            type={'sendUrl'}
             value={value}
             tagsValue={value}
             onChange={(e) => handler(e, index, key)}

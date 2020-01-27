@@ -111,7 +111,7 @@ const FormElement = props => {
             />
          </div>
          {Object.values(value)[0].map((elem, inputIndex) => (
-            <div className={style.textareaFlex}>
+            <div className={style.textareaFlex} key={inputIndex}>
                <textarea
                   defaultValue={elem.caption}
                   onBlur={(e) => updateTrigger(e, inputIndex)}

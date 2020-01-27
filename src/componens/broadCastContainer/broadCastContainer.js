@@ -29,7 +29,8 @@ const BroadCastContainer = props => {
 	const indexOfLastPost = currentPage * dataPerPage;
 	const indexOfFirstPost = indexOfLastPost - dataPerPage;
 
-	const currentData = data => data.slice(indexOfFirstPost, indexOfLastPost);
+	const currentDataSent = data => data.filter(item => item.sent).slice(indexOfFirstPost, indexOfLastPost);
+	const currentDataNotSent = data => data.filter(item => !item.sent).slice(indexOfFirstPost, indexOfLastPost);
 	const paginate = pageNumber => setCurrentPage(pageNumber);
 
 	const appendBroadcastHandler = () => {
@@ -71,7 +72,7 @@ const BroadCastContainer = props => {
 
    const showBroadCastTitle = trigger => {
 		let text;
-		
+
 		const textFacebook = Array.isArray(trigger.messages.facebook) ? trigger.messages.facebook.find(item => item.text && item.text.length !== 0) : trigger.messages.facebook;
 		const textTelegram = Array.isArray(trigger.messages.telegram) ? trigger.messages.telegram.find(item => item.text && item.text.length !== 0) : trigger.messages.telegram;
 		const textVk = Array.isArray(trigger.messages.vk) ? trigger.messages.vk.find(item => item.text && item.text.length !== 0) : trigger.messages.vk;
@@ -105,16 +106,11 @@ const BroadCastContainer = props => {
 						</thead>
 						<tbody className="main-table-content__body broadcast-table-sent-body">
 						{props.broadCastData.filter(elem => elem.sent).length > 0 ? (
-							currentData(props.broadCastData).map((elem, index) => {
+                     currentDataSent(props.broadCastData).map((elem, index) => {
 								const text = showBroadCastTitle(elem.scenario.triggers[0]);
 
 								return elem.sent && (
-									<tr
-										key={index}
-										onClick={() => {
-											changeScenarioId(elem.scenario.id);
-										}}
-									>
+									<tr onClick={() => changeScenarioId(elem.scenario.id)} key={index}>
 										<td className="main-table-content-body__key-words">
 											<span>{text ? sliceExtraText(text, 41) : elem.scenario.triggers[0].caption}</span>
 										</td>
@@ -168,13 +164,11 @@ const BroadCastContainer = props => {
 
 						<tbody className="main-table-content__body broadcast-table-not-sent-body">
 							{props.broadCastData.filter(elem => !elem.sent).length > 0 ? (
-								currentData(props.broadCastData).map((elem, index) => {
+                        currentDataNotSent(props.broadCastData).map((elem, index) => {
 									const text = showBroadCastTitle(elem.scenario.triggers[0]);
 
 									return !elem.sent && (
-										<tr key={index} onClick={() => {
-											changeScenarioId(elem.scenario.id);
-										}}>
+										<tr onClick={() => changeScenarioId(elem.scenario.id)} key={index}>
 											<td className="main-table-content-body__key-words">
 												<span>
 													{text ? sliceExtraText(text, 41) : elem.scenario.triggers[0].caption}
