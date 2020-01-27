@@ -7,8 +7,11 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {Modal, Upload, Icon, Input, message} from "antd";
 
-import {exportUsers, importUsers, resetExportedUsers} from '../../../actions/actionCreator';
 import {userAccessToken} from "../../../utils/userToken";
+import {
+   moduleName as statisticsModule,
+   exportUsers, importUsers, resetExportedUsers
+} from "../../../ducks/Statistics";
 
 import nloImg from '../../../images/statistics/alien_abduction_icon-icons.com_60295.png';
 import alienSadImg from '../../../images/statistics/alien_sad_icon-icons.com_60288.png';
@@ -230,15 +233,15 @@ const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers
    );
 };
 
-const mapStateToProps = ({botStatisticsReducer}) => ({
-   statistics: botStatisticsReducer.statistics,
+const mapStateToProps = state => ({
+   statistics: state[statisticsModule].statistics,
 
-   loadingOfStatistics: botStatisticsReducer.loadingOfStatistics,
-   exportedUsers: botStatisticsReducer.exportedUsers,
-   loadingOfExport: botStatisticsReducer.loadingOfExport,
+   loadingOfStatistics: state[statisticsModule].loadingOfStatistics,
+   exportedUsers: state[statisticsModule].exportedUsers,
+   loadingOfExport: state[statisticsModule].loadingOfExport,
 
-   loadingOfImport: botStatisticsReducer.loadingOfImport,
-   importedUsers: botStatisticsReducer.importedUsers,
+   loadingOfImport: state[statisticsModule].loadingOfImport,
+   importedUsers: state[statisticsModule].importedUsers,
 });
 
 const mapDispatchToProps = {

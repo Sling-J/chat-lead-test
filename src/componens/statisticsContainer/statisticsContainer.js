@@ -7,7 +7,8 @@ import StatisticsInfo from "./statisticsInfo/statisticsInfo";
 import StatisticsSchedule from "./statisticsSchedule/statisticsSchedule";
 import StatisticsForm from "./statisticsForm/statisticsForm";
 
-import {getBotStatistics} from "../../actions/actionCreator";
+import {moduleName as statisticsModule, getBotStatistics} from "../../ducks/Statistics";
+
 import {formatDateToUnix} from "../../utils/formatDate";
 
 const StatisticsContainer = ({match, getBotStatistics}) => {
@@ -55,16 +56,15 @@ const StatisticsContainer = ({match, getBotStatistics}) => {
    );
 };
 
-const mapStateToProps = ({botStatisticsReducer}) => ({
-   statistics: botStatisticsReducer.statistics,
-   loadingOfStatistics: botStatisticsReducer.loadingOfStatistics,
-   errorOfStatistics: botStatisticsReducer.errorOfStatistics
+const mapStateToProps = state => ({
+   statistics: state[statisticsModule].statistics,
+   loadingOfStatistics: state[statisticsModule].loadingOfStatistics,
+   errorOfStatistics: state[statisticsModule].errorOfStatistics
 });
 
 const mapDispatchToProps = dispatch => ({
    getBotStatistics: data => dispatch(getBotStatistics(data))
 });
-
 
 export default compose(
    withRouter,

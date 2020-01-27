@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {Spin} from 'antd';
 
-import {getTransactions} from '../../actions/actionCreator';
+import {moduleName as paymentModule, getTransactions} from "../../ducks/Payment";
 import {formatUnixToDate} from "../../utils/formatDate";
 import Pagination from "../Containers/Pagination";
 
@@ -72,11 +72,11 @@ const TariffHistoryContainer = ({getTransactions, loadingOfTransactions, transac
    );
 };
 
-export default connect(({botPaymentReducer, botsReducers}) => ({
-   transactions: botPaymentReducer.transactions,
-   loadingOfTransactions: botPaymentReducer.loadingOfTransactions,
-   errorOfOfTransactions: botPaymentReducer.errorOfOfTransactions,
-   botsData: botsReducers.botsData
+export default connect(state => ({
+   transactions: state[paymentModule].transactions,
+   loadingOfTransactions: state[paymentModule].loadingOfTransactions,
+   errorOfOfTransactions: state[paymentModule].errorOfOfTransactions,
+   botsData: state.botsReducers.botsData
 }), {
    getTransactions
 })(TariffHistoryContainer);

@@ -182,34 +182,6 @@ export const resetUrl = () => ({
    type: ACTION.RESET_URL
 });
 
-export const getBotStatistics = data => ({
-   type: ACTION.GET_BOT_STATISTICS_REQUEST,
-   payload: data
-});
-
-export const exportUsers = data => ({
-	type: ACTION.EXPORT_USERS_REQUEST,
-	payload: data
-});
-
-export const importUsers = data => ({
-   type: ACTION.IMPORT_USERS_REQUEST,
-   payload: data
-});
-
-export const resetExportedUsers = () => ({
-	type: ACTION.RESET_EXPORTED_USERS
-});
-
-export const addPayment = data => ({
-   type: ACTION.ADD_PAYMENT_REQUEST,
-   payload: data
-});
-
-export const getTransactions = () => ({
-   type: ACTION.GET_TRANSACTIONS_REQUEST
-});
-
 export const resetBotsData = () => ({
    type: ACTION.RESET_BOTS_DATA
 });

@@ -10,7 +10,7 @@ import {Auth} from '../config/service/service';
  */
 
 export const moduleName = 'auth';
-const prefix = `${appName}/${moduleName}`;
+export const prefix = `${appName}/${moduleName}`;
 
 export const LOGIN_REQUEST = `${prefix}/LOGIN_REQUEST`;
 export const LOGIN_SUCCESS = `${prefix}/LOGIN_SUCCESS`;

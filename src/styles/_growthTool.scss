@@ -61,7 +61,7 @@
       margin: 60px 0;
 
       .ant-table-placeholder {
-         background: $main__bg-color;
+         background: $main__bg-color !important;
       }
 
       .growth-tool-table-icons {
@@ -77,6 +77,96 @@
             &:hover {
                color: #000;
             }
+         }
+      }
+   }
+}
+
+.mlp-container {
+   width: $container__width;
+
+   .mlp-nav {
+      .mlp-nav__back,
+      .mlp-nav__next {
+         font-weight: 400;
+         text-transform: initial;
+         width: 180px;
+      }
+
+      .mlp-nav__back {
+         background: none;
+         box-shadow: none;
+         border: 1px solid #82848B;
+
+         &:hover {
+            background: darken(#fff, 5%);
+         }
+      }
+
+      .mlp-nav__next {
+         background: $theme__bg-color;
+         color: #fff;
+
+         &:hover {
+            background: darken($theme__bg-color, 9%);
+         }
+      }
+   }
+
+   .mlp-body {
+      .mlp-body-nav {
+         margin-top: 40px;
+
+         .mlp-body-nav__menu {
+            .mlp-body-nav-menu__item-active {
+               color: $theme__bg-color;
+            }
+
+            .mlp-body-nav-menu__item {
+               cursor: pointer;
+               position: relative;
+
+               &:hover {
+                  color: $theme__bg-color;
+               }
+
+               &:last-child {
+                  &::after {
+                     content: none;
+                  }
+               }
+
+               &::after {
+                  content: "";
+                  position: absolute;
+                  display: block;
+                  width: 150px;
+                  height: 1px;
+                  background: #D0D0D0;
+                  right: -176px;
+                  top: 8px;
+               }
+
+               .mlp-body-nav-menu-item__icon {
+                  margin-right: 10px;
+                  font-size: 18px;
+                  vertical-align: middle
+               }
+            }
+         }
+      }
+   }
+}
+
+.mlp-carousel {
+   margin-top: 40px;
+
+   .mlp-setting {
+      .mlp-setting__item {
+         margin-bottom: 20px;
+
+         .mlp-setting-item__title {
+            margin-bottom: 5px;
          }
       }
    }

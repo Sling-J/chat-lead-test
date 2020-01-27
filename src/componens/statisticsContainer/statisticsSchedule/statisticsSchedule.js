@@ -5,7 +5,7 @@ import {withRouter} from "react-router-dom";
 import {DatePicker, Tabs, Spin} from 'antd';
 
 import {dateFormat, formatUnixToDate} from "../../../utils/formatDate";
-import {getBotStatistics} from "../../../actions/actionCreator";
+import {moduleName as statisticsModule, getBotStatistics} from "../../../ducks/Statistics";
 
 import Schedule from "./schedule";
 import moment from "moment";
@@ -151,10 +151,10 @@ const StatisticsSchedule = ({
    )
 };
 
-const mapStateToProps = ({botStatisticsReducer}) => ({
-   statistics: botStatisticsReducer.statistics,
-   loadingOfStatistics: botStatisticsReducer.loadingOfStatistics,
-   errorOfStatistics: botStatisticsReducer.errorOfStatistics
+const mapStateToProps = state => ({
+   statistics: state[statisticsModule].statistics,
+   loadingOfStatistics: state[statisticsModule].loadingOfStatistics,
+   errorOfStatistics: state[statisticsModule].errorOfStatistics
 });
 
 const mapDispatchToProps = dispatch => ({

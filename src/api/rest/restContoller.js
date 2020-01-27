@@ -116,23 +116,3 @@ export const getWpStatus = userData => (
 export const logoutWp = userData => (
 	instance.post('/Logout/', userData)
 );
-
-export const getBotStatistics = data => (
-   instance.post('/GetAnalytics/', data)
-);
-
-export const exportUsers = data => (
-   instance.post('/ExportUsers/', data)
-);
-
-export const importUsers = data => (
-   instance.post('/ImportUsers/', data)
-);
-
-export const addPayment = data => (
-   instance.post('/AddPayment/', data)
-);
-
-export const getTransactions = token => (
-   instance.post('/GetTransactions/', token)
-);

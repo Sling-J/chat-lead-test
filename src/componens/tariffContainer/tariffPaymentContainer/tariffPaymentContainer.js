@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 
 import tariffImg from '../../../images/tariff/tariff-baks.png'
 import {Step1, Step2} from './tariffPaymentContainerTable';
-import {addPayment} from "../../../actions/actionCreator";
+import {moduleName as paymentModule, addPayment} from "../../../ducks/Payment";
 
 const TariffPaymentContainer = ({botsData, addPayment, isFetching, payment, loadingOfPayment}) => {
    const [checkedList, setCheckedList] = useState([]);
@@ -122,12 +122,12 @@ const TariffPaymentContainer = ({botsData, addPayment, isFetching, payment, load
    );
 };
 
-export default connect(({botsReducers, botPaymentReducer}) => ({
-   botsData: botsReducers.botsData,
-   isFetching: botsReducers.isFetching,
-   payment: botPaymentReducer.payment,
-   loadingOfPayment: botPaymentReducer.loadingOfPayment,
-   errorOfPayment: botPaymentReducer.errorOfPayment,
+export default connect(state => ({
+   botsData: state.botsReducers.botsData,
+   isFetching: state.botsReducers.isFetching,
+   payment: state[paymentModule].payment,
+   loadingOfPayment: state[paymentModule].loadingOfPayment,
+   errorOfPayment: state[paymentModule].errorOfPayment,
 }), {
    addPayment
 })(TariffPaymentContainer);

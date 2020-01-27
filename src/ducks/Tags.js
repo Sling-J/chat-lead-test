@@ -9,7 +9,7 @@ import {Tags} from '../config/service/service';
  */
 
 export const moduleName = 'tags';
-const prefix = `${appName}/${moduleName}`;
+export const prefix = `${appName}/${moduleName}`;
 
 export const GET_TAGS_REQUEST = `${prefix}/GET_TAGS_REQUEST`;
 export const GET_TAGS_SUCCESS = `${prefix}/GET_TAGS_SUCCESS`;
@@ -33,7 +33,7 @@ export default (state = initialState, action) => {
 				loadingOfTags: true,
 				errorOfTags: null,
 				tags: [],
-			}
+			};
 
 		case GET_TAGS_SUCCESS:
 			return {
@@ -41,7 +41,7 @@ export default (state = initialState, action) => {
 				loadingOfTags: false,
 				errorOfTags: null,
 				tags: action.payload,
-			}
+			};
 
 		case GET_TAGS_FAILURE:
 			return {
@@ -49,7 +49,7 @@ export default (state = initialState, action) => {
 				loadingOfTags: false,
 				errorOfTags: action.error,
 				tags: [],
-			}
+			};
 
 		default:
 			return state;
@@ -69,11 +69,11 @@ export const getTags = botId => ({
  * Sagas
  */
 
-export function* getTagsSaga() {
+function* getTagsSaga() {
    if (userAccessToken()) {
       while (true) {
 			const action = yield take(GET_TAGS_REQUEST);
-			
+
          try {
             const formData = new FormData();
 

@@ -63,11 +63,14 @@ export const Manager = {
 };
 
 export const BotStatistics = {
-   getBotStatistics: data => instance.post(`/GetAnalytics/`, data)
+   getBotStatistics: data => instance.post(`/GetAnalytics/`, data),
+   exportUsers: data => instance.post('/ExportUsers/', data),
+   importUsers: data => instance.post('/ImportUsers/', data),
 };
 
 export const Payments = {
-   addPayment: data => instance.post('/AddPayment/', data)
+   addPayment: data => instance.post('/AddPayment/', data),
+   getTransactions: data => instance.post('/GetTransactions/', data),
 };
 
 export const Tags = {

@@ -8,23 +8,24 @@ import chatLeadLogo from '../../images/chatlead.png';
 import Logo from '../../images/logo_panel.png';
 import UserIcon from '../../images/user.png';
 
+import {Spin, Dropdown} from 'antd';
 import ClickOutSide from '../hoc/clickOutside';
 
 import LinearProgress from "@material-ui/core/LinearProgress";
-import {Spin, Dropdown} from 'antd';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleDown} from "@fortawesome/free-solid-svg-icons";
 
 import ContextMenuBots from './contextMenuBots/contextMenuBots';
 import {getAllBotsForUser} from "../../actions/actionCreator";
 import {logout} from "../../ducks/Auth";
+import {moduleName as statisticsModule} from "../../ducks/Statistics";
 import history from "../../config/history/history";
 
 import style from './mainHeader.module.sass';
 
 const MainHeader = props => {
 	const {changedBotData, botId, botSetupData} = props;
-	
+
 	const isAuthPage = history.location.pathname === '/auth'|| history.location.pathname === '/signUp';
    const isMainHeader = history.location.pathname === '/bots';
    const isServiceHeader = history.location.pathname === '/bots/tariff/payment'
@@ -165,14 +166,14 @@ const mapStateToProps = state => {
    const isFetchingBroadCast = state.broadCastReducers.isFetching;
    const isFetchingAutoRides = state.autoridesReducers.isFetching;
    const isFetchingBotsReducers = state.botsReducers.isFetching;
-   const loadingOfStatistics = state.botStatisticsReducer.loadingOfStatistics;
+   const loadingOfStatistics = state[statisticsModule].loadingOfStatistics;
 
    const errorOfSetup = state.botSetupReducers.error;
    const errorOfBot = state.singleBotReducers.error;
    const errorOfBroadCast = state.broadCastReducers.error;
    const errorOfAutoRides = state.autoridesReducers.error;
    const errorOfBotsReducers = state.botsReducers.error;
-   const errorOfStatistics = state.botStatisticsReducer.error;
+   const errorOfStatistics = state[statisticsModule].error;
 
    return {
       botSetupData, isFetching, error, changedBotData,

@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import {Table, Input, Icon, Button} from 'antd';
 import Highlighter from 'react-highlight-words';
+import {moduleName as statisticsModule} from "../../../ducks/Statistics";
 
 import {formatUnixToDate} from "../../../utils/formatDate";
 
@@ -133,10 +134,10 @@ class StatisticsForm extends React.Component {
    }
 }
 
-const mapStateToProps = ({botStatisticsReducer}) => ({
-   statistics: botStatisticsReducer.statistics,
-   loadingOfStatistics: botStatisticsReducer.loadingOfStatistics,
-   errorOfStatistics: botStatisticsReducer.errorOfStatistics
+const mapStateToProps = state => ({
+   statistics: state[statisticsModule].statistics,
+   loadingOfStatistics: state[statisticsModule].loadingOfStatistics,
+   errorOfStatistics: state[statisticsModule].errorOfStatistics
 });
 
 export default connect(mapStateToProps)(StatisticsForm);
