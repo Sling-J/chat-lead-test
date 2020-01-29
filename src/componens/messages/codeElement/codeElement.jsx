@@ -2,66 +2,68 @@ import React, {useState, useEffect} from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
-import {updateTrigger} from "../../../actions/actionCreator";
+
+import {Input} from "antd";
 
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
-
-import style from "./codeElement.module.sass";
 import ConditionsToggle from "../conditionsForElements/conditionsToggle";
 import ConditionsContainer from "../conditionsForElements/conditionsContainer";
+
+import {updateTrigger} from "../../../actions/actionCreator";
+
+import style from "./codeElement.module.sass";
 
 const CodeElement = props => {
    const {value, index, componentType, changedTrigger, type, match} = props;
 
    const [textAreaValue, setTextAreaValue] = useState("");
-   const [errorText, setErrorText] = useState(null);
 
    useEffect(() => {
-      setTextAreaValue(JSON.stringify(value.customs));
+      setTextAreaValue(value.customs);
    }, [value.customs]);
 
-   const updateTrigger = () => {
+   const updateTrigger = event => {
       const messagesCopy = changedTrigger.messages;
       const customs = messagesCopy[props.changedSocial][index];
 
-      try {
-         customs.customs = JSON.parse(textAreaValue);
+      customs.customs = event.target.value;
 
-         const triggerData = {
-            ...changedTrigger,
-            index,
-            type,
-            messages: messagesCopy,
-            botId: match.params.botId
-         };
+      const triggerData = {
+         ...changedTrigger,
+         index,
+         type,
+         messages: messagesCopy,
+         botId: match.params.botId
+      };
 
-         setErrorText(null);
-         JSON.stringify(value.customs) !== textAreaValue && props.updateTrigger(triggerData, null, props.changedSocial);
-      } catch (e) {
-         setErrorText('Неверный формат кода');
-      }
+      value.customs !== textAreaValue && props.updateTrigger(triggerData, null, props.changedSocial);
    };
 
    return (
       <div className={style.textArea}>
-         <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
-         <ConditionsContainer conditions={value.conditions} {...props}/>
-
          <div className={style.hoverBar}>
             <HoverBarForMessage
                {...props}
             />
          </div>
-         <textarea
-            className={value.conditions && style.textRadius}
-            id={`insertVariable-${componentType}${index}`}
-            onChange={e => setTextAreaValue(e.target.value)}
-            onBlur={updateTrigger}
-            value={textAreaValue === '""' ? "" : textAreaValue}
-            placeholder="Напишите обработчик"
-         />
 
-         <p className={style.errorText}>{errorText}</p>
+         <div className={style.codeElementContainer}>
+            <p className={style.codeElementText}>Код вставки:</p>
+
+            <div className={style.codeElement}>
+               <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+               <ConditionsContainer conditions={value.conditions} {...props}/>
+
+               <Input
+                  style={{width: "232px"}}
+                  className={`${value.conditions && style.textRadius} ${style.codeElementInput}`}
+                  id={`insertVariable-${componentType}${index}`}
+                  onBlur={updateTrigger}
+                  defaultValue={value.customs}
+                  placeholder="Напишите обработчик"
+               />
+            </div>
+         </div>
       </div>
    )
 };
