@@ -12,24 +12,40 @@
 .textRadius
    border-radius: 0 0 7px 7px !important
 
-.codeElementContainer
-   display: flex
-   align-items: center
-   justify-content: space-between
-
-   .codeElementInput
-      padding-right: 30px
-
-   .codeElement
-      position: relative
-
-
 .textArea
    width: 100%
+   display: flex
+   flex-direction: column
+   justify-content: center
+   align-items: center
+   background: transparent
+   position: relative
 
    &:hover
       .hoverBar
          display: block
+
+   textarea
+      padding: .5rem
+      box-sizing: border-box
+      border-radius: 7px
+      transition: all 0.3s
+      font-family: monospace
+      will-change: border-color, background-color, box-shadow
+      resize: none
+      border: 1px solid #d9d9d9
+      width: 100%
+      outline: none
+      color: #3c4858
+      font-size: 14px
+      height: 120px
+      line-height: 1.40em
+
+      &:hover
+         border-color: #40a9ff
+
+      &::placeholder
+         color: #B5B5B5
 
 .hoverBar
    position: absolute
