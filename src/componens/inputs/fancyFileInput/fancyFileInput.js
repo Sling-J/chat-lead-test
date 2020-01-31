@@ -3,10 +3,10 @@ import {Spin} from "antd";
 
 import {staticMedia} from "../../../config/service/service";
 import HoverBarForMessage from "../../messages/hoverBarForMessage/hoverBarForMessage";
-
-import style from './fancyFileInput.module.sass';
 import ConditionsContainer from "../../messages/conditionsForElements/conditionsContainer";
 import ConditionsToggle from "../../messages/conditionsForElements/conditionsToggle";
+
+import style from './fancyFileInput.module.sass';
 
 const FancyFileInput = props => {
    const {accept, onChange, index, pictureForLabel, value, type} = props;

@@ -11,47 +11,22 @@ import {faCog, faFileAlt, faCode, faCheck} from "@fortawesome/free-solid-svg-ico
 
 import GrowthToolMlpSettings from "./growthToolMLPSettings";
 import GrowthToolMlpContent from "./growthToolMLPContent";
+import GrowthToolMlpCode from "./growthToolMLPCode";
 
 import Button from "@material-ui/core/Button";
 import SwipeableViews from "react-swipeable-views";
 
-const TabPanel = ({
-   value, index, settingTitle, setSettingTitle,
-   youtubeField, setYoutubeField, description1,
-   setDescription1, phone1, setPhone1,
-   description2, setDescription2, phone2,
-   setPhone2, actionText, setActionText,
-   autoRidesData, setSelectedAutoRide, loadingOfAutoRides,
-}) => {
+const TabPanel = props => {
+   const {value, index} = props;
+
    return value === index && (
       <p className="mlp-carousel">
          {index === 0 ? (
-            <GrowthToolMlpSettings
-               settingTitle={settingTitle}
-               setSettingTitle={setSettingTitle}
-               autoRidesData={autoRidesData}
-               setSelectedAutoRide={setSelectedAutoRide}
-               loadingOfAutoRides={loadingOfAutoRides}
-            />
+            <GrowthToolMlpSettings {...props}/>
          ) : index === 1 ? (
-            <GrowthToolMlpContent
-               youtubeField={youtubeField}
-               setYoutubeField={setYoutubeField}
-               description1={description1}
-               setDescription1={setDescription1}
-               phone1={phone1}
-               setPhone1={setPhone1}
-               description2={description2}
-               setDescription2={setDescription2}
-               phone2={phone2}
-               setPhone2={setPhone2}
-               actionText={actionText}
-               setActionText={setActionText}
-            />
+            <GrowthToolMlpContent {...props}/>
          ) : index === 2 ? (
-            <div>
-
-            </div>
+            <GrowthToolMlpCode {...props}/>
          ) : index === 3 ? (
             <div>
 
@@ -66,9 +41,11 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
 
    const [value, setValue] = useState(0);
 
+   // Mlp Settings
    const [settingTitle, setSettingTitle] = useState('');
    const [selectedAutoRide, setSelectedAutoRide] = useState(null);
 
+   // Mlp Content
    const [youtubeField, setYoutubeField] = useState('');
    const [description1, setDescription1] = useState('');
    const [phone1, setPhone1] = useState('');
@@ -76,6 +53,10 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
    const [phone2, setPhone2] = useState('');
    const [actionText, setActionText] = useState('');
    const [file, setFile] = useState(null);
+
+   // Mlp Code
+   const [scriptForHead, setScriptForHead] = useState('');
+   const [scriptForBody, setScriptForBody] = useState('');
 
    useEffect(() => {
       if (autoRidesData && autoRidesData.length === 0) {
@@ -101,7 +82,7 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
          && (phone1.length === 0 || phone2.length === 0)
          && actionText.length === 0;
    } else if (value === 2) {
-
+      disabled = false
    } else if (value === 3) {
 
    }
@@ -183,11 +164,17 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   setPhone2={setPhone2}
                   actionText={actionText}
                   setActionText={setActionText}
+                  setFile={setFile}
+                  file={file}
                />
 
                <TabPanel
                   value={value}
                   index={2}
+                  scriptForHead={scriptForHead}
+                  setScriptForHead={setScriptForHead}
+                  scriptForBody={scriptForBody}
+                  setScriptForBody={setScriptForBody}
                />
 
                <TabPanel
