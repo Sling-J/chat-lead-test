@@ -14,9 +14,9 @@ import {useTheme} from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import SwipeableViews from "react-swipeable-views";
 
 import style from './setupSidebar.module.sass';
-import SwipeableViews from "react-swipeable-views";
 
 const TabPanel = ({
 	value, index, handleSubmit, wpStatus,
@@ -26,6 +26,20 @@ const TabPanel = ({
 	getWpScreenshot, logoutWp, loadingOfStatus,
    isAuth,
 }) => {
+	function info() {
+		Modal.info({
+			title: 'У вас нет доступа для WhatsApp!',
+			content: (
+				<div>
+					<p>
+						Подпишитесь на <a href="https://my.chatlead.io/bots/tariff/prices" className={style.permissionLink} target="_blank">премиум тариф</a> для использования WhatsApp.
+					</p>
+				</div>
+			),
+			onOk() {},
+		});
+	}
+
    return value === index && (
       <p className={style.tabsContainerMenu}>
          {
@@ -71,8 +85,22 @@ const TabPanel = ({
 				</Button>
          )}
 
-			{value !== 3 ? (
-            <Button
+			{value === 3 ? (
+				<Button
+					type="button"
+					variant="contained"
+					onClick={socialName.length === 0 ? info : isAuth === '' || !isAuth || logoutData.ok ? handleSubmit : logoutWp}
+					className={style.ui_vmenu_sep_button}
+					disabled={loading || loadingOfLogout}
+				>
+					{isAuth === '' || !isAuth || logoutData.ok ?
+						loading ? <CircularProgress color="white"/> : 'АВТОРИЗОВАТЬСЯ'
+						: (
+							loadingOfLogout ? <CircularProgress color="white"/> : 'ВЫХОД'
+						)}
+				</Button>
+         ) : (
+				<Button
 					type="button"
 					variant="contained"
 					onClick={handleSubmit}
@@ -81,23 +109,9 @@ const TabPanel = ({
 				>
 					{isAuth === '' || !isAuth ?
 						loading ? <CircularProgress color="white"/> : 'АВТОРИЗОВАТЬСЯ'
-					: (
-						loading ? <CircularProgress color="white"/> : 'ПЕРЕАВТОРИЗАЦИЯ'
-					)}
-				</Button>
-         ) : (
-				<Button
-					type="button"
-					variant="contained"
-					onClick={socialName === '' || !socialName || logoutData.ok ? handleSubmit : logoutWp}
-					className={style.ui_vmenu_sep_button}
-					disabled={loading || loadingOfLogout}
-				>
-					{isAuth === '' || !isAuth || logoutData.ok ?
-						loading ? <CircularProgress color="white"/> : 'АВТОРИЗОВАТЬСЯ'
-					: (
-						loadingOfLogout ? <CircularProgress color="white"/> : 'ВЫХОД'
-					)}
+						: (
+							loading ? <CircularProgress color="white"/> : 'ПЕРЕАВТОРИЗАЦИЯ'
+						)}
 				</Button>
 			)}
 

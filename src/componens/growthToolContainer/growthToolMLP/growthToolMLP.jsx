@@ -16,14 +16,13 @@ import Button from "@material-ui/core/Button";
 import SwipeableViews from "react-swipeable-views";
 
 const TabPanel = ({
-                     value, index, settingTitle, setSettingTitle,
-                     youtubeField, setYoutubeField, description1,
-                     setDescription1, phone1, setPhone1,
-                     description2, setDescription2, phone2,
-                     setPhone2, actionText, setActionText,
-                     autoRidesData, setSelectedAutoRide, loadingOfAutoRides,
-                  }) => {
-
+   value, index, settingTitle, setSettingTitle,
+   youtubeField, setYoutubeField, description1,
+   setDescription1, phone1, setPhone1,
+   description2, setDescription2, phone2,
+   setPhone2, actionText, setActionText,
+   autoRidesData, setSelectedAutoRide, loadingOfAutoRides,
+}) => {
    return value === index && (
       <p className="mlp-carousel">
          {index === 0 ? (
