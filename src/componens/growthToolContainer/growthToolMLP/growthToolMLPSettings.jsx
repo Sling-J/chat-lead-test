@@ -36,7 +36,7 @@ const GrowthToolMlpSettings = ({settingTitle, setSettingTitle, loadingOfAutoRide
                }
             >
                {autoRidesData.length !== 0 && autoRidesData.map(item => (
-                  <Option value={item.id}>{item.trigger_text}</Option>
+                  <Option value={item.id}>{item.scenario.trigger_text}</Option>
                ))}
             </Select>
          </div>

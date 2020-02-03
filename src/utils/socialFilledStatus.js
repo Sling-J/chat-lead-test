@@ -2,10 +2,7 @@ export const getFilledStatus = (social, changedTrigger) => {
    let checkedSocial = [];
 
    if (changedTrigger) {
-      checkedSocial = (social === 'facebook') ? changedTrigger.messages.facebook :
-         (social === 'telegram') ? changedTrigger.messages.telegram :
-            (social === 'vk') ? changedTrigger.messages.vk :
-               (social === 'whatsapp') ? changedTrigger.messages.whatsapp : false;
+      checkedSocial = changedTrigger.messages[social];
    }
 
    let status = false;

@@ -5,6 +5,7 @@ import {withRouter} from "react-router-dom";
 
 import {getAllAutorides} from "../../../actions/actionCreator";
 
+import {Modal} from "antd";
 import {useTheme} from '@material-ui/core/styles';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCog, faFileAlt, faCode, faCheck} from "@fortawesome/free-solid-svg-icons";
@@ -40,31 +41,39 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
    const theme = useTheme();
 
    const [value, setValue] = useState(0);
+   const [radioTab, setRadioTab] = useState(1);
+   const [firstSectionTabs, setFirstSectionTabs] = useState(1);
+   const [secondSectionTabs, setSecondSectionTabs] = useState(2);
 
    // Mlp Settings
    const [settingTitle, setSettingTitle] = useState('');
    const [selectedAutoRide, setSelectedAutoRide] = useState(null);
 
    // Mlp Content
+   const [file, setFile] = useState(null);
    const [youtubeField, setYoutubeField] = useState('');
    const [description1, setDescription1] = useState('');
-   const [phone1, setPhone1] = useState('');
    const [description2, setDescription2] = useState('');
+   const [actionText, setActionText] = useState('ШАГ - 1. Выберите Свой Мессенджер');
+   const [phone1, setPhone1] = useState('');
    const [phone2, setPhone2] = useState('');
-   const [actionText, setActionText] = useState('');
-   const [file, setFile] = useState(null);
 
    // Mlp Code
    const [scriptForHead, setScriptForHead] = useState('');
    const [scriptForBody, setScriptForBody] = useState('');
 
    useEffect(() => {
-      if (autoRidesData && autoRidesData.length === 0) {
-         getAutorides(match.params.botId);
-      }
+      getAutorides(match.params.botId);
    }, []);
 
    let disabled = true;
+
+   function warning() {
+      Modal.warning({
+         title: 'Предупреждение',
+         content: 'Вы не заполнили нужные поля',
+      });
+   }
 
    const handleChange = (value) => {
       setValue(value);
@@ -74,17 +83,12 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
       setValue(index);
    };
 
-   if (value === 0) {
-      disabled = settingTitle.length === 0 || !selectedAutoRide;
-   } else if (value === 1) {
-      disabled = (youtubeField.length === 0 || !file)
-         && (description1.length === 0 || description2.length === 0)
-         && (phone1.length === 0 || phone2.length === 0)
-         && actionText.length === 0;
-   } else if (value === 2) {
-      disabled = false
-   } else if (value === 3) {
-
+   if (
+      (youtubeField.length !== 0 || file) &&
+      (description1.length !== 0 || description2.length !== 0) &&
+      (actionText.length !== 0) && (selectedAutoRide) && (settingTitle.length !== 0)
+   ) {
+      disabled = false;
    }
 
    return (
@@ -100,10 +104,15 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
             <Button
                className="mlp-nav__next"
                variant="contained"
-               disabled={disabled}
-               onClick={() => setValue(value === 0 ? 1 : value === 1 ? 2 : value === 2 ? 3 : value === 3 ? 4 : 0)}
+               onClick={() => {
+                  if (value === 2 && disabled) {
+                     warning();
+                  } else {
+                     setValue(value === 0 ? 1 : value === 1 ? 2 : value === 2 ? 3 : value === 3 ? 4 : 0);
+                  }
+               }}
             >
-               Дальше
+               {value === 3 ? 'Сохранить' : 'Дальше'}
             </Button>
          </div>
 
@@ -126,7 +135,7 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                      Код
                   </li>
                   <li className={`mlp-body-nav-menu__item ${value === 3 && 'mlp-body-nav-menu__item-active'}`}
-                      onClick={() => handleChange(3)}>
+                      onClick={() => disabled ? warning() : handleChange(3)}>
                      <FontAwesomeIcon className="mlp-body-nav-menu-item__icon" icon={faCheck}/>
                      Готово
                   </li>
@@ -144,7 +153,6 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   settingTitle={settingTitle}
                   setSettingTitle={setSettingTitle}
                   autoRidesData={autoRidesData}
-                  selectedAutoRide={selectedAutoRide}
                   setSelectedAutoRide={setSelectedAutoRide}
                   loadingOfAutoRides={loadingOfAutoRides}
                />
@@ -152,6 +160,7 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                <TabPanel
                   value={value}
                   index={1}
+                  selectedAutoRide={selectedAutoRide}
                   youtubeField={youtubeField}
                   setYoutubeField={setYoutubeField}
                   description1={description1}
@@ -166,6 +175,13 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   setActionText={setActionText}
                   setFile={setFile}
                   file={file}
+                  firstSectionTabs={firstSectionTabs}
+                  setFirstSectionTabs={setFirstSectionTabs}
+                  secondSectionTabs={secondSectionTabs}
+                  setSecondSectionTabs={setSecondSectionTabs}
+                  setPage={setValue}
+                  radioTab={radioTab}
+                  setRadioTab={setRadioTab}
                />
 
                <TabPanel
@@ -175,11 +191,23 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   setScriptForHead={setScriptForHead}
                   scriptForBody={scriptForBody}
                   setScriptForBody={setScriptForBody}
+                  selectedAutoRide={selectedAutoRide}
+                  description1={description1}
+                  phone1={phone1}
+                  description2={description2}
+                  phone2={phone2}
+                  actionText={actionText}
+                  firstSectionTabs={firstSectionTabs}
+                  setFirstSectionTabs={setFirstSectionTabs}
+                  secondSectionTabs={secondSectionTabs}
+                  setSecondSectionTabs={setSecondSectionTabs}
+                  setPage={setValue}
                />
 
                <TabPanel
                   value={value}
                   index={3}
+                  setPage={setPage}
                />
             </SwipeableViews>
          </div>

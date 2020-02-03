@@ -81,6 +81,7 @@ const TagsElement = props => {
                mode="tags"
                style={{width: "100%"}}
                onChange={handleChangeS}
+               placeholder="Добавить теги"
                value={sTagsArr}
                onSearch={value => setSearchValue(value)}
                dropdownRender={menu => {
@@ -112,6 +113,7 @@ const TagsElement = props => {
                style={{width: "100%"}}
                value={rTagsValue}
                onChange={handleChangeR}
+               placeholder="Убрать теги"
                onSearch={value => setSearchValue(value)}
                dropdownRender={menu => {
                   const result = rTagsValue.find(item => item === searchValue);
