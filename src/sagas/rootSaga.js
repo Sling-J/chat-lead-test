@@ -4,6 +4,8 @@ import {saga as authSaga} from '../ducks/Auth';
 import {saga as tagsSaga} from '../ducks/Tags';
 import {saga as statisticsSaga} from '../ducks/Statistics';
 import {saga as paymentSaga} from '../ducks/Payment';
+import {saga as growthToolSaga} from '../ducks/GrowthTool';
+
 import {
    createBotSaga,
    getAllBotsSagas,
@@ -42,6 +44,7 @@ import {
 function* rootSaga() {
    yield all([
 		getWpScreenshotSaga(),
+      growthToolSaga(),
 		facebookAuthSaga(),
 		getWpStatusSaga(),
 		getQRCodeSaga(),

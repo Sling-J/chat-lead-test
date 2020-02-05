@@ -33,11 +33,14 @@ export const Scenarios = {
    editScenario: scenarioData => instance.post(`/EditScenario/`, scenarioData)
 };
 
+export const Media = {
+   uploadMedia: mediaData => instance.post(`/UploadFile/`, mediaData),
+};
+
 export const Triggers = {
    createTrigger: triggerData => instance.post(`/CreateTrigger/`, triggerData),
    deleteTrigger: triggerData => instance.post(`/DeleteTrigger/`, triggerData),
    editTrigger: triggerData => instance.post(`/EditTrigger/`, triggerData),
-   uploadMedia: mediaData => instance.post(`/UploadFile/`, mediaData),
 };
 
 export const AutoRides = {

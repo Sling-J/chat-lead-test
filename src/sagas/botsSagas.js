@@ -282,6 +282,9 @@ export function* updateTriggerSaga({triggerData, updationData, changedSocial}) {
             formData.append('type', updationData.type);
             formData.append('file', updationData.file);
 
+            console.log(updationData.type);
+            console.log(updationData.file);
+
             const {data} = yield call(uploadMedia, formData);
 
             if (data.ok) {
