@@ -1,0 +1,33 @@
+.hoverBar {
+   position: absolute;
+   right: -27px;
+   top: 0;
+   display: none;
+}
+
+.mainContainer {
+   &:hover {
+      .hoverBar {
+         display: block;
+      }
+   }
+
+   .nextTriggerContainer {
+      border-radius: 7px;
+      border: 1px solid #e0e6ed;
+      padding: 13px 16px;
+      transition: border-color .15s;
+
+      &:hover {
+         border-color: #0084ff;
+      }
+
+      .nextTriggerSelection {
+         margin-top: 25px;
+      }
+   }
+
+   .nextTriggerRadius {
+      border-radius: 0 0 7px 7px !important;
+   }
+}

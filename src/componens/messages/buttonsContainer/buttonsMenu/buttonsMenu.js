@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {buttonsTypes, defaultValuesForNewButtons} from "../../../../constants/defaultValues";
 import {connect} from "react-redux";
-import Actions from '../actions/actions';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
    faEnvelope,
@@ -360,9 +359,6 @@ class ButtonsMenu extends Component {
                   onBlur={this.editButton}
                />
 
-               <Actions
-                  {...this.props}
-               />
                <Controls
                   {...this.props}
                />

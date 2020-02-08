@@ -91,7 +91,8 @@ const BroadCastMenu = props => {
                variant="contained"
                onClick={() => updateBroadCast({
                   time: oldDate / 1000,
-                  sent: 'False'
+                  sent: 'False',
+                  proccessing: 'False'
                })}
             >
                Начать рассылку

@@ -15,9 +15,13 @@ const SelectForTags = ({
    tagsValue
 }) => {
    const [searchValue, setSearchValue] = useState('');
+   const [absentSearchValue, setAbsentSearchValue] = useState('');
+
    const [sTagsArr, setTagsArr] = useState([]);
+   const [absentSTagsArr, setAbsentTagsArr] = useState([]);
 
    const tagsSelectOptions = [];
+   const absentTagsSelectOptions = [];
 
    useEffect(() => {
       if (tagsValue.tag && tagsValue.tag.length !== 0) {
@@ -27,18 +31,38 @@ const SelectForTags = ({
 
          setTagsArr([...tagsValue.tag.split(',')]);
       }
+
+      if (tagsValue.exclude_tags && tagsValue.exclude_tags.length !== 0) {
+         tagsValue.exclude_tags.split(',').forEach(item => {
+            absentTagsSelectOptions.push(<Option key={item}>{item}</Option>)
+         });
+
+         setAbsentTagsArr([...tagsValue.exclude_tags.split(',')]);
+      }
    }, []);
 
-   const handleChange = valueOf => {
-      setSearchValue('');
-      setTagsArr(valueOf);
-
-      valueOf.forEach(item => {
-         tagsSelectOptions.push(<Option key={item}>{item}</Option>);
-      });
-
+   const handleChange = (valueOf, isAbsent) => {
       const messagesCopy = changedTrigger.messages;
-      messagesCopy[changedSocial][index].tag = valueOf.toString();
+
+      if (isAbsent) {
+         setAbsentSearchValue('');
+         setAbsentTagsArr(valueOf);
+
+         valueOf.forEach(item => {
+            absentTagsSelectOptions.push(<Option key={item}>{item}</Option>);
+         });
+
+         messagesCopy[changedSocial][index].exclude_tags = valueOf.toString();
+      } else {
+         setSearchValue('');
+         setTagsArr(valueOf);
+
+         valueOf.forEach(item => {
+            tagsSelectOptions.push(<Option key={item}>{item}</Option>);
+         });
+
+         messagesCopy[changedSocial][index].tag = valueOf.toString();
+      }
 
       const triggerData = {
          ...changedTrigger,
@@ -80,11 +104,31 @@ const SelectForTags = ({
       </Select>
    ) : (
       <Select
-         mode="multiple"
+         mode="tags"
          style={style}
-         onChange={handleChange}
          placeholder={placeholder}
-      />
+         onChange={handleChange}
+         value={absentSTagsArr}
+         onSearch={value => setAbsentSearchValue(value)}
+         dropdownRender={menu => {
+            const result = absentSTagsArr.find(item => item === absentSearchValue);
+
+            return (
+               <div>
+                  <div
+                     style={{padding: '4px 8px', cursor: 'pointer'}}
+                     onMouseDown={e => e.preventDefault()}
+                  >
+                     {!result && absentSearchValue.length !== 0 && (<><Icon type="plus"/> Создать «{absentSearchValue}»</>)}
+                  </div>
+                  <Divider style={{margin: '4px 0'}}/>
+                  {menu}
+               </div>
+            )
+         }}
+      >
+         {absentTagsSelectOptions}
+      </Select>
    );
 };
 

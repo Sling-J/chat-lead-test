@@ -4,14 +4,14 @@ import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
+import ConditionsToggle from "../conditionsForElements/conditionsToggle";
+import ConditionsContainer from "../conditionsForElements/conditionsContainer";
 import {updateTrigger} from "../../../actions/actionCreator";
 import {matchNumber} from "../../../utils/textValidation";
 
 import {Input} from 'antd';
 
 import style from './contactsElement.module.sass';
-import ConditionsToggle from "../conditionsForElements/conditionsToggle";
-import ConditionsContainer from "../conditionsForElements/conditionsContainer";
 
 const ContactsElement = props => {
 	const {type, index, match, value, changedTrigger} = props;

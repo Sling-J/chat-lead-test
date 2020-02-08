@@ -17,6 +17,7 @@ import contact from '../images/buttons/contact.png';
 import code from '../images/buttons/code.png';
 import tags from '../images/buttons/tags.png';
 import sendLink from '../images/buttons/sendLink.png';
+import next from '../images/buttons/next.png';
 
 export const addNewMessagesButtons = {
    facebook: [
@@ -107,6 +108,11 @@ export const addNewMessagesButtons = {
          label: '+Ссылка',
          icon: <img src={sendLink} alt={'code'}/>,
          type: 'sendUrl'
+      },
+      {
+         label: '+Переход',
+         icon: <img src={next} alt={'nextTrigger'}/>,
+         type: 'nextTrigger'
       }
    ],
    telegram: [
@@ -187,6 +193,11 @@ export const addNewMessagesButtons = {
          label: '+Ссылка',
          icon: <img src={sendLink} alt={'code'}/>,
          type: 'sendUrl'
+      },
+      {
+         label: '+Переход',
+         icon: <img src={next} alt={'nextTrigger'}/>,
+         type: 'nextTrigger'
       }
    ],
    vk: [
@@ -267,6 +278,11 @@ export const addNewMessagesButtons = {
          label: '+Ссылка',
          icon: <img src={sendLink} alt={'code'}/>,
          type: 'sendUrl'
+      },
+      {
+         label: '+Переход',
+         icon: <img src={next} alt={'nextTrigger'}/>,
+         type: 'nextTrigger'
       }
    ],
    whatsapp: [
@@ -342,6 +358,11 @@ export const addNewMessagesButtons = {
          label: '+Ссылка',
          icon: <img src={sendLink} alt={'code'}/>,
          type: 'sendUrl'
+      },
+      {
+         label: '+Переход',
+         icon: <img src={next} alt={'nextTrigger'}/>,
+         type: 'nextTrigger'
       }
    ]
 };

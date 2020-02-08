@@ -44,19 +44,21 @@ const MainHeader = props => {
 
    const menu = (
       <ul className={style.contextMenuContainer}>
-         <li>
-            <Link to="/bots/profile">Аккаунт</Link>
-         </li>
+         {/*<li>*/}
+         {/*   <Link to="/bots/profile">Аккаунт</Link>*/}
+         {/*</li>*/}
          <li>
             <Link to="/bots/tariff/payment">Тарифы</Link>
          </li>
-         <li>
-            <Link to="/">Партнерам</Link>
-         </li>
+         {/*<li>*/}
+         {/*   <Link to="/">Партнерам</Link>*/}
+         {/*</li>*/}
          <li>
             <Link to="/bots">Панель</Link>
          </li>
-         <li onClick={() => props.logout()}>Выйти</li>
+         <li onClick={() => props.logout()}>
+            Выйти
+         </li>
       </ul>
    );
 
@@ -125,15 +127,15 @@ const MainHeader = props => {
             <div className={style.servicesMenu}>
                {isServiceHeader && (
                   <ul className={style.servicesMenuContainer}>
-                     <li>
-                        <NavLink to="/bots/profile" activeClassName={style.servicesMenuItem}>Аккаунт</NavLink>
-                     </li>
+                     {/*<li>*/}
+                     {/*   <NavLink to="/bots/profile" activeClassName={style.servicesMenuItem}>Аккаунт</NavLink>*/}
+                     {/*</li>*/}
                      <li>
                         <NavLink to="/bots/tariff/payment" activeClassName={style.servicesMenuItem}>Тарифы</NavLink>
                      </li>
-                     <li>
-                        <NavLink to="/bots">Партнерам</NavLink>
-                     </li>
+                     {/*<li>*/}
+                     {/*   <NavLink to="/bots">Партнерам</NavLink>*/}
+                     {/*</li>*/}
                      <li>
                         <NavLink to="/bots">Панель</NavLink>
                      </li>

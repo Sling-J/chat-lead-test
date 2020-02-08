@@ -23,7 +23,8 @@ export const getFilledStatus = (social, changedTrigger) => {
          (item.payment && item.text.length !== 0) ||
          (item.customs && Object.keys(item.customs).length !== 0) ||
          (item.updateTag && (Object.keys(item.updateTag.setTag).length !== 0 || Object.keys(item.updateTag.removeTag).length !== 0)) ||
-         (item.contact && item.contact.length !== 0));
+         (item.contact && item.contact.length !== 0) ||
+         (item.nextTrigger && item.nextTrigger.trigger_id.length !== 0));
    });
 
    return status;

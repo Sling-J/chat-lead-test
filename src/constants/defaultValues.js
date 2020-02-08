@@ -1,42 +1,46 @@
 import moment from 'moment';
 
 export const defaultValuesForNewMessages = {
-   text: {text: '', keyboard: [], conditions: false, tag: ''},
-   file: {file: '', keyboard: [], conditions: false, tag: ''},
-   updateTag: {updateTag: {setTag: [], removeTag: []}, keyboard: [], conditions: false, tag: ''},
-   photo: {photo: '', keyboard: [], conditions: false, tag: ''},
-   audio: {audio: '', keyboard: [], conditions: false, tag: ''},
-   video: {video: '', keyboard: [], conditions: false, tag: ''},
-   form: {form: [""], keyboard: [], conditions: false, tag: ''},
-   customs: {customs: {}, keyboard: [], conditions: false, tag: ''},
-   sendUrl: {sendUrl: {url: "", setTag: [], delTag: []}, keyboard: [], conditions: false, tag: ''},
-   location: {location: "", keyboard: [], conditions: false, tag: ''},
-   type_processing: {type_processing: {delay: 5}, conditions: false, tag: ''},
-   card: {card: [{photo: '', title: '', text: '', keyboard: []}], conditions: false, tag: ''},
-   gallery: {gallery: [{photo: '', title: '', text: '', keyboard: []}], conditions: false, tag: ''},
+   text: {text: '', keyboard: [], conditions: false, tag: '', exclude_tags: ''},
+   file: {file: '', keyboard: [], conditions: false, tag: '', exclude_tags: ''},
+   updateTag: {updateTag: {setTag: [], removeTag: []}, keyboard: [], conditions: false, tag: '', exclude_tags: ''},
+   photo: {photo: '', keyboard: [], conditions: false, tag: '', exclude_tags: ''},
+   audio: {audio: '', keyboard: [], conditions: false, tag: '', exclude_tags: ''},
+   video: {video: '', keyboard: [], conditions: false, tag: '', exclude_tags: ''},
+   form: {form: [""], keyboard: [], conditions: false, tag: '', exclude_tags: ''},
+   customs: {customs: {}, keyboard: [], conditions: false, tag: '', exclude_tags: ''},
+   sendUrl: {sendUrl: {url: "", setTag: [], delTag: []}, keyboard: [], conditions: false, tag: '', exclude_tags: ''},
+   location: {location: "", keyboard: [], conditions: false, tag: '', exclude_tags: ''},
+   type_processing: {type_processing: {delay: 5}, conditions: false, tag: '', exclude_tags: ''},
+   card: {card: [{photo: '', title: '', text: '', keyboard: []}], conditions: false, tag: '', exclude_tags: ''},
+   gallery: {gallery: [{photo: '', title: '', text: '', keyboard: []}], conditions: false, tag: '', exclude_tags: ''},
+   nextTrigger: {nextTrigger: {trigger_id: ''}, conditions: false, tag: '', exclude_tags: ''},
    pause_delay: {
       timer: {pause_delay: '', format: {key: 'sec', keyValue: 'Секунды'}},
       keyboard: [],
       text: "",
       conditions: false,
       tag: '',
+      exclude_tags: ''
    },
    activity_lost: {
       timer: {activity_lost: moment().format('YYYY-MM-DD, h:mm')},
       keyboard: [],
       text: "",
       conditions: false,
-      tag: ''
+      tag: '',
+      exclude_tags: ''
    },
-   send_time: {timer: {send_time: {day: '', hours: '', min: ''}}, keyboard: [], text: "", conditions: false, tag: ''},
+   send_time: {timer: {send_time: {day: '', hours: '', min: ''}}, keyboard: [], text: "", conditions: false, tag: '', exclude_tags: ''},
    contact: {
       contact: "",
       sendContact: {
          contactId: ""
       },
       keyboard: [],
-      tag: '',
       conditions: false,
+      tag: '',
+      exclude_tags: ''
    },
    payment: {
       payment: 'payment',
@@ -49,8 +53,9 @@ export const defaultValuesForNewMessages = {
       recipient_card_info: '',
       trigger_id: '',
       failure_text: '',
+      conditions: false,
       tag: '',
-      conditions: false
+      exclude_tags: ''
    },
 
 

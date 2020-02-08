@@ -15,6 +15,7 @@ import FancyFileInput from "../../componens/inputs/fancyFileInput/fancyFileInput
 import CodeElement from "../../componens/messages/codeElement/codeElement";
 import TagsElement from "../../componens/messages/tagsElement/tagsElement";
 import SendLinkElement from "../../componens/messages/sendLinkElement/sendLinkElement";
+import NextTriggerElement from "../../componens/messages/nextTriggerElement/nextTriggerElement"
 
 export const fileDefinition = (key, value, handler, index, deleteHandler, changedTrigger, changedScenario, changeTriggerId) => {
    if (key === 'text') {
@@ -253,6 +254,20 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
       return (
          <PaymentElement
             type={'payment'}
+            value={value}
+            handler={handler}
+            index={index}
+            key={key}
+            tagsValue={value}
+            changedTrigger={changedTrigger}
+            changedScenario={changedScenario}
+            changeTriggerId={changeTriggerId}
+         />
+      )
+   } else if (key === 'nextTrigger') {
+      return (
+         <NextTriggerElement
+            type={'nextTrigger'}
             value={value}
             handler={handler}
             index={index}

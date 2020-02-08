@@ -15,6 +15,10 @@ export const GET_TAGS_REQUEST = `${prefix}/GET_TAGS_REQUEST`;
 export const GET_TAGS_SUCCESS = `${prefix}/GET_TAGS_SUCCESS`;
 export const GET_TAGS_FAILURE = `${prefix}/GET_TAGS_FAILURE`;
 
+export const DELETE_TAGS_REQUEST = `${prefix}/DELETE_TAGS_REQUEST`;
+export const DELETE_TAGS_SUCCESS = `${prefix}/DELETE_TAGS_SUCCESS`;
+export const DELETE_TAGS_FAILURE = `${prefix}/DELETE_TAGS_FAILURE`;
+
 /**
  * Reducer
  */
@@ -80,7 +84,7 @@ function* getTagsSaga() {
             formData.append('user_token', userAccessToken());
             formData.append('bot_id', action.payload);
 
-            const {data} = yield call(Tags.getTagsStatistic, formData);
+            const {data} = yield call(Tags.getTags, formData);
 
             if (data.ok) {
 					yield put({type: GET_TAGS_SUCCESS, payload: data})

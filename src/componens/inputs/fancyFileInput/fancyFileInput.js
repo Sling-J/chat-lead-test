@@ -80,7 +80,7 @@ const FancyFileInput = props => {
                   className={style.inputFile}
                />
                <label htmlFor={index}>
-                  <div className={style.pictureContainer}>
+                  <div className={`${style.pictureContainer} ${style.errorBox}`}>
                      <p style={{margin: '0 0 15px'}}>Ошибка загрузки!</p>
                      <h2 style={{fontSize: '17px'}}>Установите компонент заново</h2>
                   </div>

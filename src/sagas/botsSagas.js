@@ -513,6 +513,7 @@ export function* updateBroadCastSagas({broadCastData}) {
          formData.append('broadcast_id', broadCastData.id);
          formData.append('tag', '');
          formData.append('for_group', broadCastData.for_group);
+         formData.append('proccessing', broadCastData.proccessing);
          formData.append('time', broadCastData.time.toFixed(0));
 
          if (broadCastData.sent) {

@@ -22,13 +22,26 @@ const info = (
 const ConditionsForElements = props => {
 	const Menu = (
 		<div className={style.conditionsContainerMenu}>
-			<h2>Отправить если есть тег:</h2>
-         <SelectForTags
-            placeholder="Выберите теги"
-            style={{width: '100%'}}
-            isTagCreator
-            {...props}
-         />
+			<div className={style.conditionsContainerMenuItem}>
+				<h2>Отправить если есть тег:</h2>
+
+				<SelectForTags
+					placeholder="Выберите теги"
+					style={{width: '100%'}}
+					isTagCreator
+					{...props}
+				/>
+			</div>
+
+			<div className={style.conditionsContainerMenuItem}>
+				<h2>Отправить если отсутствует тег:</h2>
+
+				<SelectForTags
+					placeholder="Выберите теги"
+					style={{width: '100%'}}
+					{...props}
+				/>
+			</div>
 		</div>
 	);
 

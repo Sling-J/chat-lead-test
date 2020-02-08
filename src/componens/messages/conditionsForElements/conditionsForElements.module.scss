@@ -34,8 +34,16 @@
 	padding: 10px 17px 25px;
 	width: 300px;
 
-	h2 {
-		margin-bottom: 10px;
+	.conditionsContainerMenuItem {
+		margin-bottom: 15px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		h2 {
+			margin-bottom: 10px;
+		}
 	}
 }
 

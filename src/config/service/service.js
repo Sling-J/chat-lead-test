@@ -77,5 +77,7 @@ export const Payments = {
 };
 
 export const Tags = {
-	getTagsStatistic: data => instance.post('/GetTagStatistic/', data)
+   addTags: data => instance.post('/AddTags/', data),
+   deleteTag: data => instance.post('/DeleteTag/', data),
+   getTags: data => instance.post('/GetTags/', data),
 };
