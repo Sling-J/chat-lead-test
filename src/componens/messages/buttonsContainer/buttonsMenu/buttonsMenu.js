@@ -11,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import {Select} from 'antd'
+import Actions from "../actions/actions";
 import Controls from './controls/controls';
 
 import style from '../../../../styles/messageButtons.module.scss';
@@ -357,6 +358,10 @@ class ButtonsMenu extends Component {
                   placeholder={'URL'}
                   defaultValue={buttonData.payload.url}
                   onBlur={this.editButton}
+               />
+
+               <Actions
+                  {...this.props}
                />
 
                <Controls

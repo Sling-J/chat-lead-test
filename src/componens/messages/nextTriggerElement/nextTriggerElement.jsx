@@ -37,6 +37,9 @@ const NextTriggerElement = props => {
       props.updateTrigger(triggerData, null, changedSocial);
    };
 
+   const defaultValue = value.nextTrigger.trigger_id.length !== 0 ? value.nextTrigger.trigger_id : undefined;
+   const filteredTriggers = changedScenario.triggers.filter(trigger => trigger.id !== changedTrigger.id);
+
    return (
       <div className={style.mainContainer}>
          <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
@@ -50,18 +53,18 @@ const NextTriggerElement = props => {
             <p>Переход к существующему шагу</p>
 
             <Select
-               placeholder="Выберите шаг для перехода"
                showSearch
                className={style.nextTriggerSelection}
                style={{width: "100%"}}
-               defaultValue={value.nextTrigger.trigger_id}
+               defaultValue={defaultValue}
                optionFilterProp="children"
                onChange={updateTrigger}
+               placeholder="Выберите шаг для перехода"
                filterOption={(input, option) =>
                   option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                }
             >
-               {changedScenario.triggers.filter(trigger => trigger.id !== changedTrigger.id).map(trigger => (
+               {filteredTriggers.map(trigger => (
                   <Option value={trigger.id}>{trigger.caption}</Option>
                ))}
             </Select>

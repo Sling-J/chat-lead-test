@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 
 import {updateTrigger} from "../../../actions/actionCreator";
+import {moduleName as tagsModule, addTag} from "../../../ducks/Tags";
 
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
 import ConditionsToggle from "../conditionsForElements/conditionsToggle";
@@ -16,16 +17,20 @@ import style from "./sendLinkElement.module.scss"
 const {Option} = Select;
 
 const SendLinkElement = props => {
-   const {type, index, match, value, changedTrigger, changedSocial, updateTrigger} = props;
+   const {
+      type, index, match, value,
+      changedTrigger, changedSocial, updateTrigger,
+      loadingOfAdding, loadingOfTags, tags, addTag
+   } = props;
    const [url, setUrl] = useState('');
 
    const [searchValue, setSearchValue] = useState('');
-   const [sTagsArr, setTagsArr] = useState([]);
+   const [sTagsValue, setSTagsValue] = useState([]);
    const [rTagsValue, setRTagsValue] = useState([]);
 
    useEffect(() => {
       if (value.sendUrl && value.sendUrl.setTag.length !== 0) {
-         setTagsArr([...value.sendUrl.setTag]);
+         setSTagsValue([...value.sendUrl.setTag]);
       }
 
       if (value.sendUrl && value.sendUrl.delTag.length !== 0) {
@@ -55,12 +60,19 @@ const SendLinkElement = props => {
       value.sendUrl.url !== url && updateTrigger(triggerData, null, changedSocial);
    };
 
-   const handleChangeS = valueOf => {
+   const handleChange = (valueOf, isAbsent) => {
       const messagesCopy = changedTrigger.messages;
+      const lowerTags = valueOf.map(item => item.toLowerCase());
 
       setSearchValue('');
-      setTagsArr(valueOf);
-      messagesCopy[changedSocial][index].sendUrl.setTag = valueOf;
+
+      if (isAbsent) {
+         setRTagsValue(lowerTags);
+         messagesCopy[changedSocial][index].sendUrl.delTag = lowerTags;
+      } else {
+         setSTagsValue(lowerTags);
+         messagesCopy[changedSocial][index].sendUrl.setTag = lowerTags;
+      }
 
       const triggerData = {
          ...changedTrigger,
@@ -73,22 +85,9 @@ const SendLinkElement = props => {
       updateTrigger(triggerData, null, changedSocial);
    };
 
-   const handleChangeR = valueOf => {
-      const messagesCopy = changedTrigger.messages;
-
-      setSearchValue('');
-      setRTagsValue(valueOf);
-      messagesCopy[changedSocial][index].sendUrl.delTag = valueOf;
-
-      const triggerData = {
-         ...changedTrigger,
-         index,
-         type,
-         messages: messagesCopy,
-         botId: match.params.botId
-      };
-
-      updateTrigger(triggerData, null, changedSocial);
+   const onSelect = valueOf => {
+      const result = tags.find(tag => tag.name === valueOf);
+      !result && addTag({botId: match.params.botId, tag: valueOf.toLowerCase()});
    };
 
    const tMenuSelectTags = (
@@ -97,11 +96,13 @@ const SendLinkElement = props => {
             mode="tags"
             placeholder="Добавить теги"
             style={{width: '250px'}}
-            onChange={handleChangeS}
-            value={sTagsArr}
+            onChange={value => handleChange(value, false)}
+            loading={loadingOfAdding || loadingOfTags}
+            onSelect={onSelect}
+            value={sTagsValue}
             onSearch={value => setSearchValue(value)}
             dropdownRender={menu => {
-               const result = sTagsArr.find(item => item === searchValue);
+               const result = tags.find(item => item.name === searchValue);
 
                return (
                   <div>
@@ -117,8 +118,8 @@ const SendLinkElement = props => {
                )
             }}
          >
-            {sTagsArr.map(tag => (
-               <Option key={tag}>{tag}</Option>
+            {tags.map(tag => (
+               <Option key={tag.name}>{tag.name}</Option>
             ))}
          </Select>
       </div>
@@ -131,10 +132,12 @@ const SendLinkElement = props => {
             placeholder="Убрать теги"
             style={{width: "250px"}}
             value={rTagsValue}
-            onChange={handleChangeR}
+            onChange={value => handleChange(value, true)}
+            loading={loadingOfAdding || loadingOfTags}
+            onSelect={onSelect}
             onSearch={value => setSearchValue(value)}
             dropdownRender={menu => {
-               const result = rTagsValue.find(item => item === searchValue);
+               const result = tags.find(item => item.name === searchValue);
 
                return (
                   <div>
@@ -150,8 +153,8 @@ const SendLinkElement = props => {
                )
             }}
          >
-            {rTagsValue.map(tag => (
-               <Option key={tag}>{tag}</Option>
+            {tags.map(tag => (
+               <Option key={tag.name}>{tag.name}</Option>
             ))}
          </Select>
       </div>
@@ -211,12 +214,17 @@ const SendLinkElement = props => {
    )
 };
 
-const mapStateToProps = ({singleBotReducers}) => ({
-   changedSocial: singleBotReducers.changedSocial
+const mapStateToProps = state => ({
+   changedSocial: state.singleBotReducers.changedSocial,
+
+   loadingOfAdding: state[tagsModule].loadingOfAdding,
+   loadingOfTags: state[tagsModule].loadingOfTags,
+   tags: state[tagsModule].tags
 });
 
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData, updationData, social) => dispatch(updateTrigger(triggerData, updationData, social)),
+   addTag: data => dispatch(addTag(data)),
 });
 
 export default compose(

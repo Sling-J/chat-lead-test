@@ -5,6 +5,7 @@ import {withRouter} from "react-router-dom";
 
 import StatisticsInfo from "./statisticsInfo/statisticsInfo";
 import StatisticsSchedule from "./statisticsSchedule/statisticsSchedule";
+import StatisticsTag from "./statisticsTag/statisticsTag";
 import StatisticsForm from "./statisticsForm/statisticsForm";
 
 import {moduleName as statisticsModule, getBotStatistics} from "../../ducks/Statistics";

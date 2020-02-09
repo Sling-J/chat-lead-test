@@ -65,7 +65,7 @@ export const deleteAutoride = data => (
 );
 
 export const deleteBroadcast = data => (
-   instance.post(`/DeleteBroadcast`, data)
+   instance.post(`/DeleteBroadcast/`, data)
 );
 
 export const getAutoridesLink = data => (

@@ -3,8 +3,7 @@ import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faImage, faVolumeDown, faVideo, faPaperclip} from "@fortawesome/free-solid-svg-icons";
 
-import CardOrGalleryEllement from '../../componens/messages/cardOrGalleryElement/cardOrGalleryElement';
-import ListElement from '../../componens/messages/listElement/listElement';
+import CardOrGalleryElement from '../../componens/messages/cardOrGalleryElement/cardOrGalleryElement';
 import FormElement from '../../componens/messages/formElement/formElement';
 import ContactsElement from '../../componens/messages/contactsElement/contactsElement';
 import TimerElement from '../../componens/messages/timerElement/timerElement';
@@ -89,7 +88,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
       )
    } else if (key === 'card') {
       return (
-         <CardOrGalleryEllement
+         <CardOrGalleryElement
             type={'card'}
             value={Object.values(value)[0]}
             tagsValue={value}
@@ -108,7 +107,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
       )
    } else if (key === 'gallery') {
       return (
-         <CardOrGalleryEllement
+         <CardOrGalleryElement
             type={'gallery'}
             value={Object.values(value)[0]}
             tagsValue={value}
@@ -137,25 +136,6 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedTrigger={changedTrigger}
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
-         />
-      )
-   } else if (key === 'list') {
-      return (
-         <ListElement
-            type={'list'}
-            index={index}
-            tagsValue={value}
-            pictureForLabel={{
-               label: 'image',
-               img: <FontAwesomeIcon icon={faImage}/>
-            }}
-            changedTrigger={changedTrigger}
-            value={Object.values(value)[0]}
-            conditionValue={value}
-            onChange={(e) => handler(e, index, key)}
-            changedScenario={changedScenario}
-            changeTriggerId={changeTriggerId}
-            key={key}
          />
       )
    } else if (key === 'form') {

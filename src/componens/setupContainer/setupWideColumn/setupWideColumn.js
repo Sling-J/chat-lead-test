@@ -21,8 +21,8 @@ import style from './setupWideColumn.module.sass';
 
 class SetupWideColumn extends Component {
    state = {
-      visible: false,
       isEmail: '',
+      visible: false,
       willSend: false,
    };
 
@@ -31,11 +31,11 @@ class SetupWideColumn extends Component {
 
       if (Object.keys(botSetupData).length !== 0) {
          if (botSetupData.application_will_send === 'False') {
-            this.setState({willSend: false})
+            this.setState({willSend: false});
          } else if (botSetupData.application_will_send === 'True') {
-            this.setState({willSend: true})
+            this.setState({willSend: true});
          } else {
-            this.setState({willSend: botSetupData.application_will_send})
+            this.setState({willSend: botSetupData.application_will_send});
          }
       }
    }
@@ -45,11 +45,11 @@ class SetupWideColumn extends Component {
 
       if (prevProps.botSetupData.application_will_send !== botSetupData.application_will_send) {
          if (botSetupData.application_will_send === 'False') {
-            this.setState({willSend: false})
+            this.setState({willSend: false});
          } else if (botSetupData.application_will_send === 'True') {
-            this.setState({willSend: true})
+            this.setState({willSend: true});
          } else {
-            this.setState({willSend: botSetupData.application_will_send})
+            this.setState({willSend: botSetupData.application_will_send});
          }
       }
    }
@@ -93,11 +93,11 @@ class SetupWideColumn extends Component {
          const whatsApp = filteredMessage && getFilledStatus('whatsapp', filteredMessage.triggers[0]);
 
          if (facebook || telegram || vk || whatsApp) {
-            return true
+            return true;
          }
       }
 
-      return false
+      return false;
    };
 
    render() {
@@ -120,7 +120,7 @@ class SetupWideColumn extends Component {
                      <div className={style.table + " " + style.table__settings}>
                         <div className={style.table_row} dataaction="keywords" datatype="1" dataid="1">
                            <label htmlFor={'welcome_message'}>
-                              <img src={svr_r1} alt="" className={style.table_image}/>
+                              <img src={svr_r1} alt="Welcome message" className={style.table_image}/>
                               <div className={style.content}>
                                  <div className={style.label}>Приветственные сообщения</div>
                                  <p>Реакция на первое сообщение пользователя боту, срабатывает только 1 раз</p>
@@ -142,7 +142,7 @@ class SetupWideColumn extends Component {
                         </div>
                         <div className={style.table_row} dataaction="keywords" datatype="1" dataid="2">
                            <label htmlFor={'follow'}>
-                              <img src={svr_r2} alt="" className={style.table_image}/>
+                              <img src={svr_r2} alt="Follow message" className={style.table_image}/>
                               <div className={style.content}>
                                  <div className={style.label}>Реакция на подписку</div>
                                  <p>Сработает, только если пользователь писал в сообщество</p>
@@ -186,7 +186,7 @@ class SetupWideColumn extends Component {
                         </div>
                         <div className={style.table_row} dataaction="keywords" datatype="1" dataid="4">
                            <label htmlFor={'default_response'}>
-                              <img src={svr_r4} alt="" className={style.table_image}/>
+                              <img src={svr_r4} alt="Default response" className={style.table_image}/>
 
                               <div className={style.content}>
                                  <div className={style.label}>Реакция на неизвестную команду</div>
@@ -242,7 +242,8 @@ class SetupWideColumn extends Component {
                                        <title>E-mail</title>
                                        <path
                                           d="M20 7.83A3.008 3.008 0 0 1 18.17 6H5a1 1 0 1 1 0-2h13.17A3.001 3.001 0 1 1 22 7.83V19a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a1 1 0 0 1 1.53-.848l7.453 4.658 5.462-3.642a1 1 0 0 1 1.11 1.664l-6 4a1 1 0 0 1-1.085.016L4 9.804V18h16V7.83zM21 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
-                                          fill-rule="nonzero"/>
+                                          fill-rule="nonzero"
+                                       />
                                     </svg>
                                  </div>
 

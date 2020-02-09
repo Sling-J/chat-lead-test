@@ -6,62 +6,47 @@ import {withRouter} from "react-router-dom";
 import {Divider, Icon, Select} from "antd";
 import {updateTrigger} from "../../../actions/actionCreator";
 
+import {moduleName as tagsModule, addTag} from "../../../ducks/Tags";
+
 const {Option} = Select;
 
 const SelectForTags = ({
    isTagCreator, placeholder, style,
    changedTrigger, index, match,
    updateTrigger, type, changedSocial,
-   tagsValue
+   tagsValue, loadingOfAdding,
+   loadingOfTags, tags, addTag
 }) => {
    const [searchValue, setSearchValue] = useState('');
    const [absentSearchValue, setAbsentSearchValue] = useState('');
 
-   const [sTagsArr, setTagsArr] = useState([]);
-   const [absentSTagsArr, setAbsentTagsArr] = useState([]);
-
-   const tagsSelectOptions = [];
-   const absentTagsSelectOptions = [];
+   const [sTagsValue, setTagsValue] = useState([]);
+   const [absentTagsValue, setAbsentTagsValue] = useState([]);
 
    useEffect(() => {
       if (tagsValue.tag && tagsValue.tag.length !== 0) {
-         tagsValue.tag.split(',').forEach(item => {
-            tagsSelectOptions.push(<Option key={item}>{item}</Option>);
-         });
-
-         setTagsArr([...tagsValue.tag.split(',')]);
+         setTagsValue([...tagsValue.tag.split(',').map(item => item.toLowerCase())]);
       }
 
       if (tagsValue.exclude_tags && tagsValue.exclude_tags.length !== 0) {
-         tagsValue.exclude_tags.split(',').forEach(item => {
-            absentTagsSelectOptions.push(<Option key={item}>{item}</Option>)
-         });
-
-         setAbsentTagsArr([...tagsValue.exclude_tags.split(',')]);
+         setAbsentTagsValue([...tagsValue.exclude_tags.split(',').map(item => item.toLowerCase())]);
       }
    }, []);
 
    const handleChange = (valueOf, isAbsent) => {
       const messagesCopy = changedTrigger.messages;
+      const lowerTags = valueOf.map(item => item.toLowerCase());
 
       if (isAbsent) {
          setAbsentSearchValue('');
-         setAbsentTagsArr(valueOf);
+         setAbsentTagsValue(lowerTags);
 
-         valueOf.forEach(item => {
-            absentTagsSelectOptions.push(<Option key={item}>{item}</Option>);
-         });
-
-         messagesCopy[changedSocial][index].exclude_tags = valueOf.toString();
+         messagesCopy[changedSocial][index].exclude_tags = lowerTags.toString();
       } else {
          setSearchValue('');
-         setTagsArr(valueOf);
+         setTagsValue(lowerTags);
 
-         valueOf.forEach(item => {
-            tagsSelectOptions.push(<Option key={item}>{item}</Option>);
-         });
-
-         messagesCopy[changedSocial][index].tag = valueOf.toString();
+         messagesCopy[changedSocial][index].tag = lowerTags.toString();
       }
 
       const triggerData = {
@@ -75,16 +60,23 @@ const SelectForTags = ({
       updateTrigger(triggerData, null, changedSocial);
    };
 
+   const onSelect = valueOf => {
+      const result = tags.find(tag => tag.name === valueOf);
+      !result && addTag({botId: match.params.botId, tag: valueOf.toLowerCase()});
+   };
+
    return isTagCreator ? (
       <Select
          mode="tags"
          style={style}
          placeholder={placeholder}
-         onChange={handleChange}
-         value={sTagsArr}
+         loading={loadingOfAdding || loadingOfTags}
+         onChange={value => handleChange(value, false)}
+         value={sTagsValue}
+         onSelect={onSelect}
          onSearch={value => setSearchValue(value)}
          dropdownRender={menu => {
-            const result = sTagsArr.find(item => item === searchValue);
+            const result = tags.find(item => item.name === searchValue);
 
             return (
                <div>
@@ -100,18 +92,22 @@ const SelectForTags = ({
             )
          }}
       >
-         {tagsSelectOptions}
+         {tags.map(tag => (
+            <Option key={tag.name}>{tag.name}</Option>
+         ))}
       </Select>
    ) : (
       <Select
          mode="tags"
          style={style}
          placeholder={placeholder}
-         onChange={handleChange}
-         value={absentSTagsArr}
+         loading={loadingOfAdding || loadingOfTags}
+         onChange={value => handleChange(value, true)}
+         value={absentTagsValue}
+         onSelect={onSelect}
          onSearch={value => setAbsentSearchValue(value)}
          dropdownRender={menu => {
-            const result = absentSTagsArr.find(item => item === absentSearchValue);
+            const result = tags.find(item => item.name === absentSearchValue);
 
             return (
                <div>
@@ -119,7 +115,8 @@ const SelectForTags = ({
                      style={{padding: '4px 8px', cursor: 'pointer'}}
                      onMouseDown={e => e.preventDefault()}
                   >
-                     {!result && absentSearchValue.length !== 0 && (<><Icon type="plus"/> Создать «{absentSearchValue}»</>)}
+                     {!result && absentSearchValue.length !== 0 && (<><Icon type="plus"/> Создать
+                        «{absentSearchValue}»</>)}
                   </div>
                   <Divider style={{margin: '4px 0'}}/>
                   {menu}
@@ -127,17 +124,24 @@ const SelectForTags = ({
             )
          }}
       >
-         {absentTagsSelectOptions}
+         {tags.map(tag => (
+            <Option key={tag.name}>{tag.name}</Option>
+         ))}
       </Select>
    );
 };
 
-const mapStateToProps = ({singleBotReducers}) => ({
-   changedSocial: singleBotReducers.changedSocial
+const mapStateToProps = state => ({
+   changedSocial: state.singleBotReducers.changedSocial,
+
+   loadingOfAdding: state[tagsModule].loadingOfAdding,
+   loadingOfTags: state[tagsModule].loadingOfTags,
+   tags: state[tagsModule].tags
 });
 
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData, updationData, social) => dispatch(updateTrigger(triggerData, updationData, social)),
+   addTag: data => dispatch(addTag(data)),
 });
 
 export default compose(

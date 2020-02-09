@@ -276,6 +276,7 @@
             margin-left: 2px;
          }
 
+         .broadcast-table-sent-body,
          .broadcast-table-not-sent-body {
             tr {
                &:hover {
@@ -290,12 +291,14 @@
 
          .broadcast-table-sent-body,
          .broadcast-table-not-sent-body {
-            td {
-               &:last-child {
-                  opacity: 0;
+            tr {
+               td {
+                  &:last-child {
+                     opacity: 0;
 
-                  &:hover {
-                     color: #e57373;
+                     &:hover {
+                        color: #e57373;
+                     }
                   }
                }
             }

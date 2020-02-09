@@ -12,12 +12,14 @@ import MessagesContainer from './messagesContainer/messagesContainer';
 import BroadCastMenu from '../../broadCastContainer/broadCastMenu/broadCastMenu';
 import Triggers from './triggers/triggers';
 
+import {getTags} from "../../../ducks/Tags";
+
 import {Spin} from 'antd';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClone} from "@fortawesome/free-regular-svg-icons";
 import {faPencilAlt, faCheck, faSpinner} from "@fortawesome/free-solid-svg-icons";
-
 import leftArrow from "../../../svg/db/left-arrow.svg";
+
 import style from './triggersContainer.module.sass';
 
 import {
@@ -29,7 +31,7 @@ import {
 } from "../../../actions/actionCreator";
 import {sliceExtraText} from "../../../utils/textValidation";
 
-const TriggersContainer = (props) => {
+const TriggersContainer = props => {
    const changedScenario = props.botScenarios.filter(elem => elem.id === props.scenarioId)[0];
    const triggers = changedScenario && changedScenario.triggers;
    const mainTriggerIdx = 0;
@@ -42,14 +44,16 @@ const TriggersContainer = (props) => {
    const activeStep = changedScenario && changedScenario.triggers.find(el => el.id === changedTriggerId);
 
    useEffect(() => {
+      props.getTags(props.match.params.botId);
+
       if (triggers && triggers.length === 1) {
-         changeTriggerId(triggers[mainTriggerIdx].id)
+         triggers[mainTriggerIdx] && changeTriggerId(triggers[mainTriggerIdx].id)
       }
    }, [triggers]);
 
    useEffect(() => {
       if (activeStep === undefined) {
-         changeTriggerId(triggers[mainTriggerIdx].id)
+         triggers[mainTriggerIdx] && changeTriggerId(triggers[mainTriggerIdx].id)
       } else {
          setEditedTriggerText(activeStep.caption);
       }
@@ -240,9 +244,9 @@ const mapDispatchToProps = dispatch => ({
    updateTriggerCaption: triggerData => dispatch(editTriggerCaption(triggerData)),
    getAllBroadCasts: botId => dispatch(getAllBroadCasts(botId)),
    appendTrigger: triggerData => dispatch(addNewTrigger(triggerData)),
-   editScenario: scenarioData => dispatch(editScenario(scenarioData))
+   editScenario: scenarioData => dispatch(editScenario(scenarioData)),
+   getTags: botId => dispatch(getTags(botId)),
 });
-
 
 export default compose(
    withRouter,

@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faHandPointUp, faLink, faPhoneAlt, faTimes} from "@fortawesome/free-solid-svg-icons";
 
 import {buttonsTypes, defaultValuesForNewButtons} from "../../../../../constants/defaultValues";
+import Actions from "../../../../messages/buttonsContainer/actions/actions";
 import Controls from '../../../../messages/buttonsContainer/buttonsMenu/controls/controls';
 
 import style from '../../../../../styles/messageButtons.module.scss';
@@ -329,6 +330,10 @@ class ButtonsMenu extends Component {
                   placeholder={'URL'}
                   defaultValue={buttonData.payload.url}
                   onChange={this.editButton}
+               />
+
+               <Actions
+                  {...this.props}
                />
 
                <Controls

@@ -16,6 +16,13 @@ export default function (state = initialState, action) {
             error: null,
          };
 
+      case ACTION.BROADCAST_DELETE_REQUEST:
+         return {
+            ...state,
+            loadingOfBroadCasts: true,
+            error: null,
+         };
+
       case ACTION.GET_ALL_BROADCASTS_REQUEST:
          return {
             ...state,

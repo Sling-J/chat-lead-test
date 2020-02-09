@@ -590,7 +590,7 @@ export function* appendBroadCastSagas({managerId}) {
 export function* deleteBroadcastSaga({managerId, broadCastId}) {
    if (userAccessToken()) {
       try {
-         yield put({type: ACTION.BROADCAST_REQUEST});
+         yield put({type: ACTION.BROADCAST_DELETE_REQUEST});
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
@@ -605,16 +605,12 @@ export function* deleteBroadcastSaga({managerId, broadCastId}) {
                call(getScenariesForManager, formData),
             ]);
 
-            if (allBroadcast.data.ok) {
+            if (allBroadcast.data.ok && allScenaries.data.ok) {
                yield put({type: ACTION.BROADCAST_RESPONSE, broadCastData: allBroadcast.data.broadcasts});
+               yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: allScenaries.data.scenarios});
             } else {
                yield put({type: ACTION.BROADCAST_ERROR, error: signUpErrors[allBroadcast.data.desc]})
             }
-
-            if (allScenaries.data.ok) {
-               yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: allScenaries.data.scenarios});
-            }
-
          } else {
             yield put({type: ACTION.BROADCAST_ERROR, error: delBroadCastStatus.data.desc})
          }
