@@ -64,9 +64,9 @@ const SelectForTags = ({
       const messagesCopy = changedTrigger.messages;
 
       if (isAbsent) {
-         messagesCopy[changedSocial][index].is_tag_all = valueOf.key === 'true';
-      } else {
          messagesCopy[changedSocial][index].is_exclude_tag_all = valueOf.key === 'true';
+      } else {
+         messagesCopy[changedSocial][index].is_tag_all = valueOf.key === 'true';
       }
 
       const triggerData = {
