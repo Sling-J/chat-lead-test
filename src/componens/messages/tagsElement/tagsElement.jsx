@@ -8,6 +8,8 @@ import {moduleName as tagsModule, addTag} from "../../../ducks/Tags";
 import {Divider, Icon, Select} from "antd";
 
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
+import ConditionsToggle from "../conditionsForElements/conditionsToggle";
+import ConditionsContainer from "../conditionsForElements/conditionsContainer";
 
 import style from "./tagsElement.module.scss";
 
@@ -70,79 +72,84 @@ const TagsElement = props => {
    };
 
    return (
-      <div className={style.tagsElementContainer}>
+      <div className={style.tagsElement}>
+         <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+         <ConditionsContainer conditions={value.conditions} {...props}/>
+
          <div className={style.hoverBar}>
             <HoverBarForMessage {...props}/>
          </div>
 
-         <p className={style.tagsElementContainerTitle}>
-            Используйте этот блок, чтобы добавить
-            или убрать теги в работе цепочки
-         </p>
+         <div className={`${style.tagsElementContainer} ${value.conditions && style.tagsElementRadius}`}>
+            <p className={style.tagsElementContainerTitle}>
+               Используйте этот блок, чтобы добавить
+               или убрать теги в работе цепочки
+            </p>
 
-         <div className={style.tagsElementContainerField}>
-            <Select
-               mode="tags"
-               style={{width: "100%"}}
-               onChange={value => handleChange(value, false)}
-               value={sTagsValue}
-               loading={loadingOfAdding || loadingOfTags}
-               onSelect={onSelect}
-               placeholder="Добавить теги"
-               onSearch={value => setSearchValue(value)}
-               dropdownRender={menu => {
-                  const result = tags.find(item => item.name === searchValue);
+            <div className={style.tagsElementContainerField}>
+               <Select
+                  mode="tags"
+                  style={{width: "100%"}}
+                  onChange={value => handleChange(value, false)}
+                  value={sTagsValue}
+                  loading={loadingOfAdding || loadingOfTags}
+                  onSelect={onSelect}
+                  placeholder="Добавить теги"
+                  onSearch={value => setSearchValue(value)}
+                  dropdownRender={menu => {
+                     const result = tags.find(item => item.name === searchValue);
 
-                  return (
-                     <div>
-                        <div
-                           style={{padding: '4px 8px', cursor: 'pointer'}}
-                           onMouseDown={e => e.preventDefault()}
-                        >
-                           {!result && searchValue.length !== 0 && (<><Icon type="plus"/> Создать «{searchValue}»</>)}
+                     return (
+                        <div>
+                           <div
+                              style={{padding: '4px 8px', cursor: 'pointer'}}
+                              onMouseDown={e => e.preventDefault()}
+                           >
+                              {!result && searchValue.length !== 0 && (<><Icon type="plus"/> Создать «{searchValue}»</>)}
+                           </div>
+                           <Divider style={{margin: '4px 0'}}/>
+                           {menu}
                         </div>
-                        <Divider style={{margin: '4px 0'}}/>
-                        {menu}
-                     </div>
-                  )
-               }}
-            >
-               {tags.map(tag => (
-                  <Option key={tag.name}>{tag.name}</Option>
-               ))}
-            </Select>
-         </div>
+                     )
+                  }}
+               >
+                  {tags.map(tag => (
+                     <Option key={tag.name}>{tag.name}</Option>
+                  ))}
+               </Select>
+            </div>
 
-         <div className={style.tagsElementContainerField}>
-            <Select
-               mode="tags"
-               style={{width: "100%"}}
-               onChange={value => handleChange(value, true)}
-               loading={loadingOfAdding || loadingOfTags}
-               placeholder="Убрать теги"
-               value={rTagsValue}
-               onSearch={value => setSearchValue(value)}
-               dropdownRender={menu => {
-                  const result = tags.find(item => item.name === searchValue);
+            <div className={style.tagsElementContainerField}>
+               <Select
+                  mode="tags"
+                  style={{width: "100%"}}
+                  onChange={value => handleChange(value, true)}
+                  loading={loadingOfAdding || loadingOfTags}
+                  placeholder="Убрать теги"
+                  value={rTagsValue}
+                  onSearch={value => setSearchValue(value)}
+                  dropdownRender={menu => {
+                     const result = tags.find(item => item.name === searchValue);
 
-                  return (
-                     <div>
-                        <div
-                           style={{padding: '4px 8px', cursor: 'pointer'}}
-                           onMouseDown={e => e.preventDefault()}
-                        >
-                           {!result && searchValue.length !== 0 && (<><Icon type="plus"/> Создать «{searchValue}»</>)}
+                     return (
+                        <div>
+                           <div
+                              style={{padding: '4px 8px', cursor: 'pointer'}}
+                              onMouseDown={e => e.preventDefault()}
+                           >
+                              {!result && searchValue.length !== 0 && (<><Icon type="plus"/> Создать «{searchValue}»</>)}
+                           </div>
+                           <Divider style={{margin: '4px 0'}}/>
+                           {menu}
                         </div>
-                        <Divider style={{margin: '4px 0'}}/>
-                        {menu}
-                     </div>
-                  )
-               }}
-            >
-               {tags.map(tag => (
-                  <Option key={tag.name}>{tag.name}</Option>
-               ))}
-            </Select>
+                     )
+                  }}
+               >
+                  {tags.map(tag => (
+                     <Option key={tag.name}>{tag.name}</Option>
+                  ))}
+               </Select>
+            </div>
          </div>
       </div>
    )

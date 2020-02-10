@@ -171,13 +171,13 @@ function* deleteTagsSaga() {
 				const formData = new FormData();
 
 				formData.append('user_token', userAccessToken());
-				formData.append('bot_id', action.payload.tag);
+				formData.append('tag', action.payload.tag);
 				formData.append('bot_id', action.payload.botId);
 
 				const {data} = yield call(Tags.deleteTag, formData);
 
 				if (data.ok) {
-					yield put({type: DELETE_TAGS_SUCCESS, payload: data});
+					yield put({type: DELETE_TAGS_SUCCESS, payload: data.tags});
 				} else {
 					yield put({type: DELETE_TAGS_FAILURE, error: data.desc});
 				}

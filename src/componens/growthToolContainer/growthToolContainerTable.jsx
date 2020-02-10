@@ -64,7 +64,7 @@ export default class GrowthToolContainerTable extends Component {
                ref={node => {
                   this.searchInput = node;
                }}
-               placeholder={`Введите название`}
+               placeholder={`Введите тег`}
                value={selectedKeys[0]}
                onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}

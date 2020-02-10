@@ -9,10 +9,11 @@ import StatisticsTag from "./statisticsTag/statisticsTag";
 import StatisticsForm from "./statisticsForm/statisticsForm";
 
 import {moduleName as statisticsModule, getBotStatistics} from "../../ducks/Statistics";
+import {getTags} from "../../ducks/Tags";
 
 import {formatDateToUnix} from "../../utils/formatDate";
 
-const StatisticsContainer = ({match, getBotStatistics}) => {
+const StatisticsContainer = ({match, getBotStatistics, getTags}) => {
    const [activeTab, setActiveTab] = useState(1);
    const [tabs] = useState([
       {name: 'Все', key: '1'},
@@ -30,6 +31,7 @@ const StatisticsContainer = ({match, getBotStatistics}) => {
    defaultEndDay.setDate(defaultEndDay.getDate());
 
    useEffect(() => {
+      getTags(match.params.botId);
       getBotStatistics({
          botId: match.params.botId,
          startDate: formatDateToUnix(defaultStartDay),
@@ -52,6 +54,7 @@ const StatisticsContainer = ({match, getBotStatistics}) => {
                activeTab={activeTab}
             />
          </div>
+         <StatisticsTag/>
          <StatisticsForm/>
       </div>
    );
@@ -64,7 +67,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-   getBotStatistics: data => dispatch(getBotStatistics(data))
+   getBotStatistics: data => dispatch(getBotStatistics(data)),
+   getTags: botId => dispatch(getTags(botId)),
 });
 
 export default compose(

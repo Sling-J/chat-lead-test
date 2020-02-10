@@ -5,20 +5,26 @@
    display: none;
 }
 
-.tagsElementContainer {
-	padding: 13px 16px;
-	border: 1px solid #e0e6ed;
-	border-radius: 7px;
-
-	.tagsElementContainerTitle {
-		margin-bottom: 20px;
+.tagsElement {
+	.tagsElementRadius {
+		border-radius: 0 0 7px 7px !important;
 	}
 
-	.tagsElementContainerField {
-		margin-bottom: 12px;
+	.tagsElementContainer {
+		padding: 13px 16px;
+		border: 1px solid #e0e6ed;
+		border-radius: 7px;
 
-		&:last-child {
-			margin-bottom: 0;
+		.tagsElementContainerTitle {
+			margin-bottom: 20px;
+		}
+
+		.tagsElementContainerField {
+			margin-bottom: 12px;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
 		}
 	}
 

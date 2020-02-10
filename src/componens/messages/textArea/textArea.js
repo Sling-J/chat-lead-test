@@ -1,8 +1,8 @@
 import React, {useState, Fragment, useEffect} from 'react';
 import {connect} from "react-redux";
 
-import ConditionsToggle from "../conditionsForElements/conditionsToggle";
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
+import ConditionsToggle from "../conditionsForElements/conditionsToggle";
 import ConditionsContainer from "../conditionsForElements/conditionsContainer";
 import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
 import FastButtons from "../../scenariosAndTriggers/triggersContainer/fastButtons/fastButtons";

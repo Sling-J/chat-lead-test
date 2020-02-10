@@ -329,7 +329,7 @@ class ButtonsMenu extends Component {
                   type={'text'}
                   placeholder={'URL'}
                   defaultValue={buttonData.payload.url}
-                  onChange={this.editButton}
+                  onBlur={this.editButton}
                />
 
                <Actions

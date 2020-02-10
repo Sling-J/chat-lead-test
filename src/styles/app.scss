@@ -28,6 +28,52 @@ body {
    border-bottom-color: #4680fe !important;
 }
 
+.statistics-tag-popup {
+   .MuiDialogTitle-root {
+      padding: 16px 80px 16px 26px !important;
+   }
+
+   .statistics-tag-popup-container {
+      padding: 0 26px;
+
+      .statistics-tag-popup-footer {
+         margin-top: 25px;
+         display: flex;
+         padding-bottom: 16px;
+         align-items: center;
+         justify-content: space-between;
+
+         .statistics-tag-popup-footer__close,
+         .statistics-tag-popup-footer__create {
+            font-weight: 400;
+            text-transform: initial;
+            transition: all 0.3s;
+         }
+
+         .statistics-tag-popup-footer__close {
+            background: none;
+            border: 1px solid $theme__bg-color;
+            color: $theme__bg-color;
+
+            &:hover {
+               background: $theme__bg-color;
+               color: $white__color;
+            }
+         }
+
+         .statistics-tag-popup-footer__create {
+            background: $theme__bg-color;
+            color: $white__color;
+
+            &:disabled {
+               opacity: 0.6;
+            }
+         }
+      }
+   }
+}
+
+
 .ant-modal-footer {
    border-top: none;
 }
@@ -53,12 +99,14 @@ body {
 	}
 }
 
-.messageButtons_buttonBoxInfoSelectContainer__11-RC .ant-select-selection.ant-select-selection--single {
-   height: 45px !important;
-   border-radius: 10px 0 0 10px !important;
+.messageButtons_selector__3q9SW {
+   .ant-select-selection.ant-select-selection--single {
+      height: 45px !important;
+      border-radius: 10px 0 0 10px !important;
 
-   .ant-select-selection__rendered {
-      line-height: 42px;
+      .ant-select-selection__rendered {
+         line-height: 42px;
+      }
    }
 }
 

@@ -57,7 +57,8 @@ const ScenariosContainer = props => {
    }
 
    useEffect(() => {
-      setScenariosDataInFilter(props.scenariosForScenarioContainer)
+      setScenariosDataInFilter(props.scenariosForScenarioContainer);
+      console.log('scenario')
    }, [props.scenariosForScenarioContainer]);
 
    const newScenarioHandler = () => {

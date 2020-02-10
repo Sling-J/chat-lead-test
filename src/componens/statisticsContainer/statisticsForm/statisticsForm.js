@@ -22,7 +22,7 @@ class StatisticsForm extends React.Component {
                ref={node => {
                   this.searchInput = node;
                }}
-               placeholder={`Search ${dataIndex}`}
+               placeholder={`Поиск формы`}
                value={selectedKeys[0]}
                onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
@@ -122,6 +122,8 @@ class StatisticsForm extends React.Component {
       return (
          <div className="statistics-form">
             <div className="statistics-form__table">
+               <p className="statistics-table__title">Заявки</p>
+
                <Table
                   rowSelection={rowSelection}
                   loading={Object.keys(statistics).length === 0 && loadingOfStatistics}

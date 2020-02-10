@@ -75,19 +75,9 @@ export const buttonsTypes = {
 
 export const defaultValuesForNewButtons = {
    text_buttons: {caption: 'Новая кнопка', payload: {trigger_id: ''}, type: 'text_buttons', createdTrigger: {}},
-   url_buttons: {caption: 'Новая кнопка', payload: {url: ''}, type: 'url_buttons'},
+   url_buttons: {caption: 'Новая кнопка', payload: {url: ''}, type: 'url_buttons', addTags: '', deleteTags: ''},
    fast_buttons: {caption: 'Новая кнопка', payload: {trigger_id: ''}, type: 'fast_buttons'},
    call_buttons: {caption: 'Новая кнопка', payload: {tel: ''}, type: 'call_buttons'}
-};
-
-export const tagsTypes = {
-   AddTags: 'Add_Tags',
-   Remove_Tags: 'Remove_Tags'
-};
-
-export const tagsTranscription = {
-   Add_Tags: 'Добавить тег',
-   Remove_Tags: 'Удалить тег'
 };
 
 export const destinationScenario = {
