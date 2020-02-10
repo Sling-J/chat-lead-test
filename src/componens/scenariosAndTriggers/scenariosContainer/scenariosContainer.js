@@ -58,7 +58,6 @@ const ScenariosContainer = props => {
 
    useEffect(() => {
       setScenariosDataInFilter(props.scenariosForScenarioContainer);
-      console.log('scenario')
    }, [props.scenariosForScenarioContainer]);
 
    const newScenarioHandler = () => {
@@ -267,7 +266,7 @@ const ScenariosContainer = props => {
 											/>
 										</div>
 									</Menu>
-								)
+								);
 
 								return (
 									<tr key={index}>

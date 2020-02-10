@@ -1,27 +1,137 @@
 import moment from 'moment';
 
 export const defaultValuesForNewMessages = {
-   text: {text: '', keyboard: [], conditions: false, tag: '', exclude_tags: ''},
-   file: {file: '', keyboard: [], conditions: false, tag: '', exclude_tags: ''},
-   updateTag: {updateTag: {setTag: [], removeTag: []}, keyboard: [], conditions: false, tag: '', exclude_tags: ''},
-   photo: {photo: '', keyboard: [], conditions: false, tag: '', exclude_tags: ''},
-   audio: {audio: '', keyboard: [], conditions: false, tag: '', exclude_tags: ''},
-   video: {video: '', keyboard: [], conditions: false, tag: '', exclude_tags: ''},
-   form: {form: [""], keyboard: [], conditions: false, tag: '', exclude_tags: ''},
-   customs: {customs: {}, keyboard: [], conditions: false, tag: '', exclude_tags: ''},
-   sendUrl: {sendUrl: {url: "", setTag: [], delTag: []}, keyboard: [], conditions: false, tag: '', exclude_tags: ''},
-   location: {location: "", keyboard: [], conditions: false, tag: '', exclude_tags: ''},
-   type_processing: {type_processing: {delay: 5}, conditions: false, tag: '', exclude_tags: ''},
-   card: {card: [{photo: '', title: '', text: '', keyboard: []}], conditions: false, tag: '', exclude_tags: ''},
-   gallery: {gallery: [{photo: '', title: '', text: '', keyboard: []}], conditions: false, tag: '', exclude_tags: ''},
-   nextTrigger: {nextTrigger: {trigger_id: ''}, conditions: false, tag: '', exclude_tags: ''},
+   text: {
+      text: '',
+      keyboard: [],
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
+   file: {
+      file: '',
+      keyboard: [],
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
+   updateTag: {
+      updateTag: {setTag: [], removeTag: []},
+      keyboard: [],
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
+   photo: {
+      photo: '',
+      keyboard: [],
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
+   audio: {
+      audio: '',
+      keyboard: [],
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
+   video: {
+      video: '',
+      keyboard: [],
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
+   form: {
+      form: [""],
+      keyboard: [],
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
+   customs: {
+      customs: {},
+      keyboard: [],
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
+   sendUrl: {
+      sendUrl: {url: "", setTag: [], delTag: []},
+      keyboard: [],
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
+   location: {
+      location: "",
+      keyboard: [],
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
+   type_processing: {
+      type_processing: {delay: 5},
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
+   card: {
+      card: [{photo: '', title: '', text: '', keyboard: []}],
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
+   gallery: {
+      gallery: [{photo: '', title: '', text: '', keyboard: []}],
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
+   nextTrigger: {
+      nextTrigger: {trigger_id: ''},
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
    pause_delay: {
       timer: {pause_delay: '', format: {key: 'sec', keyValue: 'Секунды'}},
       keyboard: [],
       text: "",
       conditions: false,
       tag: '',
-      exclude_tags: ''
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
    },
    activity_lost: {
       timer: {activity_lost: moment().format('YYYY-MM-DD, h:mm')},
@@ -29,9 +139,20 @@ export const defaultValuesForNewMessages = {
       text: "",
       conditions: false,
       tag: '',
-      exclude_tags: ''
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
    },
-   send_time: {timer: {send_time: {day: '', hours: '', min: ''}}, keyboard: [], text: "", conditions: false, tag: '', exclude_tags: ''},
+   send_time: {
+      timer: {send_time: {day: '', hours: '', min: ''}},
+      keyboard: [],
+      text: "",
+      conditions: false,
+      tag: '',
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
+   },
    contact: {
       contact: "",
       sendContact: {
@@ -40,7 +161,9 @@ export const defaultValuesForNewMessages = {
       keyboard: [],
       conditions: false,
       tag: '',
-      exclude_tags: ''
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
    },
    payment: {
       payment: 'payment',
@@ -55,13 +178,9 @@ export const defaultValuesForNewMessages = {
       failure_text: '',
       conditions: false,
       tag: '',
-      exclude_tags: ''
-   },
-
-
-   list: {
-      list: [{photo: '', title: '', text: '', keyboard: []}, {photo: '', title: '', text: '', keyboard: []}],
-      conditions: false
+      exclude_tags: '',
+      is_tag_all: true,
+      is_exclude_tag_all: true
    },
 };
 

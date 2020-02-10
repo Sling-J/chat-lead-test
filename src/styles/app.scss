@@ -99,7 +99,7 @@ body {
 	}
 }
 
-.messageButtons_selector__3q9SW {
+.buttonsMenuSelector {
    .ant-select-selection.ant-select-selection--single {
       height: 45px !important;
       border-radius: 10px 0 0 10px !important;
@@ -161,7 +161,58 @@ body {
    transition: opacity 300ms;
 }
 
-.tagsElement_tagsElementContainerField__3MTj0 {
+.conditionSelectContainer {
+   display: flex;
+   justify-content: space-between;
+
+   .conditionSelectBefore {
+      text-align: center;
+
+      .ant-select-arrow {
+         display: none;
+      }
+
+      .ant-select-selection {
+         border-radius: 4px 0 0 4px;
+         border-right: 0;
+         display: flex;
+         align-items: center;
+
+
+         &:active,
+         &:focus,
+         &:hover {
+            box-shadow: none;
+            border-color: #d9d9d9;
+         }
+
+         &::before {
+            content: 'Теги';
+            margin-bottom: 1px;
+            margin-left: 5px;
+            display: block;
+         }
+
+         .ant-select-selection__rendered {
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+         }
+
+         .ant-select-selection-selected-value {
+            width: 90%;
+         }
+      }
+   }
+
+   .conditionSelectElement {
+      .ant-select-selection {
+         border-radius: 0 4px 4px 0;
+      }
+   }
+}
+
+.tagsElementContainerField {
    .ant-select-selection__rendered li {
       &:first-child {
          padding-left: 105px;

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
@@ -86,7 +86,7 @@ const TagsElement = props => {
                или убрать теги в работе цепочки
             </p>
 
-            <div className={style.tagsElementContainerField}>
+            <div className={`${style.tagsElementContainerField} tagsElementContainerField`}>
                <Select
                   mode="tags"
                   style={{width: "100%"}}
@@ -94,7 +94,6 @@ const TagsElement = props => {
                   value={sTagsValue}
                   loading={loadingOfAdding || loadingOfTags}
                   onSelect={onSelect}
-                  placeholder="Добавить теги"
                   onSearch={value => setSearchValue(value)}
                   dropdownRender={menu => {
                      const result = tags.find(item => item.name === searchValue);
@@ -105,7 +104,11 @@ const TagsElement = props => {
                               style={{padding: '4px 8px', cursor: 'pointer'}}
                               onMouseDown={e => e.preventDefault()}
                            >
-                              {!result && searchValue.length !== 0 && (<><Icon type="plus"/> Создать «{searchValue}»</>)}
+                              {!result && searchValue.length !== 0 && (
+                                 <Fragment>
+                                    <Icon type="plus"/> Создать «{searchValue}»
+                                 </Fragment>
+                              )}
                            </div>
                            <Divider style={{margin: '4px 0'}}/>
                            {menu}
@@ -119,13 +122,12 @@ const TagsElement = props => {
                </Select>
             </div>
 
-            <div className={style.tagsElementContainerField}>
+            <div className={`${style.tagsElementContainerField} tagsElementContainerField`}>
                <Select
                   mode="tags"
                   style={{width: "100%"}}
                   onChange={value => handleChange(value, true)}
                   loading={loadingOfAdding || loadingOfTags}
-                  placeholder="Убрать теги"
                   value={rTagsValue}
                   onSearch={value => setSearchValue(value)}
                   dropdownRender={menu => {

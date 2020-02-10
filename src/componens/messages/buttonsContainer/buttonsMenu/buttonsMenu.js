@@ -130,7 +130,7 @@ class ButtonsMenu extends Component {
 
    getSubscribeTriggers = () => {
       const {botScenarios, scenarioId} = this.props;
-      const scenarios = botScenarios.find(data => data.id === scenarioId)
+      const scenarios = botScenarios.find(data => data.id === scenarioId);
       const triggers = [];
 
       if (scenarios.destination !== 'subscription_message') {
@@ -444,7 +444,7 @@ class ButtonsMenu extends Component {
                <div className={style.buttonBoxInfo}>
                   <div className={style.buttonBoxInfoSelectContainer}>
                      <Select
-                        className={style.selector}
+                        className={`${style.selector} buttonsMenuSelector`}
                         defaultValue={(buttonData.payload.trigger_id) || 'Выберите сообщение'}
                         placeholder="Выберите сообщение"
                         onChange={value => this.editButton({

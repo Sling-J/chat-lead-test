@@ -102,11 +102,12 @@
 
    .statistics-tag-actions {
       i {
-         margin-right: 10px;
+         //margin-right: 10px;
          cursor: pointer;
       }
 
       .statistics-tag-actions__delete {
+         margin-left: 20px;
          &:hover {
             color: tomato;
          }

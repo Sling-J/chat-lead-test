@@ -3,7 +3,7 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 
-import {Button, Icon, Input, Table, Tooltip} from 'antd';
+import {Button, Icon, Input, Table, Tooltip, Modal} from 'antd';
 import MuiButton from "@material-ui/core/Button";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -86,6 +86,21 @@ class StatisticsTag extends React.Component {
          ),
    });
 
+   showConfirm = text => {
+      Modal.confirm({
+         title: 'Вы уверены, что хотите удалить?',
+         content: `Удаление тега: ${text.name}`,
+         okText: 'Да',
+         onOk() {
+            this.props.deleteTag({
+               tag: text.name,
+               botId: this.props.match.params.botId
+            })
+         },
+         onCancel() {},
+      });
+   };
+
    handleClickOpen = () => this.setState({open: true});
    handleClose = () => this.setState({open: false});
 
@@ -97,31 +112,27 @@ class StatisticsTag extends React.Component {
          {
             title: 'Теги',
             dataIndex: 'name',
-            width: '85%',
+            width: '25%',
             ...this.getColumnSearchProps('name'),
             render: text => text.charAt(0).toUpperCase() + text.slice(1),
          },
-         // {
-         //    title: 'Количество',
-         //    dataIndex: 'amount',
-         //    key: 'amount',
-         //    width: '55%'
-         // },
+         {
+            title: 'Количество',
+            dataIndex: 'count',
+            key: 'count',
+            width: '61%'
+         },
          {
             title: 'Действие',
             dataIndex: '',
             key: 'x',
-            render: text => {
-               const {match, deleteTag} = this.props;
-
-               return (
-                  <div className="statistics-tag-actions">
-                     <Tooltip className="statistics-tag-actions__delete" title="Удалить" onClick={() => deleteTag({tag: text.name, botId: match.params.botId})}>
-                        <Icon type="delete"/>
-                     </Tooltip>
-                  </div>
-               )
-            },
+            render: text => (
+               <div className="statistics-tag-actions">
+                  <Tooltip className="statistics-tag-actions__delete" title="Удалить" onClick={() => this.showConfirm(text)}>
+                     <Icon type="delete"/>
+                  </Tooltip>
+               </div>
+            )
          },
       ];
 
@@ -190,6 +201,7 @@ export default compose(
       loadingOfAdding: state[tagsModule].loadingOfAdding,
       loadingOfDeleting: state[tagsModule].loadingOfDeleting,
       loadingOfTags: state[tagsModule].loadingOfTags,
+      tagsStatistics: state[tagsModule].tagsStatistics,
       tags: state[tagsModule].tags,
    }), {deleteTag, addTag}),
    withRouter
