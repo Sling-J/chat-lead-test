@@ -31,6 +31,13 @@ export default function (state = initialState, action) {
             error: null,
          };
 
+      case ACTION.BROADCAST_CREATE_REQUEST:
+         return {
+            ...state,
+            isFetching: true,
+            error: null
+         };
+
       case ACTION.UPDATE_BROADCAST:
       case ACTION.BROADCAST_REQUEST: {
          return {

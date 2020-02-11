@@ -210,7 +210,7 @@ class SetupWideColumn extends Component {
                         </div>
                      </div>
                   </header>
-                  
+
                   <section>
                      <div className={style.notifyme}>
                         <form>

@@ -216,8 +216,8 @@ export function* deleteScenarioSagas({scenarioData}) {
          yield put({type: ACTION.SINGLE_BOT_DATA_REQUEST});
 
          const formData = new FormData();
-         formData.append('manager_id', scenarioData.botId);
          formData.append('user_token', userAccessToken());
+         formData.append('manager_id', scenarioData.botId);
          formData.append('scenario_id', scenarioData.idScenario);
 
 
@@ -451,14 +451,15 @@ export function* appendNewAutorideSagas({managerId, trigger_text}) {
             formData.append('trigger_text', trigger_text);
             formData.append('scenario_id', createScenarioStatus.data.scenario.id);
 
-            const [createAutorideStatus, allScenaries, allAutorides] = yield all([
+            const [createAutorideStatus, allScenarios] = yield all([
                call(addNewAutoride, formData),
-               call(getScenariesForManager, formData),
-               call(getAllAutorides, formData)
+               call(getScenariesForManager, formData)
             ]);
 
             if (createAutorideStatus.data.ok) {
-               yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: allScenaries.data.scenarios});
+               const allAutorides = yield call(getAllAutorides, formData);
+
+               yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: allScenarios.data.scenarios});
                yield put({type: ACTION.AUTORIDE_RESPONSE, autoridesData: allAutorides.data.auto_rides});
                yield put({type: ACTION.CHANGE_SCENARIO_ID, scenarioId: createScenarioStatus.data.scenario.id})
             }
@@ -549,7 +550,7 @@ export function* appendBroadCastSagas({managerId}) {
 
    if (userAccessToken()) {
       try {
-         yield put({type: ACTION.BROADCAST_REQUEST});
+         yield put({type: ACTION.BROADCAST_CREATE_REQUEST});
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
@@ -587,15 +588,15 @@ export function* appendBroadCastSagas({managerId}) {
    }
 }
 
-export function* deleteBroadcastSaga({managerId, broadCastId}) {
+export function* deleteBroadcastSaga({data}) {
    if (userAccessToken()) {
       try {
          yield put({type: ACTION.BROADCAST_DELETE_REQUEST});
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
-         formData.append('manager_id', managerId);
-         formData.append('broadcast_id', broadCastId);
+         formData.append('manager_id', data.managerId);
+         formData.append('broadcast_id', data.broadCastId);
 
          const delBroadCastStatus = yield call(deleteBroadcast, formData);
 
@@ -620,22 +621,21 @@ export function* deleteBroadcastSaga({managerId, broadCastId}) {
    }
 }
 
-export function* deleteAutorideSagas({managerId, idAutoride}) {
+export function* deleteAutorideSagas({data}) {
    if (userAccessToken()) {
       try {
          yield put({type: ACTION.AUTORIDE_REQUEST});
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
-         formData.append('manager_id', managerId);
-         formData.append('auto_ride_id', idAutoride);
+         formData.append('manager_id', data.managerId);
+         formData.append('auto_ride_id', data.idAutoride);
 
          const delAutorideStatus = yield call(deleteAutoride, formData);
 
          if (delAutorideStatus.data.ok) {
             const allAutorides = yield call(getAllAutorides, formData);
             yield put({type: ACTION.AUTORIDE_RESPONSE, autoridesData: allAutorides.data.auto_rides});
-
          } else {
             yield put({type: ACTION.AUTORIDE_ERROR, error: signUpErrors[delAutorideStatus.data.desc]})
          }

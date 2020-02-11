@@ -63,117 +63,81 @@ const BroadCastMenu = props => {
       props.updateBroadcast(activeBroadCastCopy);
    };
 
-   const sendBroadCastTab = () => (
-      <div className={style.contentContainer}>
-         <div className={style.userListBroadcast}>
-            <div className={style.userListElement}>
-               <h2>Список получателей:</h2>
-
-               <Radio
-                  id="allUsers"
-                  name="allUsers"
-                  checked
-               >
-                  Все пользователи ({activeBroadCast && activeBroadCast.users_count} пользователей)
-               </Radio>
-               <Checkbox
-                  id="allUsers"
-                  name="group"
-                  onChange={e => updateBroadCast({for_group: e.target.checked})}
-               >
-                  Все группы
-               </Checkbox>
-            </div>
-         </div>
-         <div className={style.buttonsContainer}>
-            <Button
-               className={style.submitButton}
-               variant="contained"
-               onClick={() => updateBroadCast({
-                  time: oldDate / 1000,
-                  sent: 'False',
-                  proccessing: 'False'
-               })}
-            >
-               Начать рассылку
-            </Button>
-
-            <p>или</p>
-
-            <Popover
-               content={DatePickerMenu}
-               title={null}
-               trigger="click"
-               visible={visible}
-               onVisibleChange={handleVisibleChange}
-            >
-               <Button className={style.putOffButton} variant="outlined">
-                  Отложить рассылку
-               </Button>
-            </Popover>
-         </div>
-      </div>
-   );
-
-   const testTab = () => (
-      <div className={style.contentContainer}>
-         <div className={style.testBroadCastContainer}>
-            <h2>Отправить тестовую рассылку пользователям:</h2>
-            <p>Ссылка на страницу FB</p>
-         </div>
-         <div className={style.buttonsContainerTest}>
-            <Button className={style.submitButton} variant="contained">
-               Тестировать
-            </Button>
-         </div>
-      </div>
-   );
+   const userCount = activeBroadCast && activeBroadCast.users_count === 1 ? `${activeBroadCast.users_count} пользователь` :
+      activeBroadCast.users_count >= 2 ? `${activeBroadCast.users_count} пользователя` :
+         activeBroadCast.users_count >= 5 ? `${activeBroadCast.users_count} пользователей` : `${activeBroadCast.users_count} пользователей`;
 
    return (
       <div className={style.mainContainer}>
-         <ul className={`
-            ${style.navigation}
-            ${activeBroadCast && activeBroadCast.sent && style.navigationSent}
-         `}>
-            <li
-               className={!isOpenTestTab && style.activeNavigationElement}
-               onClick={() => openTestTab(false)}
-            >
-               Отправка рассылки
-            </li>
-            {activeBroadCast && !activeBroadCast.sent && (
-               <li
-                  className={isOpenTestTab && style.activeNavigationElement}
-                  onClick={() => openTestTab(true)}
-               >
-                  Тест рассылки
-               </li>
-            )}
-         </ul>
          <Spin spinning={isFetching}>
-            {activeBroadCast && activeBroadCast.sent ?
-               (
-                  <div className={style.completeMessage}>
-                     Рассылка разослана!
+            {activeBroadCast && activeBroadCast.sent ? (
+               <div className={style.completeMessage}>
+                  <p>Рассылка разослана!</p>
 
+                  <Button
+                     className={style.submitButton}
+                     variant="contained"
+                     onClick={() => updateBroadCast({
+                        sent: 'False',
+                        time: futureTime / 1000
+                     })}
+                  >
+                     Запустить новую рассылку
+                  </Button>
+               </div>
+            ) : (
+               <div>
+                  <p className={style.mainContainerTitle}>Отправка рассылки!</p>
+
+                  <div className={style.userListBroadcast}>
+                     <div className={style.userListElement}>
+                        <h2>Список получателей:</h2>
+
+                        <Radio
+                           id="allUsers"
+                           name="allUsers"
+                           checked
+                        >
+                           Все пользователи ({userCount})
+                        </Radio>
+                        <Checkbox
+                           id="allUsers"
+                           name="group"
+                           onChange={e => updateBroadCast({for_group: e.target.checked})}
+                        >
+                           Все группы
+                        </Checkbox>
+                     </div>
+                  </div>
+                  <div className={style.buttonsContainer}>
                      <Button
                         className={style.submitButton}
                         variant="contained"
                         onClick={() => updateBroadCast({
+                           time: oldDate / 1000,
                            sent: 'False',
-                           time: futureTime / 1000
+                           proccessing: 'False'
                         })}
                      >
-                        Запустить новую рассылку
+                        Начать рассылку
                      </Button>
+
+                     <p>или</p>
+
+                     <Popover
+                        content={DatePickerMenu}
+                        title={null}
+                        trigger="click"
+                        visible={visible}
+                        onVisibleChange={handleVisibleChange}
+                     >
+                        <Button className={style.putOffButton} variant="outlined">
+                           Отложить рассылку
+                        </Button>
+                     </Popover>
                   </div>
-               ) :
-               (
-                  isOpenTestTab
-                     ? testTab()
-                     : sendBroadCastTab()
-               )
-            }
+               </div>
+            )}
          </Spin>
       </div>
    )

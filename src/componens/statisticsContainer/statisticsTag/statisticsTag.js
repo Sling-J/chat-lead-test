@@ -3,12 +3,13 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 
-import {Button, Icon, Input, Table, Tooltip, Modal} from 'antd';
+import {Button, Icon, Input, Table, Tooltip} from 'antd';
 import MuiButton from "@material-ui/core/Button";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Highlighter from "react-highlight-words";
 
+import {deletionConfirmation} from "../../../utils/deletionConfirmation";
 import {moduleName as tagsModule, deleteTag, addTag} from "../../../ducks/Tags";
 
 class StatisticsTag extends React.Component {
@@ -86,21 +87,6 @@ class StatisticsTag extends React.Component {
          ),
    });
 
-   showConfirm = text => {
-      Modal.confirm({
-         title: 'Вы уверены, что хотите удалить?',
-         content: `Удаление тега: ${text.name}`,
-         okText: 'Да',
-         onOk() {
-            this.props.deleteTag({
-               tag: text.name,
-               botId: this.props.match.params.botId
-            })
-         },
-         onCancel() {},
-      });
-   };
-
    handleClickOpen = () => this.setState({open: true});
    handleClose = () => this.setState({open: false});
 
@@ -128,7 +114,18 @@ class StatisticsTag extends React.Component {
             key: 'x',
             render: text => (
                <div className="statistics-tag-actions">
-                  <Tooltip className="statistics-tag-actions__delete" title="Удалить" onClick={() => this.showConfirm(text)}>
+                  <Tooltip
+                     className="statistics-tag-actions__delete"
+                     title="Удалить"
+                     onClick={() => deletionConfirmation(
+                        this.props.deleteTag,
+                        {
+                           tag: text.name,
+                           botId: match.params.botId
+                        },
+                        `Удаление тега: ${text.name}`
+                     )}
+                  >
                      <Icon type="delete"/>
                   </Tooltip>
                </div>

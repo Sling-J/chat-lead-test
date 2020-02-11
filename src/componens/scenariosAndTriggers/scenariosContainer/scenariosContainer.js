@@ -7,6 +7,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faInfoCircle} from '@fortawesome/free-solid-svg-icons'
 import {destinationScenario} from "../../../constants/defaultValues";
 import {ScenarioIdContext} from "../../../utils/Contexts";
+import {deletionConfirmation} from "../../../utils/deletionConfirmation";
 import {
    addNewScenario,
    deleteScenario,
@@ -24,14 +25,12 @@ import TriggersContainer from '../../scenariosAndTriggers/triggersContainer/trig
 import SearchData from "../../searchData/searchData";
 import Pagination from "../../Containers/Pagination";
 
-import {Select, Dropdown, Input, Menu, Modal} from 'antd';
+import {Select, Dropdown, Input, Menu} from 'antd';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
-
-const {confirm} = Modal;
 
 const ScenariosContainer = props => {
    const {changeScenarioId, changedScenarioId, isFetching} = props;
@@ -41,16 +40,16 @@ const ScenariosContainer = props => {
    const [snackOpen, setSnackOpen] = useState(false);
 
    const [scenariosDataInFilter, setScenariosDataInFilter] = useState([]);
-	const [isOpenCreateScenarioField, setStatusCreateScenarioField] = useState(false);
+   const [isOpenCreateScenarioField, setStatusCreateScenarioField] = useState(false);
 
-	const [currentPage, setCurrentPage] = useState(1);
-	const [dataPerPage] = useState(9);
+   const [currentPage, setCurrentPage] = useState(1);
+   const [dataPerPage] = useState(9);
 
-	const indexOfLastPost = currentPage * dataPerPage;
-	const indexOfFirstPost = indexOfLastPost - dataPerPage;
+   const indexOfLastPost = currentPage * dataPerPage;
+   const indexOfFirstPost = indexOfLastPost - dataPerPage;
 
-	const currentData = data => data.slice(indexOfFirstPost, indexOfLastPost);
-	const paginate = pageNumber => setCurrentPage(pageNumber);
+   const currentData = data => data.slice(indexOfFirstPost, indexOfLastPost);
+   const paginate = pageNumber => setCurrentPage(pageNumber);
 
    function handleChange(value) {
       setTextArea(value);
@@ -127,18 +126,7 @@ const ScenariosContainer = props => {
             </IconButton>,
          ]}
       />
-	);
-	
-	function showConfirm(botId, elemId) {
-		confirm({
-		  title: 'Вы уверены, что хотите удалить?',
-		  okText: 'Да',
-		  onOk() {
-				props.deleteScenario({botId, idScenario: elemId});
-		  },
-		  onCancel() {},
-		});
-	}
+   );
 
    if (isOpenCreateScenarioField) {
       return (
@@ -256,72 +244,80 @@ const ScenariosContainer = props => {
                   <tbody className="main-table-content__body">
                   {scenariosDataInFilter.length > 0 ? (
                      currentData(scenariosDataInFilter).map((elem, index) => {
-								const menu = (
-									<Menu className="main-table-content-body__edit">
-										<div style={{padding: '15px'}}>
-											<h2 style={{marginBottom: '10px', fontSize: '15px'}}>Введите ключевое слово</h2>
-											<Input
-												defaultValue={elem.trigger_text}
-												onBlur={e => editScenario(e, elem.id)}
-											/>
-										</div>
-									</Menu>
-								);
-
-								return (
-									<tr key={index}>
-                           <td
-                              className="main-table-content-body__key-words"
-                              onClick={() => changeScenarioId(elem.id)}
-                           >
-                              Сообщение в точности совпадает с <span>{elem.trigger_text.split(',').join(', ')}</span>
-                           </td>
-                           <td>
-                              {elem.triggers.length} ответ
-                           </td>
-                           <td className="main-table-content-body__controls">
-										<Dropdown 
-											overlay={menu}
-											trigger={['click']}
-											placement="bottomCenter"
-											className="main-table-content-body__icon"
-										>
-                                 <div>
-												<span className="main-table-content-body__tooltip tableTooltip">Редактировать</span>
-												<img
-													className="main-table-content-body__img"
-													src={edit}
-													alt={'edit'}
-												/>
-											</div>
-                              </Dropdown>
-
-                              <div
-                                 className="main-table-content-body__icon"
-                                 onClick={() => copyScenario(elem.id)}
-                              >
-                                 <span className="main-table-content-body__tooltip tableTooltip">Копировать</span>
-                                 <img
-                                    className="main-table-content-body__img"
-                                    src={copy}
-                                    alt={'copy'}
+                        const menu = (
+                           <Menu className="main-table-content-body__edit">
+                              <div style={{padding: '15px'}}>
+                                 <h2 style={{marginBottom: '10px', fontSize: '15px'}}>Введите ключевое слово</h2>
+                                 <Input
+                                    defaultValue={elem.trigger_text}
+                                    onBlur={e => editScenario(e, elem.id)}
                                  />
                               </div>
-                              <div
-                                 className="main-table-content-body__icon"
-                                 onClick={() => showConfirm(props.match.params.botId, elem.id)}
+                           </Menu>
+                        );
+
+                        return (
+                           <tr key={index}>
+                              <td
+                                 className="main-table-content-body__key-words"
+                                 onClick={() => changeScenarioId(elem.id)}
                               >
-                                 <span className="main-table-content-body__tooltip tableTooltip">Удалить</span>
-                                 <img
-                                    className="main-table-content-body__img"
-                                    src={trash}
-                                    alt={'trash'}
-                                 />
-                              </div>
-                           </td>
-                        </tr>
-								)
-							})
+                                 Сообщение в точности совпадает с <span>{elem.trigger_text.split(',').join(', ')}</span>
+                              </td>
+                              <td>
+                                 {elem.triggers.length} ответ
+                              </td>
+                              <td className="main-table-content-body__controls">
+                                 <Dropdown
+                                    overlay={menu}
+                                    trigger={['click']}
+                                    placement="bottomCenter"
+                                    className="main-table-content-body__icon"
+                                 >
+                                    <div>
+                                       <span
+                                          className="main-table-content-body__tooltip tableTooltip">Редактировать</span>
+                                       <img
+                                          className="main-table-content-body__img"
+                                          src={edit}
+                                          alt={'edit'}
+                                       />
+                                    </div>
+                                 </Dropdown>
+
+                                 <div
+                                    className="main-table-content-body__icon"
+                                    onClick={() => copyScenario(elem.id)}
+                                 >
+                                    <span className="main-table-content-body__tooltip tableTooltip">Копировать</span>
+                                    <img
+                                       className="main-table-content-body__img"
+                                       src={copy}
+                                       alt={'copy'}
+                                    />
+                                 </div>
+                                 <div
+                                    className="main-table-content-body__icon"
+                                    onClick={() => deletionConfirmation(
+                                       props.deleteScenario,
+                                       {
+                                          botId: props.match.params.botId,
+                                          idScenario: elem.id
+                                       },
+                                       `Удаление сценария: ${elem.trigger_text}`
+                                    )}
+                                 >
+                                    <span className="main-table-content-body__tooltip tableTooltip">Удалить</span>
+                                    <img
+                                       className="main-table-content-body__img"
+                                       src={trash}
+                                       alt={'trash'}
+                                    />
+                                 </div>
+                              </td>
+                           </tr>
+                        )
+                     })
                   ) : (
                      <tr>
                         <td className="main-table-content-body__key-words">
@@ -334,14 +330,14 @@ const ScenariosContainer = props => {
                   </tbody>
                </table>
 
-					{scenariosDataInFilter.length > 9 && (
-						<Pagination
-							dataPerPage={dataPerPage}
-							totalData={scenariosDataInFilter.length}
-							currentPage={currentPage}
-							paginate={paginate}
-						/>
-					)}
+               {scenariosDataInFilter.length > 9 && (
+                  <Pagination
+                     dataPerPage={dataPerPage}
+                     totalData={scenariosDataInFilter.length}
+                     currentPage={currentPage}
+                     paginate={paginate}
+                  />
+               )}
             </div>
          </div>
       </div>

@@ -17,6 +17,8 @@ import {sliceExtraText} from "../../utils/textValidation";
 
 import {appendBroadCast, changeScenarioId, deleteBroadcast} from "../../actions/actionCreator";
 
+import {deletionConfirmation} from "../../utils/deletionConfirmation";
+
 const BroadCastContainer = props => {
    const {changeScenarioId, changedScenarioId, isFetching, deleteBroadcast} = props;
 
@@ -121,7 +123,14 @@ const BroadCastContainer = props => {
                               </td>
                               <td onClick={e => {
                                  e.stopPropagation();
-                                 deleteBroadcast(props.match.params.botId, elem.id);
+                                 deletionConfirmation(
+                                    deleteBroadcast,
+                                    {
+                                       managerId: props.match.params.botId,
+                                       broadCastId: elem.id
+                                    },
+                                    `Удаление рассылки: ${text ? sliceExtraText(text, 41) : elem.scenario.triggers[0].caption}`
+                                 );
                               }}>
                                  <FontAwesomeIcon icon={faTrash}/>
                               </td>
@@ -184,7 +193,14 @@ const BroadCastContainer = props => {
                               </td>
                               <td onClick={e => {
                                  e.stopPropagation();
-                                 deleteBroadcast(props.match.params.botId, elem.id);
+                                 deletionConfirmation(
+                                    deleteBroadcast,
+                                    {
+                                       managerId: props.match.params.botId,
+                                       broadCastId: elem.id
+                                    },
+                                    `Удаление рассылки: ${text ? sliceExtraText(text, 41) : elem.scenario.triggers[0].caption}`
+                                 );
                               }}>
                                  <FontAwesomeIcon icon={faTrash}/>
                               </td>
@@ -293,7 +309,7 @@ const mapStateToProps = ({broadCastReducers, singleBotReducers}) => ({
 const mapDispatchToProps = dispatch => ({
    appendBroadcast: managerId => dispatch(appendBroadCast(managerId)),
    changeScenarioId: scenarioId => dispatch(changeScenarioId(scenarioId)),
-   deleteBroadcast: (managerId, broadCastId) => dispatch(deleteBroadcast(managerId, broadCastId)),
+   deleteBroadcast: data => dispatch(deleteBroadcast(data)),
 });
 
 export default compose(

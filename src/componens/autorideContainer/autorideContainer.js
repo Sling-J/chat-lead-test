@@ -22,6 +22,7 @@ import {
 import TriggersContainer from "../scenariosAndTriggers/triggersContainer/triggersContainer";
 import Pagination from "../Containers/Pagination";
 import SearchData from "../searchData/searchData";
+import {deletionConfirmation} from "../../utils/deletionConfirmation";
 
 import vk from '../../images/imageForTable/vk-icon.png';
 import telegram from '../../images/imageForTable/tlg-icon.png';
@@ -32,14 +33,12 @@ import trash from '../../images/buttons/trash.png';
 import copy from '../../images/duplicate.jpg';
 import leftArrow from '../../svg/db/left-arrow.svg';
 
-import {Input, Dropdown, Menu, Modal} from 'antd';
+import {Input, Dropdown, Menu} from 'antd';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
-
-const {confirm} = Modal;
 
 const AutorideContainer = props => {
    const {changeScenarioId, changedScenarioId, isFetching, isFetchingScenario} = props;
@@ -106,17 +105,6 @@ const AutorideContainer = props => {
       setSnackOpen(false);
       setTextAreaErrMsg('');
 	};
-
-	function showConfirm(botId, elemId) {
-		confirm({
-		  title: 'Вы уверены, что хотите удалить?',
-		  okText: 'Да',
-		  onOk() {
-				props.deleteAutoride(botId, elemId);
-		  },
-		  onCancel() {},
-		});
-	}
 
    const TextAreaSnackBar = () => (
       <Snackbar
@@ -329,7 +317,16 @@ const AutorideContainer = props => {
 											</div>
 											<div
 												className="main-table-content-body__icon"
-												onClick={() => showConfirm(props.match.params.botId, elem.id)}
+												onClick={() => {
+                                       deletionConfirmation(
+                                          props.deleteAutoride,
+                                          {
+                                             managerId: props.match.params.botId,
+                                             idAutoride: elem.id
+                                          },
+                                          `Удаление автоворонки: ${elem.scenario.trigger_text}`
+                                       );
+												}}
 											>
 												<span className="main-table-content-body__tooltip tableTooltip">Удалить</span>
 												<img className="main-table-content-body__img" src={trash} alt={'trash'}/>
@@ -375,7 +372,7 @@ const mapStateToProps = ({autoridesReducers, singleBotReducers}) => ({
 
 const mapDispatchToProps = dispatch => ({
    appendAutoride: (managerId, name) => dispatch(addNewAutoride(managerId, name)),
-   deleteAutoride: (managerId, autorideId) => dispatch(deleteAutoride(managerId, autorideId)),
+   deleteAutoride: data => dispatch(deleteAutoride(data)),
    editScenario: (scenarioData) => dispatch(editScenario(scenarioData)),
    changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId)),
    getAutoridesLinks: (autorideData) => dispatch(getAutorideLinks(autorideData)),
