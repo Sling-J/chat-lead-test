@@ -71,12 +71,13 @@ const ScenariosContainer = props => {
    };
 
    const copyScenario = (id) => {
-      const copyedScenario = props.botScenarios.filter(elem => elem.id === id)[0];
-      Object.assign(copyedScenario, {
-         managerId: props.match.params.botId
+      const copiedScenario = props.botScenarios.filter(elem => elem.id === id)[0];
+      
+      Object.assign(copiedScenario, {
+         managerId: props.match.params.botId,
       });
 
-      props.copyScenario(copyedScenario);
+      props.copyScenario(copiedScenario);
    };
 
    const editScenario = (e, scenarioId) => {

@@ -5,17 +5,17 @@ import {withRouter} from "react-router-dom";
 
 import {getAllAutorides} from "../../../actions/actionCreator";
 
+import SwipeableViews from "react-swipeable-views";
 import {Modal} from "antd";
+import Button from "@material-ui/core/Button";
 import {useTheme} from '@material-ui/core/styles';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCog, faFileAlt, faCode, faCheck} from "@fortawesome/free-solid-svg-icons";
 
 import GrowthToolMlpSettings from "./growthToolMLPSettings";
 import GrowthToolMlpContent from "./growthToolMLPContent";
+import GrowthToolMlpResult from "./growthToolMLPResult";
 import GrowthToolMlpCode from "./growthToolMLPCode";
-
-import Button from "@material-ui/core/Button";
-import SwipeableViews from "react-swipeable-views";
 
 const TabPanel = props => {
    const {value, index} = props;
@@ -29,9 +29,7 @@ const TabPanel = props => {
          ) : index === 2 ? (
             <GrowthToolMlpCode {...props}/>
          ) : index === 3 ? (
-            <div>
-
-            </div>
+            <GrowthToolMlpResult {...props}/>
          ) : null}
       </p>
    )
@@ -108,7 +106,11 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   if (value === 2 && disabled) {
                      warning();
                   } else {
-                     setValue(value === 0 ? 1 : value === 1 ? 2 : value === 2 ? 3 : value === 3 ? 4 : 0);
+                     if (value !== 3) {
+                        setValue(value === 0 ? 1 : value === 1 ? 2 : value === 2 ? 3 : 0);
+                     } else {
+                        setPage(0);
+                     }
                   }
                }}
             >
@@ -154,6 +156,7 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   setSettingTitle={setSettingTitle}
                   autoRidesData={autoRidesData}
                   setSelectedAutoRide={setSelectedAutoRide}
+                  selectedAutoRide={selectedAutoRide}
                   loadingOfAutoRides={loadingOfAutoRides}
                />
 
@@ -207,7 +210,18 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                <TabPanel
                   value={value}
                   index={3}
-                  setPage={setPage}
+                  firstSectionTabs={firstSectionTabs}
+                  secondSectionTabs={secondSectionTabs}
+                  selectedAutoRide={selectedAutoRide}
+                  disabled={disabled}
+                  description1={description1}
+                  actionText={actionText}
+                  phone2={phone2}
+                  phone1={phone1}
+                  setPhone1={setPhone1}
+                  setPhone2={setPhone2}
+                  description2={description2}
+                  setPage={setValue}
                />
             </SwipeableViews>
          </div>

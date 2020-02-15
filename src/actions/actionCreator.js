@@ -100,10 +100,9 @@ export const addNewAutoride = (managerId, trigger_text) => ({
    trigger_text
 });
 
-export const deleteAutoride = (managerId, idAutoride) => ({
+export const deleteAutoride = data => ({
    type: ACTION.DELETE_AUTORIDE,
-   managerId,
-   idAutoride
+   data,
 });
 
 export const getAllBroadCasts = managerId => ({
@@ -116,15 +115,14 @@ export const updateBroadCasts = broadCastData => ({
    broadCastData
 });
 
-export const appendBroadCast = managerId => ({
+export const appendBroadCast = data => ({
    type: ACTION.APPEND_BROADCAST,
-   managerId
+   data
 });
 
-export const deleteBroadcast = (managerId, broadCastId) => ({
+export const deleteBroadcast = data => ({
    type: ACTION.DELETE_BROADCAST,
-   managerId,
-   broadCastId
+   data
 });
 
 // setup

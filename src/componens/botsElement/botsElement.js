@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
-import style from './botsElement.module.sass';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+
+import {deleteBot, editManager, resetBotsData} from "../../actions/actionCreator";
 
 import edit from '../../images/buttons/edit.png'
 import trash from '../../images/buttons/trash.png';
@@ -10,9 +13,7 @@ import telegramIcon from '../../images/telegram-icon-big.png'
 import vkIcon from '../../images/vk-logo-big.png'
 import whatsappIcon from '../../images/whatsapp-big.png'
 
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {deleteBot, editManager, resetBotsData} from "../../actions/actionCreator";
+import style from './botsElement.module.sass';
 
 const BotsElement = (props) => {
    const {id, resetBotsData, botCallback, payed_end_date, editManager} = props;
@@ -29,8 +30,12 @@ const BotsElement = (props) => {
       <li className={style.mainContainer}>
          {isEdit ? (
             <div className={style.nameContainer}>
-               <input name="name" type="text" placeholder="Название"
-                      style={{fontSize: "27px", maxWidth: "75%", marginTop: "19px"}}/>
+               <input
+                  name="name"
+                  type="text"
+                  placeholder="Название"
+                  style={{fontSize: "27px", maxWidth: "75%", marginTop: "19px"}}
+               />
                <button
                   className={style.bot_edit_btn + " bot-list__edit default-btn default-btn--icon-style default-btn--outline"}
                   onClick={() => {

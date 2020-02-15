@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 
 import {Radio, Input, Icon} from "antd";
 
-import {uploadImageForMLP, moduleName as growthToolModule} from "../../../ducks/GrowthTool";
+import {uploadImageForMLP}  from "../../../ducks/GrowthTool";
 
 import GrowthToolMLPDemo from "./growthToolMLPDemo";
 
@@ -31,7 +31,7 @@ const GrowthToolMlpContent = props => {
 
    return (
       <div className="mlp-content">
-         <div className="mlp-content__custom">
+         <div className="mlp-content-custom">
             <div className="mlp-content__media">
                <Radio.Group onChange={onChange} value={radioTab}>
                   <Radio value={1}>Изображение</Radio>

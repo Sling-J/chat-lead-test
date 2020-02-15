@@ -3,7 +3,7 @@ import {Input, Select} from "antd";
 
 const {Option} = Select;
 
-const GrowthToolMlpSettings = ({settingTitle, setSettingTitle, loadingOfAutoRides, setSelectedAutoRide, autoRidesData}) => {
+const GrowthToolMlpSettings = ({settingTitle, setSettingTitle, loadingOfAutoRides, setSelectedAutoRide, autoRidesData, selectedAutoRide}) => {
    function onChange(value) {
       setSelectedAutoRide(value);
    }
@@ -30,6 +30,7 @@ const GrowthToolMlpSettings = ({settingTitle, setSettingTitle, loadingOfAutoRide
                placeholder="Выберите автоворнку"
                optionFilterProp="children"
                loading={loadingOfAutoRides}
+               defaultValue={selectedAutoRide ? selectedAutoRide : undefined}
                onChange={onChange}
                filterOption={(input, option) =>
                   option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0

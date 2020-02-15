@@ -16,53 +16,53 @@ const GrowthToolContainer = () => {
       return (
          <GrowthToolMlp setPage={setPage}/>
       )
-   }
+   } else {
+      return (
+         <div className="growth-tool-container">
+            <h2 className="growth-tool__title">Инструменты для роста клиентской базы</h2>
 
-   return (
-      <div className="growth-tool-container">
-         <h2 className="growth-tool__title">Инструменты для роста клиентской базы</h2>
+            <div className="growth-tool-box pv1-flex pv1-j-sb">
+               <div className="growth-tool-box__item">
+                  <p className="growth-tool-box-item__title">MLP</p>
 
-         <div className="growth-tool-box pv1-flex pv1-j-sb">
-            <div className="growth-tool-box__item">
-               <p className="growth-tool-box-item__title">MLP</p>
+                  <div className="growth-tool-box-item__img">
+                     <img src={mlpImage} alt=""/>
+                  </div>
 
-               <div className="growth-tool-box-item__img">
-                  <img src={mlpImage} alt=""/>
+                  <MuiButton
+                     onClick={() => setPage(1)}
+                     className="growth-tool-box-item__btn"
+                     variant="contained"
+                  >
+                     Добавить
+                  </MuiButton>
                </div>
 
-               <MuiButton
-                  onClick={() => setPage(1)}
-                  className="growth-tool-box-item__btn"
-                  variant="contained"
-               >
-                  Добавить
-               </MuiButton>
-            </div>
+               <div className="growth-tool-box__item">
+                  <p className="growth-tool-box-item__title">LP поделиться</p>
 
-            <div className="growth-tool-box__item">
-               <p className="growth-tool-box-item__title">LP поделиться</p>
+                  <div className="growth-tool-box-item__img">
+                     <img src={lpShareImage} alt=""/>
+                  </div>
 
-               <div className="growth-tool-box-item__img">
-                  <img src={lpShareImage} alt=""/>
+                  <MuiButton className="growth-tool-box-item__btn" variant="contained">Добавить</MuiButton>
                </div>
 
-               <MuiButton className="growth-tool-box-item__btn" variant="contained">Добавить</MuiButton>
-            </div>
+               <div className="growth-tool-box__item">
+                  <p className="growth-tool-box-item__title">Виджет</p>
 
-            <div className="growth-tool-box__item">
-               <p className="growth-tool-box-item__title">Виджет</p>
+                  <div className="growth-tool-box-item__img">
+                     <img src={widgetImage} alt=""/>
+                  </div>
 
-               <div className="growth-tool-box-item__img">
-                  <img src={widgetImage} alt=""/>
+                  <MuiButton className="growth-tool-box-item__btn" variant="contained">Добавить</MuiButton>
                </div>
-
-               <MuiButton className="growth-tool-box-item__btn" variant="contained">Добавить</MuiButton>
             </div>
+
+            <GrowthToolContainerTable/>
          </div>
-
-         <GrowthToolContainerTable/>
-      </div>
-   )
+      )
+   }
 };
 
 export default GrowthToolContainer;

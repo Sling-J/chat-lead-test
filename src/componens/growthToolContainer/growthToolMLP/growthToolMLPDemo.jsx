@@ -13,7 +13,7 @@ import GrowthToolExample from "../../../images/growthTool/growth-tool-example.pn
 
 const GrowthToolMLPDemo = ({
    match, firstSectionTabs, secondSectionTabs,
-   selectedAutoRide, disabled, description1,
+   selectedAutoRide, description1,
    actionText, getAutoRidesLinks, autoridesData,
    phone2, phone1, setPhone1, setPhone2, description2,
    autoRidesLinks, setPage
@@ -56,7 +56,6 @@ const GrowthToolMLPDemo = ({
                      <div className="mlp-content-result-info-item__field">
                         <p>Номер телефона:</p>
                         <Input
-                           disabled={disabled}
                            type="text"
                            value={phone2}
                            onChange={e => setPhone2(e.target.value)}
@@ -70,7 +69,6 @@ const GrowthToolMLPDemo = ({
                      <div className="mlp-content-result-info-item__field mlp-content-result-info-item__field-input-2">
                         <p>Номер телефона:</p>
                         <Input
-                           disabled={disabled}
                            type="text"
                            value={phone1}
                            onChange={e => setPhone1(e.target.value)}
@@ -112,8 +110,10 @@ const GrowthToolMLPDemo = ({
                                    xmlns="http://www.w3.org/2000/svg"
                                    viewBox="0 0 576 512"
                               >
-                                 <path fill="currentColor"
-                                       d="M545 117.7c3.7-12.5 0-21.7-17.8-21.7h-58.9c-15 0-21.9 7.9-25.6 16.7 0 0-30 73.1-72.4 120.5-13.7 13.7-20 18.1-27.5 18.1-3.7 0-9.4-4.4-9.4-16.9V117.7c0-15-4.2-21.7-16.6-21.7h-92.6c-9.4 0-15 7-15 13.5 0 14.2 21.2 17.5 23.4 57.5v86.8c0 19-3.4 22.5-10.9 22.5-20 0-68.6-73.4-97.4-157.4-5.8-16.3-11.5-22.9-26.6-22.9H38.8c-16.8 0-20.2 7.9-20.2 16.7 0 15.6 20 93.1 93.1 195.5C160.4 378.1 229 416 291.4 416c37.5 0 42.1-8.4 42.1-22.9 0-66.8-3.4-73.1 15.4-73.1 8.7 0 23.7 4.4 58.7 38.1 40 40 46.6 57.9 69 57.9h58.9c16.8 0 25.3-8.4 20.4-25-11.2-34.9-86.9-106.7-90.3-111.5-8.7-11.2-6.2-16.2 0-26.2.1-.1 72-101.3 79.4-135.6z"/>
+                                 <path
+                                    fill="currentColor"
+                                    d="M545 117.7c3.7-12.5 0-21.7-17.8-21.7h-58.9c-15 0-21.9 7.9-25.6 16.7 0 0-30 73.1-72.4 120.5-13.7 13.7-20 18.1-27.5 18.1-3.7 0-9.4-4.4-9.4-16.9V117.7c0-15-4.2-21.7-16.6-21.7h-92.6c-9.4 0-15 7-15 13.5 0 14.2 21.2 17.5 23.4 57.5v86.8c0 19-3.4 22.5-10.9 22.5-20 0-68.6-73.4-97.4-157.4-5.8-16.3-11.5-22.9-26.6-22.9H38.8c-16.8 0-20.2 7.9-20.2 16.7 0 15.6 20 93.1 93.1 195.5C160.4 378.1 229 416 291.4 416c37.5 0 42.1-8.4 42.1-22.9 0-66.8-3.4-73.1 15.4-73.1 8.7 0 23.7 4.4 58.7 38.1 40 40 46.6 57.9 69 57.9h58.9c16.8 0 25.3-8.4 20.4-25-11.2-34.9-86.9-106.7-90.3-111.5-8.7-11.2-6.2-16.2 0-26.2.1-.1 72-101.3 79.4-135.6z"
+                                 />
                               </svg>
 
                               <p className="mlp-content-result-socials-item__title">ВКонтакте</p>
@@ -236,7 +236,8 @@ const GrowthToolMLPDemo = ({
                <h3>3. 'Disclaimer'</h3>
                <ol type="a" className="popup-content-ol">
                   <li>
-                     The materials on Chatlead's web site are provided "as is". Chatlead makes no warranties, expressed or
+                     The materials on Chatlead's web site are provided "as is". Chatlead makes no warranties, expressed
+                     or
                      implied, and hereby disclaims and negates all other warranties, including without limitation,
                      implied warranties or conditions of merchantability, fitness for a particular purpose, or
                      non-infringement of intellectual property or other violation of rights. Further, Chatlead does not
@@ -250,7 +251,8 @@ const GrowthToolMLPDemo = ({
                <p>
                   In no event shall Chatlead or its suppliers be liable for any damages
                   (including, without limitation, damages for loss of data or profit, or due to business interruption,)
-                  arising out of the use or inability to use the materials on Chatlead's Internet site, even if Chatlead or
+                  arising out of the use or inability to use the materials on Chatlead's Internet site, even if Chatlead
+                  or
                   a Chatlead authorized representative has been notified orally or in writing of the possibility of such
                   damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of
                   liability for consequential or incidental damages, these limitations may not apply to you.
@@ -260,7 +262,8 @@ const GrowthToolMLPDemo = ({
                <p>
                   The materials appearing on Chatlead's web site could include technical,
                   typographical, or photographic errors. Chatlead does not warrant that any of the materials on its web
-                  site are accurate, complete, or current. Chatlead may make changes to the materials contained on its web
+                  site are accurate, complete, or current. Chatlead may make changes to the materials contained on its
+                  web
                   site at any time without notice. Chatlead does not, however, make any commitment to update the
                   materials.
                </p>

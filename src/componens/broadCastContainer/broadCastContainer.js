@@ -16,11 +16,12 @@ import {ScenarioIdContext} from "../../utils/Contexts";
 import {sliceExtraText} from "../../utils/textValidation";
 
 import {appendBroadCast, changeScenarioId, deleteBroadcast} from "../../actions/actionCreator";
+import {moduleName as tagsModule, getTags} from "../../ducks/Tags";
 
 import {deletionConfirmation} from "../../utils/deletionConfirmation";
 
 const BroadCastContainer = props => {
-   const {changeScenarioId, changedScenarioId, isFetching, deleteBroadcast} = props;
+   const {changeScenarioId, changedScenarioId, isFetching, deleteBroadcast, getTags, tags, loadingOfTags} = props;
 
    const [changedBroadCastId, changeBroadCastId] = useState(null);
    const [changedTypeBroadcast, changeTypeBroadcast] = useState('sended');
@@ -36,10 +37,15 @@ const BroadCastContainer = props => {
    const paginate = pageNumber => setCurrentPage(pageNumber);
 
    const appendBroadcastHandler = () => {
-      props.appendBroadcast(props.match.params.botId)
+      const stringOfTags = tags.map(item => item.name);
+      props.appendBroadcast({
+         managerId: props.match.params.botId,
+         tag: stringOfTags.toString()
+      })
    };
 
    useEffect(() => {
+      getTags(props.match.params.botId);
       changeScenarioId(null);
    }, []);
 
@@ -243,7 +249,7 @@ const BroadCastContainer = props => {
                className="main-container-controls__button main-theme-button"
                onClick={appendBroadcastHandler}
             >
-               {isFetching
+               {isFetching || loadingOfTags
                   ? <CircularProgress size={23} color="white"/>
                   : 'Создать рассылку'
                }
@@ -299,17 +305,20 @@ const BroadCastContainer = props => {
    )
 };
 
-const mapStateToProps = ({broadCastReducers, singleBotReducers}) => ({
-   broadCastData: broadCastReducers.broadCastData,
-   isFetching: broadCastReducers.isFetching,
-   error: broadCastReducers.error,
-   changedScenarioId: singleBotReducers.changedScenarioId,
+const mapStateToProps = state => ({
+   broadCastData: state.broadCastReducers.broadCastData,
+   isFetching: state.broadCastReducers.isFetching,
+   error: state.broadCastReducers.error,
+   changedScenarioId: state.singleBotReducers.changedScenarioId,
+   loadingOfTags: state[tagsModule].loadingOfTags,
+   tags: state[tagsModule].tags,
 });
 
 const mapDispatchToProps = dispatch => ({
-   appendBroadcast: managerId => dispatch(appendBroadCast(managerId)),
+   appendBroadcast: data => dispatch(appendBroadCast(data)),
    changeScenarioId: scenarioId => dispatch(changeScenarioId(scenarioId)),
    deleteBroadcast: data => dispatch(deleteBroadcast(data)),
+   getTags: botId => dispatch(getTags(botId)),
 });
 
 export default compose(

@@ -1,83 +1,48 @@
 @import '../../styles/partials'
 
 .mainContainer
-  background-color: $main__bg-color
-  width: 100%
+   background-color: $main__bg-color
+   width: 100%
 
 .botsMainContainer
-  padding: 50px 40px
+   padding: 50px 40px
 
 .bots
-  display: flex
-  flex-wrap: wrap
-  margin-top: 50px
+   display: flex
+   flex-wrap: wrap
+   margin-top: 50px
 
+.botDeletionPopup
+   padding: 32px 60px 45px
+   text-align: center
+   width: 438px
 
-.bot_remove_modal
-  display: none
-  background: rgba(0,0,0,0.3)
-  justify-content: center
-  align-items: center
-  position: absolute
-  top: 0
-  left: 0
-  right: 0
-  bottom: 0
-  z-index: 999
-
-
-  .bot_remove
-    padding: 32px 34px 45px
-    width: 454px
-    display: flex
-    flex-direction: column
-    align-items: center
-    color: #262626
-    background: #fff
-    border-radius: 6px
-    img
-      margin-bottom: 20px
-    h3
-      margin-bottom: 15px
+   .botDeletionPopupTitle
+      margin: 20px 0 15px
       font-size: 28px
-      text-align: center
-    p
-      margin-bottom: 35px
+
+   .botDeletionPopupDesc
       font-size: 17px
-      text-align: center
 
-    .bot_remove__buttons
+      span
+         font-weight: 600
+
+   .botDeletionPopupAction
+      margin-top: 35px
       display: flex
-      justify-content: center
-      button
-        width: 153px
-        height: 41px
-        line-height: 41px
-        text-align: center
-        text-transform: none
+      justify-content: space-between
 
-      .blueBtn
-        display: block
-        margin: 0
-        width: 150px
-        height: 36px
-        line-height: 34px
-        min-height: 30px
-        font-size: 13px
-        text-align: center
-        text-transform: uppercase
-        color: #fff
-        background: #517DF9
-        border-radius: 5px
-      .remove
-        margin-right: 40px
-        color: #517DF9
-        background: transparent
-        border: 1px solid #517DF9
-  button
-    cursor: pointer
+      .botDeletionPopupActionDeleteBtn,
+      .botDeletionPopupActionCancelBtn
+         width: 45%
+         font-weight: 400
+         text-transform: initial
+         font-size: 15px
 
+      .botDeletionPopupActionDeleteBtn
+         border: 1px solid #517DF9
+         color: #517DF9
 
-.show_modal
-  display: flex
-
+      .botDeletionPopupActionCancelBtn
+         background: #517DF9
+         color: #fff

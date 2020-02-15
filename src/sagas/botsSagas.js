@@ -213,7 +213,7 @@ export function* copyScenarioSagas({scenarioData}) {
 export function* deleteScenarioSagas({scenarioData}) {
    if (userAccessToken()) {
       try {
-         yield put({type: ACTION.SINGLE_BOT_DATA_REQUEST});
+         yield put({type: ACTION.GET_ALL_SCENARIOS_REQUEST});
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
@@ -545,16 +545,17 @@ export function* updateBroadCastSagas({broadCastData}) {
    }
 }
 
-export function* appendBroadCastSagas({managerId}) {
+export function* appendBroadCastSagas({data}) {
    const futureTime = new Date().setFullYear(new Date().getFullYear() + 1);
-
+   console.log(data);
    if (userAccessToken()) {
       try {
          yield put({type: ACTION.BROADCAST_CREATE_REQUEST});
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
-         formData.append('manager_id', managerId);
+         formData.append('manager_id', data.managerId);
+         formData.append('tag', data.tag);
          formData.append('destination', destinationScenario.broadcast);
          formData.append('trigger_text', 'Сценарий для рассылки');
 
@@ -624,7 +625,7 @@ export function* deleteBroadcastSaga({data}) {
 export function* deleteAutorideSagas({data}) {
    if (userAccessToken()) {
       try {
-         yield put({type: ACTION.AUTORIDE_REQUEST});
+         yield put({type: ACTION.GET_AUTORIDE_REQUEST});
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());

@@ -16,7 +16,6 @@ const BroadCastMenu = props => {
    const {broadCastId, isFetching, broadCastData} = props;
 
    const [visible, setVisible] = useState(false);
-   const [isOpenTestTab, openTestTab] = useState(false);
 
    const handleVisibleChange = visible => {
       setVisible(visible);
@@ -63,9 +62,15 @@ const BroadCastMenu = props => {
       props.updateBroadcast(activeBroadCastCopy);
    };
 
-   const userCount = activeBroadCast && activeBroadCast.users_count === 1 ? `${activeBroadCast.users_count} пользователь` :
+   const userCount = activeBroadCast ? activeBroadCast.users_count === 1 ? `${activeBroadCast.users_count} пользователь` :
       activeBroadCast.users_count >= 2 ? `${activeBroadCast.users_count} пользователя` :
-         activeBroadCast.users_count >= 5 ? `${activeBroadCast.users_count} пользователей` : `${activeBroadCast.users_count} пользователей`;
+         activeBroadCast.users_count >= 5 ? `${activeBroadCast.users_count} пользователей` : `${activeBroadCast.users_count} пользователей` : '0 пользователей';
+
+   const tagsCount = activeBroadCast ? activeBroadCast.tag.length !== 0 ? activeBroadCast.tag.split(',').length : 0 : 0;
+
+   const tagsCountForShow = tagsCount === 1 ? `${tagsCount} тег` :
+      tagsCount >= 2 ? `${tagsCount} тега` :
+         tagsCount >= 5 ? `${tagsCount} тегов` : `${tagsCount} тегов`;
 
    return (
       <div className={style.mainContainer}>
@@ -99,6 +104,13 @@ const BroadCastMenu = props => {
                            checked
                         >
                            Все пользователи ({userCount})
+                        </Radio>
+                        <Radio
+                           id="allTags"
+                           name="tags"
+                           checked
+                        >
+                           Все теги ({tagsCountForShow})
                         </Radio>
                         <Checkbox
                            id="allUsers"

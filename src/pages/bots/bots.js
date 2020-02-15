@@ -1,25 +1,31 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 
-import Attention from '../../images/attention.png';
-
 import CreateBotForm from '../../componens/forms/createBotForm/createBotForm';
 import BotsElement from '../../componens/botsElement/botsElement';
 
 import {deleteBot, getAllBotsForUser} from "../../actions/actionCreator";
 
+import Attention from '../../images/attention.png';
+import Dialog from "@material-ui/core/Dialog";
+import Button from "@material-ui/core/Button";
+
 import style from '../bots/bots.module.sass';
 
 const Bots = ({botsData, deleteBot, getAllBots}) => {
    const [BotObj, setBotObj] = useState({name: null, id: null});
-
-   const changeBotName = (name, id) => {
-      setBotObj({"name": name, "id": id});
-	};
 	
 	useEffect(() => {
       getAllBots();
    }, []);
+
+   const handleClickOpen = (name, id) => {
+      setBotObj({name, id});
+   };
+
+   const handleClose = () => {
+      setBotObj({name: null, id: null})
+   };
 
    return (
       <div className={style.mainContainer}>
@@ -30,38 +36,47 @@ const Bots = ({botsData, deleteBot, getAllBots}) => {
                {botsData && botsData.map(elem => (
                   <BotsElement
                      {...elem}
-                     botCallback={changeBotName}
+                     botCallback={handleClickOpen}
                   />
                ))}
             </ul>
          </main>
-         {BotObj.name !== null ? (
-            <div className={style.bot_remove_modal + " " + style.show_modal}>
-               <div className={style.bot_remove}>
+         <Dialog open={BotObj.name !== null} onClose={handleClose} className="bot-deletion-popup-container">
+            <div className={style.botDeletionPopup}>
+               <div className={style.botDeletionPopupIcon}>
                   <img src={Attention} alt="Attention"/>
-                  <h3>Подтвердите действие</h3>
-                  <p>Вы уверены, что хотите удалить "{BotObj.name}"?</p>
+               </div>
 
-                  <div className={style.bot_remove__buttons}>
-                     <button
-                        className={style.blueBtn + " " + style.remove}
-                        onClick={() => {
-                           deleteBot({manager_id: BotObj.id});
-                           setBotObj({name: null, id: null});
-                        }}
-                     >
-                        Удалить
-                     </button>
-                     <button
-                        className={style.blueBtn + " " + style.cansel}
-                        onClick={() => setBotObj({name: null, id: null})}
-                     >
-                        Отмена
-                     </button>
-                  </div>
+               <h2 className={style.botDeletionPopupTitle}>
+                  Подтвердите действие
+               </h2>
+
+               <p className={style.botDeletionPopupDesc}>
+                  Вы уверены, что хотите удалить <span>{BotObj.name}</span>?
+               </p>
+
+               <div className={style.botDeletionPopupAction}>
+                  <Button
+                     className={style.botDeletionPopupActionDeleteBtn}
+                     onClick={() => {
+                        deleteBot({manager_id: BotObj.id});
+                        handleClose();
+                     }}
+                     variant="outlined"
+                  >
+                     Удалить
+                  </Button>
+
+                  <Button
+                     className={style.botDeletionPopupActionCancelBtn}
+                     onClick={handleClose}
+                     variant="contained"
+                  >
+                     Отмена
+                  </Button>
                </div>
             </div>
-         ) : (<div/>)}
+         </Dialog>
       </div>
    )
 };
