@@ -15,16 +15,6 @@ import {faExclamationCircle, faCheckCircle, faCircle} from "@fortawesome/free-so
 import {getFilledStatus} from "../../utils/socialFilledStatus";
 
 const SideBarSocial = props => {
-   // const updateSocialInTriggerHandler = (e) => {
-   //     const updatedTrigger = {
-   //         ...changedTrigger,
-   //         social: e.target.value,
-   //         botId: props.match.params.botId
-   //     };
-   //     props.updateSocialInTrigger(updatedTrigger);
-   //
-   // };
-
    return (
       <div className={style.mainContainer}>
          <h2>Каналы</h2>

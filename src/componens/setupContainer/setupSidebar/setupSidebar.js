@@ -181,8 +181,7 @@ const SetupSidebar = props => {
       botSetupData.payed_end_date >= 5 ? `Ваш пробный период заканчивается через ${botSetupData.payed_end_date} дней.` :
          botSetupData.payed_end_date >= 2 ? `Ваш пробный период заканчивается через ${botSetupData.payed_end_date} дня.` :
             botSetupData.payed_end_date === 1 ? `Ваш пробный период заканчивается через ${botSetupData.payed_end_date} день.` :
-               botSetupData.payed_end_date === 0 ? 'Пробный период закончился.' :
-                  <Spin size="large"/>;
+               botSetupData.payed_end_date === 0 ? 'Пробный период закончился.' : ' Загрузка пробного периода';
 
    return (
       <aside id="sidebar" className={style.setupSidebar}>
@@ -283,7 +282,7 @@ const SetupSidebar = props => {
    )
 };
 
-const mapStateToProps = ({botSetupReducers}) => ({
+const mapStateToProps = ({botSetupReducers, singleBotReducers}) => ({
    botSetupData: botSetupReducers.botSetupData,
    setupLoading: botSetupReducers.setupLoading,
    isFetching: botSetupReducers.isFetching,
@@ -296,7 +295,7 @@ const mapStateToProps = ({botSetupReducers}) => ({
 	logoutData: botSetupReducers.logoutData,
 	screenshot: botSetupReducers.screenshot,
 	errorOfScreenshot: botSetupReducers.errorOfScreenshot,
-   url: botSetupReducers.url
+   url: botSetupReducers.url,
 });
 
 const mapDispatchToProps = dispatch => ({
