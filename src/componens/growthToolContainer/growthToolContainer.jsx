@@ -9,6 +9,8 @@ import mlpImage from "../../images/growthTool/mlp.PNG";
 import lpShareImage from "../../images/growthTool/lpshare.PNG";
 import widgetImage from "../../images/growthTool/widget.PNG";
 
+import {soonModal} from "../../utils/deletionConfirmation";
+
 const GrowthToolContainer = () => {
    const [page, setPage] = useState(0);
 
@@ -30,7 +32,8 @@ const GrowthToolContainer = () => {
                   </div>
 
                   <MuiButton
-                     onClick={() => setPage(1)}
+                     // onClick={() => setPage(1)}
+                     onClick={soonModal}
                      className="growth-tool-box-item__btn"
                      variant="contained"
                   >
@@ -45,7 +48,13 @@ const GrowthToolContainer = () => {
                      <img src={lpShareImage} alt=""/>
                   </div>
 
-                  <MuiButton className="growth-tool-box-item__btn" variant="contained">Добавить</MuiButton>
+                  <MuiButton
+                     onClick={soonModal}
+                     className="growth-tool-box-item__btn"
+                     variant="contained"
+                  >
+                     Добавить
+                  </MuiButton>
                </div>
 
                <div className="growth-tool-box__item">
@@ -55,7 +64,13 @@ const GrowthToolContainer = () => {
                      <img src={widgetImage} alt=""/>
                   </div>
 
-                  <MuiButton className="growth-tool-box-item__btn" variant="contained">Добавить</MuiButton>
+                  <MuiButton
+                     onClick={soonModal}
+                     className="growth-tool-box-item__btn"
+                     variant="contained"
+                  >
+                     Добавить
+                  </MuiButton>
                </div>
             </div>
 

@@ -1,5 +1,7 @@
+@import "partials";
+
 .mainContainer {
-   background: #f6f8fb;
+   background: $main__bg-color;
    display: flex;
    justify-content: center;
    align-items: center;

@@ -5,6 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock, faUserPlus} from "@fortawesome/free-solid-svg-icons";
 
 import SignUpForm from '../../componens/forms/signUpForm/signUpForm';
+
 import style from '../../styles/authPage.module.scss';
 
 const SignUp = () => (

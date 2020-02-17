@@ -12,3 +12,10 @@ export function deletionConfirmation(handle, params, desc) {
       },
    });
 }
+
+export function soonModal() {
+   Modal.info({
+      title: 'Скоро!',
+      onOk() {},
+   });
+}
