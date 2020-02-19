@@ -21,7 +21,7 @@ import {moduleName as tagsModule, getTags} from "../../ducks/Tags";
 import {deletionConfirmation} from "../../utils/deletionConfirmation";
 
 const BroadCastContainer = props => {
-   const {changeScenarioId, changedScenarioId, isFetching, deleteBroadcast, getTags, tags, loadingOfTags} = props;
+   const {changeScenarioId, changedScenarioId, isFetching, deleteBroadcast, getTags, loadingOfTags} = props;
 
    const [changedBroadCastId, changeBroadCastId] = useState(null);
    const [changedTypeBroadcast, changeTypeBroadcast] = useState('sended');
@@ -37,10 +37,8 @@ const BroadCastContainer = props => {
    const paginate = pageNumber => setCurrentPage(pageNumber);
 
    const appendBroadcastHandler = () => {
-      const stringOfTags = tags.map(item => item.name);
       props.appendBroadcast({
          managerId: props.match.params.botId,
-         tag: stringOfTags.toString()
       })
    };
 
@@ -311,7 +309,6 @@ const mapStateToProps = state => ({
    error: state.broadCastReducers.error,
    changedScenarioId: state.singleBotReducers.changedScenarioId,
    loadingOfTags: state[tagsModule].loadingOfTags,
-   tags: state[tagsModule].tags,
 });
 
 const mapDispatchToProps = dispatch => ({

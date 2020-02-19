@@ -512,7 +512,7 @@ export function* updateBroadCastSagas({broadCastData}) {
          formData.append('user_token', userAccessToken());
          formData.append('manager_id', broadCastData.managerId);
          formData.append('broadcast_id', broadCastData.id);
-         formData.append('tag', '');
+         formData.append('tag', broadCastData.tag);
          formData.append('for_group', broadCastData.for_group);
          formData.append('proccessing', broadCastData.proccessing);
          formData.append('time', broadCastData.time.toFixed(0));
@@ -547,7 +547,7 @@ export function* updateBroadCastSagas({broadCastData}) {
 
 export function* appendBroadCastSagas({data}) {
    const futureTime = new Date().setFullYear(new Date().getFullYear() + 1);
-   console.log(data);
+
    if (userAccessToken()) {
       try {
          yield put({type: ACTION.BROADCAST_CREATE_REQUEST});
@@ -555,7 +555,6 @@ export function* appendBroadCastSagas({data}) {
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
          formData.append('manager_id', data.managerId);
-         formData.append('tag', data.tag);
          formData.append('destination', destinationScenario.broadcast);
          formData.append('trigger_text', 'Сценарий для рассылки');
 
