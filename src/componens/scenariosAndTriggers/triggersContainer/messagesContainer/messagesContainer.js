@@ -8,7 +8,7 @@ import style from './messagesContainer.module.sass';
 const MessagesContainer = ({
    changedTrigger, updateTriggerUpdateMessageHandler,
    updateTriggerDeleteMessageHandler, changedScenario,
-   changeTriggerId, changedSocial
+   changeTriggerId, changedSocial, destination
 }) => {
    return changedTrigger.messages[changedSocial].map((elem, index) => (
       <div className={style.message} key={index}>
@@ -20,7 +20,8 @@ const MessagesContainer = ({
             updateTriggerDeleteMessageHandler,
             changedTrigger,
             changedScenario,
-            changeTriggerId
+            changeTriggerId,
+            destination
          )}
       </div>
    ));

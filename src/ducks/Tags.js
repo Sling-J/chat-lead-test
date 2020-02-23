@@ -23,10 +23,6 @@ export const GET_TAGS_REQUEST = `${prefix}/GET_TAGS_REQUEST`;
 export const GET_TAGS_SUCCESS = `${prefix}/GET_TAGS_SUCCESS`;
 export const GET_TAGS_FAILURE = `${prefix}/GET_TAGS_FAILURE`;
 
-export const GET_TAGS_STATISTICS_REQUEST = `${prefix}/GET_TAGS_STATISTICS_REQUEST`;
-export const GET_TAGS_STATISTICS_SUCCESS = `${prefix}/GET_TAGS_STATISTICS_SUCCESS`;
-export const GET_TAGS_STATISTICS_FAILURE = `${prefix}/GET_TAGS_STATISTICS_FAILURE`;
-
 /**
  * Reducer
  */
@@ -35,15 +31,12 @@ const initialState = {
 	loadingOfAdding: false,
 	loadingOfDeleting: false,
 	loadingOfTags: false,
-	loadingOfTagsStatistics: false,
 
 	errorOfAdding: null,
 	errorOfDeleting: null,
 	errorOfTags: null,
-	errorOfTagsStatistics: null,
 
 	tags: [],
-	tagsStatistics: []
 };
 
 export default (state = initialState, action) => {
@@ -115,29 +108,6 @@ export default (state = initialState, action) => {
 				tags: [],
 			};
 
-		case GET_TAGS_STATISTICS_REQUEST:
-			return {
-				...state,
-				loadingOfTagsStatistics: true,
-				errorOfTagsStatistics: null,
-			};
-
-		case GET_TAGS_STATISTICS_SUCCESS:
-			return {
-				...state,
-				loadingOfTagsStatistics: false,
-				errorOfTagsStatistics: null,
-				tagsStatistics: action.payload
-			};
-
-		case GET_TAGS_STATISTICS_FAILURE:
-			return {
-				...state,
-				loadingOfTagsStatistics: false,
-				errorOfTagsStatistics: action.error,
-				tagsStatistics: []
-			};
-
 		default:
 			return state;
 	}
@@ -157,14 +127,10 @@ export const deleteTag = data => ({
 	payload: data
 });
 
-export const getTags = botId => ({
+export const getTags = (botId, need_statistic) => ({
 	type: GET_TAGS_REQUEST,
-	payload: botId
-});
-
-export const getTagsStatistics = botId => ({
-	type: GET_TAGS_STATISTICS_REQUEST,
-	payload: botId
+	payload: botId,
+   need_statistic: need_statistic
 });
 
 /**
@@ -233,6 +199,7 @@ function* getTagsSaga() {
 
 				formData.append('user_token', userAccessToken());
 				formData.append('bot_id', action.payload);
+				formData.append('need_statistic', action.need_statistic ? 'True' : 'False');
 
 				const {data} = yield call(Tags.getTags, formData);
 
@@ -248,36 +215,10 @@ function* getTagsSaga() {
 	}
 }
 
-function* getTagsStatisticsSaga() {
-	if (userAccessToken()) {
-		while (true) {
-			const action = yield take(GET_TAGS_STATISTICS_REQUEST);
-
-			try {
-				const formData = new FormData();
-
-				formData.append('user_token', userAccessToken());
-				formData.append('bot_id', action.payload);
-
-				const {data} = yield call(Tags.getTagsStatistic, formData);
-
-				if (data.ok) {
-					yield put({type: GET_TAGS_STATISTICS_SUCCESS, payload: data.tags});
-				} else {
-					yield put({type: GET_TAGS_STATISTICS_FAILURE, error: data.desc});
-				}
-			} catch (e) {
-				yield put({type: GET_TAGS_STATISTICS_FAILURE, error: e.message});
-			}
-		}
-	}
-}
-
 export const saga = function* () {
    yield all([
 		getTagsSaga(),
 		addTagsSaga(),
 		deleteTagsSaga(),
-		getTagsStatisticsSaga()
    ]);
 };

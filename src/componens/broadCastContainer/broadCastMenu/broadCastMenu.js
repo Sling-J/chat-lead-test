@@ -7,7 +7,7 @@ import CustomFlatPicker from "../../messages/timerElement/customFlatPicker/custo
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import {updateBroadCasts} from "../../../actions/actionCreator";
 
-import {Popover, Spin, Checkbox, Radio, Select} from 'antd';
+import {Popover, Radio, Select} from 'antd';
 import Button from '@material-ui/core/Button';
 
 import style from './broadCastMenu.module.sass';
@@ -18,6 +18,7 @@ const {Option} = Select;
 const BroadCastMenu = props => {
    const {broadCastId, isFetching, broadCastData, tags} = props;
 
+   const [value, setValue] = useState(1);
    const [visible, setVisible] = useState(false);
 
    const handleVisibleChange = visible => {
@@ -80,11 +81,13 @@ const BroadCastMenu = props => {
       })
    };
 
-   const userCount = activeBroadCast ? activeBroadCast.users_count === 1 ? `${activeBroadCast.users_count} пользователь` :
-      activeBroadCast.users_count >= 2 ? `${activeBroadCast.users_count} пользователя` :
-         activeBroadCast.users_count >= 5 ? `${activeBroadCast.users_count} пользователей` : `${activeBroadCast.users_count} пользователей` : '0 пользователей';
+   const onRadioChange = event => {
+      setValue(event.target.value);
+   };
 
-   console.log(isFetching);
+   // const userCount = activeBroadCast ? activeBroadCast.users_count === 1 ? `${activeBroadCast.users_count} пользователь` :
+   //    activeBroadCast.users_count >= 2 ? `${activeBroadCast.users_count} пользователя` :
+   //       activeBroadCast.users_count >= 5 ? `${activeBroadCast.users_count} пользователей` : `${activeBroadCast.users_count} пользователей` : '0 пользователей';
 
    return (
       <div className={style.mainContainer}>
@@ -109,52 +112,46 @@ const BroadCastMenu = props => {
 
                <div className={style.userListBroadcast}>
                   <div className={style.userListElement}>
-                     <h2>Список получателей:</h2>
+                     <h2>Выберите список получателей:</h2>
+
+                     <Radio.Group onChange={onRadioChange} value={value}>
+                        <Radio value={1}>Все пользователи</Radio>
+                        <Radio value={2}>Рассылка по тегам:</Radio>
+                     </Radio.Group>
 
                      <div className={style.userListElementTags}>
-                        <p>Теги</p>
-                        <Select
-                           mode="multiple"
-                           style={{width: '100%'}}
-                           disabled={isFetching}
-                           loading={isFetching}
-                           onDeselect={deselectHandle}
-                           onBlur={handleChange}
-                           placeholder="Выберите теги"
-                           defaultValue={activeBroadCast && activeBroadCast.tag.length !== 0 ? activeBroadCast.tag.split(',') : []}
-                        >
-                           {tags.map(item => (
-                              <Option value={item.name}>{item.name}</Option>
-                           ))}
-                        </Select>
+                        {value === 2 && (
+                           <Select
+                              mode="multiple"
+                              style={{width: '100%'}}
+                              disabled={isFetching}
+                              loading={isFetching}
+                              onDeselect={deselectHandle}
+                              onBlur={handleChange}
+                              placeholder="Выберите теги"
+                              defaultValue={activeBroadCast && activeBroadCast.tag.length !== 0 ? activeBroadCast.tag.split(',') : []}
+                           >
+                              {tags.map(item => (
+                                 <Option value={item.name}>{item.name}</Option>
+                              ))}
+                           </Select>
+                        )}
                      </div>
 
-                     <Radio
-                        id="allUsers"
-                        name="allUsers"
-                        checked
-                     >
-                        Все пользователи ({userCount})
-                     </Radio>
-                     {/*<Radio*/}
-                     {/*   id="allTags"*/}
-                     {/*   name="tags"*/}
-                     {/*   checked*/}
+                     {/*<Checkbox*/}
+                     {/*   id="allUsers"*/}
+                     {/*   name="group"*/}
+                     {/*   onChange={e => updateBroadCast({for_group: e.target.checked})}*/}
                      {/*>*/}
-                     {/*   Все теги ({tagsCountForShow})*/}
-                     {/*</Radio>*/}
-                     <Checkbox
-                        id="allUsers"
-                        name="group"
-                        onChange={e => updateBroadCast({for_group: e.target.checked})}
-                     >
-                        Все группы
-                     </Checkbox>
+                     {/*   Все группы*/}
+                     {/*</Checkbox>*/}
                   </div>
                </div>
                <div className={style.buttonsContainer}>
                   <Button
                      className={style.submitButton}
+                     loading={isFetching}
+                     disabled={isFetching}
                      variant="contained"
                      onClick={() => updateBroadCast({
                         time: oldDate / 1000,
@@ -174,7 +171,7 @@ const BroadCastMenu = props => {
                      visible={visible}
                      onVisibleChange={handleVisibleChange}
                   >
-                     <Button className={style.putOffButton} variant="outlined">
+                     <Button className={style.putOffButton} variant="outlined" disabled={isFetching}>
                         Отложить рассылку
                      </Button>
                   </Popover>

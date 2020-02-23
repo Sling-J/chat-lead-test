@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {buttonsTypes, defaultValuesForNewButtons} from "../../../../constants/defaultValues";
+import {buttonsTypes, defaultValuesForNewButtons, destinationScenario} from "../../../../constants/defaultValues";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
@@ -15,6 +15,7 @@ import Actions from "../actions/actions";
 import Controls from './controls/controls';
 
 import style from '../../../../styles/messageButtons.module.scss';
+import {sliceExtraText} from "../../../../utils/textValidation";
 
 const {Option, OptGroup} = Select;
 
@@ -130,11 +131,11 @@ class ButtonsMenu extends Component {
 
    getSubscribeTriggers = () => {
       const {botScenarios, scenarioId} = this.props;
-      const scenarios = botScenarios.find(data => data.id === scenarioId);
+      const scenarios = botScenarios.find(scenario => scenario.id === scenarioId);
       const triggers = [];
 
       if (scenarios.destination !== 'subscription_message') {
-         const subscribeDestination = botScenarios.find(data => data.destination === 'subscription_message');
+         const subscribeDestination = botScenarios.find(scenario => scenario.destination === 'subscription_message');
 
          subscribeDestination && subscribeDestination.triggers.forEach(trigger => {
             triggers.push({
@@ -142,14 +143,39 @@ class ButtonsMenu extends Component {
                label: trigger.caption
             })
          });
-   
+
          return triggers;
       } else {
          return triggers;
       }
    };
 
-   buttonChanger = () => {
+   getTriggersFromAnotherScenario = () => {
+      const {botScenarios, destination, scenarioId, autoridesData} = this.props;
+      const arr = [];
+
+      if (destination === destinationScenario.default) {
+         botScenarios
+            .filter(scenario => scenario.destination === destination && scenario.id !== scenarioId)
+            .forEach(scenario => arr.push({
+               trigger_text: scenario.trigger_text,
+               triggers: scenario.triggers,
+               id: scenario.id
+            }))
+      } else if (destination === destinationScenario.autoride) {
+         autoridesData
+            .filter(autoRide => autoRide.scenario.id !== scenarioId)
+            .forEach(autoRide => arr.push({
+               trigger_text: autoRide.scenario.trigger_text,
+               triggers: autoRide.scenario.triggers,
+               id: autoRide.scenario.id
+            }))
+      }
+
+      return arr;
+   };
+
+   buttonChanger = () => { 
       const {typeButton, buttonEditHandler, indexButton, buttonData, changedSocial} = this.props;
 
       if (typeButton === 'empty') {
@@ -242,9 +268,9 @@ class ButtonsMenu extends Component {
                   <FontAwesomeIcon icon={faHandPointUp} size="lg" color="limegreen"/>
                   Выберите существующий шаг
                </div>
-					
+
                <Controls
-						styles={{marginTop: "20px"}}
+                  styles={{marginTop: "20px"}}
                   {...this.props}
                />
             </div>
@@ -304,9 +330,9 @@ class ButtonsMenu extends Component {
                      </div>
                   </div>
                </div>
-						
+
                <Controls
-						styles={{marginTop: "20px"}}
+                  styles={{marginTop: "20px"}}
                   {...this.props}
                />
             </div>
@@ -416,9 +442,9 @@ class ButtonsMenu extends Component {
                   defaultValue={buttonData.payload.call}
                   onBlur={this.editButton}
                />
-					
+
                <Controls
-						styles={{marginTop: "20px"}}
+                  styles={{marginTop: "20px"}}
                   {...this.props}
                />
             </div>
@@ -454,16 +480,24 @@ class ButtonsMenu extends Component {
                         })}
                      >
                         <OptGroup label="Сообщений">
-                        {this.getTriggers().filter(trigger => trigger.value !== buttonData.boundTriggerId).map(item => (
-                           <Option value={item.value}>{item.label}</Option>
-                        ))}
+                           {this.getTriggers().filter(trigger => trigger.value !== buttonData.boundTriggerId).map(item => (
+                              <Option value={item.value}>{item.label}</Option>
+                           ))}
                         </OptGroup>
 
                         <OptGroup label="Реакция на подписку">
-                        {this.getSubscribeTriggers().map(item => (
-                           <Option value={item.value}>{item.label}</Option>
-                        ))}
+                           {this.getSubscribeTriggers().map(trigger => (
+                              <Option value={trigger.value}>{trigger.label}</Option>
+                           ))}
                         </OptGroup>
+
+                        {this.getTriggersFromAnotherScenario().map(scenarios => (
+                           <OptGroup label={`Сообщений из ответа: ${sliceExtraText(scenarios.trigger_text, 9)}`}>
+                              {scenarios && scenarios.triggers.map(trigger => (
+                                 <Option value={trigger.id}>{trigger.caption}</Option>
+                              ))}
+                           </OptGroup>
+                        ))}
                      </Select>
                      <div
                         className={style.buttonBoxInfoContainerIcon}
@@ -475,9 +509,9 @@ class ButtonsMenu extends Component {
                      </div>
                   </div>
                </div>
-					
+
                <Controls
-						styles={{marginTop: "20px"}}
+                  styles={{marginTop: "20px"}}
                   {...this.props}
                />
             </div>
@@ -494,13 +528,14 @@ class ButtonsMenu extends Component {
    }
 }
 
-const mapStateToProps = ({singleBotReducers}) => ({
+const mapStateToProps = ({singleBotReducers, autoridesReducers}) => ({
    changedScenarioId: singleBotReducers.changedScenarioId,
    createdTriggerId: singleBotReducers.createdTriggerId,
    changedSocial: singleBotReducers.changedSocial,
    botScenarios: singleBotReducers.botScenarios,
    isFetching: singleBotReducers.isFetching,
    error: singleBotReducers.error,
+   autoridesData: autoridesReducers.autoridesData
 });
 
 export default connect(mapStateToProps)(ButtonsMenu);

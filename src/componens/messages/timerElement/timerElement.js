@@ -13,9 +13,10 @@ import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import {timeToSeconds, secondsToTime} from "../../../utils/formatSecond";
 import {updateTrigger} from "../../../actions/actionCreator";
 
-import style from './timerElement.module.sass';
 import ConditionsToggle from "../conditionsForElements/conditionsToggle";
 import ConditionsContainer from "../conditionsForElements/conditionsContainer";
+
+import style from './timerElement.module.sass';
 
 const {Option} = Select;
 
@@ -370,6 +371,7 @@ const TimerElement = props => {
                      hideCondition
                      timerBorder
                      componentType="send_time"
+                     destination={props.destination}
                      {...props}
                   />
                </form>

@@ -9,6 +9,7 @@ import Controls from '../../../../messages/buttonsContainer/buttonsMenu/controls
 
 import style from '../../../../../styles/messageButtons.module.scss';
 import {Select} from "antd";
+import {sliceExtraText} from "../../../../../utils/textValidation";
 
 const {Option, OptGroup} = Select;
 
@@ -142,6 +143,11 @@ class ButtonsMenu extends Component {
       }
    };
 
+   getTriggersFromAnotherScenario = () => {
+      const {botScenarios, destination, scenarioId} = this.props;
+      return botScenarios.filter(scenario => scenario.destination === destination && scenario.id !== scenarioId);
+   };
+
    buttonChanger = () => {
       const {typeButton, buttonEditHandler, indexButton, buttonData, changedSocial} = this.props;
 
@@ -227,7 +233,7 @@ class ButtonsMenu extends Component {
                </div>
 
                <Controls
-						styles={{marginTop: "20px"}}
+                  styles={{marginTop: "20px"}}
                   {...this.props}
                />
             </div>
@@ -276,9 +282,9 @@ class ButtonsMenu extends Component {
                      </div>
                   </div>
                </div>
-					
+
                <Controls
-						styles={{marginTop: "20px"}}
+                  styles={{marginTop: "20px"}}
                   {...this.props}
                />
             </div>
@@ -388,9 +394,9 @@ class ButtonsMenu extends Component {
                   defaultValue={buttonData.payload.call}
                   onBlur={this.editButton}
                />
-					
+
                <Controls
-						styles={{marginTop: "20px"}}
+                  styles={{marginTop: "20px"}}
                   {...this.props}
                />
             </div>
@@ -426,16 +432,24 @@ class ButtonsMenu extends Component {
                         })}
                      >
                         <OptGroup label="Сообщений">
-                        {this.getTriggers().filter(trigger => trigger.value !== buttonData.boundTriggerId).map(item => (
-                           <Option value={item.value}>{item.label}</Option>
-                        ))}
+                           {this.getTriggers().filter(trigger => trigger.value !== buttonData.boundTriggerId).map(item => (
+                              <Option value={item.value}>{item.label}</Option>
+                           ))}
                         </OptGroup>
 
                         <OptGroup label="Реакция на подписку">
-                        {this.getSubscribeTriggers().map(item => (
-                           <Option value={item.value}>{item.label}</Option>
-                        ))}
+                           {this.getSubscribeTriggers().map(item => (
+                              <Option value={item.value}>{item.label}</Option>
+                           ))}
                         </OptGroup>
+
+                        {this.getTriggersFromAnotherScenario().map(scenarios => (
+                           <OptGroup label={`Сообщений из ответа: ${sliceExtraText(scenarios.trigger_text, 9)}`}>
+                              {scenarios && scenarios.triggers.map(trigger => (
+                                 <Option value={trigger.id}>{trigger.caption}</Option>
+                              ))}
+                           </OptGroup>
+                        ))}
                      </Select>
 
                      <div
@@ -448,9 +462,9 @@ class ButtonsMenu extends Component {
                      </div>
                   </div>
                </div>
-					
+
                <Controls
-						styles={{marginTop: "20px"}}
+                  styles={{marginTop: "20px"}}
                   {...this.props}
                />
             </div>

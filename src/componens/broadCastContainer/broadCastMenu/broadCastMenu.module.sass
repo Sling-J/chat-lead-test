@@ -21,7 +21,7 @@
    display: flex
    flex-direction: column
    align-items: center
-   padding: 20px 0 40px 0
+   padding: 20px 0 30px
    border-bottom: 1px solid silver
    width: 100%
    box-sizing: border-box
@@ -45,13 +45,8 @@
       color: #000
 
    .userListElementTags
-      display: flex
-      justify-content: space-between
-      align-items: center
-      margin-bottom: 10px
-
-      p
-         margin-right: 10px
+      height: 30px
+      margin-top: 20px
 
 .options
    display: flex
@@ -89,6 +84,9 @@
    font-weight: 400 !important
    text-transform: initial !important
 
+   &:disabled
+      opacity: 0.7
+
 .putOffButton
    border-radius: 33px !important
    font-weight: 400 !important
@@ -100,6 +98,9 @@
    &:hover
       background: #517df9 !important
       color: #fff !important
+
+   &:disabled
+      opacity: 0.7
 
 .testBroadCastContainer
    padding: 40px 0 40px 0

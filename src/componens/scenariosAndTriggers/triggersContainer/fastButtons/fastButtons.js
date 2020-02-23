@@ -32,7 +32,8 @@ const FastButtons = (props) => {
       changedScenario,
       changedTrigger,
       changedSlideOrElement,
-      changeTriggerId
+      changeTriggerId,
+      destination
    } = props;
 
    const appendFastButton = () => {
@@ -135,6 +136,7 @@ const FastButtons = (props) => {
                            buttonData={elem}
                            changedTrigger={changedTrigger}
                            index={index}
+                           destination={destination}
                         />
                      )}
                   </ScenarioIdContext.Consumer>

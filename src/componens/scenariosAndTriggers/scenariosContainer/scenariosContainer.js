@@ -70,7 +70,7 @@ const ScenariosContainer = props => {
       }
    };
 
-   const copyScenario = (id) => {
+   const copyScenario = id => {
       const copiedScenario = props.botScenarios.filter(elem => elem.id === id)[0];
       
       Object.assign(copiedScenario, {
@@ -180,6 +180,7 @@ const ScenariosContainer = props => {
                         changedScenarioId={changedScenarioId}
                         scenarioId={scenarioId}
                         changeScenarioId={changeScenarioId}
+                        destination={destinationScenario.default}
                      />
                   )}
                </ScenarioIdContext.Consumer>

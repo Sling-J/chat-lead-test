@@ -194,6 +194,7 @@ export function* copyScenarioSagas({scenarioData}) {
          formData.append('user_token', userAccessToken());
          formData.append('manager_id', scenarioData.managerId);
          formData.append('trigger_text', scenarioData.trigger_text);
+         formData.append('triggers', JSON.stringify(scenarioData.triggers));
          formData.append('destination', scenarioData.destination);
 
          const {data} = yield call(addNewScenario, formData);

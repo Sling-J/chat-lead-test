@@ -23,7 +23,8 @@ const ButtonsContainer = props => {
 		changedSlideOrElement,
 		changedScenario,
 		changeTriggerId,
-      changedTrigger
+      changedTrigger,
+      destination
 	} = props;
 	
    const [indexOpenButton, setIndexOpenButton] = useState({
@@ -139,6 +140,7 @@ const ButtonsContainer = props => {
                               buttonData={elem}
                               changedTrigger={changedTrigger}
                               index={index}
+                              destination={destination}
                            />
                         )}
                      </ScenarioIdContext.Consumer>

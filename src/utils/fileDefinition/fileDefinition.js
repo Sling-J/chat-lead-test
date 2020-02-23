@@ -16,7 +16,7 @@ import TagsElement from "../../componens/messages/tagsElement/tagsElement";
 import SendLinkElement from "../../componens/messages/sendLinkElement/sendLinkElement";
 import NextTriggerElement from "../../componens/messages/nextTriggerElement/nextTriggerElement"
 
-export const fileDefinition = (key, value, handler, index, deleteHandler, changedTrigger, changedScenario, changeTriggerId) => {
+export const fileDefinition = (key, value, handler, index, deleteHandler, changedTrigger, changedScenario, changeTriggerId, destination) => {
    if (key === 'text') {
       return (
          <TextArea
@@ -30,6 +30,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             componentType={'text'}
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
+            destination={destination}
          />
       )
    } else if (key === 'audio') {
@@ -103,6 +104,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedTrigger={changedTrigger}
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
+            destination={destination}
          />
       )
    } else if (key === 'gallery') {
@@ -122,6 +124,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedTrigger={changedTrigger}
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
+            destination={destination}
          />
       )
    } else if (key === 'sendUrl') {
@@ -150,6 +153,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
             key={key}
+            destination={destination}
          />
       )
    } else if (key === 'timer') {
@@ -165,6 +169,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changeTriggerId={changeTriggerId}
             value={value}
             onChange={(e) => handler(e, index, key)}
+            destination={destination}
          />
       )
    } else if (key === 'type_processing') {
@@ -201,6 +206,7 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedScenario={changedScenario}
             changeTriggerId={changeTriggerId}
             key={key}
+            destination={destination}
          />
       )
    } else if (key === 'customs') {

@@ -80,5 +80,4 @@ export const Tags = {
    addTag: data => instance.post('/AddTags/', data),
    deleteTag: data => instance.post('/DeleteTag/', data),
    getTags: data => instance.post('/GetTags/', data),
-   getTagsStatistic: data => instance.post('/GetTagStatistic/', data),
 };

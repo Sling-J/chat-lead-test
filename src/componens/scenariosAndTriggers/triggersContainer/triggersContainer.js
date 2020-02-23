@@ -170,6 +170,7 @@ const TriggersContainer = props => {
                         changedScenario={changedScenario}
                         updateTriggerUpdateMessageHandler={updateTriggerUpdateMessageHandler}
                         updateTriggerDeleteMessageHandler={updateTriggerDeleteMessageHandler}
+                        destination={props.destination}
                      />
                      <div className={style.controls}>
                         <ButtonsForAddNewMessage
