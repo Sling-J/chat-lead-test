@@ -100,6 +100,11 @@ export const addNewAutoride = (managerId, trigger_text) => ({
    trigger_text
 });
 
+export const copyAutoride = data => ({
+   type: ACTION.COPY_AUTORIDE,
+   data
+});
+
 export const deleteAutoride = data => ({
    type: ACTION.DELETE_AUTORIDE,
    data,

@@ -5,6 +5,7 @@ import {
    getAllBotsForUser,
    getScenariesForManager,
    addNewScenario,
+   copyScenario,
    updateTrigger,
    uploadMedia,
    deleteBot,
@@ -15,6 +16,7 @@ import {
    getAllBroadCasts,
    updateBroadCasts,
    deleteAutoride,
+   copyAutoRide,
    appendBroadCast,
    editScenario,
    getAutoridesLink,
@@ -192,15 +194,21 @@ export function* copyScenarioSagas({scenarioData}) {
 
          const formData = new FormData();
          formData.append('user_token', userAccessToken());
-         formData.append('manager_id', scenarioData.managerId);
-         formData.append('trigger_text', scenarioData.trigger_text);
-         formData.append('triggers', JSON.stringify(scenarioData.triggers));
-         formData.append('destination', scenarioData.destination);
+         formData.append('bot_id', scenarioData.managerId);
+         formData.append('scenario_id', scenarioData.id);
 
-         const {data} = yield call(addNewScenario, formData);
+         const {data} = yield call(copyScenario, formData);
 
          if (data.ok) {
-            const {data} = yield call(getScenariesForManager, formData);
+            const formData2 = new FormData();
+
+            formData2.append('user_token', userAccessToken());
+            formData2.append('manager_id',  scenarioData.managerId);
+            formData2.append('trigger_text', scenarioData.trigger_text);
+            formData2.append('destination', scenarioData.destination);
+
+            const {data} = yield call(getScenariesForManager, formData2);
+
             yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: data.scenarios});
          } else {
             yield put({type: ACTION.SINGLE_BOT_DATA_ERROR, error: signUpErrors[data.desc]})
@@ -220,7 +228,6 @@ export function* deleteScenarioSagas({scenarioData}) {
          formData.append('user_token', userAccessToken());
          formData.append('manager_id', scenarioData.botId);
          formData.append('scenario_id', scenarioData.idScenario);
-
 
          const {data} = yield call(deleteScenario, formData);
 
@@ -618,6 +625,34 @@ export function* deleteBroadcastSaga({data}) {
          }
       } catch (e) {
          yield put({type: ACTION.BROADCAST_ERROR, error: e.message})
+      }
+   }
+}
+
+export function* copyAutorideSagas(action) {
+   if (userAccessToken()) {
+      try {
+         yield put({type: ACTION.GET_AUTORIDE_REQUEST});
+
+         const formData = new FormData();
+         formData.append('user_token', userAccessToken());
+         formData.append('bot_id', action.data.managerId);
+         formData.append('autoride_id', action.data.id);
+
+         const {data} = yield call(copyAutoRide, formData);
+
+         if (data.ok) {
+            const formData2 = new FormData();
+            formData2.append('user_token', userAccessToken());
+            formData2.append('manager_id', action.data.managerId);
+
+            const allAutorides = yield call(getAllAutorides, formData2);
+            yield put({type: ACTION.AUTORIDE_RESPONSE, autoridesData: allAutorides.data.auto_rides});
+         } else {
+            yield put({type: ACTION.AUTORIDE_ERROR, error: data.desc});
+         }
+      } catch (e) {
+         yield put({type: ACTION.AUTORIDE_ERROR, error: e.message});
       }
    }
 }

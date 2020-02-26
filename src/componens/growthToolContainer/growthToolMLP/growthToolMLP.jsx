@@ -17,6 +17,8 @@ import GrowthToolMlpContent from "./growthToolMLPContent";
 import GrowthToolMlpResult from "./growthToolMLPResult";
 import GrowthToolMlpCode from "./growthToolMLPCode";
 
+import {moduleName as growthToolModule, createMLP, refreshCreatedMLP} from "../../../ducks/GrowthTool";
+
 const TabPanel = props => {
    const {value, index} = props;
 
@@ -35,7 +37,7 @@ const TabPanel = props => {
    )
 };
 
-const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAutoRides}) => {
+const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAutoRides, createMLP, refreshCreatedMLP, createdMLP, loadingOfCreation}) => {
    const theme = useTheme();
 
    const [value, setValue] = useState(0);
@@ -56,6 +58,8 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
    const [phone1, setPhone1] = useState('');
    const [phone2, setPhone2] = useState('');
 
+   const socialList = [];
+
    // Mlp Code
    const [scriptForHead, setScriptForHead] = useState('');
    const [scriptForBody, setScriptForBody] = useState('');
@@ -63,6 +67,13 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
    useEffect(() => {
       getAutorides(match.params.botId);
    }, []);
+
+   useEffect(() => {
+      if (Object.keys(createdMLP).length !== 0) {
+         setValue(3);
+         refreshCreatedMLP();
+      }
+   }, [createdMLP]);
 
    let disabled = true;
 
@@ -106,8 +117,40 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   if (value === 2 && disabled) {
                      warning();
                   } else {
-                     if (value !== 3) {
-                        setValue(value === 0 ? 1 : value === 1 ? 2 : value === 2 ? 3 : 0);
+                     if (value === 2) {
+                        createMLP({
+                           botId: match.params.botId,
+                           data: {
+                              settings: {
+                                 title: settingTitle,
+                                 autoride_id: selectedAutoRide
+                              },
+                              content: {
+                                 socialList: socialList,
+                                 media: {
+                                    image: file,
+                                    video: youtubeField
+                                 },
+                                 description: {
+                                    firstSection: {
+                                       title: description1,
+                                       phone: phone1
+                                    },
+                                    secondSection: {
+                                       title: description2,
+                                       phone: phone2
+                                    },
+                                 },
+                                 actionTitle: actionText
+                              },
+                              code: {
+                                 scriptForHead: scriptForHead,
+                                 scriptForBody: scriptForBody
+                              }
+                           }
+                        });
+                     } else if (value !== 3) {
+                        setValue(value === 0 ? 1 : value === 1 ? 2 : 0);
                      } else {
                         setPage(0);
                      }
@@ -185,6 +228,7 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   setPage={setValue}
                   radioTab={radioTab}
                   setRadioTab={setRadioTab}
+                  setSocialList={socialList}
                />
 
                <TabPanel
@@ -196,6 +240,8 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   setScriptForBody={setScriptForBody}
                   selectedAutoRide={selectedAutoRide}
                   description1={description1}
+                  setPhone1={setPhone1}
+                  setPhone2={setPhone2}
                   phone1={phone1}
                   description2={description2}
                   phone2={phone2}
@@ -205,6 +251,8 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   secondSectionTabs={secondSectionTabs}
                   setSecondSectionTabs={setSecondSectionTabs}
                   setPage={setValue}
+                  setSocialList={socialList}
+                  loadingOfCreation={loadingOfCreation}
                />
 
                <TabPanel
@@ -222,6 +270,7 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   setPhone2={setPhone2}
                   description2={description2}
                   setPage={setValue}
+                  setSocialList={socialList}
                />
             </SwipeableViews>
          </div>
@@ -229,13 +278,17 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
    );
 };
 
-const mapStateToProps = ({autoridesReducers}) => ({
-   autoRidesData: autoridesReducers.autoridesData,
-   loadingOfAutoRides: autoridesReducers.loadingOfAutoRides,
+const mapStateToProps = state => ({
+   autoRidesData: state.autoridesReducers.autoridesData,
+   loadingOfAutoRides: state.autoridesReducers.loadingOfAutoRides,
+   loadingOfCreation: state[growthToolModule].loadingOfCreation,
+   createdMLP: state[growthToolModule].createdMLP
 });
 
 const mapDispatchToProps = dispatch => ({
-   getAutorides: (botId) => dispatch(getAllAutorides(botId)),
+   refreshCreatedMLP: () => dispatch(refreshCreatedMLP()),
+   getAutorides: botId => dispatch(getAllAutorides(botId)),
+   createMLP: data => dispatch(createMLP(data)),
 });
 
 export default compose(

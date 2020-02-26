@@ -1,4 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
 
 import MuiButton from "@material-ui/core/Button";
 
@@ -11,8 +14,16 @@ import widgetImage from "../../images/growthTool/widget.PNG";
 
 import {soonModal} from "../../utils/deletionConfirmation";
 
-const GrowthToolContainer = () => {
+import {moduleName as growthToolModule, getMLP} from "../../ducks/GrowthTool";
+
+const GrowthToolContainer = ({createMLP, getMLP, match}) => {
    const [page, setPage] = useState(0);
+
+   const botId = match.params.botId;
+
+   useEffect(() => {
+      getMLP(botId);
+   }, []);
 
    if (page === 1) {
       return (
@@ -32,8 +43,7 @@ const GrowthToolContainer = () => {
                   </div>
 
                   <MuiButton
-                     // onClick={() => setPage(1)}
-                     onClick={soonModal}
+                     onClick={() => setPage(1)}
                      className="growth-tool-box-item__btn"
                      variant="contained"
                   >
@@ -80,4 +90,9 @@ const GrowthToolContainer = () => {
    }
 };
 
-export default GrowthToolContainer;
+export default compose(
+   withRouter,
+   connect(null, {
+      getMLP
+   })
+)(GrowthToolContainer);

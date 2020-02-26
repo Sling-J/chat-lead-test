@@ -16,7 +16,7 @@ const GrowthToolMLPDemo = ({
    selectedAutoRide, description1,
    actionText, getAutoRidesLinks, autoridesData,
    phone2, phone1, setPhone1, setPhone2, description2,
-   autoRidesLinks, setPage
+   autoRidesLinks, setPage, setSocialList
 }) => {
    const [visible, setVisible] = useState(false);
 
@@ -35,6 +35,34 @@ const GrowthToolMLPDemo = ({
    const telegram = autoRideId && getFilledStatus('telegram', autoRideId.scenario.triggers[0]);
    const facebook = autoRideId && getFilledStatus('facebook', autoRideId.scenario.triggers[0]);
    const whatsApp = autoRideId && getFilledStatus('whatsapp', autoRideId.scenario.triggers[0]);
+
+   if (vk) {
+      setSocialList.push({
+         social: 'vk',
+         url: `https://${autoRidesLinks && Object.keys(autoRidesLinks).length !== 0 && autoRidesLinks.vk}`
+      })
+   }
+
+   if (telegram) {
+      setSocialList.push({
+         social: 'telegram',
+         url: `https://${autoRidesLinks && Object.keys(autoRidesLinks).length !== 0 && autoRidesLinks.telegram}`
+      })
+   }
+
+   if (facebook) {
+      setSocialList.push({
+         social: 'facebook',
+         url: `https://${autoRidesLinks && Object.keys(autoRidesLinks).length !== 0 && autoRidesLinks.facebook}`
+      })
+   }
+
+   if (whatsApp) {
+      setSocialList.push({
+         social: 'whatsapp',
+         url: autoRidesLinks && Object.keys(autoRidesLinks).length !== 0 && autoRidesLinks.whatsapp
+      });
+   }
 
    const showModal = () => setVisible(true);
    const handleCancel = () => setVisible(false);

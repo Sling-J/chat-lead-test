@@ -12,7 +12,7 @@ import {ScenarioIdContext} from "../../utils/Contexts";
 
 import {
    addNewAutoride,
-   changeScenarioId,
+   changeScenarioId, copyAutoride,
    deleteAutoride,
    editScenario,
    getAllScenariesForBot,
@@ -41,7 +41,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
 
 const AutorideContainer = props => {
-   const {changeScenarioId, changedScenarioId, isFetching, isFetchingScenario} = props;
+   const {changeScenarioId, changedScenarioId, isFetching, isFetchingScenario, copyAutoRide} = props;
 
    const [autoridesDataInFilter, setautoridesDataInFilter] = useState([]);
    const [textAreaErrMsg, setTextAreaErrMsg] = useState("");
@@ -145,7 +145,6 @@ const AutorideContainer = props => {
          scenarioId: scenarioId
       })
    };
-
 
    if (isOpenCreateScenarioFiled) {
       return (
@@ -312,7 +311,13 @@ const AutorideContainer = props => {
 													/>
 												</div>
 											</Dropdown>
-											<div className="main-table-content-body__icon">
+											<div
+                                    className="main-table-content-body__icon"
+                                    onClick={() => copyAutoRide({
+                                       managerId: props.match.params.botId,
+                                       id: elem.id
+                                    })}
+                                 >
 												<span className="main-table-content-body__tooltip tableTooltip">Копировать</span>
 												<img className="main-table-content-body__img" src={copy} alt={'copy'}/>
 											</div>
@@ -377,7 +382,8 @@ const mapDispatchToProps = dispatch => ({
    editScenario: (scenarioData) => dispatch(editScenario(scenarioData)),
    changeScenarioId: (scenarioId) => dispatch(changeScenarioId(scenarioId)),
    getAutoridesLinks: (autorideData) => dispatch(getAutorideLinks(autorideData)),
-   getAllScenariesForBot: (idBot) => dispatch(getAllScenariesForBot(idBot))
+   getAllScenariesForBot: (idBot) => dispatch(getAllScenariesForBot(idBot)),
+   copyAutoRide: data => dispatch(copyAutoride(data))
 });
 
 export default compose(

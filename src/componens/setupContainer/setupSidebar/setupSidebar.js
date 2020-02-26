@@ -134,7 +134,7 @@ const SetupSidebar = props => {
 	} = props;
 
 	const [value, setValue] = useState(0);
-	const [visible, setVisible] = useState('');
+	const [visible, setVisible] = useState(false);
 	const [telegramToken, setTelegramToken] = useState('');
 
    const botId = botSetupData && Object.keys(botSetupData).length !== 0 && botSetupData.id;

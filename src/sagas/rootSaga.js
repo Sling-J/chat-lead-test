@@ -27,7 +27,8 @@ import {
    getAutorideLinksSagas,
    deleteTriggerSagas,
    updateCaptionTriggerSaga,
-   deleteBroadcastSaga
+   deleteBroadcastSaga,
+   copyAutorideSagas
 } from "./botsSagas";
 import {
    getManagerSaga,
@@ -72,6 +73,7 @@ function* rootSaga() {
       takeLatest(ACTION.COPY_SCENARIO, copyScenarioSagas),
       takeLatest(ACTION.APPEND_BROADCAST, appendBroadCastSagas),
       takeLatest(ACTION.DELETE_AUTORIDE, deleteAutorideSagas),
+      takeLatest(ACTION.COPY_AUTORIDE, copyAutorideSagas),
       takeLatest(ACTION.DELETE_BROADCAST, deleteBroadcastSaga),
       takeLatest(ACTION.EDIT_SCENARIO, editScenarioSagas),
       takeLatest(ACTION.GET_BOT_SETUP, getManagerSaga),

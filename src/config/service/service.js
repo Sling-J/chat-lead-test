@@ -81,3 +81,12 @@ export const Tags = {
    deleteTag: data => instance.post('/DeleteTag/', data),
    getTags: data => instance.post('/GetTags/', data),
 };
+
+export const GrowthTool = {
+   mlp: {
+      get: data => instance.post('/GetMLP/', data),
+      create: data => instance.post('/CreateMLP/', data),
+      update: data => instance.post('/UpdateMLP/', data),
+      delete: data => instance.post('/DeleteMLP/', data),
+   }
+};

@@ -28,6 +28,14 @@ export const addNewScenario = botData => (
    instance.post(`/CreateScenario/`, botData)
 );
 
+export const copyScenario = botData => (
+	instance.post('/CopyScenario/', botData)
+);
+
+export const copyAutoRide = botData => (
+	instance.post('/CopyAutoRide/', botData)
+);
+
 export const editScenario = scenarioData => (
    instance.post(`/EditScenario/`, scenarioData)
 );
