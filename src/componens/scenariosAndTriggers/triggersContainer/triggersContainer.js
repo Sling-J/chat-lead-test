@@ -47,13 +47,13 @@ const TriggersContainer = props => {
       props.getTags(props.match.params.botId);
 
       if (triggers && triggers.length === 1) {
-         triggers[mainTriggerIdx] && changeTriggerId(triggers[mainTriggerIdx].id)
+         triggers && triggers[mainTriggerIdx] && changeTriggerId(triggers[mainTriggerIdx].id)
       }
    }, [triggers]);
 
    useEffect(() => {
       if (activeStep === undefined) {
-         triggers[mainTriggerIdx] && changeTriggerId(triggers[mainTriggerIdx].id)
+         triggers && triggers[mainTriggerIdx] && changeTriggerId(triggers[mainTriggerIdx].id)
       } else {
          setEditedTriggerText(activeStep.caption);
       }

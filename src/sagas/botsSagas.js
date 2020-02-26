@@ -646,8 +646,18 @@ export function* copyAutorideSagas(action) {
             formData2.append('user_token', userAccessToken());
             formData2.append('manager_id', action.data.managerId);
 
-            const allAutorides = yield call(getAllAutorides, formData2);
-            yield put({type: ACTION.AUTORIDE_RESPONSE, autoridesData: allAutorides.data.auto_rides});
+            const [allAutorides, allScenarios] = yield all([
+               call(getAllAutorides, formData2),
+               call(getScenariesForManager, formData2),
+            ]);
+
+            if (allAutorides.data.ok && allScenarios.data.ok) {
+               yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: allScenarios.data.scenarios});
+               yield put({type: ACTION.AUTORIDE_RESPONSE, autoridesData: allAutorides.data.auto_rides});
+            } else {
+               yield put({type: ACTION.SINGLE_BOT_DATA_ERROR, error: allScenarios.desc});
+               yield put({type: ACTION.AUTORIDE_ERROR, error: allAutorides.desc});
+            }
          } else {
             yield put({type: ACTION.AUTORIDE_ERROR, error: data.desc});
          }

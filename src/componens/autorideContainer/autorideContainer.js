@@ -12,7 +12,8 @@ import {ScenarioIdContext} from "../../utils/Contexts";
 
 import {
    addNewAutoride,
-   changeScenarioId, copyAutoride,
+   changeScenarioId,
+   copyAutoride,
    deleteAutoride,
    editScenario,
    getAllScenariesForBot,
@@ -68,6 +69,7 @@ const AutorideContainer = props => {
       let changedAutorideData = null;
 
       if (changedScenarioId && props.autoridesData) {
+         console.log(props.autoridesData.filter(elem => elem.scenario.id === changedScenarioId));
          changedAutorideData = props.autoridesData.filter(elem => elem.scenario.id === changedScenarioId)[0];
       }
 
