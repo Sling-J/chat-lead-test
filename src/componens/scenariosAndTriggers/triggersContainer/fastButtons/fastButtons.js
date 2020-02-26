@@ -38,7 +38,7 @@ const FastButtons = (props) => {
 
    const appendFastButton = () => {
       const messagesCopy = changedTrigger.messages;
-      let buttons = null;
+      let buttons;
 
       if (changedSlideOrElement || changedSlideOrElement === 0) {
          buttons = messagesCopy[props.changedSocial][index][type][changedSlideOrElement].keyboard;
@@ -66,7 +66,7 @@ const FastButtons = (props) => {
       props.updateTrigger(triggerData, null, props.changedSocial);
    };
 
-   const editButton = (typeButton, buttonData, indexButton, isEmpty, isCreateTrigger, mType) => {
+   const editButton = (typeButton, buttonData, indexButton, isEmpty, isCreateTrigger) => {
       const messagesCopy = changedTrigger.messages;
       const allButtonsValues = allFastButtonsInMessage(true);
 
@@ -130,6 +130,7 @@ const FastButtons = (props) => {
                            handleCloseButtonMenu={handleCloseButtonMenu}
                            changedSlideOrElement={changedSlideOrElement}
                            type={type}
+                           changedScenario={changedScenario}
                            typeButton={elem.isEmpty ? 'empty' : elem.secondType}
                            scenarioId={scenarioId}
                            indexButton={elem.uid}

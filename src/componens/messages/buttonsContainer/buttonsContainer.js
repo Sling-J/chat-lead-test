@@ -1,6 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {compose} from "redux";
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
+
 import uid from 'uid';
 
 import {Popover} from 'antd';
@@ -9,13 +11,12 @@ import {faCircle} from "@fortawesome/free-regular-svg-icons";
 import Button from '@material-ui/core/Button';
 
 import {markForButton} from "../../../constants/markForButon";
-import {buttonsTypes} from "../../../constants/defaultValues";
-import {addNewTrigger, updateTrigger} from "../../../actions/actionCreator";
+import {buttonsTypes, destinationScenario} from "../../../constants/defaultValues";
+import {addNewTrigger, getAllAutorides, updateTrigger} from "../../../actions/actionCreator";
 import {ScenarioIdContext} from "../../../utils/Contexts";
 import ButtonsMenu from './buttonsMenu/buttonsMenu'
 
 import style from '../../../styles/messageButtons.module.scss';
-import {compose} from "redux";
 
 const ButtonsContainer = props => {
 	const {
@@ -24,13 +25,20 @@ const ButtonsContainer = props => {
 		changedScenario,
 		changeTriggerId,
       changedTrigger,
-      destination
+      destination,
+      getAllAutorides
 	} = props;
 	
    const [indexOpenButton, setIndexOpenButton] = useState({
       open: false,
       id: null
    });
+
+   useEffect(() => {
+      if (destination === destinationScenario.default) {
+         getAllAutorides(props.match.params.botId);
+      }
+   }, []);
 
    const handleCloseButtonMenu = () => {
       setIndexOpenButton({
@@ -41,7 +49,7 @@ const ButtonsContainer = props => {
 
    const appendNewButton = () => {
       const messagesCopy = changedTrigger.messages;
-      let buttons = null;
+      let buttons;
 
       if (changedSlideOrElement || changedSlideOrElement === 0) {
          buttons = messagesCopy[props.changedSocial][index][type][changedSlideOrElement].keyboard;
@@ -133,6 +141,7 @@ const ButtonsContainer = props => {
                               handleCloseButtonMenu={handleCloseButtonMenu}
                               changedSlideOrElement={changedSlideOrElement}
                               buttonEditHandler={editButton}
+                              changedScenario={changedScenario}
                               type={type}
                               typeButton={elem.isEmpty ? 'empty' : elem.secondType}
                               scenarioId={scenarioId}
@@ -162,7 +171,7 @@ const ButtonsContainer = props => {
                      >
                         {elem.isEmpty
                            ? <FontAwesomeIcon icon={faCircle} className={style.keyboardButtonIcon1}/>
-                           : markForButton[elem.type]
+                           : markForButton[elem.secondType]
                         }
                      </p>
                   </Button>
@@ -187,6 +196,7 @@ const mapStateToProps = ({singleBotReducers}) => ({
 const mapDispatchToProps = dispatch => ({
    updateTrigger: (triggerData, updationData, social) => dispatch(updateTrigger(triggerData, updationData, social)),
    appendTrigger: triggerData => dispatch(addNewTrigger(triggerData)),
+   getAllAutorides: botId => dispatch(getAllAutorides(botId)),
 });
 
 export default compose(

@@ -3,13 +3,15 @@ import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faHandPointUp, faLink, faPhoneAlt, faTimes} from "@fortawesome/free-solid-svg-icons";
 
-import {buttonsTypes, defaultValuesForNewButtons} from "../../../../../constants/defaultValues";
+import {buttonsTypes, defaultValuesForNewButtons, destinationScenario} from "../../../../../constants/defaultValues";
 import Actions from "../../../../messages/buttonsContainer/actions/actions";
 import Controls from '../../../../messages/buttonsContainer/buttonsMenu/controls/controls';
 
-import style from '../../../../../styles/messageButtons.module.scss';
 import {Select} from "antd";
 import {sliceExtraText} from "../../../../../utils/textValidation";
+
+import threadImg from "../../../../../images/thread-btn.png";
+import style from '../../../../../styles/messageButtons.module.scss';
 
 const {Option, OptGroup} = Select;
 
@@ -98,6 +100,20 @@ class ButtonsMenu extends Component {
          }
 
          buttonEditHandler(typeButton, buttonData, indexButton);
+      } else if (typeButton === buttonsTypes.thread_buttons) {
+         if (forCaption) {
+            Object.assign(buttonData, {
+               caption: e.target.value
+            })
+         } else {
+            Object.assign(buttonData, {
+               payload: {
+                  trigger_id: e.target.value
+               }
+            })
+         }
+
+         buttonEditHandler(typeButton, buttonData, indexButton);
       } else if (typeButton === 'empty') {
          Object.assign(buttonData, {
             caption: e.target.value
@@ -144,12 +160,34 @@ class ButtonsMenu extends Component {
    };
 
    getTriggersFromAnotherScenario = () => {
-      const {botScenarios, destination, scenarioId} = this.props;
-      return botScenarios.filter(scenario => scenario.destination === destination && scenario.id !== scenarioId);
-   };
+      const {botScenarios, destination,  autoridesData, changedScenario} = this.props;
+      const result = [];
 
+      if (destination === destinationScenario.default || destination === destinationScenario.autoride) {
+         botScenarios
+            .filter(scenario => scenario.destination === destinationScenario.default && scenario.id !== changedScenario.id)
+            .forEach(scenario => result.push({
+               trigger_text: scenario.trigger_text,
+               displayText: 'Сообщений из сценария',
+               triggers: scenario.triggers,
+               id: scenario.id
+            }));
+
+         autoridesData
+            .filter(autoRide => autoRide.id !== changedScenario.id)
+            .forEach(autoRide => result.push({
+               trigger_text: autoRide.scenario.trigger_text,
+               displayText: 'Сообщений из автоворонки',
+               triggers: autoRide.scenario.triggers,
+               id: autoRide.scenario.id
+            }));
+
+      }
+
+      return result;
+   };
    buttonChanger = () => {
-      const {typeButton, buttonEditHandler, indexButton, buttonData, changedSocial} = this.props;
+      const {typeButton, buttonEditHandler, indexButton, buttonData, changedSocial, loadingOfAutoRides} = this.props;
 
       if (typeButton === 'empty') {
          return (
@@ -230,6 +268,20 @@ class ButtonsMenu extends Component {
                >
                   <FontAwesomeIcon icon={faHandPointUp} size="lg" color="limegreen"/>
                   Выберите существующий шаг
+               </div>
+
+               <div
+                  onClick={() => {
+                     buttonEditHandler(
+                        buttonsTypes.thread_buttons,
+                        defaultValuesForNewButtons[buttonsTypes.fast_buttons],
+                        indexButton
+                     )
+                  }}
+                  className={style.buttonBoxItem}
+               >
+                  <img src={threadImg} alt="Thread"/>
+                  Выбрать другой поток
                </div>
 
                <Controls
@@ -469,6 +521,63 @@ class ButtonsMenu extends Component {
                />
             </div>
          )
+      } else if (typeButton === buttonsTypes.thread_buttons) {
+         return (
+            <div className={style.buttonBox}>
+               <div className={style.buttonBoxHeader}>
+                  <div className={style.buttonBoxHeaderDesc}>
+                     <div>
+                        <h2>Название кнопки</h2>
+                     </div>
+                  </div>
+                  <div>
+                     <input
+                        type={'text'}
+                        defaultValue={buttonData.caption}
+                        placeholder={'title'}
+                        onBlur={(e) => this.editButton(e, true)}
+                     />
+                  </div>
+               </div>
+               <div className={style.buttonBoxInfo}>
+                  <div className={style.buttonBoxInfoSelectContainer}>
+                     <Select
+                        className={`${style.selector} buttonsMenuSelector`}
+                        defaultValue={(buttonData.payload.trigger_id) || 'Выберите поток'}
+                        placeholder="Выберите поток"
+                        loading={loadingOfAutoRides}
+                        onChange={(value) => this.editButton({
+                           target: {
+                              value: value
+                           }
+                        })}
+                     >
+                        {this.getTriggersFromAnotherScenario().map(scenarios => (
+                           <OptGroup label={`${scenarios.displayText}: ${sliceExtraText(scenarios.trigger_text, 9)}`}>
+                              {scenarios && scenarios.triggers.map(trigger => (
+                                 <Option value={trigger.id}>{trigger.caption}</Option>
+                              ))}
+                           </OptGroup>
+                        ))}
+                     </Select>
+
+                     <div
+                        className={style.buttonBoxInfoContainerIcon}
+                        onClick={() => buttonEditHandler(typeButton, Object.assign(buttonData, {
+                           caption: ''
+                        }), indexButton, true)}
+                     >
+                        <FontAwesomeIcon icon={faTimes}/>
+                     </div>
+                  </div>
+               </div>
+
+               <Controls
+                  styles={{marginTop: "20px"}}
+                  {...this.props}
+               />
+            </div>
+         )
       }
    };
 
@@ -481,13 +590,15 @@ class ButtonsMenu extends Component {
    }
 }
 
-const mapStateToProps = ({singleBotReducers}) => ({
+const mapStateToProps = ({singleBotReducers, autoridesReducers}) => ({
    changedScenarioId: singleBotReducers.changedScenarioId,
    createdTriggerId: singleBotReducers.createdTriggerId,
    changedSocial: singleBotReducers.changedSocial,
    botScenarios: singleBotReducers.botScenarios,
    isFetching: singleBotReducers.isFetching,
    error: singleBotReducers.error,
+   loadingOfAutoRides: autoridesReducers.loadingOfAutoRides,
+   autoridesData: autoridesReducers.autoridesData,
 });
 
 export default connect(mapStateToProps)(ButtonsMenu)

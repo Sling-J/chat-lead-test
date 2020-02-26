@@ -190,13 +190,14 @@ export const buttonsTypes = {
    call_buttons: 'call_buttons',
    fast_buttons: 'fast_buttons',
    trigger_buttons: 'trigger_buttons',
+   thread_buttons: 'thread_buttons'
 };
 
 export const defaultValuesForNewButtons = {
    text_buttons: {caption: 'Новая кнопка', payload: {trigger_id: ''}, type: 'text_buttons', createdTrigger: {}},
    url_buttons: {caption: 'Новая кнопка', payload: {url: ''}, type: 'url_buttons', addTags: '', deleteTags: ''},
    fast_buttons: {caption: 'Новая кнопка', payload: {trigger_id: ''}, type: 'fast_buttons'},
-   call_buttons: {caption: 'Новая кнопка', payload: {tel: ''}, type: 'call_buttons'}
+   call_buttons: {caption: 'Новая кнопка', payload: {tel: ''}, type: 'call_buttons'},
 };
 
 export const destinationScenario = {

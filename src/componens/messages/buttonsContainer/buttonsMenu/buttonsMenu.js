@@ -11,11 +11,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import {Select} from 'antd'
+
 import Actions from "../actions/actions";
 import Controls from './controls/controls';
-
-import style from '../../../../styles/messageButtons.module.scss';
 import {sliceExtraText} from "../../../../utils/textValidation";
+
+import threadImg from "../../../../images/thread-btn.png";
+import style from '../../../../styles/messageButtons.module.scss';
 
 const {Option, OptGroup} = Select;
 
@@ -105,6 +107,21 @@ class ButtonsMenu extends Component {
          }
 
          buttonEditHandler(buttonsTypes.text_buttons, buttonData, indexButton, false, false, buttonsTypes.trigger_buttons);
+      } else if (typeButton === buttonsTypes.thread_buttons) {
+         if (forCaption) {
+            Object.assign(buttonData, {
+               caption: e.target.value
+            })
+         } else {
+            Object.assign(buttonData, {
+               createdTrigger: e.target.trigger,
+               payload: {
+                  trigger_id: e.target.value,
+               }
+            })
+         }
+
+         buttonEditHandler(buttonsTypes.text_buttons, buttonData, indexButton, false, false, buttonsTypes.thread_buttons);
       } else if (typeButton === 'empty') {
          Object.assign(buttonData, {
             caption: e.target.value
@@ -151,32 +168,35 @@ class ButtonsMenu extends Component {
    };
 
    getTriggersFromAnotherScenario = () => {
-      const {botScenarios, destination, scenarioId, autoridesData} = this.props;
-      const arr = [];
+      const {botScenarios, destination,  autoridesData, changedScenario} = this.props;
+      const result = [];
 
-      if (destination === destinationScenario.default) {
+      if (destination === destinationScenario.default || destination === destinationScenario.autoride) {
          botScenarios
-            .filter(scenario => scenario.destination === destination && scenario.id !== scenarioId)
-            .forEach(scenario => arr.push({
+            .filter(scenario => scenario.destination === destinationScenario.default && scenario.id !== changedScenario.id)
+            .forEach(scenario => result.push({
                trigger_text: scenario.trigger_text,
+               displayText: 'Сообщений из сценария',
                triggers: scenario.triggers,
                id: scenario.id
-            }))
-      } else if (destination === destinationScenario.autoride) {
+            }));
+
          autoridesData
-            .filter(autoRide => autoRide.scenario.id !== scenarioId)
-            .forEach(autoRide => arr.push({
+            .filter(autoRide => autoRide.id !== changedScenario.id)
+            .forEach(autoRide => result.push({
                trigger_text: autoRide.scenario.trigger_text,
+               displayText: 'Сообщений из автоворонки',
                triggers: autoRide.scenario.triggers,
                id: autoRide.scenario.id
-            }))
+            }));
+
       }
 
-      return arr;
+      return result;
    };
 
    buttonChanger = () => { 
-      const {typeButton, buttonEditHandler, indexButton, buttonData, changedSocial} = this.props;
+      const {typeButton, buttonEditHandler, indexButton, buttonData, changedSocial, loadingOfAutoRides} = this.props;
 
       if (typeButton === 'empty') {
          return (
@@ -267,6 +287,23 @@ class ButtonsMenu extends Component {
                >
                   <FontAwesomeIcon icon={faHandPointUp} size="lg" color="limegreen"/>
                   Выберите существующий шаг
+               </div>
+
+               <div
+                  onClick={() => {
+                     buttonEditHandler(
+                        buttonsTypes.text_buttons,
+                        defaultValuesForNewButtons[buttonsTypes.text_buttons],
+                        indexButton,
+                        false,
+                        false,
+                        buttonsTypes.thread_buttons
+                     )
+                  }}
+                  className={style.buttonBoxItem}
+               >
+                  <img src={threadImg} alt="Thread"/>
+                  Выбрать другой поток
                </div>
 
                <Controls
@@ -490,9 +527,57 @@ class ButtonsMenu extends Component {
                               <Option value={trigger.value}>{trigger.label}</Option>
                            ))}
                         </OptGroup>
+                     </Select>
+                     <div
+                        className={style.buttonBoxInfoContainerIcon}
+                        onClick={() => buttonEditHandler(buttonsTypes.text_buttons, Object.assign(buttonData, {
+                           caption: ''
+                        }), indexButton, true, false, buttonsTypes.trigger_buttons)}
+                     >
+                        <FontAwesomeIcon icon={faTimes}/>
+                     </div>
+                  </div>
+               </div>
 
+               <Controls
+                  styles={{marginTop: "20px"}}
+                  {...this.props}
+               />
+            </div>
+         )
+      } else if (typeButton === buttonsTypes.thread_buttons) {
+         return (
+            <div className={style.buttonBox}>
+               <div className={style.buttonBoxHeader}>
+                  <div className={style.buttonBoxHeaderDesc}>
+                     <div>
+                        <h2>Название кнопки</h2>
+                     </div>
+                  </div>
+                  <div>
+                     <input
+                        type={'text'}
+                        defaultValue={buttonData.caption}
+                        placeholder={'title'}
+                        onBlur={(e) => this.editButton(e, true)}
+                     />
+                  </div>
+               </div>
+               <div className={style.buttonBoxInfo}>
+                  <div className={style.buttonBoxInfoSelectContainer}>
+                     <Select
+                        className={`${style.selector} buttonsMenuSelector`}
+                        defaultValue={(buttonData.payload.trigger_id) || 'Выберите поток'}
+                        placeholder="Выберите поток"
+                        loading={loadingOfAutoRides}
+                        onChange={value => this.editButton({
+                           target: {
+                              value: value
+                           }
+                        })}
+                     >
                         {this.getTriggersFromAnotherScenario().map(scenarios => (
-                           <OptGroup label={`Сообщений из ответа: ${sliceExtraText(scenarios.trigger_text, 9)}`}>
+                           <OptGroup label={`${scenarios.displayText}: ${sliceExtraText(scenarios.trigger_text, 9)}`}>
                               {scenarios && scenarios.triggers.map(trigger => (
                                  <Option value={trigger.id}>{trigger.caption}</Option>
                               ))}
@@ -503,7 +588,7 @@ class ButtonsMenu extends Component {
                         className={style.buttonBoxInfoContainerIcon}
                         onClick={() => buttonEditHandler(buttonsTypes.text_buttons, Object.assign(buttonData, {
                            caption: ''
-                        }), indexButton, true, false, buttonsTypes.trigger_buttons)}
+                        }), indexButton, true, false, buttonsTypes.thread_buttons)}
                      >
                         <FontAwesomeIcon icon={faTimes}/>
                      </div>
@@ -535,7 +620,8 @@ const mapStateToProps = ({singleBotReducers, autoridesReducers}) => ({
    botScenarios: singleBotReducers.botScenarios,
    isFetching: singleBotReducers.isFetching,
    error: singleBotReducers.error,
-   autoridesData: autoridesReducers.autoridesData
+   autoridesData: autoridesReducers.autoridesData,
+   loadingOfAutoRides: autoridesReducers.loadingOfAutoRides,
 });
 
 export default connect(mapStateToProps)(ButtonsMenu);
