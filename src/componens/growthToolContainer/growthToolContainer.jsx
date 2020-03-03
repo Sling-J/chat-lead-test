@@ -3,7 +3,7 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 
-import MuiButton from "@material-ui/core/Button";
+import Button from "@material-ui/core/Button";
 
 import GrowthToolContainerTable from "./growthToolContainerTable";
 import GrowthToolMlp from "./growthToolMLP/growthToolMLP";
@@ -14,10 +14,11 @@ import widgetImage from "../../images/growthTool/widget.PNG";
 
 import {soonModal} from "../../utils/deletionConfirmation";
 
-import {moduleName as growthToolModule, getMLP} from "../../ducks/GrowthTool";
+import {getMLP} from "../../ducks/GrowthTool";
 
-const GrowthToolContainer = ({createMLP, getMLP, match}) => {
+const GrowthToolContainer = ({getMLP, match}) => {
    const [page, setPage] = useState(0);
+   const [mlpId, setMLPId] = useState(null);
 
    const botId = match.params.botId;
 
@@ -27,7 +28,7 @@ const GrowthToolContainer = ({createMLP, getMLP, match}) => {
 
    if (page === 1) {
       return (
-         <GrowthToolMlp setPage={setPage}/>
+         <GrowthToolMlp mlpId={mlpId} setPage={setPage}/>
       )
    } else {
       return (
@@ -42,13 +43,16 @@ const GrowthToolContainer = ({createMLP, getMLP, match}) => {
                      <img src={mlpImage} alt=""/>
                   </div>
 
-                  <MuiButton
-                     onClick={() => setPage(1)}
+                  <Button
+                     onClick={() => {
+                        setPage(1);
+                        setMLPId(null);
+                     }}
                      className="growth-tool-box-item__btn"
                      variant="contained"
                   >
                      Добавить
-                  </MuiButton>
+                  </Button>
                </div>
 
                <div className="growth-tool-box__item">
@@ -58,13 +62,13 @@ const GrowthToolContainer = ({createMLP, getMLP, match}) => {
                      <img src={lpShareImage} alt=""/>
                   </div>
 
-                  <MuiButton
+                  <Button
                      onClick={soonModal}
                      className="growth-tool-box-item__btn"
                      variant="contained"
                   >
                      Добавить
-                  </MuiButton>
+                  </Button>
                </div>
 
                <div className="growth-tool-box__item">
@@ -74,17 +78,20 @@ const GrowthToolContainer = ({createMLP, getMLP, match}) => {
                      <img src={widgetImage} alt=""/>
                   </div>
 
-                  <MuiButton
+                  <Button
                      onClick={soonModal}
                      className="growth-tool-box-item__btn"
                      variant="contained"
                   >
                      Добавить
-                  </MuiButton>
+                  </Button>
                </div>
             </div>
 
-            <GrowthToolContainerTable/>
+            <GrowthToolContainerTable
+               setMLPId={setMLPId}
+               setPage={setPage}
+            />
          </div>
       )
    }

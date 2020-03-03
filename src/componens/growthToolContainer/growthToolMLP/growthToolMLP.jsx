@@ -17,7 +17,10 @@ import GrowthToolMlpContent from "./growthToolMLPContent";
 import GrowthToolMlpResult from "./growthToolMLPResult";
 import GrowthToolMlpCode from "./growthToolMLPCode";
 
-import {moduleName as growthToolModule, createMLP, refreshCreatedMLP} from "../../../ducks/GrowthTool";
+import {
+   moduleName as growthToolModule,
+   createMLP, refreshMLPData, getMLP, getUserMLP, defaultMLPSettings, updateMLP
+} from "../../../ducks/GrowthTool";
 
 const TabPanel = props => {
    const {value, index} = props;
@@ -37,7 +40,14 @@ const TabPanel = props => {
    )
 };
 
-const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAutoRides, createMLP, refreshCreatedMLP, createdMLP, loadingOfCreation}) => {
+const GrowthToolMlp = ({
+   setPage, getMLP, getUserMLP,
+   autoRidesData, getAutorides, match,
+   loadingOfAutoRides, mlpId, createMLP,
+   refreshMLPData, createdMLP, loadingOfCreation,
+   loadingOfUpdating, updatedMLP, userMLP,
+   loadingOfUserMLP, updateMLP
+}) => {
    const theme = useTheme();
 
    const [value, setValue] = useState(0);
@@ -47,7 +57,7 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
 
    // Mlp Settings
    const [settingTitle, setSettingTitle] = useState('');
-   const [selectedAutoRide, setSelectedAutoRide] = useState(null);
+   const [selectedAutoRide, setSelectedAutoRide] = useState(undefined);
 
    // Mlp Content
    const [file, setFile] = useState(null);
@@ -58,7 +68,7 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
    const [phone1, setPhone1] = useState('');
    const [phone2, setPhone2] = useState('');
 
-   const socialList = [];
+   let socialList = [];
 
    // Mlp Code
    const [scriptForHead, setScriptForHead] = useState('');
@@ -66,16 +76,80 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
 
    useEffect(() => {
       getAutorides(match.params.botId);
+
+      if (mlpId) {
+         getUserMLP({
+            botId: match.params.botId,
+            mlpId: mlpId
+         });
+      } else {
+         refreshMLPData();
+         refreshData();
+      }
    }, []);
+
+   useEffect(() => {
+      if (Object.keys(userMLP).length !== 0 && mlpId) {
+         setSettingTitle(userMLP.settings.title);
+         setSelectedAutoRide(userMLP.settings.autoride_id);
+         setFile(userMLP.content.media.image);
+         setYoutubeField(userMLP.content.media.video);
+         setDescription1(userMLP.content.description.firstSection.title);
+         setPhone1(userMLP.content.description.firstSection.phone);
+         setDescription2(userMLP.content.description.secondSection.title);
+         setPhone2(userMLP.content.description.secondSection.phone);
+         setActionText(userMLP.content.description.actionTitle);
+         socialList = JSON.parse(userMLP.content.socialList);
+
+         if (userMLP.content.media.image) {
+            setRadioTab(1);
+         } else if (userMLP.content.media.video.length !== 0) {
+            setRadioTab(2);
+         }
+
+         if (userMLP.content.description.firstSection.title.length !== 0) {
+            setFirstSectionTabs(1);
+         } else {
+            setFirstSectionTabs(2);
+         }
+
+         if (userMLP.content.description.secondSection.title.length !== 0) {
+            setSecondSectionTabs(1);
+         } else {
+            setSecondSectionTabs(2);
+         }
+      }
+   }, [userMLP]);
 
    useEffect(() => {
       if (Object.keys(createdMLP).length !== 0) {
          setValue(3);
-         refreshCreatedMLP();
       }
    }, [createdMLP]);
 
+   useEffect(() => {
+      if (Object.keys(updatedMLP).length !== 0) {
+         setValue(3);
+      }
+   }, [updatedMLP]);
+
    let disabled = true;
+
+   function refreshData() {
+      setSettingTitle('');
+      setSelectedAutoRide(undefined);
+      setFile(null);
+      setYoutubeField('');
+      setDescription1('');
+      setPhone1('');
+      setDescription2('');
+      setPhone2('');
+      setActionText('ШАГ - 1. Выберите Свой Мессенджер');
+      socialList = [];
+      setRadioTab(1);
+      setFirstSectionTabs(1);
+      setSecondSectionTabs(2);
+   }
 
    function warning() {
       Modal.warning({
@@ -95,7 +169,7 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
    if (
       (youtubeField.length !== 0 || file) &&
       (description1.length !== 0 || description2.length !== 0) &&
-      (actionText.length !== 0) && (selectedAutoRide) && (settingTitle.length !== 0)
+      (actionText && actionText.length !== 0) && (selectedAutoRide) && (settingTitle.length !== 0)
    ) {
       disabled = false;
    }
@@ -104,7 +178,10 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
       <div className="mlp-container">
          <div className="mlp-nav pv1-flex pv1-j-sb pv1-flex-align-center">
             <Button
-               onClick={() => setPage(0)}
+               onClick={() => {
+                  getMLP(match.params.botId);
+                  setPage(0);
+               }}
                className="mlp-nav__back"
                variant="contained"
             >
@@ -118,40 +195,26 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                      warning();
                   } else {
                      if (value === 2) {
-                        createMLP({
+                        const requestData = {
                            botId: match.params.botId,
-                           data: {
-                              settings: {
-                                 title: settingTitle,
-                                 autoride_id: selectedAutoRide
-                              },
-                              content: {
-                                 socialList: socialList,
-                                 media: {
-                                    image: file,
-                                    video: youtubeField
-                                 },
-                                 description: {
-                                    firstSection: {
-                                       title: description1,
-                                       phone: phone1
-                                    },
-                                    secondSection: {
-                                       title: description2,
-                                       phone: phone2
-                                    },
-                                 },
-                                 actionTitle: actionText
-                              },
-                              code: {
-                                 scriptForHead: scriptForHead,
-                                 scriptForBody: scriptForBody
-                              }
-                           }
-                        });
+                           data: defaultMLPSettings(
+                              mlpId, settingTitle,
+                              selectedAutoRide,
+                              socialList, file,
+                              youtubeField, description1,
+                              phone1, description2,
+                              phone2, actionText,
+                              scriptForHead, scriptForBody,
+                           ),
+                        };
+
+                        mlpId
+                           ? updateMLP(requestData)
+                           : createMLP(requestData)
                      } else if (value !== 3) {
                         setValue(value === 0 ? 1 : value === 1 ? 2 : 0);
                      } else {
+                        getMLP(match.params.botId);
                         setPage(0);
                      }
                   }
@@ -201,6 +264,7 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   setSelectedAutoRide={setSelectedAutoRide}
                   selectedAutoRide={selectedAutoRide}
                   loadingOfAutoRides={loadingOfAutoRides}
+                  loadingOfUserMLP={loadingOfUserMLP}
                />
 
                <TabPanel
@@ -253,6 +317,7 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   setPage={setValue}
                   setSocialList={socialList}
                   loadingOfCreation={loadingOfCreation}
+                  loadingOfUpdating={loadingOfUpdating}
                />
 
                <TabPanel
@@ -271,6 +336,7 @@ const GrowthToolMlp = ({setPage, autoRidesData, getAutorides, match, loadingOfAu
                   description2={description2}
                   setPage={setValue}
                   setSocialList={socialList}
+                  mlpId={mlpId}
                />
             </SwipeableViews>
          </div>
@@ -282,13 +348,20 @@ const mapStateToProps = state => ({
    autoRidesData: state.autoridesReducers.autoridesData,
    loadingOfAutoRides: state.autoridesReducers.loadingOfAutoRides,
    loadingOfCreation: state[growthToolModule].loadingOfCreation,
-   createdMLP: state[growthToolModule].createdMLP
+   loadingOfUpdating: state[growthToolModule].loadingOfUpdating,
+   loadingOfUserMLP: state[growthToolModule].loadingOfUserMLP,
+   createdMLP: state[growthToolModule].createdMLP,
+   updatedMLP: state[growthToolModule].updatedMLP,
+   userMLP: state[growthToolModule].userMLP,
 });
 
 const mapDispatchToProps = dispatch => ({
-   refreshCreatedMLP: () => dispatch(refreshCreatedMLP()),
+   refreshMLPData: () => dispatch(refreshMLPData()),
    getAutorides: botId => dispatch(getAllAutorides(botId)),
+   getUserMLP: data => dispatch(getUserMLP(data)),
    createMLP: data => dispatch(createMLP(data)),
+   updateMLP: data => dispatch(updateMLP(data)),
+   getMLP: data => dispatch(getMLP(data))
 });
 
 export default compose(

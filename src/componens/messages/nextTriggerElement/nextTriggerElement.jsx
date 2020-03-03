@@ -27,18 +27,42 @@ const NextTriggerElement = props => {
    const [radioValue, setRadioValue] = useState(1);
 
    useEffect(() => {
-      getAllAutorides(match.params.botId)
+      getAllAutorides(match.params.botId);
+
+      value.nextTrigger.isThreading
+         ? setRadioValue(2)
+         : setRadioValue(1)
    }, []);
 
    const onChange = e => {
       setRadioValue(e.target.value);
+
+      const messagesCopy = changedTrigger.messages;
+      const nextTrigger = messagesCopy[changedSocial][index];
+
+      if (e.target.value === 1 ) {
+         nextTrigger.nextTrigger.isThreading = false;
+      } else if (e.target.value === 2) {
+         nextTrigger.nextTrigger.isThreading = true;
+      }
+
+      const triggerData = {
+         ...changedTrigger,
+         index,
+         type,
+         messages: messagesCopy,
+         botId: match.params.botId
+      };
+
+      props.updateTrigger(triggerData, null, changedSocial);
    };
 
-   const updateTrigger = triggerId => {
+   const updateTrigger = (triggerId, isThreading) => {
       const messagesCopy = changedTrigger.messages;
       const nextTrigger = messagesCopy[changedSocial][index];
 
       nextTrigger.nextTrigger.trigger_id = triggerId;
+      nextTrigger.nextTrigger.isThreading = isThreading;
 
       const triggerData = {
          ...changedTrigger,
@@ -102,7 +126,7 @@ const NextTriggerElement = props => {
                   style={{width: "100%"}}
                   defaultValue={defaultValue}
                   optionFilterProp="children"
-                  onChange={updateTrigger}
+                  onChange={value => updateTrigger(value, false)}
                   placeholder="Выберите шаг для перехода"
                   filterOption={(input, option) =>
                      option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -121,7 +145,7 @@ const NextTriggerElement = props => {
                   style={{width: "100%"}}
                   defaultValue={defaultValue}
                   optionFilterProp="children"
-                  onChange={updateTrigger}
+                  onChange={value => updateTrigger(value, true)}
                   loading={loadingOfAutoRides}
                   placeholder="Выберите шаг для перехода"
                   filterOption={(input, option) =>

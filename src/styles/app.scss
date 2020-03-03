@@ -28,11 +28,8 @@ body {
    border-bottom-color: #4680fe !important;
 }
 
-.bot-deletion-popup-container {
-   .MuiPaper-root {
-      //padding: 32px 34px 45px !important;
-      //text-align: center;
-   }
+.ant-popover-inner-content {
+   padding: 13px 15px !important;
 }
 
 .statistics-tag-popup {

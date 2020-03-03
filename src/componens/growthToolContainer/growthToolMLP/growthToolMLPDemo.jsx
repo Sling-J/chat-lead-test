@@ -135,7 +135,6 @@ const GrowthToolMLPDemo = ({
                               target="_blank">
                               <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="vk"
                                    className="svg-inline--fa fa-vk fa-w-18" role="img"
-                                   xmlns="http://www.w3.org/2000/svg"
                                    viewBox="0 0 576 512"
                               >
                                  <path

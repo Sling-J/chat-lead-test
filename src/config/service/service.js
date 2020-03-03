@@ -88,5 +88,6 @@ export const GrowthTool = {
       create: data => instance.post('/CreateMLP/', data),
       update: data => instance.post('/UpdateMLP/', data),
       delete: data => instance.post('/DeleteMLP/', data),
+      getForUser: data => instance.post('/GetMlpGuest/', data),
    }
 };

@@ -1,48 +1,40 @@
 import React, {Component} from 'react';
+import {compose} from "redux";
+import {connect} from 'react-redux';
+import {withRouter} from "react-router-dom";
 
 import Highlighter from "react-highlight-words";
-import {Button, Icon, Input, Table, Tooltip} from "antd";
-import mlpImage from "../../images/growthTool/mlp.PNG";
-import MuiButton from "@material-ui/core/Button";
-import lpShareImage from "../../images/growthTool/lpshare.PNG";
-import widgetImage from "../../images/growthTool/widget.PNG";
+import {Button, Icon, Input, Table, Popconfirm, Tooltip} from "antd";
 
-const tableData = [
-   // {
-   //    key: 1,
-   //    title: 'Название 1',
-   //    type: 'MLP',
-   //    date: '12.02.2000',
-   //    description: 'Подключен к автоворонке: "/start"'
-   // },
-   // {
-   //    key: 2,
-   //    title: 'Название 2',
-   //    type: 'LP поделиться',
-   //    date: '12.02.2000',
-   //    description: 'Подключен к автоворонке: "/start"'
-   // },
-   // {
-   //    key: 3,
-   //    title: 'Название 3',
-   //    type: 'MLP',
-   //    date: '12.02.2000',
-   //    description: 'Подключен к автоворонке: "/start"'
-   // },
-   // {
-   //    key: 4,
-   //    title: 'Название 4',
-   //    type: 'Виджет',
-   //    date: '12.02.2000',
-   //    description: 'Подключен к автоворонке: "/start"'
-   // },
-];
+import {moduleName as growthToolModule, deleteMLP} from "../../ducks/GrowthTool";
 
-export default class GrowthToolContainerTable extends Component {
+import {formatUnixToDate} from "../../utils/formatDate";
+
+class GrowthToolContainerTable extends Component {
    state = {
       searchText: '',
       searchedColumn: '',
+      mlpData: []
    };
+
+   componentDidUpdate(prevProps, prevState, snapshot) {
+      const {allMLP} = this.props;
+
+      if (allMLP !== prevProps.allMLP) {
+         if (allMLP.length !== 0) {
+            const mlpData = [];
+
+            allMLP.forEach(mlp => mlpData.push({
+               key: mlp.id,
+               title: mlp.settings.title,
+               type: 'MLP',
+               date: formatUnixToDate(mlp.create_date),
+            }));
+
+            this.setState({mlpData})
+         }
+      }
+   }
 
    handleSearch = (selectedKeys, confirm, dataIndex) => {
       confirm();
@@ -110,39 +102,59 @@ export default class GrowthToolContainerTable extends Component {
          ),
    });
 
+   columns = [
+      {title: 'Название лидгентула', dataIndex: 'title', key: 'title', ...this.getColumnSearchProps('title')},
+      {title: 'Тип', dataIndex: 'type', key: 'type'},
+      {title: 'Дата создания', dataIndex: 'date', key: 'date'},
+      {
+         title: 'Действие',
+         dataIndex: '',
+         key: 'x',
+         render: record => (
+            <div className="growth-tool-table-icons">
+               <Tooltip title="Редактировать">
+                  <Icon type="edit" onClick={() => {
+                     this.props.setMLPId(record.key);
+                     this.props.setPage(1)
+                  }}/>
+               </Tooltip>
+               <Popconfirm title="Вы уверены что хотите удалить?" onConfirm={() => this.props.deleteMLP({
+                  botId: this.props.match.params.botId,
+                  mlpId: record.key
+               })}>
+                  <Icon type="delete"/>
+               </Popconfirm>
+            </div>
+         ),
+      },
+   ];
+
    render() {
-      const columns = [
-         {title: 'Название лидгентула', dataIndex: 'title', key: 'title', ...this.getColumnSearchProps('title')},
-         {title: 'Тип', dataIndex: 'type', key: 'type'},
-         {title: 'Дата создания', dataIndex: 'date', key: 'date'},
-         {
-            title: 'Действие',
-            dataIndex: '',
-            key: 'x',
-            render: () => (
-               <div className="growth-tool-table-icons">
-                  <Tooltip title="Редактировать">
-                     <Icon type="edit"/>
-                  </Tooltip>
-                  <Tooltip title="Копировать">
-                     <Icon type="copy"/>
-                  </Tooltip>
-                  <Tooltip title="Удалить">
-                     <Icon type="delete"/>
-                  </Tooltip>
-               </div>
-            ),
-         },
-      ];
+      const {loadingOfMLP, loadingOfDeleting, setMLPId, setPage} = this.props;
+      const {mlpData} = this.state;
 
       return (
          <div className="growth-tool-table">
             <Table
-               columns={columns}
-               expandedRowRender={record => <p style={{ margin: 0 }}>{record.description}</p>}
-               dataSource={tableData}
+               columns={this.columns}
+               dataSource={mlpData}
+               loading={loadingOfMLP || loadingOfDeleting}
+               rowClassName="growth-tool-table__row"
             />
          </div>
       )
    }
 }
+
+export default compose(
+   connect(
+      state => ({
+         allMLP: state[growthToolModule].allMLP,
+         loadingOfMLP: state[growthToolModule].loadingOfMLP,
+         loadingOfDeleting: state[growthToolModule].loadingOfDeleting,
+      }), {
+         deleteMLP
+      }
+   ),
+   withRouter
+)(GrowthToolContainerTable);

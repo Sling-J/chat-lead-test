@@ -1,9 +1,5 @@
 import React, {useState} from 'react';
-import {connect} from "react-redux";
-
 import {Radio, Input, Icon} from "antd";
-
-import {uploadImageForMLP}  from "../../../ducks/GrowthTool";
 
 import GrowthToolMLPDemo from "./growthToolMLPDemo";
 
@@ -15,8 +11,9 @@ const GrowthToolMlpContent = props => {
       actionText, setActionText,
       firstSectionTabs, setFirstSectionTabs,
       secondSectionTabs, setSecondSectionTabs,
-      radioTab, setRadioTab, uploadImageForMLP
+      radioTab, setRadioTab
    } = props;
+
    const [errorOfSize, setErrorOfSize] = useState(null);
 
    const onChange = e => {
@@ -50,9 +47,15 @@ const GrowthToolMlpContent = props => {
                            onChange={e => {
                               if (e.target.files.length !== 0) {
                                  if (e.target.files[0].size <= 3500000) {
+                                    const imageData = {
+                                       lastModified: e.target.files[0].lastModified,
+                                       name: e.target.files[0].name,
+                                       size: e.target.files[0].size,
+                                       type: e.target.files[0].type,
+                                    };
+
                                     setErrorOfSize(null);
-                                    setFile(e.target.files[0]);
-                                    uploadImageForMLP(e.target.files[0]);
+                                    setFile(imageData);
                                  } else {
                                     setErrorOfSize('Размер файла слишком велик')
                                  }
@@ -202,6 +205,4 @@ const GrowthToolMlpContent = props => {
    );
 };
 
-export default connect(null, {
-   uploadImageForMLP
-})(GrowthToolMlpContent);
+export default GrowthToolMlpContent;

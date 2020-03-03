@@ -120,8 +120,9 @@ export const defaultValuesForNewMessages = {
       conditions: false,
       tag: '',
       exclude_tags: '',
+      isThreading: false,
       is_tag_all: true,
-      is_exclude_tag_all: true
+      is_exclude_tag_all: true,
    },
    pause_delay: {
       timer: {pause_delay: '', format: {key: 'sec', keyValue: 'Секунды'}},

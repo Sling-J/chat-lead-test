@@ -3,13 +3,12 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 
-import {Button, Icon, Input, Table, Tooltip} from 'antd';
+import {Button, Icon, Input, Table, Tooltip, Popconfirm} from 'antd';
 import MuiButton from "@material-ui/core/Button";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Highlighter from "react-highlight-words";
 
-import {deletionConfirmation} from "../../../utils/deletionConfirmation";
 import {moduleName as tagsModule, deleteTag, addTag} from "../../../ducks/Tags";
 
 class StatisticsTag extends React.Component {
@@ -91,7 +90,7 @@ class StatisticsTag extends React.Component {
    handleClose = () => this.setState({open: false});
 
    render() {
-      const {tags, loadingOfDeleting, loadingOfTags, loadingOfAdding, addTag, match} = this.props;
+      const {tags, loadingOfDeleting, loadingOfTags, loadingOfAdding, addTag, match, deleteTag} = this.props;
       const {open, tagField} = this.state;
 
       const columns = [
@@ -114,20 +113,14 @@ class StatisticsTag extends React.Component {
             key: 'x',
             render: text => (
                <div className="statistics-tag-actions">
-                  <Tooltip
-                     className="statistics-tag-actions__delete"
-                     title="Удалить"
-                     onClick={() => deletionConfirmation(
-                        this.props.deleteTag,
-                        {
-                           tag: text.name,
-                           botId: match.params.botId
-                        },
-                        `Удаление тега: ${text.name}`
-                     )}
-                  >
-                     <Icon type="delete"/>
-                  </Tooltip>
+                  <div className="statistics-tag-actions__delete">
+                     <Popconfirm title={`Удаление тега: ${text.name}`} onConfirm={() => deleteTag({
+                        tag: text.name,
+                        botId: match.params.botId
+                     })}>
+                        <Icon type="delete"/>
+                     </Popconfirm>
+                  </div>
                </div>
             )
          },
