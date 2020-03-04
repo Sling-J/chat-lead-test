@@ -1,25 +1,39 @@
-import React, {useState} from 'react';
-import {Radio, Input, Icon} from "antd";
+import React, {useEffect, useState} from 'react';
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
+import {Radio, Input, Icon, Spin} from "antd";
 
 import GrowthToolMLPDemo from "./growthToolMLPDemo";
+
+import {moduleName as growthToolModule, uploadImageForMLP} from "../../../ducks/GrowthTool";
+
+import {staticMedia} from "../../../config/service/service";
 
 const GrowthToolMlpContent = props => {
    const {
       youtubeField, setYoutubeField, description1,
-      setDescription1, setFile, file,
+      setDescription1, setImageUrl, imageUrl,
       description2, setDescription2,
-      actionText, setActionText,
+      actionText, setActionText, match,
       firstSectionTabs, setFirstSectionTabs,
       secondSectionTabs, setSecondSectionTabs,
-      radioTab, setRadioTab
+      radioTab, setRadioTab, uploadImageForMLP,
+      loadingOfUploading, uploadedData
    } = props;
 
    const [errorOfSize, setErrorOfSize] = useState(null);
 
+   useEffect(() => {
+      if (uploadedData) {
+         setImageUrl(staticMedia + uploadedData.url);
+      }
+   }, [uploadedData]);
+
    const onChange = e => {
       setRadioTab(e.target.value);
       setYoutubeField('');
-      setFile(null);
+      setImageUrl('');
    };
 
    const onChangeDescTab = (section, value) => section === 1
@@ -47,15 +61,12 @@ const GrowthToolMlpContent = props => {
                            onChange={e => {
                               if (e.target.files.length !== 0) {
                                  if (e.target.files[0].size <= 3500000) {
-                                    const imageData = {
-                                       lastModified: e.target.files[0].lastModified,
-                                       name: e.target.files[0].name,
-                                       size: e.target.files[0].size,
-                                       type: e.target.files[0].type,
-                                    };
-
                                     setErrorOfSize(null);
-                                    setFile(imageData);
+                                    setImageUrl('');
+                                    uploadImageForMLP({
+                                       file: e.target.files[0],
+                                       botId: match.params.botId
+                                    });
                                  } else {
                                     setErrorOfSize('Размер файла слишком велик')
                                  }
@@ -63,11 +74,17 @@ const GrowthToolMlpContent = props => {
                            }}
                         />
 
-                        <label className="mlp-content-media-box-img__label" htmlFor="mlp-picture">
-                           <Icon type="plus"/>
+                        <label className={`mlp-content-media-box-img__label ${imageUrl.length !== 0 && 'mlp-content-media-box-img__label-contained'} ${loadingOfUploading && 'mlp-content-media-box-img__label-disabled'}`} htmlFor={`${!loadingOfUploading && 'mlp-picture'}`}>
+                           <Spin spinning={loadingOfUploading}>
+                              {imageUrl.length !== 0 ? (
+                                 <img src={imageUrl} alt="MLP example"/>
+                              ) : (
+                                 <Icon type="plus"/>
+                              )}
+                           </Spin>
                         </label>
 
-                        <p className={`mlp-content-media-box-img__filename ${errorOfSize && 'mlp-content-media-box-img__error'}`}>{errorOfSize || (file && file.name)}</p>
+                        <p className={`mlp-content-media-box-img__filename ${errorOfSize && 'mlp-content-media-box-img__error'}`}>{errorOfSize}</p>
                      </div>
                   )}
 
@@ -205,4 +222,12 @@ const GrowthToolMlpContent = props => {
    );
 };
 
-export default GrowthToolMlpContent;
+export default compose(
+   withRouter,
+   connect(state => ({
+      loadingOfUploading: state[growthToolModule].loadingOfUploading,
+      uploadedData: state[growthToolModule].uploadedData,
+   }), {
+      uploadImageForMLP
+   })
+)(GrowthToolMlpContent);

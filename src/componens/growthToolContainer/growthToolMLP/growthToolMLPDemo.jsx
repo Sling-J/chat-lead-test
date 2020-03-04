@@ -16,7 +16,7 @@ const GrowthToolMLPDemo = ({
    selectedAutoRide, description1,
    actionText, getAutoRidesLinks, autoridesData,
    phone2, phone1, setPhone1, setPhone2, description2,
-   autoRidesLinks, setPage, setSocialList
+   autoRidesLinks, setPage, setSocialList, imageUrl
 }) => {
    const [visible, setVisible] = useState(false);
 
@@ -72,7 +72,7 @@ const GrowthToolMLPDemo = ({
          <div className="mlp-content-result__info">
             <div className="mlp-content-result__info-container">
                <div className="mlp-content-result-info__img">
-                  <img src={GrowthToolExample} alt="MLP Example image"/>
+                  <img src={imageUrl || GrowthToolExample} alt="MLP Example image"/>
                </div>
 
                {firstSectionTabs === 1 && secondSectionTabs === 2 && (

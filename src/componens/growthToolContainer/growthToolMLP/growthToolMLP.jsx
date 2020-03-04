@@ -60,7 +60,7 @@ const GrowthToolMlp = ({
    const [selectedAutoRide, setSelectedAutoRide] = useState(undefined);
 
    // Mlp Content
-   const [file, setFile] = useState(null);
+   const [imageUrl, setImageUrl] = useState('');
    const [youtubeField, setYoutubeField] = useState('');
    const [description1, setDescription1] = useState('');
    const [description2, setDescription2] = useState('');
@@ -92,7 +92,7 @@ const GrowthToolMlp = ({
       if (Object.keys(userMLP).length !== 0 && mlpId) {
          setSettingTitle(userMLP.settings.title);
          setSelectedAutoRide(userMLP.settings.autoride_id);
-         setFile(userMLP.content.media.image);
+         setImageUrl(userMLP.content.media.image);
          setYoutubeField(userMLP.content.media.video);
          setDescription1(userMLP.content.description.firstSection.title);
          setPhone1(userMLP.content.description.firstSection.phone);
@@ -129,7 +129,7 @@ const GrowthToolMlp = ({
 
    useEffect(() => {
       if (Object.keys(updatedMLP).length !== 0) {
-         setValue(3);
+         setPage(0);
       }
    }, [updatedMLP]);
 
@@ -138,7 +138,7 @@ const GrowthToolMlp = ({
    function refreshData() {
       setSettingTitle('');
       setSelectedAutoRide(undefined);
-      setFile(null);
+      setImageUrl('');
       setYoutubeField('');
       setDescription1('');
       setPhone1('');
@@ -167,12 +167,25 @@ const GrowthToolMlp = ({
    };
 
    if (
-      (youtubeField.length !== 0 || file) &&
+      (youtubeField.length !== 0 || imageUrl && imageUrl.length !== 0) &&
       (description1.length !== 0 || description2.length !== 0) &&
       (actionText && actionText.length !== 0) && (selectedAutoRide) && (settingTitle.length !== 0)
    ) {
       disabled = false;
    }
+
+   const requestData = {
+      botId: match.params.botId,
+      data: defaultMLPSettings(
+         mlpId, settingTitle,
+         selectedAutoRide,
+         socialList, imageUrl,
+         youtubeField, description1,
+         phone1, description2,
+         phone2, actionText,
+         scriptForHead, scriptForBody,
+      ),
+   };
 
    return (
       <div className="mlp-container">
@@ -195,27 +208,16 @@ const GrowthToolMlp = ({
                      warning();
                   } else {
                      if (value === 2) {
-                        const requestData = {
-                           botId: match.params.botId,
-                           data: defaultMLPSettings(
-                              mlpId, settingTitle,
-                              selectedAutoRide,
-                              socialList, file,
-                              youtubeField, description1,
-                              phone1, description2,
-                              phone2, actionText,
-                              scriptForHead, scriptForBody,
-                           ),
-                        };
-
-                        mlpId
-                           ? updateMLP(requestData)
-                           : createMLP(requestData)
+                        !mlpId
+                           ? createMLP(requestData)
+                           : setValue(3);
                      } else if (value !== 3) {
                         setValue(value === 0 ? 1 : value === 1 ? 2 : 0);
                      } else {
                         getMLP(match.params.botId);
-                        setPage(0);
+                        mlpId
+                           ? updateMLP(requestData)
+                           : setPage(0);
                      }
                   }
                }}
@@ -283,8 +285,8 @@ const GrowthToolMlp = ({
                   setPhone2={setPhone2}
                   actionText={actionText}
                   setActionText={setActionText}
-                  setFile={setFile}
-                  file={file}
+                  setImageUrl={setImageUrl}
+                  imageUrl={imageUrl}
                   firstSectionTabs={firstSectionTabs}
                   setFirstSectionTabs={setFirstSectionTabs}
                   secondSectionTabs={secondSectionTabs}
@@ -317,7 +319,7 @@ const GrowthToolMlp = ({
                   setPage={setValue}
                   setSocialList={socialList}
                   loadingOfCreation={loadingOfCreation}
-                  loadingOfUpdating={loadingOfUpdating}
+                  imageUrl={imageUrl}
                />
 
                <TabPanel
@@ -337,6 +339,8 @@ const GrowthToolMlp = ({
                   setPage={setValue}
                   setSocialList={socialList}
                   mlpId={mlpId}
+                  loadingOfUpdating={loadingOfUpdating}
+                  imageUrl={imageUrl}
                />
             </SwipeableViews>
          </div>

@@ -7,11 +7,11 @@ const GrowthToolMlpCode = props => {
    const {
       scriptForHead, setScriptForHead,
       scriptForBody, setScriptForBody,
-      loadingOfCreation, loadingOfUpdating
+      loadingOfCreation
    } = props;
 
    return (
-      <PageLoader loading={loadingOfCreation || loadingOfUpdating}>
+      <PageLoader loading={loadingOfCreation}>
          <div className="mlp-code">
             <div className="mlp-code-container">
                <div className="mlp-code__item">

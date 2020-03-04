@@ -130,7 +130,7 @@ class GrowthToolContainerTable extends Component {
    ];
 
    render() {
-      const {loadingOfMLP, loadingOfDeleting, setMLPId, setPage} = this.props;
+      const {loadingOfMLP, loadingOfDeleting} = this.props;
       const {mlpData} = this.state;
 
       return (

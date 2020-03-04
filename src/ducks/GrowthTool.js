@@ -38,19 +38,13 @@ export const UPDATE_MLP_FAILURE = `${prefix}/UPDATE_MLP_FAILURE`;
 export const REFRESH_MLP_DATA = `${prefix}/REFRESH_MLP_DATA`;
 
 export const defaultMLPSettings = (
-   mlpId,
-   settingTitle,
+   mlpId, settingTitle,
    selectedAutoRide,
-   socialList,
-   file,
-   youtubeField,
-   description1,
-   phone1,
-   description2,
-   phone2,
-   actionText,
-   scriptForHead,
-   scriptForBody
+   socialList, file,
+   youtubeField, description1,
+   phone1, description2,
+   phone2, actionText,
+   scriptForHead, scriptForBody
 ) => ({
    id: mlpId,
    settings: {
@@ -106,8 +100,8 @@ const initialState = {
    errorOfDeleting: null,
 
    uploadedData: null,
-   loadingOfUpload: false,
-   errorOfUpload: null
+   loadingOfUploading: false,
+   errorOfUploading: null
 };
 
 export default (state = initialState, action) => {
@@ -116,24 +110,24 @@ export default (state = initialState, action) => {
          return {
             ...state,
             uploadedData: null,
-            loadingOfUpload: true,
-            errorOfUpload: null
+            loadingOfUploading: true,
+            errorOfUploading: null
          };
 
       case UPLOAD_MEDIA_SUCCESS:
          return {
             ...state,
             uploadedData: action.payload,
-            loadingOfUpload: false,
-            errorOfUpload: null
+            loadingOfUploading: false,
+            errorOfUploading: null
          };
 
       case UPLOAD_MEDIA_FAILURE:
          return {
             ...state,
             uploadedData: null,
-            loadingOfUpload: false,
-            errorOfUpload: action.error
+            loadingOfUploading: false,
+            errorOfUploading: action.error
          };
 
       case GET_MLP_REQUEST:
@@ -287,10 +281,10 @@ export const getUserMLP = data => ({
    payload: data
 });
 
-// export const uploadImageForMLP = data => ({
-//    type: UPLOAD_MEDIA_REQUEST,
-//    payload: data
-// });
+export const uploadImageForMLP = data => ({
+   type: UPLOAD_MEDIA_REQUEST,
+   payload: data
+});
 
 export const createMLP = data => ({
    type: CREATE_MLP_REQUEST,
@@ -441,13 +435,15 @@ function* uploadImageForMLPSaga() {
       try {
          const formData = new FormData();
 
+         formData.append('user_token', userAccessToken());
          formData.append('type', 'photo');
-         formData.append('file', action.payload);
+         formData.append('file', action.payload.file);
+         formData.append('manager_id', action.payload.botId);
 
          const {data} = yield call(Media.uploadMedia, formData);
 
          if (data.ok) {
-            yield put({type: UPLOAD_MEDIA_SUCCESS, payload: data.message});
+            yield put({type: UPLOAD_MEDIA_SUCCESS, payload: data.message.photo});
          } else {
             yield put({type: UPLOAD_MEDIA_FAILURE, payload: data.desc});
          }

@@ -242,6 +242,25 @@
                      border-color: $theme__bg-color;
                      color: $theme__bg-color;
                   }
+
+                  img {
+                     width: 100%;
+                  }
+               }
+
+               .mlp-content-media-box-img__label-disabled {
+                  cursor: default;
+
+                  &:hover {
+                     border-color: #d9d9d9;
+                     color: inherit;
+                  }
+               }
+
+               .mlp-content-media-box-img__label-contained {
+                  width: 50%;
+                  height: auto;
+                  padding: 5px;
                }
 
                .mlp-content-media-box-img__filename {
