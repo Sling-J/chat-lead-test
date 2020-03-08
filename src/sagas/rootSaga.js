@@ -4,6 +4,7 @@ import {saga as authSaga} from '../ducks/Auth';
 import {saga as tagsSaga} from '../ducks/Tags';
 import {saga as statisticsSaga} from '../ducks/Statistics';
 import {saga as paymentSaga} from '../ducks/Payment';
+import {saga as profileSaga} from '../ducks/Profile';
 import {saga as growthToolSaga} from '../ducks/GrowthTool';
 
 import {
@@ -28,7 +29,8 @@ import {
    deleteTriggerSagas,
    updateCaptionTriggerSaga,
    deleteBroadcastSaga,
-   copyAutorideSagas
+   copyAutorideSagas,
+   copyTriggerSagas
 } from "./botsSagas";
 import {
    getManagerSaga,
@@ -53,6 +55,7 @@ function* rootSaga() {
 		vkAuthSaga(),
       statisticsSaga(),
       paymentSaga(),
+      profileSaga(),
 		tagsSaga(),
       authSaga(),
       takeLatest(ACTION.CREATE_BOT_ACTION, createBotSaga),
@@ -64,6 +67,7 @@ function* rootSaga() {
       takeLatest(ACTION.UPDATE_TRIGGER, updateTriggerSaga),
       takeLatest(ACTION.DELETE_TRIGGER, deleteTriggerSagas),
       takeLatest(ACTION.UPDATE_TRIGGER_TEXT, updateCaptionTriggerSaga),
+      takeLatest(ACTION.COPY_TRIGGER, copyTriggerSagas),
       takeLatest(ACTION.DELETE_SCENARIO, deleteScenarioSagas),
       takeLatest(ACTION.UPDATE_SOCIAL_IN_TRIGGER, updateSocialInTriggerSagas),
       takeLatest(ACTION.GET_ALL_AUTORIDES, getAllAutoridesSagas),

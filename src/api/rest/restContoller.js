@@ -52,6 +52,10 @@ export const updateTrigger = triggerData => (
    instance.post(`/EditTrigger/`, triggerData)
 );
 
+export const copyTrigger = triggerData => (
+	instance.post(`/CopyTrigger/`, triggerData)
+);
+
 export const deleteTrigger = triggerData => (
    instance.post(`/DeleteTrigger/`, triggerData)
 );

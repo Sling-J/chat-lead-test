@@ -397,10 +397,29 @@
                padding: 5px 10px 7px;
             }
 
+            .mlp-result-content-item__button-container {
+               display: block;
+               width: 48%;
+
+               .mlp-result-content-item__button-link {
+                  font-weight: 400;
+                  text-transform: initial;
+                  color: #fff;
+                  background: $theme__bg-color;
+                  transition: all 0.3s;
+                  width: 100%;
+
+                  &:hover {
+                     background: darken($theme__bg-color, 10%);
+                     color: #fff;
+                  }
+               }
+            }
+
             .mlp-result-content-item__button {
                font-weight: 400;
                text-transform: initial;
-               width: 100%;
+               width: 48%;
                color: $theme__bg-color;
                border-color: $theme__bg-color;
                transition: all 0.3s;

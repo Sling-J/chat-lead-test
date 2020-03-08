@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {Table, Input, Icon, Button} from 'antd';
+import {Table, Input, Button} from 'antd';
+import {SearchOutlined, EditOutlined, DeleteOutlined} from "@ant-design/icons";
 import Highlighter from 'react-highlight-words';
 import {moduleName as statisticsModule} from "../../../ducks/Statistics";
 
@@ -31,7 +32,7 @@ class StatisticsForm extends React.Component {
             <Button
                type="primary"
                onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
-               icon="search"
+               icon={<SearchOutlined/>}
                size="small"
                style={{width: 90, marginRight: 8}}
             >
@@ -43,7 +44,7 @@ class StatisticsForm extends React.Component {
          </div>
       ),
       filterIcon: filtered => (
-         <Icon type="search" style={{color: filtered ? '#1890ff' : undefined}}/>
+         <SearchOutlined style={{color: filtered ? '#1890ff' : undefined}}/>
       ),
       onFilter: (value, record) =>
          record[dataIndex]

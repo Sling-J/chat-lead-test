@@ -19,6 +19,10 @@ import ContextMenuBots from './contextMenuBots/contextMenuBots';
 import {getAllBotsForUser} from "../../actions/actionCreator";
 import {logout} from "../../ducks/Auth";
 import {moduleName as statisticsModule} from "../../ducks/Statistics";
+import {moduleName as paymentModule} from "../../ducks/Payment";
+import {moduleName as profileModule} from "../../ducks/Profile";
+import {moduleName as growthToolModule} from "../../ducks/GrowthTool";
+import {moduleName as tagsModule} from "../../ducks/Tags";
 import history from "../../config/history/history";
 
 import style from './mainHeader.module.sass';
@@ -44,9 +48,9 @@ const MainHeader = props => {
 
    const menu = (
       <ul className={style.contextMenuContainer}>
-         {/*<li>*/}
-         {/*   <Link to="/bots/profile">Аккаунт</Link>*/}
-         {/*</li>*/}
+         <li>
+            <Link to="/bots/profile">Аккаунт</Link>
+         </li>
          <li>
             <Link to="/bots/tariff/payment">Тарифы</Link>
          </li>
@@ -84,7 +88,12 @@ const MainHeader = props => {
             props.isFetchingBroadCast ||
             props.isFetchingAutoRides ||
             props.isFetchingBotsReducers ||
-            props.loadingOfStatistics
+            props.loadingOfStatistics ||
+            props.errorOfMLP ||
+            props.errorOfPayment ||
+            props.errorOfOfTransactions ||
+            props.errorOfProfile ||
+            props.errorOfTags
          )
          && <LinearProgress className={style.linearProgress}/>
          }
@@ -127,9 +136,9 @@ const MainHeader = props => {
             <div className={style.servicesMenu}>
                {isServiceHeader && (
                   <ul className={style.servicesMenuContainer}>
-                     {/*<li>*/}
-                     {/*   <NavLink to="/bots/profile" activeClassName={style.servicesMenuItem}>Аккаунт</NavLink>*/}
-                     {/*</li>*/}
+                     <li>
+                        <NavLink to="/bots/profile" activeClassName={style.servicesMenuItem}>Аккаунт</NavLink>
+                     </li>
                      <li>
                         <NavLink to="/bots/tariff/payment" activeClassName={style.servicesMenuItem}>Тарифы</NavLink>
                      </li>
@@ -157,7 +166,6 @@ const MainHeader = props => {
    )
 };
 
-
 const mapStateToProps = state => {
    const {changedBotData, isFetching, error} = state.botsReducers;
 
@@ -168,8 +176,13 @@ const mapStateToProps = state => {
    const isFetchingBroadCast = state.broadCastReducers.isFetching;
    const isFetchingAutoRides = state.autoridesReducers.isFetching;
    const isFetchingBotsReducers = state.botsReducers.isFetching;
-   const loadingOfStatistics = state[statisticsModule].loadingOfStatistics;
+   const loadingOfStatistics = state[growthToolModule].loadingOfStatistics;
 
+   const errorOfMLP = state[statisticsModule].errorOfMLP;
+   const errorOfPayment = state[paymentModule].errorOfPayment;
+   const errorOfOfTransactions = state[paymentModule].errorOfOfTransactions;
+   const errorOfProfile = state[profileModule].errorOfProfile;
+   const errorOfTags = state[tagsModule].errorOfTags;
    const errorOfSetup = state.botSetupReducers.error;
    const errorOfBot = state.singleBotReducers.error;
    const errorOfBroadCast = state.broadCastReducers.error;
@@ -183,7 +196,12 @@ const mapStateToProps = state => {
       isFetchingAutoRides, isFetchingBotsReducers,
       loadingOfStatistics,errorOfSetup, errorOfBot,
       errorOfBroadCast, errorOfAutoRides,
-      errorOfBotsReducers, errorOfStatistics
+      errorOfBotsReducers, errorOfStatistics,
+      errorOfMLP,
+      errorOfPayment,
+      errorOfOfTransactions,
+      errorOfProfile,
+      errorOfTags,
    }
 };
 

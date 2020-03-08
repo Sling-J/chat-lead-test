@@ -3,7 +3,6 @@ import {put, call, take, all, takeEvery} from 'redux-saga/effects';
 import {userAccessToken} from "../utils/userToken";
 import {Payments} from '../config/service/service';
 import {appName} from '../config/service/config';
-import ACTION from "../actions/actionTypes";
 
 /**
  * Constants

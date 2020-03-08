@@ -6,8 +6,8 @@ import {withRouter} from "react-router-dom";
 import {getAllAutorides} from "../../../actions/actionCreator";
 
 import SwipeableViews from "react-swipeable-views";
-import {Modal} from "antd";
 import Button from "@material-ui/core/Button";
+import {Modal, Spin} from "antd";
 import {useTheme} from '@material-ui/core/styles';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCog, faFileAlt, faCode, faCheck} from "@fortawesome/free-solid-svg-icons";
@@ -129,7 +129,8 @@ const GrowthToolMlp = ({
 
    useEffect(() => {
       if (Object.keys(updatedMLP).length !== 0) {
-         setPage(0);
+         setValue(3);
+         // setPage(0);
       }
    }, [updatedMLP]);
 
@@ -210,14 +211,15 @@ const GrowthToolMlp = ({
                      if (value === 2) {
                         !mlpId
                            ? createMLP(requestData)
-                           : setValue(3);
+                           : updateMLP(requestData);
                      } else if (value !== 3) {
                         setValue(value === 0 ? 1 : value === 1 ? 2 : 0);
                      } else {
                         getMLP(match.params.botId);
-                        mlpId
-                           ? updateMLP(requestData)
-                           : setPage(0);
+                        setPage(0);
+                        // mlpId
+                        //    ? updateMLP(requestData)
+                        //    : setPage(0);
                      }
                   }
                }}
@@ -226,124 +228,126 @@ const GrowthToolMlp = ({
             </Button>
          </div>
 
-         <div className="mlp-body">
-            <div className="mlp-body-nav">
-               <ul className="mlp-body-nav__menu pv1-flex pv1-j-sb pv1-flex-align-center">
-                  <li className={`mlp-body-nav-menu__item ${value === 0 && 'mlp-body-nav-menu__item-active'}`}
-                      onClick={() => handleChange(0)}>
-                     <FontAwesomeIcon className="mlp-body-nav-menu-item__icon" icon={faCog}/>
-                     Основные настройки
-                  </li>
-                  <li className={`mlp-body-nav-menu__item ${value === 1 && 'mlp-body-nav-menu__item-active'}`}
-                      onClick={() => handleChange(1)}>
-                     <FontAwesomeIcon className="mlp-body-nav-menu-item__icon" icon={faFileAlt}/>
-                     Содержимое
-                  </li>
-                  <li className={`mlp-body-nav-menu__item ${value === 2 && 'mlp-body-nav-menu__item-active'}`}
-                      onClick={() => handleChange(2)}>
-                     <FontAwesomeIcon className="mlp-body-nav-menu-item__icon" icon={faCode}/>
-                     Код
-                  </li>
-                  <li className={`mlp-body-nav-menu__item ${value === 3 && 'mlp-body-nav-menu__item-active'}`}
-                      onClick={() => disabled ? warning() : handleChange(3)}>
-                     <FontAwesomeIcon className="mlp-body-nav-menu-item__icon" icon={faCheck}/>
-                     Готово
-                  </li>
-               </ul>
+         <Spin spinning={loadingOfUserMLP}>
+            <div className="mlp-body">
+               <div className="mlp-body-nav">
+                  <ul className="mlp-body-nav__menu pv1-flex pv1-j-sb pv1-flex-align-center">
+                     <li className={`mlp-body-nav-menu__item ${value === 0 && 'mlp-body-nav-menu__item-active'}`}
+                         onClick={() => handleChange(0)}>
+                        <FontAwesomeIcon className="mlp-body-nav-menu-item__icon" icon={faCog}/>
+                        Основные настройки
+                     </li>
+                     <li className={`mlp-body-nav-menu__item ${value === 1 && 'mlp-body-nav-menu__item-active'}`}
+                         onClick={() => handleChange(1)}>
+                        <FontAwesomeIcon className="mlp-body-nav-menu-item__icon" icon={faFileAlt}/>
+                        Содержимое
+                     </li>
+                     <li className={`mlp-body-nav-menu__item ${value === 2 && 'mlp-body-nav-menu__item-active'}`}
+                         onClick={() => handleChange(2)}>
+                        <FontAwesomeIcon className="mlp-body-nav-menu-item__icon" icon={faCode}/>
+                        Код
+                     </li>
+                     <li className={`mlp-body-nav-menu__item ${value === 3 && 'mlp-body-nav-menu__item-active'}`}
+                         onClick={() => disabled ? warning() : handleChange(3)}>
+                        <FontAwesomeIcon className="mlp-body-nav-menu-item__icon" icon={faCheck}/>
+                        Готово
+                     </li>
+                  </ul>
+               </div>
+
+               <SwipeableViews
+                  axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                  index={value}
+                  onChangeIndex={handleChangeIndex}
+               >
+                  <TabPanel
+                     value={value}
+                     index={0}
+                     settingTitle={settingTitle}
+                     setSettingTitle={setSettingTitle}
+                     autoRidesData={autoRidesData}
+                     setSelectedAutoRide={setSelectedAutoRide}
+                     selectedAutoRide={selectedAutoRide}
+                     loadingOfAutoRides={loadingOfAutoRides}
+                     loadingOfUserMLP={loadingOfUserMLP}
+                  />
+
+                  <TabPanel
+                     value={value}
+                     index={1}
+                     selectedAutoRide={selectedAutoRide}
+                     youtubeField={youtubeField}
+                     setYoutubeField={setYoutubeField}
+                     description1={description1}
+                     setDescription1={setDescription1}
+                     phone1={phone1}
+                     setPhone1={setPhone1}
+                     description2={description2}
+                     setDescription2={setDescription2}
+                     phone2={phone2}
+                     setPhone2={setPhone2}
+                     actionText={actionText}
+                     setActionText={setActionText}
+                     setImageUrl={setImageUrl}
+                     imageUrl={imageUrl}
+                     firstSectionTabs={firstSectionTabs}
+                     setFirstSectionTabs={setFirstSectionTabs}
+                     secondSectionTabs={secondSectionTabs}
+                     setSecondSectionTabs={setSecondSectionTabs}
+                     setPage={setValue}
+                     radioTab={radioTab}
+                     setRadioTab={setRadioTab}
+                     setSocialList={socialList}
+                  />
+
+                  <TabPanel
+                     value={value}
+                     index={2}
+                     scriptForHead={scriptForHead}
+                     setScriptForHead={setScriptForHead}
+                     scriptForBody={scriptForBody}
+                     setScriptForBody={setScriptForBody}
+                     selectedAutoRide={selectedAutoRide}
+                     description1={description1}
+                     setPhone1={setPhone1}
+                     setPhone2={setPhone2}
+                     phone1={phone1}
+                     description2={description2}
+                     phone2={phone2}
+                     actionText={actionText}
+                     firstSectionTabs={firstSectionTabs}
+                     setFirstSectionTabs={setFirstSectionTabs}
+                     secondSectionTabs={secondSectionTabs}
+                     setSecondSectionTabs={setSecondSectionTabs}
+                     setPage={setValue}
+                     setSocialList={socialList}
+                     loadingOfCreation={loadingOfCreation}
+                     imageUrl={imageUrl}
+                  />
+
+                  <TabPanel
+                     value={value}
+                     index={3}
+                     firstSectionTabs={firstSectionTabs}
+                     secondSectionTabs={secondSectionTabs}
+                     selectedAutoRide={selectedAutoRide}
+                     disabled={disabled}
+                     description1={description1}
+                     actionText={actionText}
+                     phone2={phone2}
+                     phone1={phone1}
+                     setPhone1={setPhone1}
+                     setPhone2={setPhone2}
+                     description2={description2}
+                     setPage={setValue}
+                     setSocialList={socialList}
+                     mlpId={mlpId}
+                     loadingOfUpdating={loadingOfUpdating}
+                     imageUrl={imageUrl}
+                  />
+               </SwipeableViews>
             </div>
-
-            <SwipeableViews
-               axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-               index={value}
-               onChangeIndex={handleChangeIndex}
-            >
-               <TabPanel
-                  value={value}
-                  index={0}
-                  settingTitle={settingTitle}
-                  setSettingTitle={setSettingTitle}
-                  autoRidesData={autoRidesData}
-                  setSelectedAutoRide={setSelectedAutoRide}
-                  selectedAutoRide={selectedAutoRide}
-                  loadingOfAutoRides={loadingOfAutoRides}
-                  loadingOfUserMLP={loadingOfUserMLP}
-               />
-
-               <TabPanel
-                  value={value}
-                  index={1}
-                  selectedAutoRide={selectedAutoRide}
-                  youtubeField={youtubeField}
-                  setYoutubeField={setYoutubeField}
-                  description1={description1}
-                  setDescription1={setDescription1}
-                  phone1={phone1}
-                  setPhone1={setPhone1}
-                  description2={description2}
-                  setDescription2={setDescription2}
-                  phone2={phone2}
-                  setPhone2={setPhone2}
-                  actionText={actionText}
-                  setActionText={setActionText}
-                  setImageUrl={setImageUrl}
-                  imageUrl={imageUrl}
-                  firstSectionTabs={firstSectionTabs}
-                  setFirstSectionTabs={setFirstSectionTabs}
-                  secondSectionTabs={secondSectionTabs}
-                  setSecondSectionTabs={setSecondSectionTabs}
-                  setPage={setValue}
-                  radioTab={radioTab}
-                  setRadioTab={setRadioTab}
-                  setSocialList={socialList}
-               />
-
-               <TabPanel
-                  value={value}
-                  index={2}
-                  scriptForHead={scriptForHead}
-                  setScriptForHead={setScriptForHead}
-                  scriptForBody={scriptForBody}
-                  setScriptForBody={setScriptForBody}
-                  selectedAutoRide={selectedAutoRide}
-                  description1={description1}
-                  setPhone1={setPhone1}
-                  setPhone2={setPhone2}
-                  phone1={phone1}
-                  description2={description2}
-                  phone2={phone2}
-                  actionText={actionText}
-                  firstSectionTabs={firstSectionTabs}
-                  setFirstSectionTabs={setFirstSectionTabs}
-                  secondSectionTabs={secondSectionTabs}
-                  setSecondSectionTabs={setSecondSectionTabs}
-                  setPage={setValue}
-                  setSocialList={socialList}
-                  loadingOfCreation={loadingOfCreation}
-                  imageUrl={imageUrl}
-               />
-
-               <TabPanel
-                  value={value}
-                  index={3}
-                  firstSectionTabs={firstSectionTabs}
-                  secondSectionTabs={secondSectionTabs}
-                  selectedAutoRide={selectedAutoRide}
-                  disabled={disabled}
-                  description1={description1}
-                  actionText={actionText}
-                  phone2={phone2}
-                  phone1={phone1}
-                  setPhone1={setPhone1}
-                  setPhone2={setPhone2}
-                  description2={description2}
-                  setPage={setValue}
-                  setSocialList={socialList}
-                  mlpId={mlpId}
-                  loadingOfUpdating={loadingOfUpdating}
-                  imageUrl={imageUrl}
-               />
-            </SwipeableViews>
-         </div>
+         </Spin>
       </div>
    );
 };

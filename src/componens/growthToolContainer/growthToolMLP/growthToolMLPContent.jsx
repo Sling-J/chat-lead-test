@@ -79,7 +79,7 @@ const GrowthToolMlpContent = props => {
                               {imageUrl.length !== 0 ? (
                                  <img src={imageUrl} alt="MLP example"/>
                               ) : (
-                                 <Icon type="plus"/>
+                                 <Icon/>
                               )}
                            </Spin>
                         </label>

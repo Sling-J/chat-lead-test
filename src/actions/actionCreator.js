@@ -79,6 +79,11 @@ export const editTriggerCaption = triggerData => ({
    triggerData
 });
 
+export const copyTrigger = triggerData => ({
+   type: ACTION.COPY_TRIGGER,
+   payload: triggerData
+});
+
 export const updateSocialInTrigger = triggerData => ({
    type: ACTION.UPDATE_SOCIAL_IN_TRIGGER,
    triggerData

@@ -76,6 +76,11 @@ export const Payments = {
    getTransactions: data => instance.post('/GetTransactions/', data),
 };
 
+export const Profile = {
+   getProfile: data => instance.post('/GetProfile/', data),
+   updateProfile: data => instance.post('/UpdateProfile/', data),
+};
+
 export const Tags = {
    addTag: data => instance.post('/AddTags/', data),
    deleteTag: data => instance.post('/DeleteTag/', data),

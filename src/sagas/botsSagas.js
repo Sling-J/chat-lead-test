@@ -21,7 +21,8 @@ import {
    editScenario,
    getAutoridesLink,
    deleteTrigger,
-   deleteBroadcast
+   deleteBroadcast,
+   copyTrigger
 } from "../api/rest/restContoller";
 import {signUpErrors} from "../constants/errors/user";
 import {destinationScenario} from "../constants/defaultValues";
@@ -388,6 +389,33 @@ export function* updateCaptionTriggerSaga({triggerData}) {
    }
 }
 
+export function* copyTriggerSagas(action) {
+   if (userAccessToken()) {
+      try {
+         yield put({type: ACTION.EDIT_TRIGGER_REQUEST});
+
+         const formData = new FormData();
+         formData.append('user_token', userAccessToken());
+         formData.append('trigger_id', action.payload.trigger_id);
+         formData.append('scenario_id', action.payload.scenario_id);
+         formData.append('bot_id', action.payload.botId);
+
+         const {data} = yield call(copyTrigger, formData);
+
+         if (data.ok) {
+            const allScenarios = yield call(getScenariesForManager, formData);
+
+            if (allScenarios.data.ok) {
+               yield put({type: ACTION.SINGLE_BOT_DATA_RESPONSE, dataScenarios: allScenarios.data.scenarios});
+            }
+         } else {
+            yield put({type: ACTION.SINGLE_BOT_DATA_ERROR, error: signUpErrors[data.desc]})
+         }
+      } catch (e) {
+         yield put({type: ACTION.SINGLE_BOT_DATA_ERROR, error: e.message})
+      }
+   }
+}
 
 export function* updateSocialInTriggerSagas({triggerData}) {
    const {id, botId, social} = triggerData;

@@ -1,15 +1,18 @@
 import React, {useState} from 'react';
-import style from './triggers.module.sass';
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
+
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClone, faCommentDots, faTrashAlt} from "@fortawesome/free-regular-svg-icons";
 import {faPen} from "@fortawesome/free-solid-svg-icons";
-import {connect} from "react-redux";
-import {deleteTrigger, editTriggerCaption} from "../../../../actions/actionCreator";
-import {withRouter} from "react-router-dom";
 
+import {copyTrigger, deleteTrigger, editTriggerCaption} from "../../../../actions/actionCreator";
+
+import style from './triggers.module.sass';
 
 const Triggers = (props) => {
-   const {changedScenario, changeTriggerId, changedTriggerId} = props;
+   const {changedScenario, changeTriggerId, changedTriggerId, copyTrigger} = props;
    const [triggerIdEdit, setTriggerIdEdit] = useState(false);
 
    const deleteHandler = (id, index) => {
@@ -63,16 +66,10 @@ const Triggers = (props) => {
                   </p>
                   <p
                      className={style.penIcon}
-                     style={triggerIdEdit === mainTriggerIdx ? {visibility: 'hidden'} : {right: '30px'}}
+                     style={triggerIdEdit === mainTriggerIdx ? {visibility: 'hidden'} : {right: '10px'}}
                      onClick={() => setTriggerIdEdit(mainTriggerIdx)}
                   >
                      <FontAwesomeIcon icon={faPen}/>
-                  </p>
-                  <p
-                     className={style.cloneIcon}
-                     style={triggerIdEdit === mainTriggerIdx ? {visibility: 'hidden'} : {right: '10px'}}
-                  >
-                     <FontAwesomeIcon icon={faClone}/>
                   </p>
                </div>
 
@@ -108,7 +105,7 @@ const Triggers = (props) => {
                      </p>
                      <p
                         className={style.penIcon}
-                        style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '30px'}}
+                        style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '50px'}}
                         onClick={e => {
                            e.stopPropagation();
                            setTriggerIdEdit(index)
@@ -116,10 +113,21 @@ const Triggers = (props) => {
                      >
                         <FontAwesomeIcon icon={faPen}/>
                      </p>
-                     {/*<p className={style.cloneIcon}*/}
-                     {/*   style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '30px'}}>*/}
-                     {/*   <FontAwesomeIcon icon={faClone}/>*/}
-                     {/*</p>*/}
+                     <p
+                        className={style.cloneIcon}
+                        style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '30px'}}
+                        onClick={e => {
+                           e.stopPropagation();
+
+                           copyTrigger({
+                              trigger_id: trigger.id,
+                              scenario_id: changedScenario.id,
+                              botId: props.match.params.botId,
+                           });
+                        }}
+                     >
+                        <FontAwesomeIcon icon={faClone}/>
+                     </p>
                      <p
                         className={style.trash}
                         style={triggerIdEdit === index ? {visibility: 'hidden'} : {right: '10px'}}
@@ -139,9 +147,12 @@ const Triggers = (props) => {
 };
 
 const mapDispatchToProps = dispatch => ({
+   copyTrigger: (triggerData) => dispatch(copyTrigger(triggerData)),
    deleteTrigger: (triggerData) => dispatch(deleteTrigger(triggerData)),
-   updateTrigger: (triggerData) => dispatch(editTriggerCaption(triggerData))
+   updateTrigger: (triggerData) => dispatch(editTriggerCaption(triggerData)),
 });
 
-
-export default withRouter(connect(null, mapDispatchToProps)(Triggers));
+export default compose(
+   withRouter,
+   connect(null, mapDispatchToProps)
+)(Triggers);

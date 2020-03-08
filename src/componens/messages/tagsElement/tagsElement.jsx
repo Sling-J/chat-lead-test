@@ -139,7 +139,9 @@ const TagsElement = props => {
                               style={{padding: '4px 8px', cursor: 'pointer'}}
                               onMouseDown={e => e.preventDefault()}
                            >
-                              {!result && searchValue.length !== 0 && (<><Icon type="plus"/> Создать «{searchValue}»</>)}
+                              {!result && searchValue.length !== 0 && (
+                                 <><Icon type="plus"/> Создать «{searchValue}»</>
+                              )}
                            </div>
                            <Divider style={{margin: '4px 0'}}/>
                            {menu}

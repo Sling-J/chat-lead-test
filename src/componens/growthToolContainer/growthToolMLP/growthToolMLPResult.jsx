@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {connect} from "react-redux";
 
-import {Input, Icon} from 'antd';
+import {Icon} from 'antd';
 import Button from "@material-ui/core/Button";
 
 import GrowthToolMLPDemo from "./growthToolMLPDemo";
@@ -17,16 +17,26 @@ const GrowthToolMlpResult = props => (
             <div className="mlp-result-content">
                <div className="mlp-result-content__item">
                   <p className="mlp-result-content-item__title">Домен</p>
-                  <p className="mlp-result-content-item__domain">http://chatl.cc/mlp/{props.createdMLP.id || props.updatedMLP.id || props.mlpId}</p>
+                  <p className="mlp-result-content-item__domain">http://chatlead.me/{props.createdMLP.id || props.updatedMLP.id || props.mlpId}</p>
                </div>
 
-               <div className="mlp-result-content__item">
+               <div className="mlp-result-content__item pv1-flex pv1-j-sb pv1-flex-align-center">
+                  <a
+                     className="mlp-result-content-item__button-container"
+                     href={`http://chatlead.me/${props.createdMLP.id || props.updatedMLP.id || props.mlpId}`}
+                     target="_blank"
+                  >
+                     <Button variant="contained" className="mlp-result-content-item__button-link">
+                        Открыть в новой вкладке
+                     </Button>
+                  </a>
+
                   <CopyToClipboard>
                      {({copy}) => (
                         <Button
                            variant="outlined"
                            className="mlp-result-content-item__button"
-                           onClick={() => copy(`http://chatl.cc/mlp/${props.createdMLP.id || props.updatedMLP.id || props.mlpId}`)}
+                           onClick={() => copy(`http://chatlead.me/${props.createdMLP.id || props.updatedMLP.id || props.mlpId}`)}
                         >
                            <Icon type="copy"/>
                            Скопировать ссылку

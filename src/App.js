@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Provider} from "react-redux";
-import {LocaleProvider} from "antd";
+import {ConfigProvider} from 'antd';
 import {ConnectedRouter} from 'connected-react-router';
 
 import ru_RU from "antd/es/locale-provider/ru_RU";
@@ -16,13 +16,13 @@ import "moment/locale/ru";
 moment.locale('ru');
 
 const App = () => (
-   <LocaleProvider locale={ru_RU}>
+   <ConfigProvider locale={ru_RU}>
       <Provider store={store}>
          <ConnectedRouter history={history}>
             <Root/>
          </ConnectedRouter>
       </Provider>
-   </LocaleProvider>
+   </ConfigProvider>
 );
 
 export default App;

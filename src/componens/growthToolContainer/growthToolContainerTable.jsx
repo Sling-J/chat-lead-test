@@ -4,11 +4,12 @@ import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 
 import Highlighter from "react-highlight-words";
-import {Button, Icon, Input, Table, Popconfirm, Tooltip} from "antd";
+import {Button, Icon, Input, Table, Tooltip} from "antd";
 
 import {moduleName as growthToolModule, deleteMLP} from "../../ducks/GrowthTool";
 
 import {formatUnixToDate} from "../../utils/formatDate";
+import {deletionConfirmation} from "../../utils/deletionConfirmation";
 
 class GrowthToolContainerTable extends Component {
    state = {
@@ -118,12 +119,16 @@ class GrowthToolContainerTable extends Component {
                      this.props.setPage(1)
                   }}/>
                </Tooltip>
-               <Popconfirm title="Вы уверены что хотите удалить?" onConfirm={() => this.props.deleteMLP({
-                  botId: this.props.match.params.botId,
-                  mlpId: record.key
-               })}>
-                  <Icon type="delete"/>
-               </Popconfirm>
+               <Tooltip title="Удалить">
+                  <Icon type="delete" onClick={() => deletionConfirmation(
+                     this.props.deleteMLP,
+                     {
+                        botId: this.props.match.params.botId,
+                        mlpId: record.key
+                     },
+                     "Вы уверены что хотите удалить?"
+                  )}/>
+               </Tooltip>
             </div>
          ),
       },

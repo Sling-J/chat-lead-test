@@ -5,7 +5,8 @@ import {withRouter} from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {Modal, Upload, Icon, Input, message} from "antd";
+import {Modal, Upload, Input, message} from "antd";
+import {InboxOutlined} from "@ant-design/icons";
 
 import {userAccessToken} from "../../../utils/userToken";
 import {
@@ -221,7 +222,7 @@ const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers
                }}
             >
                <p className="ant-upload-drag-icon">
-                  <Icon type="inbox"/>
+                  <InboxOutlined />
                </p>
                <p className="ant-upload-text">Нажмите или перетащите файл в эту область, чтобы загрузить</p>
                <p className="ant-upload-hint">
