@@ -3,13 +3,10 @@ import {connect} from 'react-redux';
 
 import {Table, Input, Button, Icon} from 'antd';
 import Highlighter from 'react-highlight-words';
-import {moduleName as statisticsModule} from "../../../ducks/Statistics";
+import {moduleName as growthToolModule} from "../../../ducks/GrowthTool";
 
-import {formatUnixToDate} from "../../../utils/formatDate";
-
-class StatisticsForm extends React.Component {
+class StatisticsMLP extends React.Component {
    state = {
-      selectedRowKeys: [],
       searchText: '',
       searchedColumn: '',
       newForm: []
@@ -81,52 +78,52 @@ class StatisticsForm extends React.Component {
       this.setState({searchText: ''});
    };
 
-   onSelectChange = selectedRowKeys => {
-      this.setState({selectedRowKeys});
-   };
-
    render() {
-      const {selectedRowKeys} = this.state;
-      const {statistics, loadingOfStatistics} = this.props;
+      const {mlpForms, loadingOfMLPForms} = this.props;
       const newArr = [];
 
-      Object.keys(statistics).length !== 0 && statistics.forms.length !== 0 && statistics.forms.forEach(form => {
+      mlpForms.forEach(form => {
          newArr.push({
-            submit_date: formatUnixToDate(form.submit_date),
-            form: form.form
+            mlp_id: `http://chatlead.me/${form.mlp_id}`,
+            phone: form.phone
          })
       });
 
-      const rowSelection = {
-         selectedRowKeys,
-         onChange: this.onSelectChange
-      };
-
       const columns = [
          {
-            title: 'Дата',
-            dataIndex: 'submit_date',
+            title: 'Домен',
+            dataIndex: 'mlp_id',
+            width: '60%',
+            ...this.getColumnSearchProps('mlp_id'),
+            render: text => <a href={text} target="_blank">{text}</a>
          },
          {
-            title: 'Форма',
-            dataIndex: 'form',
-            ...this.getColumnSearchProps('form'),
-            width: '70%'
+            title: 'Номер телефона',
+            dataIndex: 'phone',
+            ...this.getColumnSearchProps('phone'),
          },
          {
             title: 'Деиствие',
             dataIndex: 'action',
+            // render: () => (
+            //    <div className="statistics-tag-actions">
+            //       <div className="statistics-tag-actions__delete">
+            //          <Tooltip title="Удалить">
+            //             <Icon type="delete"/>
+            //          </Tooltip>
+            //       </div>
+            //    </div>
+            // )
          },
       ];
 
       return (
-         <div className="statistics-form">
-            <div className="statistics-form__table">
-               <p className="statistics-table__title">Заявки с формы</p>
+         <div className="statistics-mlp">
+            <div className="statistics-mlp__table">
+               <p className="statistics-table__title">Заявки с MLP</p>
 
                <Table
-                  rowSelection={rowSelection}
-                  loading={loadingOfStatistics}
+                  loading={loadingOfMLPForms}
                   columns={columns}
                   dataSource={newArr}
                />
@@ -137,9 +134,9 @@ class StatisticsForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
-   statistics: state[statisticsModule].statistics,
-   loadingOfStatistics: state[statisticsModule].loadingOfStatistics,
-   errorOfStatistics: state[statisticsModule].errorOfStatistics
+   mlpForms: state[growthToolModule].mlpForms,
+   loadingOfMLPForms: state[growthToolModule].loadingOfMLPForms,
+   errorOfMLPForms: state[growthToolModule].errorOfMLPForms
 });
 
-export default connect(mapStateToProps)(StatisticsForm);
+export default connect(mapStateToProps)(StatisticsMLP);

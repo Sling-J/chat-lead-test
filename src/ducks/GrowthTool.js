@@ -35,6 +35,10 @@ export const UPDATE_MLP_REQUEST = `${prefix}/UPDATE_MLP_REQUEST`;
 export const UPDATE_MLP_SUCCESS = `${prefix}/UPDATE_MLP_SUCCESS`;
 export const UPDATE_MLP_FAILURE = `${prefix}/UPDATE_MLP_FAILURE`;
 
+export const GET_MLP_FORMS_REQUEST = `${prefix}/GET_MLP_FORMS_REQUEST`;
+export const GET_MLP_FORMS_SUCCESS = `${prefix}/GET_MLP_FORMS_SUCCESS`;
+export const GET_MLP_FORMS_FAILURE = `${prefix}/GET_MLP_FORMS_FAILURE`;
+
 export const REFRESH_MLP_DATA = `${prefix}/REFRESH_MLP_DATA`;
 
 export const defaultMLPSettings = (
@@ -95,6 +99,10 @@ const initialState = {
    updatedMLP: {},
    loadingOfUpdating: false,
    errorOfUpdating: null,
+
+   mlpForms: [],
+   loadingOfMLPForms: false,
+   errorOfMLPForms: null,
 
    loadingOfDeleting: false,
    errorOfDeleting: null,
@@ -248,6 +256,29 @@ export default (state = initialState, action) => {
             errorOfDeleting: action.error
          };
 
+      case GET_MLP_FORMS_REQUEST:
+         return {
+            ...state,
+            loadingOfMLPForms: true,
+            errorOfMLPForms: null
+         };
+
+      case GET_MLP_FORMS_SUCCESS:
+         return {
+            ...state,
+            mlpForms: action.payload,
+            loadingOfMLPForms: false,
+            errorOfMLPForms: null
+         };
+
+      case GET_MLP_FORMS_FAILURE:
+         return {
+            ...state,
+            mlpForms: [],
+            loadingOfMLPForms: false,
+            errorOfMLPForms: action.error
+         };
+
       case REFRESH_MLP_DATA:
          return {
             ...state,
@@ -298,6 +329,11 @@ export const updateMLP = data => ({
 
 export const deleteMLP = data => ({
    type: DELETE_MLP_REQUEST,
+   payload: data
+});
+
+export const getMLPForms = data => ({
+   type: GET_MLP_FORMS_REQUEST,
    payload: data
 });
 
@@ -428,6 +464,29 @@ function* deleteMLPSaga() {
    }
 }
 
+function* getMLPFormsSaga() {
+   while (true) {
+      const action = yield take(GET_MLP_FORMS_REQUEST);
+
+      try {
+         const formData = new FormData();
+
+         formData.append('user_token', userAccessToken());
+         formData.append('bot_id', action.payload);
+
+         const {data} = yield call(GrowthTool.mlp.getForms, formData);
+
+         if (data.ok) {
+            yield put({type: GET_MLP_FORMS_SUCCESS, payload: data.forms});
+         } else {
+            yield put({type: GET_MLP_FORMS_FAILURE, error: data.desc});
+         }
+      } catch (e) {
+         yield put({type: GET_MLP_FORMS_FAILURE, error: e.message});
+      }
+   }
+}
+
 function* uploadImageForMLPSaga() {
    while (true) {
       const action = yield take(UPLOAD_MEDIA_REQUEST);
@@ -456,6 +515,7 @@ function* uploadImageForMLPSaga() {
 export const saga = function* () {
    yield all([
       uploadImageForMLPSaga(),
+      getMLPFormsSaga(),
       getUserMLPSaga(),
       updateMLPSaga(),
       createMLPSaga(),

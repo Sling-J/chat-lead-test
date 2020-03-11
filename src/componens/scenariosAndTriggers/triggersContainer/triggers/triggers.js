@@ -15,7 +15,7 @@ const Triggers = (props) => {
    const {changedScenario, changeTriggerId, changedTriggerId, copyTrigger} = props;
    const [triggerIdEdit, setTriggerIdEdit] = useState(false);
 
-   const deleteHandler = (id, index) => {
+   const deleteHandler = id => {
       const triggerData = {
          id,
          botId: props.match.params.botId

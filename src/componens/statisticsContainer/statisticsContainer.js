@@ -7,13 +7,15 @@ import StatisticsInfo from "./statisticsInfo/statisticsInfo";
 import StatisticsSchedule from "./statisticsSchedule/statisticsSchedule";
 import StatisticsTag from "./statisticsTag/statisticsTag";
 import StatisticsForm from "./statisticsForm/statisticsForm";
+import StatisticsMLP from "./statisticsMLP/statisticsMLP";
 
 import {moduleName as statisticsModule, getBotStatistics} from "../../ducks/Statistics";
 import {getTags} from "../../ducks/Tags";
+import {getMLPForms} from "../../ducks/GrowthTool";
 
 import {formatDateToUnix} from "../../utils/formatDate";
 
-const StatisticsContainer = ({match, getBotStatistics, getTags}) => {
+const StatisticsContainer = ({match, getBotStatistics, getTags, getMLPForms}) => {
    const [activeTab, setActiveTab] = useState(1);
    const [tabs] = useState([
       {name: 'Все', key: '1'},
@@ -32,6 +34,7 @@ const StatisticsContainer = ({match, getBotStatistics, getTags}) => {
 
    useEffect(() => {
       getTags(match.params.botId, true);
+      getMLPForms(match.params.botId);
       getBotStatistics({
          botId: match.params.botId,
          startDate: formatDateToUnix(defaultStartDay),
@@ -55,6 +58,7 @@ const StatisticsContainer = ({match, getBotStatistics, getTags}) => {
             />
          </div>
          <StatisticsTag/>
+         <StatisticsMLP/>
          <StatisticsForm/>
       </div>
    );
@@ -67,6 +71,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+   getMLPForms: (data) => dispatch(getMLPForms(data)),
    getBotStatistics: data => dispatch(getBotStatistics(data)),
    getTags: (botId, need_statistic) => dispatch(getTags(botId, need_statistic)),
 });
