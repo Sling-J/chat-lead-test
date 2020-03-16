@@ -477,27 +477,22 @@
          }
 
          .mlp-content-result-info-item__field {
-            align-items: center;
-            display: flex;
-
             p {
                font-size: 15px;
-               width: 200px;
-               position: relative;
-
-               &::after {
-                  z-index: 999;
-                  content: '+7';
-                  display: block;
-                  position: absolute;
-                  font-size: 14px;
-                  right: -27px;
-                  top: 0;
-               }
+               margin-bottom: 7px;
             }
 
             input {
-               padding-left: 26.5px;
+               background-color: #f1f1f1;
+               border-color: #f1f1f1;
+
+               &:focus {
+                  box-shadow: 0 0 0 1px #b3deff;
+               }
+
+               &::placeholder {
+                  color: #5a5a5a;
+               }
 
                &:disabled {
                   cursor: inherit;

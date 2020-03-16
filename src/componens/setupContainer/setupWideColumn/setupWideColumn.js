@@ -89,8 +89,8 @@ class SetupWideColumn extends Component {
 
          const facebook = filteredMessage && getFilledStatus('facebook', filteredMessage.triggers[0]);
          const telegram = filteredMessage && getFilledStatus('telegram', filteredMessage.triggers[0]);
-         const vk = filteredMessage && getFilledStatus('vk', filteredMessage.triggers[0]);
          const whatsApp = filteredMessage && getFilledStatus('whatsapp', filteredMessage.triggers[0]);
+         const vk = filteredMessage && getFilledStatus('vk', filteredMessage.triggers[0]);
 
          if (facebook || telegram || vk || whatsApp) {
             return true;
@@ -103,26 +103,27 @@ class SetupWideColumn extends Component {
    render() {
       const {willSend} = this.state;
       const {editManager, botSetupData, isFetching, loadingOfManager} = this.props;
-      const {default_response, welcome_message, subscription_message} = botSetupData;
+      const {default_response, welcome_message, subscribe_message, unsubscribe_message} = botSetupData;
       const botId = botSetupData.id;
 
       const isWelcomeMessageEmpty = this.isEmptyCheck(welcome_message);
       const isDefaultResponseEmpty = this.isEmptyCheck(default_response);
-      const isSubscriptionMessage = this.isEmptyCheck(subscription_message);
+      const isSubscriptionMessage = this.isEmptyCheck(subscribe_message);
+      const isUnsubscribeMessage = this.isEmptyCheck(unsubscribe_message);
 
       return (
-         <div className={style.wideСolumn}>
+         <div className={style.wideColumn}>
             <article>
                <Spin spinning={loadingOfManager ? false : Object.keys(botSetupData).length === 0 || isFetching}>
                   <header>
                      <h1 className={style.mainPageTitle}>Реакции бота</h1>
 
-                     <div className={style.table + " " + style.table__settings}>
+                     <div className={style.table}>
                         <div className={style.table_row} dataaction="keywords" datatype="1" dataid="1">
                            <label htmlFor={'welcome_message'}>
-                              <img src={svr_r1} alt="Welcome message" className={style.table_image}/>
+                              <img src={svr_r1} alt="Welcome message"/>
                               <div className={style.content}>
-                                 <div className={style.label}>Приветственные сообщения</div>
+                                 <div>Приветственные сообщения</div>
                                  <p>Реакция на первое сообщение пользователя боту, срабатывает только 1 раз</p>
                               </div>
                               <div className={`${style.inputGroup} ${isWelcomeMessageEmpty && style.inputGroupCheck}`}>
@@ -142,9 +143,9 @@ class SetupWideColumn extends Component {
                         </div>
                         <div className={style.table_row} dataaction="keywords" datatype="1" dataid="2">
                            <label htmlFor={'follow'}>
-                              <img src={svr_r2} alt="Follow message" className={style.table_image}/>
+                              <img src={svr_r2} alt="Follow message"/>
                               <div className={style.content}>
-                                 <div className={style.label}>Реакция на подписку</div>
+                                 <div>Реакция на подписку</div>
                                  <p>Сработает, только если пользователь писал в сообщество</p>
                               </div>
                               <div className={`${style.inputGroup} ${isSubscriptionMessage && style.inputGroupCheck}`}>
@@ -152,10 +153,10 @@ class SetupWideColumn extends Component {
                                     type={'checkbox'}
                                     className={style.statusIcon}
                                     id={'follow'}
-                                    checked={subscription_message && subscription_message !== 'null'}
-                                    onChange={(e) => {
+                                    checked={subscribe_message && subscribe_message !== 'null'}
+                                    onChange={() => {
                                        this.reactionBots(
-                                          destinationScenario.subscription_message,
+                                          destinationScenario.subscribe_message,
                                           true
                                        )
                                     }}
@@ -165,31 +166,35 @@ class SetupWideColumn extends Component {
                            </label>
                         </div>
                         <div className={style.table_row} dataaction="keywords" datatype="1" dataid="3">
-                           <label htmlFor={'refollow'}>
-                              <img src={svr_r3} alt="" className={style.table_image}/>
-
+                           <label htmlFor={'reFollow'}>
+                              <img src={svr_r3} alt="ReFollow message"/>
                               <div className={style.content}>
-                                 <div className={style.label}>Реакция на отписку</div>
+                                 <div>Реакция на отписку</div>
                                  <p>Сработает, только если пользователь писал в сообщество</p>
                               </div>
-                              <div className={style.inputGroup}>
+                              <div className={`${style.inputGroup} ${isUnsubscribeMessage && style.inputGroupCheck}`}>
                                  <input
                                     type={'checkbox'}
                                     className={style.statusIcon}
-                                    id={'refollow'}
-                                    disabled={true}
+                                    id={'reFollow'}
+                                    checked={unsubscribe_message && unsubscribe_message !== 'null'}
+                                    onChange={() => {
+                                       this.reactionBots(
+                                          destinationScenario.unsubscribe_message,
+                                          true
+                                       )
+                                    }}
                                  />
-                                 <label htmlFor={'refollow'}/>
+                                 <label htmlFor={'reFollow'}/>
                               </div>
-
                            </label>
                         </div>
                         <div className={style.table_row} dataaction="keywords" datatype="1" dataid="4">
                            <label htmlFor={'default_response'}>
-                              <img src={svr_r4} alt="Default response" className={style.table_image}/>
+                              <img src={svr_r4} alt="Default response"/>
 
                               <div className={style.content}>
-                                 <div className={style.label}>Реакция на неизвестную команду</div>
+                                 <div>Реакция на неизвестную команду</div>
                                  <p>Ответ на любое сообщение не по сценарию</p>
                               </div>
                               <div className={`${style.inputGroup} ${isDefaultResponseEmpty && style.inputGroupCheck}`}>
@@ -212,7 +217,7 @@ class SetupWideColumn extends Component {
                   </header>
 
                   <section>
-                     <div className={style.notifyme}>
+                     <div className={style.notifyMe}>
                         <form>
                            <h3>Оповещение</h3>
 
@@ -242,12 +247,12 @@ class SetupWideColumn extends Component {
                                        <title>E-mail</title>
                                        <path
                                           d="M20 7.83A3.008 3.008 0 0 1 18.17 6H5a1 1 0 1 1 0-2h13.17A3.001 3.001 0 1 1 22 7.83V19a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a1 1 0 0 1 1.53-.848l7.453 4.658 5.462-3.642a1 1 0 0 1 1.11 1.664l-6 4a1 1 0 0 1-1.085.016L4 9.804V18h16V7.83zM21 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
-                                          fill-rule="nonzero"
+                                          fillRule="nonzero"
                                        />
                                     </svg>
                                  </div>
 
-                                 <div className={style.notifyBoxItemInfo}>
+                                 <div>
                                     <h2 className={style.notifyBoxItemTitle}>E-mail</h2>
                                     <p className={style.notifyBoxItemDesc}>Отправка данных с формы на вашу почту</p>
                                  </div>
@@ -259,11 +264,11 @@ class SetupWideColumn extends Component {
                                        <title>Telegram</title>
                                        <path
                                           d="M19 6.83a3.001 3.001 0 1 1 2 0V16a1 1 0 0 1-1 1h-4.32l-2.9 3.625a1 1 0 0 1-1.56 0L8.32 17H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h11a1 1 0 0 1 0 2H5v10h3.8a1 1 0 0 1 .78.375L12 18.4l2.42-3.024A1 1 0 0 1 15.2 15H19V6.83zM20 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM8 9a1 1 0 1 1 0-2h8a1 1 0 0 1 0 2H8zm0 4a1 1 0 0 1 0-2h5a1 1 0 0 1 0 2H8z"
-                                          fill-rule="nonzero"/>
+                                          fillRule="nonzero"/>
                                     </svg>
                                  </div>
 
-                                 <div className={style.notifyBoxItemInfo}>
+                                 <div>
                                     <h2 className={style.notifyBoxItemTitle}>Telegram</h2>
                                     <p className={style.notifyBoxItemDesc}>Отправка данных с формы в Телеграм</p>
                                  </div>
@@ -311,7 +316,7 @@ class SetupWideColumn extends Component {
                         <div className={style.display} id="menu_amo">
                            <form action="">
                               <div className={style.inputGr}>
-                                 <label for="domain">Домен в AmoCRM*</label>
+                                 <label htmlFor="domain">Домен в AmoCRM*</label>
                                  <input type="text" name="domain" placeholder="mycompany.amocrm.ru"/>
                                  <small>Адрес (домен) Вашей CRM, обычно это ??????.amocrm.ru<br/>Вводите его
                                     целиком
@@ -319,12 +324,12 @@ class SetupWideColumn extends Component {
                               </div>
 
                               <div className={style.inputGr}>
-                                 <label for="login">Логин*</label>
+                                 <label htmlFor="login">Логин*</label>
                                  <input type="text" name="login" placeholder="myname@mycompany.ru"/>
                                  <small>Код активации веб-хука, например: 82te1pjdphsa9u19.</small>
                               </div>
                               <div className={style.inputGr}>
-                                 <label for="api">Ключ API*</label>
+                                 <label htmlFor="api">Ключ API*</label>
                                  <input type="text" name="api" placeholder="a751f80701dae35cf334d648dc7352d7"/>
                                  <small>Ключ для доступа к API. Смотрите его в личном кабинете AmoCRM, в разделе
                                     Настройки - API - Ваш API ключ.</small>
@@ -350,7 +355,7 @@ class SetupWideColumn extends Component {
                            <div className={style.display} id="menu_bitrix">
                               <form action="">
                                  <div className={style.inputGr}>
-                                    <label for="domain">Домен в Bitrix24*</label>
+                                    <label htmlFor="domain">Домен в Bitrix24*</label>
                                     <input type="text" name="domain" placeholder="mycompany.bitrix24.ru"/>
                                     <small>Адрес (домен) Вашей CRM, обычно это ??????.bitrix24.ru<br/>Вводите
                                        его
@@ -358,12 +363,12 @@ class SetupWideColumn extends Component {
                                  </div>
 
                                  <div className={style.inputGr}>
-                                    <label for="webhook">Код веб-хука*</label>
+                                    <label htmlFor="webhook">Код веб-хука*</label>
                                     <input type="text" name="webhook" placeholder="xxxxxxxxxxxxxxxx"/>
                                     <small>Код активации веб-хука, например: 82te1pjdphsa9u19.</small>
                                  </div>
                                  <div className={style.inputGr}>
-                                    <label for="userId">Номер пользователя*</label>
+                                    <label htmlFor="userId">Номер пользователя*</label>
                                     <input type="text" name="usedId" placeholder="1"/>
                                     <small>
                                        Номер пользователя, которому принадлежит веб-хук (по-умолчанию:
@@ -407,8 +412,8 @@ const mapStateToProps = ({botSetupReducers, singleBotReducers}) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-   editManager: (setupData) => dispatch(editManager(setupData)),
-   updateBotReactions: (reactionsData) => dispatch(updateBotReactions(reactionsData))
+   updateBotReactions: reactionsData => dispatch(updateBotReactions(reactionsData)),
+   editManager: setupData => dispatch(editManager(setupData))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetupWideColumn);

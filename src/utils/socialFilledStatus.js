@@ -24,6 +24,7 @@ export const getFilledStatus = (social, changedTrigger) => {
          (item.customs && Object.keys(item.customs).length !== 0) ||
          (item.updateTag && (Object.keys(item.updateTag.setTag).length !== 0 || Object.keys(item.updateTag.removeTag).length !== 0)) ||
          (item.contact && item.contact.length !== 0) ||
+         (item.sendUrl && item.sendUrl.url.length !== 0) ||
          (item.nextTrigger && item.nextTrigger.trigger_id.length !== 0));
    });
 

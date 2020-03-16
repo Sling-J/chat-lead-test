@@ -85,6 +85,7 @@ const GrowthToolMLPDemo = ({
                         <p>Номер телефона:</p>
                         <Input
                            type="text"
+                           placeholder="Номер телефона"
                            value={phone2}
                            onChange={e => setPhone2(e.target.value)}
                            onInput={matchNumber}
@@ -98,6 +99,7 @@ const GrowthToolMLPDemo = ({
                         <p>Номер телефона:</p>
                         <Input
                            type="text"
+                           placeholder="Номер телефона"
                            value={phone1}
                            onChange={e => setPhone1(e.target.value)}
                            onInput={matchNumber}

@@ -227,8 +227,9 @@ export function* updateBotReactionsSaga({reactionsData}) {
             yield put({type: ACTION.SINGLE_BOT_DATA_ERROR, error: allScenarios.data.desc})
          }
 
-         const scenarioForBotReaction
-            = allScenarios.data.scenarios.filter(elem => elem.destination === reactionsData.typeReaction);
+         const scenarioForBotReaction = allScenarios.data.scenarios.filter(
+            elem => elem.destination === reactionsData.typeReaction
+         );
 
          if (scenarioForBotReaction.length > 0) {
             if (reactionsData.statusChecked) {
@@ -240,14 +241,12 @@ export function* updateBotReactionsSaga({reactionsData}) {
                }
             } else {
                formData.append(reactionsData.typeReaction, null);
-               // const {data} = yield call(editManager, formData);
             }
-
          } else {
             formData.append(
-               'trigger_text',
-               reactionsData.typeReaction === destinationScenario.welcome_message ?
-                  'Сценарий для приветствия' : 'Сценарий для неизвестной команды'
+               'trigger_text', reactionsData.typeReaction === destinationScenario.welcome_message
+                  ? 'Сценарий для приветствия'
+                  : 'Сценарий для неизвестной команды'
             );
             formData.append('destination', reactionsData.typeReaction);
             const {data} = yield call(addNewScenario, formData);
