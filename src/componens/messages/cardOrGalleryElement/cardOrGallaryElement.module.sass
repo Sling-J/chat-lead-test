@@ -47,7 +47,6 @@
    justify-content: center
    align-items: center
 
-
 .inputFile + label
    font-size: 1.25em
    font-weight: 700
@@ -64,7 +63,6 @@
    justify-content: center
    align-items: center
    overflow: hidden
-
 
 .pictureContainer
    display: flex
@@ -89,54 +87,33 @@
       width: 50%
       height: 50%
 
-.mainInputContainer
-   display: flex
-   flex-direction: column
-   align-items: center
-   width: 100%
-   padding: 6px 15px
-   box-sizing: border-box
+.inputContainerBorderColor
+   input,
+   textarea
+      box-shadow: inset 0 0 0 1px tomato !important
 
-   input
-      width: 100%
-      padding: 5px
+.inputContainer
+   padding: 10px
+
+   input,
+   textarea
+      transition: all 0.3s
       border-radius: 5px
-      font-weight: 400
-      transition: background-color .15s, box-shadow .15s
-      will-change: background-color, box-shadow
-      color: rgb(60, 72, 88)
-      font-size: 15px
-      margin: 5px 0 5px 0
+      cursor: default
+      padding: 10px
+      width: 100%
+
+      &:hover,
+      &:focus
+         background: #F1F0F0
 
       &::placeholder
-         color: #9b9b9b
-         font-weight: 400
-         font-size: 15px
-
-      &:hover
-         background-color: #f1f0f0
+         color: #b4b5b8
 
    textarea
-      width: 100%
-      padding: 5px
-      border-radius: 5px
-      font-weight: 400
-      transition: background-color .15s, box-shadow .15s
-      will-change: background-color, box-shadow
-      color: rgb(60, 72, 88)
-      font-size: 15px
-      margin: 5px 0 5px 0
-      border: none
-      resize: none
+      margin-top: 5px
+      min-height: 70px
       outline: none
-
-      &::placeholder
-         color: #9b9b9b
-         font-weight: 400
-         font-size: 14px
-
-      &:hover
-         background-color: #f1f0f0
 
 .cardPictureContainer
    display: flex
@@ -149,7 +126,7 @@
 .controls
    background: #fff
    color: #8492a6
-   margin-top: -20px
+   margin-top: -2px
    width: 40px
    height: 40px
    border: 1px solid #e0e6ed

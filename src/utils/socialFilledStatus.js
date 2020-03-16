@@ -8,7 +8,8 @@ export const getFilledStatus = (social, changedTrigger) => {
    let status = false;
 
    checkedSocial.forEach(item => {
-      status = !!((item.text && item.text.length !== 0) ||
+      status = !!(
+         (item.text && item.text.length !== 0) ||
          (item.photo && item.photo.length !== 0) ||
          (item.audio && item.audio.length !== 0) ||
          (item.video && item.video.length !== 0) ||
@@ -25,7 +26,8 @@ export const getFilledStatus = (social, changedTrigger) => {
          (item.updateTag && (Object.keys(item.updateTag.setTag).length !== 0 || Object.keys(item.updateTag.removeTag).length !== 0)) ||
          (item.contact && item.contact.length !== 0) ||
          (item.sendUrl && item.sendUrl.url.length !== 0) ||
-         (item.nextTrigger && item.nextTrigger.trigger_id.length !== 0));
+         (item.nextTrigger && item.nextTrigger.trigger_id.length !== 0)
+      );
    });
 
    return status;

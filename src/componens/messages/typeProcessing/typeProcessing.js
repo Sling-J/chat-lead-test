@@ -49,56 +49,47 @@ const TypeProcessing = (props) => {
             />
          </div>
          <div className={`${style.mainContainer} ${value.conditions && style.typeRadius}`} onClick={() => setStatusIsOpenWindow(true)}>
-            {
-               <ClickOutsideHandler onClickedOutside={() => setStatusIsOpenWindow(false)}>
-                  <div className={style.container}>
-                     <div
-                        className={style.timerContainer}
-                        onClick={() => setStatusIsOpenWindow(true)}
-                     >
-                        Эффект печати {value.type_processing.delay || 0} секунд
-                     </div>
-                     {
-                        isOpenWindow && (
-                           <div className={style.messageContainer}>
-                              <div className={style.header}>
-                                 Эффект печати
-                              </div>
-                              <div className={style.controlsContainer}>
-                                 <label>Эффект печати:</label>
-                                 <div className={style.inputContainer}>
-                                    <input
-                                       type={'number'}
-                                       value={value.type_processing.delay}
-                                       onInput={(e) => updateTrigger(e.target.value)}
-                                    />
-                                    <div className={style.buttonSetTime} onClick={() => {
-                                       updateTrigger(+value.type_processing.delay + 1)
-                                    }}>
-                                       <FontAwesomeIcon icon={faPlus}/>
-                                    </div>
-                                    <div className={style.buttonSetTime} onClick={() => {
-                                       updateTrigger(+value.type_processing.delay - 1)
-                                    }}>
-                                       <FontAwesomeIcon icon={faMinus}/>
-                                    </div>
-                                 </div>
-                              </div>
-
-                           </div>
-                        )
-                     }
-
+            <ClickOutsideHandler onClickedOutside={() => setStatusIsOpenWindow(false)}>
+               <div className={style.container}>
+                  <div onClick={() => setStatusIsOpenWindow(true)}>
+                     Эффект печати {value.type_processing.delay || 0} секунд
                   </div>
-               </ClickOutsideHandler>
-            }
+                  {isOpenWindow && (
+                     <div className={style.messageContainer}>
+                        <div className={style.header}>
+                           Эффект печати
+                        </div>
+                        <div className={style.controlsContainer}>
+                           <label>Эффект печати:</label>
+                           <div>
+                              <input
+                                 type={'number'}
+                                 value={value.type_processing.delay}
+                                 onInput={e => updateTrigger(e.target.value)}
+                              />
+                              <div className={style.buttonSetTime} onClick={() => {
+                                 updateTrigger(+value.type_processing.delay + 1)
+                              }}>
+                                 <FontAwesomeIcon icon={faPlus}/>
+                              </div>
+                              <div className={style.buttonSetTime} onClick={() => {
+                                 updateTrigger(+value.type_processing.delay - 1)
+                              }}>
+                                 <FontAwesomeIcon icon={faMinus}/>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  )}
+               </div>
+            </ClickOutsideHandler>
          </div>
       </div>
    )
 };
 
 const mapStateToProps = ({singleBotReducers}) => ({
-	changedSocial: singleBotReducers.changedSocial
+   changedSocial: singleBotReducers.changedSocial
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -106,6 +97,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default compose(
-	withRouter,
-	connect(mapStateToProps, mapDispatchToProps)
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
 )(TypeProcessing);

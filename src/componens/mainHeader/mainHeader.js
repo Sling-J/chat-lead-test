@@ -11,18 +11,17 @@ import UserIcon from '../../images/user.png';
 import {Spin, Dropdown} from 'antd';
 import ClickOutSide from '../hoc/clickOutside';
 
-import LinearProgress from "@material-ui/core/LinearProgress";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleDown} from "@fortawesome/free-solid-svg-icons";
 
 import ContextMenuBots from './contextMenuBots/contextMenuBots';
-import {getAllBotsForUser} from "../../actions/actionCreator";
-import {logout} from "../../ducks/Auth";
 import {moduleName as statisticsModule} from "../../ducks/Statistics";
 import {moduleName as paymentModule} from "../../ducks/Payment";
 import {moduleName as profileModule} from "../../ducks/Profile";
-import {moduleName as growthToolModule} from "../../ducks/GrowthTool";
 import {moduleName as tagsModule} from "../../ducks/Tags";
+import {getAllBotsForUser} from "../../actions/actionCreator";
+import {logout} from "../../ducks/Auth";
+
 import history from "../../config/history/history";
 
 import style from './mainHeader.module.sass';
@@ -81,22 +80,22 @@ const MainHeader = props => {
                <p>Проводим технические работы!</p>
             </div>
          }
-         {(
-            props.isFetching ||
-            props.isFetchingSetup ||
-            props.isFetchingBot ||
-            props.isFetchingBroadCast ||
-            props.isFetchingAutoRides ||
-            props.isFetchingBotsReducers ||
-            props.loadingOfStatistics ||
-            props.errorOfMLP ||
-            props.errorOfPayment ||
-            props.errorOfOfTransactions ||
-            props.errorOfProfile ||
-            props.errorOfTags
-         )
-         && <LinearProgress className={style.linearProgress}/>
-         }
+         {/*{(*/}
+         {/*   props.isFetching ||*/}
+         {/*   props.isFetchingSetup ||*/}
+         {/*   props.isFetchingBot ||*/}
+         {/*   props.isFetchingBroadCast ||*/}
+         {/*   props.isFetchingAutoRides ||*/}
+         {/*   props.isFetchingBotsReducers ||*/}
+         {/*   props.loadingOfStatistics ||*/}
+         {/*   props.errorOfMLP ||*/}
+         {/*   props.errorOfPayment ||*/}
+         {/*   props.errorOfOfTransactions ||*/}
+         {/*   props.errorOfProfile ||*/}
+         {/*   props.errorOfTags*/}
+         {/*)*/}
+         {/*&& <LinearProgress className={style.linearProgress}/>*/}
+         {/*}*/}
          <header className={style.mainContainer}>
             <div className={style.leftSideContainer}>
                {isMainHeader || isServiceHeader ? (
@@ -171,12 +170,12 @@ const mapStateToProps = state => {
 
    const botSetupData = state.botSetupReducers.botSetupData;
 
-   const isFetchingSetup = state.botSetupReducers.isFetching;
-   const isFetchingBot = state.singleBotReducers.isFetching;
-   const isFetchingBroadCast = state.broadCastReducers.isFetching;
-   const isFetchingAutoRides = state.autoridesReducers.isFetching;
-   const isFetchingBotsReducers = state.botsReducers.isFetching;
-   const loadingOfStatistics = state[growthToolModule].loadingOfStatistics;
+   // const isFetchingSetup = state.botSetupReducers.isFetching;
+   // const isFetchingBot = state.singleBotReducers.isFetching;
+   // const isFetchingBroadCast = state.broadCastReducers.isFetching;
+   // const isFetchingAutoRides = state.autoridesReducers.isFetching;
+   // const isFetchingBotsReducers = state.botsReducers.isFetching;
+   // const loadingOfStatistics = state[growthToolModule].loadingOfStatistics;
 
    const errorOfMLP = state[statisticsModule].errorOfMLP;
    const errorOfPayment = state[paymentModule].errorOfPayment;
@@ -192,16 +191,14 @@ const mapStateToProps = state => {
 
    return {
       botSetupData, isFetching, error, changedBotData,
-      isFetchingSetup, isFetchingBot, isFetchingBroadCast,
-      isFetchingAutoRides, isFetchingBotsReducers,
-      loadingOfStatistics,errorOfSetup, errorOfBot,
+      errorOfSetup, errorOfBot, errorOfMLP,
       errorOfBroadCast, errorOfAutoRides,
       errorOfBotsReducers, errorOfStatistics,
-      errorOfMLP,
-      errorOfPayment,
-      errorOfOfTransactions,
-      errorOfProfile,
-      errorOfTags,
+      errorOfPayment, errorOfOfTransactions,
+      errorOfProfile, errorOfTags,
+      // isFetchingSetup, isFetchingBot, isFetchingBroadCast,
+      // isFetchingAutoRides, isFetchingBotsReducers,
+      // loadingOfStatistics,
    }
 };
 
@@ -209,7 +206,6 @@ const mapDispatchToProps = dispatch => ({
    getAllBots: botId => dispatch(getAllBotsForUser(botId)),
    logout: () => dispatch(logout())
 });
-
 
 export default compose(
    withRouter,

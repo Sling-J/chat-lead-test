@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import {compose} from "redux";
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
@@ -9,9 +9,11 @@ import ButtonsContainer from "../../messages/buttonsContainer/buttonsContainer";
 import MiniImagesForSlider from './miniImagesForSlider/miniImagesForSlider';
 import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 
-import style from './cardOrGallaryElement.module.sass';
 import ConditionsToggle from "../conditionsForElements/conditionsToggle";
 import ConditionsContainer from "../conditionsForElements/conditionsContainer";
+import FilledStatusContainer from "../../Containers/FilledStatusContainer";
+
+import style from './cardOrGallaryElement.module.sass';
 
 const CardOrGalleryElement = (props) => {
    const {type, index, pictureForLabel, value, changedTrigger, conditionalsValue} = props;
@@ -73,71 +75,75 @@ const CardOrGalleryElement = (props) => {
 
    return (
       <div className={style.mainContainer}>
-         <ConditionsToggle isOpenConditions={conditionalsValue.conditions} {...props}/>
-         <ConditionsContainer conditions={conditionalsValue.conditions} {...props}/>
+         <FilledStatusContainer status={value[0].title.length !== 0 && value[0].text.length !== 0} title="- Пожалуйста, заполните поля для текста">
+            {({isHovered}) => (
+               <Fragment>
+                  <ConditionsToggle isOpenConditions={conditionalsValue.conditions} {...props}/>
+                  <ConditionsContainer conditions={conditionalsValue.conditions} {...props}/>
 
-         <div className={style.hoverBar}>
-            <HoverBarForMessage
-               {...props}
-            />
-         </div>
-         <div className={`${style.contentContainer} ${conditionalsValue.conditions && style.cardRadius}`}>
-            <div className={style.controlsLeft} onClick={newSlideOrNextSlide}>+</div>
-            <div className={style.pictureContainer}>
-               <input
-                  type={'file'}
-                  accept={'image/*'}
-                  name={index}
-                  id={index}
-                  onChange={updateTrigger}
-                  className={style.inputFile}
-               />
-               <label htmlFor={index}>
-                  <div className={style.cardPictureContainer}>
-                     {
-                        value[changedSlide].photo.length > 0 ?
-                           <img src={staticMedia + value[changedSlide].photo} alt={value}/> :
-                           <h2 className={style.labelPictureContainer}>
-                              {pictureForLabel.img}
-                              <p>Картинка</p>
-                           </h2>
-                     }
-                     <p>{value.length === 0 && pictureForLabel.label}</p>
+                  <div className={style.hoverBar}>
+                     <HoverBarForMessage
+                        {...props}
+                     />
                   </div>
-               </label>
-            </div>
-            <div className={style.inputContainer}>
-               <input
-                  type={'text'}
-                  defaultValue={value[changedSlide].title}
-                  // value={value[changedSlide].title}
-                  placeholder={'Введите титульное слово'}
-                  onBlur={(e) => updateTrigger(e, 'title')}
-               />
-               <textarea
-                  defaultValue={value[changedSlide].text}
-                  // value={value[changedSlide].text}
-                  placeholder={'Введите текст'}
-                  onBlur={(e) => updateTrigger(e, 'text')}
-               />
-            </div>
-            <MiniImagesForSlider
-               value={value}
-               changeSlide={changeSlide}
-               changedSlide={changedSlide}
-            />
+                  <div className={`${style.contentContainer} ${conditionalsValue.conditions && style.cardRadius}`}>
+                     <div className={style.controlsLeft} onClick={newSlideOrNextSlide}>+</div>
+                     <div className={style.pictureContainer}>
+                        <input
+                           type={'file'}
+                           accept={'image/*'}
+                           name={index}
+                           id={index}
+                           onChange={updateTrigger}
+                           className={style.inputFile}
+                        />
+                        <label htmlFor={index}>
+                           <div className={style.cardPictureContainer}>
+                              {
+                                 value[changedSlide].photo.length > 0 ?
+                                    <img src={staticMedia + value[changedSlide].photo} alt={value}/> :
+                                    <h2 className={style.labelPictureContainer}>
+                                       {pictureForLabel.img}
+                                       <p>Картинка</p>
+                                    </h2>
+                              }
+                              <p>{value.length === 0 && pictureForLabel.label}</p>
+                           </div>
+                        </label>
+                     </div>
+                     <div className={`${style.inputContainer} ${isHovered && style.inputContainerBorderColor}`}>
+                        <input
+                           type={'text'}
+                           defaultValue={value[changedSlide].title}
+                           placeholder={'Введите титульное слово'}
+                           onBlur={(e) => updateTrigger(e, 'title')}
+                        />
+                        <textarea
+                           defaultValue={value[changedSlide].text}
+                           placeholder={'Введите текст'}
+                           onBlur={(e) => updateTrigger(e, 'text')}
+                        />
+                     </div>
+                     <MiniImagesForSlider
+                        value={value}
+                        changeSlide={changeSlide}
+                        changedSlide={changedSlide}
+                     />
 
-            <div
-               onClick={() => changedSlide !== 0 && changeSlide(changedSlide - 1)}
-               className={style.controlsRight}
-            >
-               -
-            </div>
-         </div>
-         <ButtonsContainer
-            {...props}
-            changedSlideOrElement={changedSlide}
-         />
+                     <div
+                        onClick={() => changedSlide !== 0 && changeSlide(changedSlide - 1)}
+                        className={style.controlsRight}
+                     >
+                        -
+                     </div>
+                  </div>
+                  <ButtonsContainer
+                     {...props}
+                     changedSlideOrElement={changedSlide}
+                  />
+               </Fragment>
+            )}
+         </FilledStatusContainer>
       </div>
    )
 };

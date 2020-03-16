@@ -9,23 +9,21 @@ const MessagesContainer = ({
    changedTrigger, updateTriggerUpdateMessageHandler,
    updateTriggerDeleteMessageHandler, changedScenario,
    changeTriggerId, changedSocial, destination
-}) => {
-   return changedTrigger.messages[changedSocial].map((elem, index) => (
-      <div className={style.message} key={index}>
-         {fileDefinition(
-            Object.keys(elem)[0],
-            elem,
-            updateTriggerUpdateMessageHandler,
-            index,
-            updateTriggerDeleteMessageHandler,
-            changedTrigger,
-            changedScenario,
-            changeTriggerId,
-            destination
-         )}
-      </div>
-   ));
-};
+}) => changedTrigger.messages[changedSocial].map((elem, index) => (
+   <div className={style.message} key={index}>
+      {fileDefinition(
+         Object.keys(elem)[0],
+         elem,
+         updateTriggerUpdateMessageHandler,
+         index,
+         updateTriggerDeleteMessageHandler,
+         changedTrigger,
+         changedScenario,
+         changeTriggerId,
+         destination
+      )}
+   </div>
+));
 
 export default connect(({singleBotReducers}) => ({
    changedSocial: singleBotReducers.changedSocial

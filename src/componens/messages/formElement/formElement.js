@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
@@ -8,9 +8,11 @@ import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 
 import {updateTrigger} from "../../../actions/actionCreator";
 
-import style from './formElement.module.sass';
 import ConditionsToggle from "../conditionsForElements/conditionsToggle";
 import ConditionsContainer from "../conditionsForElements/conditionsContainer";
+import FilledStatusContainer from "../../Containers/FilledStatusContainer";
+
+import style from './formElement.module.sass';
 
 const FormElement = props => {
    const {type, index, value, changedTrigger} = props;
@@ -91,6 +93,14 @@ const FormElement = props => {
       props.updateTrigger(triggerData, null, props.changedSocial);
    };
 
+   let filledStatus = false;
+
+   value.length !== 0 && value.form.forEach(item => {
+      if (item.caption) {
+         filledStatus = item.caption.length !== 0
+      }
+   });
+
    return props.soon ? (
       <div className={style.mainContainer + ' ' + style.soon}>
          <h1>Скоро!</h1>
@@ -102,40 +112,46 @@ const FormElement = props => {
       </div>
    ) : (
       <div className={style.mainContainer}>
-         <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
-         <ConditionsContainer conditions={value.conditions} {...props}/>
+         <FilledStatusContainer title="- Пожалуйста, заполните форму" status={filledStatus}>
+            {() => (
+               <Fragment>
+                  <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+                  <ConditionsContainer conditions={value.conditions} {...props}/>
 
-         <div className={style.hoverBar}>
-            <HoverBarForMessage
-               {...props}
-            />
-         </div>
-         {Object.values(value)[0].map((elem, inputIndex) => (
-            <div className={style.textareaFlex} key={inputIndex}>
-               <textarea
-                  defaultValue={elem.caption}
-                  onBlur={(e) => updateTrigger(e, inputIndex)}
-                  placeholder={"Введите вопрос"}
-               />
-               <select value={elem.type} onChange={(e) => {
-                  updateTypeTrigger(e, inputIndex)
-               }}>
-                  <option value="text">Текст</option>
-                  <option value="phone">Телефон</option>
-                  <option value="email">Email</option>
-                  <option value="digits">Цифры</option>
-               </select>
-            </div>
-         ))}
-         <div className={style.addInputButton} onClick={newInput}>+ Поле ввода</div>
-         <ButtonsContainer {...props}/>
+                  <div className={style.hoverBar}>
+                     <HoverBarForMessage
+                        {...props}
+                     />
+                  </div>
+                  {Object.values(value)[0].map((elem, inputIndex) => (
+                     <div className={style.textareaFlex} key={inputIndex}>
+                        <textarea
+                           defaultValue={elem.caption}
+                           onBlur={(e) => updateTrigger(e, inputIndex)}
+                           placeholder={"Введите вопрос"}
+                        />
+                        <select value={elem.type} onChange={(e) => {
+                           updateTypeTrigger(e, inputIndex)
+                        }}>
+                           <option value="text">Текст</option>
+                           <option value="phone">Телефон</option>
+                           <option value="email">Email</option>
+                           <option value="digits">Цифры</option>
+                        </select>
+                     </div>
+                  ))}
+                  <div className={style.addInputButton} onClick={newInput}>+ Поле ввода</div>
+                  <ButtonsContainer {...props}/>
+               </Fragment>
+            )}
+         </FilledStatusContainer>
       </div>
    )
 };
 
 
 const mapStateToProps = ({singleBotReducers}) => ({
-	changedSocial: singleBotReducers.changedSocial
+   changedSocial: singleBotReducers.changedSocial
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -143,6 +159,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default compose(
-	withRouter,
-	connect(mapStateToProps, mapDispatchToProps)
+   withRouter,
+   connect(mapStateToProps, mapDispatchToProps)
 )(FormElement);

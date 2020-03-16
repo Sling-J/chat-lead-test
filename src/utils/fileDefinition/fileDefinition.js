@@ -67,7 +67,6 @@ export const fileDefinition = (key, value, handler, index, deleteHandler, change
             changedTrigger={changedTrigger}
             changedScenario
          />
-
       )
    } else if (key === 'photo') {
       return (

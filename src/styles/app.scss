@@ -28,9 +28,17 @@ body {
    border-bottom-color: #4680fe !important;
 }
 
-//.ant-popover-inner-content {
-//   padding: 13px 15px !important;
-//}
+.filled-status-container {
+   position: relative;
+   width: 100%;
+
+   .filled-status-container__icon {
+      position: absolute;
+      color: tomato;
+      left: -21px;
+      top: 5px;
+   }
+}
 
 .statistics-tag-popup {
    .MuiDialogTitle-root {

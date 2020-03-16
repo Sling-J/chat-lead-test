@@ -7,12 +7,12 @@ import {Select, InputNumber} from 'antd';
 
 import TextArea from "../textArea/textArea";
 import CustomFlatPicker from './customFlatPicker/customFlatPicker';
-import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 
 import {formatDateToUnix, formatUnixToDate} from "../../../utils/formatDate";
 import {timeToSeconds, secondsToTime} from "../../../utils/formatSecond";
 import {updateTrigger} from "../../../actions/actionCreator";
 
+import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
 import ConditionsToggle from "../conditionsForElements/conditionsToggle";
 import ConditionsContainer from "../conditionsForElements/conditionsContainer";
 

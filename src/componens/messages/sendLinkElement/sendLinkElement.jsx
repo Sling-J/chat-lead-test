@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
@@ -9,6 +9,7 @@ import {moduleName as tagsModule, addTag} from "../../../ducks/Tags";
 import HoverBarForMessage from '../hoverBarForMessage/hoverBarForMessage';
 import ConditionsToggle from "../conditionsForElements/conditionsToggle";
 import ConditionsContainer from "../conditionsForElements/conditionsContainer";
+import FilledStatusContainer from "../../Containers/FilledStatusContainer";
 
 import {Input, Icon, Popover, Divider, Select} from "antd";
 
@@ -180,36 +181,42 @@ const SendLinkElement = props => {
 
    return (
       <div className={style.sendLinkContainer}>
-         <ConditionsToggle isOpenConditions={props.value.conditions} {...props}/>
-         <ConditionsContainer conditions={props.value.conditions} {...props}/>
+         <FilledStatusContainer title="- Пожалуйста, введите URL сайта" status={value.sendUrl.url.length !== 0}>
+            {({isHovered}) => (
+               <Fragment>
+                  <ConditionsToggle isOpenConditions={props.value.conditions} {...props}/>
+                  <ConditionsContainer conditions={props.value.conditions} {...props}/>
 
-         <div className={style.hoverBar}>
-            <HoverBarForMessage
-               {...props}
-            />
-         </div>
-
-         <div className={`${style.sendLinkBox} ${props.value.conditions && style.linkRadius}`}>
-            <div className={style.sendLinkBoxField}>
-               <p className={style.sendLinkBoxTitle}>Напишите URL:</p>
-               <Input
-                  type="text"
-                  placeholder="https://chatlead.io"
-                  defaultValue={value.sendUrl.url}
-                  onBlur={handleChangeText}
-               />
-            </div>
-
-            <div className={style.sendLinkBoxField}>
-               <p className={style.sendLinkBoxTitle}>Если кликнул по ссылке:</p>
-               <Popover content={tMenu} trigger="click" placement="bottom">
-                  <div className={style.sendLinkBoxSelect}>
-                     <p>Выберите действия</p>
-                     <Icon type="down"/>
+                  <div className={style.hoverBar}>
+                     <HoverBarForMessage
+                        {...props}
+                     />
                   </div>
-               </Popover>
-            </div>
-         </div>
+
+                  <div className={`${style.sendLinkBox} ${props.value.conditions && style.linkRadius} ${isHovered && style.linkBorderColor}`}>
+                     <div className={style.sendLinkBoxField}>
+                        <p className={style.sendLinkBoxTitle}>Напишите URL:</p>
+                        <Input
+                           type="text"
+                           placeholder="https://chatlead.io"
+                           defaultValue={value.sendUrl.url}
+                           onBlur={handleChangeText}
+                        />
+                     </div>
+
+                     <div className={style.sendLinkBoxField}>
+                        <p className={style.sendLinkBoxTitle}>Если кликнул по ссылке:</p>
+                        <Popover content={tMenu} trigger="click" placement="bottom">
+                           <div className={style.sendLinkBoxSelect}>
+                              <p>Выберите действия</p>
+                              <Icon type="down"/>
+                           </div>
+                        </Popover>
+                     </div>
+                  </div>
+               </Fragment>
+            )}
+         </FilledStatusContainer>
       </div>
    )
 };

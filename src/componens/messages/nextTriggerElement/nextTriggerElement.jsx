@@ -1,19 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 
-import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
-import ConditionsToggle from "../conditionsForElements/conditionsToggle";
-import ConditionsContainer from "../conditionsForElements/conditionsContainer";
-
 import {getAllAutorides, updateTrigger} from "../../../actions/actionCreator";
 import {destinationScenario} from "../../../constants/defaultValues";
+import {sliceExtraText} from "../../../utils/textValidation";
 
 import {Select, Radio} from 'antd';
 
+import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
+import ConditionsToggle from "../conditionsForElements/conditionsToggle";
+import ConditionsContainer from "../conditionsForElements/conditionsContainer";
+import FilledStatusContainer from "../../Containers/FilledStatusContainer";
+
 import style from './nextTriggerElement.module.scss';
-import {sliceExtraText} from "../../../utils/textValidation";
 
 const {OptGroup, Option} = Select;
 
@@ -104,64 +105,70 @@ const NextTriggerElement = props => {
 
    return (
       <div className={style.mainContainer}>
-         <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
-         <ConditionsContainer conditions={value.conditions} {...props}/>
+         <FilledStatusContainer title="- Пожалуйста, выберите шаг для перехода" status={value.nextTrigger.trigger_id.length !== 0}>
+            {({isHovered}) => (
+               <Fragment>
+                  <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+                  <ConditionsContainer conditions={value.conditions} {...props}/>
 
-         <div className={style.hoverBar}>
-            <HoverBarForMessage {...props}/>
-         </div>
+                  <div className={style.hoverBar}>
+                     <HoverBarForMessage {...props}/>
+                  </div>
 
-         <div className={`${style.nextTriggerContainer} ${value.conditions && style.nextTriggerRadius}`}>
-            <p className={`${style.nextTriggerContainerTitle}`}>Переход к существующему шагу:</p>
+                  <div className={`${style.nextTriggerContainer} ${value.conditions && style.nextTriggerRadius} ${isHovered && style.nextTriggerBorderColor}`}>
+                     <p className={`${style.nextTriggerContainerTitle}`}>Переход к существующему шагу:</p>
 
-            <Radio.Group onChange={onChange} value={radioValue}>
-               <Radio value={1}>Существующие</Radio>
-               <Radio value={2}>С другого потока</Radio>
-            </Radio.Group>
+                     <Radio.Group onChange={onChange} value={radioValue}>
+                        <Radio value={1}>Существующие</Radio>
+                        <Radio value={2}>С другого потока</Radio>
+                     </Radio.Group>
 
-            {radioValue === 1 && (
-               <Select
-                  showSearch
-                  className={style.nextTriggerSelection}
-                  style={{width: "100%"}}
-                  defaultValue={defaultValue}
-                  optionFilterProp="children"
-                  onChange={value => updateTrigger(value, false)}
-                  placeholder="Выберите шаг для перехода"
-                  filterOption={(input, option) =>
-                     option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                  }
-               >
-                  {filteredTriggers.map(trigger => (
-                     <Option value={trigger.id}>{trigger.caption}</Option>
-                  ))}
-               </Select>
+                     {radioValue === 1 && (
+                        <Select
+                           showSearch
+                           className={style.nextTriggerSelection}
+                           style={{width: "100%"}}
+                           defaultValue={defaultValue}
+                           optionFilterProp="children"
+                           onChange={value => updateTrigger(value, false)}
+                           placeholder="Выберите шаг для перехода"
+                           filterOption={(input, option) =>
+                              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                           }
+                        >
+                           {filteredTriggers.map(trigger => (
+                              <Option value={trigger.id}>{trigger.caption}</Option>
+                           ))}
+                        </Select>
+                     )}
+
+                     {radioValue === 2 && (
+                        <Select
+                           showSearch
+                           className={style.nextTriggerSelection}
+                           style={{width: "100%"}}
+                           defaultValue={defaultValue}
+                           optionFilterProp="children"
+                           onChange={value => updateTrigger(value, true)}
+                           loading={loadingOfAutoRides}
+                           placeholder="Выберите шаг для перехода"
+                           filterOption={(input, option) =>
+                              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                           }
+                        >
+                           {getTriggerForAnotherStream().map(item => (
+                              <OptGroup label={`${item.displayText}: ${sliceExtraText(item.trigger_text, 11)}`}>
+                                 {item && item.triggers.map(trigger => (
+                                    <Option value={trigger.id}>{trigger.caption}</Option>
+                                 ))}
+                              </OptGroup>
+                           ))}
+                        </Select>
+                     )}
+                  </div>
+               </Fragment>
             )}
-
-            {radioValue === 2 && (
-               <Select
-                  showSearch
-                  className={style.nextTriggerSelection}
-                  style={{width: "100%"}}
-                  defaultValue={defaultValue}
-                  optionFilterProp="children"
-                  onChange={value => updateTrigger(value, true)}
-                  loading={loadingOfAutoRides}
-                  placeholder="Выберите шаг для перехода"
-                  filterOption={(input, option) =>
-                     option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                  }
-               >
-                  {getTriggerForAnotherStream().map(item => (
-                     <OptGroup label={`${item.displayText}: ${sliceExtraText(item.trigger_text, 11)}`}>
-                        {item && item.triggers.map(trigger => (
-                           <Option value={trigger.id}>{trigger.caption}</Option>
-                        ))}
-                     </OptGroup>
-                  ))}
-               </Select>
-            )}
-         </div>
+         </FilledStatusContainer>
       </div>
    );
 };

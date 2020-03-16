@@ -1,15 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from "react-router-dom";
 
-import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
-import ConditionsToggle from "../conditionsForElements/conditionsToggle";
-import ConditionsContainer from "../conditionsForElements/conditionsContainer";
 import {updateTrigger} from "../../../actions/actionCreator";
 import {matchNumber} from "../../../utils/textValidation";
 
 import {Input} from 'antd';
+
+import HoverBarForMessage from "../hoverBarForMessage/hoverBarForMessage";
+import ConditionsToggle from "../conditionsForElements/conditionsToggle";
+import ConditionsContainer from "../conditionsForElements/conditionsContainer";
+import FilledStatusContainer from "../../Containers/FilledStatusContainer";
 
 import style from './contactsElement.module.sass';
 
@@ -45,30 +47,36 @@ const ContactsElement = props => {
 
    return (
       <div className={style.mainContainer}>
-         <ConditionsToggle isOpenConditions={value.conditions} {...props}/>
-         <ConditionsContainer conditions={value.conditions} {...props}/>
+			<FilledStatusContainer title="- Пожалуйста, введитие номер" status={value.sendContact.contactId && value.sendContact.contactId.length !== 0}>
+				{({isHovered}) => (
+					<Fragment>
+						<ConditionsToggle isOpenConditions={value.conditions} {...props}/>
+						<ConditionsContainer conditions={value.conditions} {...props}/>
 
-         <div className={style.hoverBar}>
-            <HoverBarForMessage {...props}/>
-         </div>
+						<div className={style.hoverBar}>
+							<HoverBarForMessage {...props}/>
+						</div>
 
-			<div className={`${style.contactsContainer} ${value.conditions && style.contactsRadius}`}>
-				<p>Отправление контакта</p>
+						<div className={`${style.contactsContainer} ${value.conditions && style.contactsRadius}`}>
+							<p>Отправление контакта</p>
 
-				<form className={style.contactsContainerForm}>
-					<label className={style.contactsContainerFormField}>
-						<div className={style.contactsContainerFormFieldLabel}>Номер телефона</div>
-						<Input
-							className={style.contactsContainerFormFieldInput}
-							defaultValue={value.sendContact.contactId}
-							placeholder="77077206590"
-							onBlur={updateTrigger}
-							onInput={matchNumber}
-							type="text"
-						/>
-					</label>
-				</form>
-			</div>
+							<form className={style.contactsContainerForm}>
+								<label className={style.contactsContainerFormField}>
+									<div className={style.contactsContainerFormFieldLabel}>Номер телефона</div>
+									<Input
+										className={`${style.contactsContainerFormFieldInput} ${isHovered && style.contactsBorderColor}`}
+										defaultValue={value.sendContact.contactId}
+										placeholder="77077206590"
+										onBlur={updateTrigger}
+										onInput={matchNumber}
+										type="text"
+									/>
+								</label>
+							</form>
+						</div>
+					</Fragment>
+				)}
+			</FilledStatusContainer>
       </div>
    )
 };

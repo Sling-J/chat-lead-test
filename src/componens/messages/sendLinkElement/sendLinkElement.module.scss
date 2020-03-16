@@ -12,6 +12,10 @@
 		}
 	}
 
+   .linkBorderColor {
+      border-color: tomato !important;
+   }
+
    .linkRadius {
       border-radius: 0 0 7px 7px !important;
    }
@@ -19,6 +23,7 @@
 	.sendLinkBox {
 		padding: 13px 16px;
 		border: 1px solid #e0e6ed;
+      transition: all 0.3s;
 		border-radius: 7px;
 
       .sendLinkBoxField {

@@ -26,6 +26,12 @@
 				margin-bottom: 0;
 			}
 		}
+
+		.tagsBorderColor {
+			div {
+				border-color: tomato !important;
+			}
+		}
 	}
 
 	&:hover {
