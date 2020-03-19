@@ -98,7 +98,7 @@ export const GrowthTool = {
    }
 };
 
-export const Partner = {
+export const Partners = {
    getBalance: data => instance.post('/GetBalance/', data),
    addMoneyRequest: data => instance.post('/AddMoneyRequest/', data),
    getMoneyRequests: data => instance.post('/GetMoneyRequests/', data),

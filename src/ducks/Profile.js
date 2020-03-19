@@ -212,8 +212,6 @@ function* uploadImageForMLPProfile() {
    while (true) {
       const action = yield take(UPLOAD_MEDIA_REQUEST);
 
-      console.log(action);
-
       try {
          const formData = new FormData();
 

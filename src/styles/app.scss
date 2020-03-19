@@ -26,6 +26,14 @@ body {
    }
 }
 
+.ant-table-placeholder {
+   background: none;
+}
+
+.ant-table-thead > tr > th {
+   background: none;
+}
+
 .MuiInput-underline:hover:not(.Mui-disabled):before {
    border-bottom-color: #4680fe !important;
 }

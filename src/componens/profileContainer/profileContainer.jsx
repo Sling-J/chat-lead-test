@@ -149,7 +149,10 @@ const CustomizedForm = Form.create({
             </Button>
 
             <Button
-               onClick={() => setIsPassChangePage(true)}
+               onClick={() => {
+                  setIsPassChangePage(true);
+                  props.getProfile();
+               }}
                type="button"
                variant="outlined"
                className="profile-container-info-submit__btn-change"
@@ -200,7 +203,10 @@ const CustomizedForm = Form.create({
             </Button>
 
             <Button
-               onClick={() => setIsPassChangePage(false)}
+               onClick={() => {
+                  setIsPassChangePage(false);
+                  props.getProfile();
+               }}
                type="button"
                variant="outlined"
                className="profile-container-info-submit__btn-change"
@@ -320,6 +326,7 @@ const ProfileContainer = props => {
                <div className="profile-container__info">
                   <CustomizedForm
                      {...fields}
+                     getProfile={getProfile}
                      profile={profile}
                      successText={successText}
                      updateProfile={updateProfile}
@@ -330,7 +337,6 @@ const ProfileContainer = props => {
             </div>
          </div>
       </Spin>
-
    );
 };
 

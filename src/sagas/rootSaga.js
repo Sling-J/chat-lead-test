@@ -6,6 +6,7 @@ import {saga as statisticsSaga} from '../ducks/Statistics';
 import {saga as paymentSaga} from '../ducks/Payment';
 import {saga as profileSaga} from '../ducks/Profile';
 import {saga as growthToolSaga} from '../ducks/GrowthTool';
+import {saga as partnersSaga} from '../ducks/Partners';
 
 import {
    createBotSaga,
@@ -48,6 +49,7 @@ function* rootSaga() {
    yield all([
 		getWpScreenshotSaga(),
       growthToolSaga(),
+      partnersSaga(),
 		facebookAuthSaga(),
 		getWpStatusSaga(),
 		getQRCodeSaga(),

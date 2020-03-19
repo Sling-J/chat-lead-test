@@ -98,7 +98,7 @@ class StatisticsTag extends React.Component {
          {
             title: 'Теги',
             dataIndex: 'name',
-            width: '25%',
+            width: '60%',
             ...this.getColumnSearchProps('name'),
             render: text => text.charAt(0).toUpperCase() + text.slice(1),
          },
@@ -106,7 +106,6 @@ class StatisticsTag extends React.Component {
             title: 'Количество',
             dataIndex: 'count',
             key: 'count',
-            width: '61%'
          },
          {
             title: 'Действие',

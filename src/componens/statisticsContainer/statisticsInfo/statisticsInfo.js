@@ -46,6 +46,7 @@ const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers
 
    let applications = 'Загрузка...';
    let subscribers = 'Загрузка...';
+   let unSubscribers = 'Загрузка...';
 
    const showModal = () => setVisible(true);
    const handleCancel = () => setVisible(false);
@@ -65,26 +66,36 @@ const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers
                statistics.telegram.subscribers +
                statistics.vk.subscribers +
                statistics.whatsapp.subscribers;
+
+            unSubscribers =
+               statistics.facebook.unsubscribers +
+               statistics.telegram.unsubscribers +
+               statistics.vk.unsubscribers +
+               statistics.whatsapp.unsubscribers;
             break;
 
          case 1:
             applications = statistics.facebook.applications;
             subscribers = statistics.facebook.subscribers;
+            unSubscribers = statistics.facebook.unsubscribers;
             break;
 
          case 2:
             applications = statistics.telegram.applications;
             subscribers = statistics.telegram.subscribers;
+            unSubscribers = statistics.telegram.unsubscribers;
             break;
 
          case 3:
             applications = statistics.vk.applications;
             subscribers = statistics.vk.subscribers;
+            unSubscribers = statistics.vk.unsubscribers;
             break;
 
          case 4:
             applications = statistics.whatsapp.applications;
             subscribers = statistics.whatsapp.subscribers;
+            unSubscribers = statistics.whatsapp.unsubscribers;
             break;
 
          default:
@@ -93,6 +104,7 @@ const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers
    } else {
       applications = 'Загрузка...';
       subscribers = 'Загрузка...';
+      unSubscribers = 'Загрузка...';
    }
 
    return (
@@ -138,7 +150,7 @@ const StatisticsInfo = ({tabs, activeTab, statistics, exportUsers, exportedUsers
                      Отписок
                   </h2>
                   <p className="statistics-info-box-item-info__desc">
-                     Скоро!
+                     {unSubscribers}
                   </p>
                </div>
             </div>

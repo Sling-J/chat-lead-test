@@ -3,11 +3,6 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {Link, NavLink, withRouter} from 'react-router-dom';
 
-import downArrow from '../../svg/db/down-button.svg';
-import chatLeadLogo from '../../images/chatlead.png';
-import Logo from '../../images/logo_panel.png';
-import UserIcon from '../../images/user.png';
-
 import {Spin, Dropdown} from 'antd';
 import ClickOutSide from '../hoc/clickOutside';
 
@@ -23,6 +18,11 @@ import {getAllBotsForUser} from "../../actions/actionCreator";
 import {logout} from "../../ducks/Auth";
 
 import history from "../../config/history/history";
+
+import downArrow from '../../svg/db/down-button.svg';
+import chatLeadLogo from '../../images/chatlead.png';
+import Logo from '../../images/logo_panel.png';
+import UserIcon from '../../images/user.png';
 
 import style from './mainHeader.module.sass';
 
@@ -82,22 +82,6 @@ const MainHeader = props => {
                <p>Проводим технические работы!</p>
             </div>
          }
-         {/*{(*/}
-         {/*   props.isFetching ||*/}
-         {/*   props.isFetchingSetup ||*/}
-         {/*   props.isFetchingBot ||*/}
-         {/*   props.isFetchingBroadCast ||*/}
-         {/*   props.isFetchingAutoRides ||*/}
-         {/*   props.isFetchingBotsReducers ||*/}
-         {/*   props.loadingOfStatistics ||*/}
-         {/*   props.errorOfMLP ||*/}
-         {/*   props.errorOfPayment ||*/}
-         {/*   props.errorOfOfTransactions ||*/}
-         {/*   props.errorOfProfile ||*/}
-         {/*   props.errorOfTags*/}
-         {/*)*/}
-         {/*&& <LinearProgress className={style.linearProgress}/>*/}
-         {/*}*/}
          <header className={style.mainContainer}>
             <div className={style.leftSideContainer}>
                {isMainHeader || isServiceHeader ? (
@@ -172,13 +156,6 @@ const mapStateToProps = state => {
 
    const botSetupData = state.botSetupReducers.botSetupData;
 
-   // const isFetchingSetup = state.botSetupReducers.isFetching;
-   // const isFetchingBot = state.singleBotReducers.isFetching;
-   // const isFetchingBroadCast = state.broadCastReducers.isFetching;
-   // const isFetchingAutoRides = state.autoridesReducers.isFetching;
-   // const isFetchingBotsReducers = state.botsReducers.isFetching;
-   // const loadingOfStatistics = state[growthToolModule].loadingOfStatistics;
-
    const errorOfMLP = state[statisticsModule].errorOfMLP;
    const errorOfPayment = state[paymentModule].errorOfPayment;
    const errorOfOfTransactions = state[paymentModule].errorOfOfTransactions;
@@ -198,9 +175,6 @@ const mapStateToProps = state => {
       errorOfBotsReducers, errorOfStatistics,
       errorOfPayment, errorOfOfTransactions,
       errorOfProfile, errorOfTags,
-      // isFetchingSetup, isFetchingBot, isFetchingBroadCast,
-      // isFetchingAutoRides, isFetchingBotsReducers,
-      // loadingOfStatistics,
    }
 };
 

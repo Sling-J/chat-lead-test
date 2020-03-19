@@ -1,143 +1,157 @@
 @import "partials";
 
 .partners-mine-container {
-   .partners-mine-container-box {
-      margin-bottom: 100px;
+   .partners-mine-container__money {
+      width: 24%;
 
-      .partners-mine-container__money {
-         width: 24%;
+      .partners-mine-container-money__item {
+         border: 1px solid #e1e1e1;
+         border-radius: 10px;
+         margin-bottom: 20px;
+         padding: 10px 20px;
 
-         .partners-mine-container-money__item {
-            border: 1px solid #e1e1e1;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-
-            .partners-mine-container-money-item__icon {
-               text-align: center;
-               margin-right: 15px;
-               width: 70px;
-            }
-
-            .partners-mine-container-money-item__info {
-               .partners-mine-container-money-item-info__title {
-                  color: $highlighted__font-color;
-               }
-
-               .partners-mine-container-money-item-info__desc {
-                  color: $theme__bg-color;
-                  font-weight: 600;
-               }
-            }
+         .partners-mine-container-money-item__icon {
+            text-align: center;
+            margin-right: 15px;
+            width: 70px;
          }
 
-         .partners-mine-container-money__btn {
-            width: 100%;
-            margin-bottom: 40px;
-            background: $theme__bg-color;
-            color: $white__color;
-            font-weight: 400;
-            text-transform: initial;
+         .partners-mine-container-money-item__info {
+            .partners-mine-container-money-item-info__title {
+               color: $highlighted__font-color;
+            }
+
+            .partners-mine-container-money-item-info__desc {
+               color: $theme__bg-color;
+               font-weight: 600;
+            }
          }
       }
 
-      .partners-mine-container__info {
-         width: 71%;
+      .partners-mine-container-money__btn {
+         width: 100%;
+         margin-bottom: 40px;
+         background: $theme__bg-color;
+         color: $white__color;
+         font-weight: 400;
+         text-transform: initial;
+      }
+   }
 
-         .partners-mine-container-info__title {
-            font-size: 36px;
+   .partners-mine-container__info {
+      width: 71%;
+
+      .partners-mine-container-info__title {
+         font-size: 36px;
+      }
+
+      .partners-mine-container-info__desc,
+      .partners-mine-container-info__sub-desc {
+         span {
+            font-weight: 700;
          }
+      }
 
-         .partners-mine-container-info__desc,
-         .partners-mine-container-info__sub-desc {
-            span {
-               font-weight: 700;
-            }
-         }
+      .partners-mine-container-info__desc {
+         color: $highlighted__font-color;
+         margin: 15px 0;
+         font-size: 17px;
+         line-height: 1.6;
+         width: 90%;
+      }
 
-         .partners-mine-container-info__desc {
+      .partners-mine-container-info__sub-desc {
+         color: $secondary__color;
+         line-height: 1.1;
+         width: 70%;
+
+         span {
+            font-size: 32px;
             color: $highlighted__font-color;
-            margin: 15px 0;
-            font-size: 17px;
-            line-height: 1.6;
-            width: 90%;
+         }
+      }
+
+      .partners-mine-container-info__links {
+         margin-top: 40px;
+
+         .partners-mine-container-info-links-auto__desc {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: $highlighted__font-color;
          }
 
-         .partners-mine-container-info__sub-desc {
-            color: $secondary__color;
-            line-height: 1.1;
-            width: 70%;
+         .partners-mine-container-info-links-auto__field {
+            .partners-mine-container-info-links-auto-field__link {
+               border: 1px solid #707070;
+               border-radius: 9px;
+               padding: 0 15px;
+               height: 50px;
+               width: 300px;
 
-            span {
-               font-size: 32px;
-               color: $highlighted__font-color;
+               p {
+                  color: $highlighted__font-color;
+                  margin-right: 10px;
+               }
+
+               i {
+                  cursor: pointer;
+
+                  &:hover {
+                     color: $theme__bg-color;
+                  }
+               }
             }
          }
 
-         .partners-mine-container-info__links {
-            margin-top: 40px;
+         .partners-mine-container-info-links-auto__sub-desc {
+            margin-top: 5px;
+            font-size: 14px;
+         }
 
-            .partners-mine-container-info-links-auto__desc {
-               font-size: 18px;
-               margin-bottom: 10px;
-               color: $highlighted__font-color;
-            }
+         .partners-mine-container-info-links__auto {
+            margin-bottom: 30px;
 
             .partners-mine-container-info-links-auto__field {
                .partners-mine-container-info-links-auto-field__link {
-                  border: 1px solid #707070;
-                  border-radius: 9px;
-                  padding: 0 15px;
-                  height: 50px;
-                  width: 300px;
-
-                  p {
-                     color: $highlighted__font-color;
-                     margin-right: 10px;
-                  }
-
-                  i {
-                     cursor: pointer;
-
-                     &:hover {
-                        color: $theme__bg-color;
-                     }
-                  }
+                  border-radius: 9px 0 0 9px;
                }
-            }
 
-            .partners-mine-container-info-links-auto__sub-desc {
-               margin-top: 5px;
-               font-size: 14px;
-            }
-
-            .partners-mine-container-info-links__auto {
-               margin-bottom: 30px;
-
-               .partners-mine-container-info-links-auto__field {
-                  .partners-mine-container-info-links-auto-field__link {
-                     border-radius: 9px 0 0 9px;
+               .partners-mine-container-info-links-auto-field__socials {
+                  .partners-mine-container-info-links-auto-field-socials__item {
+                     color: $white__color;
+                     height: 50px;
+                     width: 65px;
+                     font-size: 24px;
+                     display: flex;
+                     align-items: center;
+                     justify-content: center;
                   }
 
-                  .partners-mine-container-info-links-auto-field__socials {
-                     .partners-mine-container-info-links-auto-field-socials__item {
-                        color: $white__color;
-                        height: 50px;
-                        width: 65px;
-                        font-size: 24px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                     }
-
-                     .partners-mine-container-info-links-auto-field-socials__item-vk {background: #4A729F}
-                     .partners-mine-container-info-links-auto-field-socials__item-tg {background: #2FA7DB}
-                     .partners-mine-container-info-links-auto-field-socials__item-fb {background: #0293FF}
-                     .partners-mine-container-info-links-auto-field-socials__item-wp {background: #3FE15C; border-radius: 0 9px 9px 0}
-                  }
+                  .partners-mine-container-info-links-auto-field-socials__item-vk {background: #4A729F}
+                  .partners-mine-container-info-links-auto-field-socials__item-tg {background: #2FA7DB}
+                  .partners-mine-container-info-links-auto-field-socials__item-fb {background: #0293FF}
+                  .partners-mine-container-info-links-auto-field-socials__item-wp {background: #3FE15C; border-radius: 0 9px 9px 0}
                }
             }
          }
       }
+   }
+
+   .partners-mine-table {
+      margin: 100px 0 60px;
+   }
+}
+
+.partners-top-container {
+   width: 71%;
+   margin: 0 auto;
+
+   .partners-top-container__title {
+      font-size: 24px;
+      margin-left: 14.5px;
+   }
+
+   .partners-top-container__table {
+      margin: 20px 0 60px
    }
 }

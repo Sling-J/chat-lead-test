@@ -14,6 +14,7 @@ const columns = [
       title: 'Email покупателя:',
       dataIndex: 'email',
       key: 'email',
+      width: '50%'
    },
    {
       title: 'Дата регистраци:',
@@ -27,31 +28,10 @@ const columns = [
    },
 ];
 
-const data = [
-   {
-      key: '1',
-      email: 'el******@gmail.com',
-      date: '2019г. 19 мая, 14:30',
-      status: 'Оплатил',
-   },
-   {
-      key: '2',
-      email: 'tu*****@mail.ru',
-      date: '2019г. 19 мая, 14:30',
-      status: ' Не оплатил',
-   },
-   {
-      key: '3',
-      email: 'gh****@gmail.com',
-      date: '2019г. 19 мая, 14:30',
-      status: 'Оплатил',
-   },
-];
-
 const PartnersMineContainer = () => {
    return (
       <div className="main-container partners-mine-container">
-         <div className="partners-mine-container-box pv1-flex pv1-j-sb">
+         <div className="pv1-flex pv1-j-sb">
             <div className="partners-mine-container__money">
                <div className="partners-mine-container-money__item pv1-flex pv1-flex-align-center">
                   <div className="partners-mine-container-money-item__icon">
@@ -64,7 +44,7 @@ const PartnersMineContainer = () => {
                      </p>
 
                      <p className="partners-mine-container-money-item-info__desc">
-                        2690 $
+                        0 $
                      </p>
                   </div>
                </div>
@@ -84,7 +64,7 @@ const PartnersMineContainer = () => {
                      </p>
 
                      <p className="partners-mine-container-money-item-info__desc">
-                        2690 $
+                        0 $
                      </p>
                   </div>
                </div>
@@ -100,7 +80,7 @@ const PartnersMineContainer = () => {
                      </p>
 
                      <p className="partners-mine-container-money-item-info__desc">
-                        2690 $
+                        0 $
                      </p>
                   </div>
                </div>
@@ -132,12 +112,12 @@ const PartnersMineContainer = () => {
                      <div className="partners-mine-container-info-links-auto__field pv1-flex pv1-flex-align-center">
                         <div
                            className="partners-mine-container-info-links-auto-field__link pv1-flex pv1-j-sb pv1-flex-align-center">
-                           <p>https://chatlead.io/KemgVH56</p>
+                           <p>Скоро!</p>
                            <CopyToClipboard>
                               {({copy}) => (
                                  <Icon
                                     type="copy"
-                                    onClick={() => copy('https://chatlead.io/KemgVH56')}
+                                    onClick={() => copy('')}
                                  />
                               )}
                            </CopyToClipboard>
@@ -212,12 +192,12 @@ const PartnersMineContainer = () => {
                      <div className="partners-mine-container-info-links-auto__field">
                         <div
                            className="partners-mine-container-info-links-auto-field__link pv1-flex pv1-j-sb pv1-flex-align-center">
-                           <p>KemgVH56</p>
+                           <p>Скоро!</p>
                            <CopyToClipboard placement="top">
                               {({copy}) => (
                                  <Icon
                                     type="copy"
-                                    onClick={() => copy('KemgVH56')}
+                                    onClick={() => copy('')}
                                  />
                               )}
                            </CopyToClipboard>
@@ -232,10 +212,12 @@ const PartnersMineContainer = () => {
             </div>
          </div>
 
-         <Table
-            columns={columns}
-            dataSource={data}
-         />
+         <div className="partners-mine-table">
+            <Table
+               columns={columns}
+               dataSource={[]}
+            />
+         </div>
       </div>
    );
 };
