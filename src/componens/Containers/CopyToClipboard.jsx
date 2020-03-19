@@ -21,6 +21,7 @@ const CopyToClipboard = ({children, TooltipProps}) => {
          onClose={handleOnTooltipClose}
          leaveDelay={1300}
          open={tooltipVisibility}
+         placement="top"
          {...TooltipProps || {}}
       >
          {children({copy: onCopy})}

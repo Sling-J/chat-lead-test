@@ -9,6 +9,7 @@ import TextField from "@material-ui/core/TextField";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import IconButton from "@material-ui/core/IconButton";
+import {Checkbox} from "antd";
 
 import {register, moduleName as authModule} from "../../../ducks/Auth";
 
@@ -21,6 +22,8 @@ const SignUpForm = (props) => {
    const [login, setLogin] = useState('');
    const [password, setPassword] = useState('');
    const [passwordConfirm, setPasswordConfirm] = useState('');
+   const [ref, setRef] = useState('');
+   const [checked, setChecked] = useState(false);
 
    const submit = event => {
       event.preventDefault();
@@ -38,6 +41,7 @@ const SignUpForm = (props) => {
                   login: login,
                   password: password,
                   passwordConfirm: passwordConfirm,
+                  ref: ref.length !== 0 ? ref : 'None',
                   optional_parameters: [
                      "ref",
                      "utm_source"
@@ -103,6 +107,23 @@ const SignUpForm = (props) => {
                      : <VisibilityIcon style={{fontSize: "20px"}}/>
                   }
                </IconButton>
+            </div>
+
+            <div className={style.fieldsContainerInput}>
+               <div className={style.fieldsContainerInputCheckbox}>
+                  <Checkbox checked={checked} onChange={e => setChecked(e.target.checked)}>Реферальный код</Checkbox>
+               </div>
+
+               {checked && (
+                  <TextField
+                     fullWidth
+                     type="email"
+                     label="Реферальный код"
+                     variant="outlined"
+                     value={ref}
+                     onChange={e => setRef(e.target.value)}
+                  />
+               )}
             </div>
          </div>
 

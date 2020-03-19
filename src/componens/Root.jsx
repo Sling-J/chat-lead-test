@@ -16,6 +16,8 @@ import TariffPayment from "../pages/tariff/tariffPayment";
 import TariffHistory from "../pages/tariff/tariffHistory";
 import TariffSuccess from "../pages/tariff/tariffSuccess";
 import TariffFailure from "../pages/tariff/tariffFailure";
+import PartnersMine from "../pages/partners/partnersMine";
+import PartnersTop from "../pages/partners/partnersTop";
 import NotFound from "../pages/inDevelopment/inDevelopment";
 
 import MainHeader from "./mainHeader/mainHeader";
@@ -130,6 +132,16 @@ const Root = () => {
                      exact
                      path={"/bots/tariff/history"}
                      component={onlyAuthorizedUsers(TariffHistory)}
+                  />
+                  <Route
+                     exact
+                     path={"/bots/partners/mine"}
+                     component={onlyAuthorizedUsers(PartnersMine)}
+                  />
+                  <Route
+                     exact
+                     path={"/bots/partners/top-partners"}
+                     component={onlyAuthorizedUsers(PartnersTop)}
                   />
                </div>
             </Switch>

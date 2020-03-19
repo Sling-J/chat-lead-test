@@ -36,7 +36,9 @@ const MainHeader = props => {
 		|| history.location.pathname === '/bots/tariff/payment/failure'
 		|| history.location.pathname === '/bots/tariff/prices'
       || history.location.pathname === '/bots/tariff/history'
-      || history.location.pathname === '/bots/profile';
+      || history.location.pathname === '/bots/profile'
+      || history.location.pathname === '/bots/partners/mine'
+      || history.location.pathname === '/bots/partners/top-partners';
 
    const [isOpenMenu, setStatusToOpenMenu] = useState(false);
    const [isOpenBotContext, setStatusBotContext] = useState(false);
@@ -53,9 +55,9 @@ const MainHeader = props => {
          <li>
             <Link to="/bots/tariff/payment">Тарифы</Link>
          </li>
-         {/*<li>*/}
-         {/*   <Link to="/">Партнерам</Link>*/}
-         {/*</li>*/}
+         <li>
+            <Link to="/bots/partners/mine">Партнерам</Link>
+         </li>
          <li>
             <Link to="/bots">Панель</Link>
          </li>
@@ -141,9 +143,9 @@ const MainHeader = props => {
                      <li>
                         <NavLink to="/bots/tariff/payment" activeClassName={style.servicesMenuItem}>Тарифы</NavLink>
                      </li>
-                     {/*<li>*/}
-                     {/*   <NavLink to="/bots">Партнерам</NavLink>*/}
-                     {/*</li>*/}
+                     <li>
+                        <NavLink to="/bots/partners/mine" activeClassName={style.servicesMenuItem}>Партнерам</NavLink>
+                     </li>
                      <li>
                         <NavLink to="/bots">Панель</NavLink>
                      </li>

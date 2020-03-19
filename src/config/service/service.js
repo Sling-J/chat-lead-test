@@ -97,3 +97,9 @@ export const GrowthTool = {
       getForms: data => instance.post('/GetMLPForms/', data)
    }
 };
+
+export const Partner = {
+   getBalance: data => instance.post('/GetBalance/', data),
+   addMoneyRequest: data => instance.post('/AddMoneyRequest/', data),
+   getMoneyRequests: data => instance.post('/GetMoneyRequests/', data),
+};
