@@ -23,6 +23,8 @@ export const GET_MONEY_REQUEST = `${prefix}/GET_MONEY_REQUEST`;
 export const GET_MONEY_SUCCESS = `${prefix}/GET_MONEY_SUCCESS`;
 export const GET_MONEY_FAILURE = `${prefix}/GET_MONEY_FAILURE`;
 
+export const REFRESH_MONEY_ADDING_STATUS = `${prefix}/REFRESH_MONEY_ADDING_STATUS`;
+
 /**
  * Reducer
  */
@@ -32,7 +34,7 @@ const initialState = {
    loadingOfBalance: false,
    errorOfBalance: null,
 
-   addedMoney: {},
+   moneyAddingSuccess: false,
    loadingOfMoneyAdding: false,
    errorOfMoneyAdding: null,
 
@@ -70,15 +72,16 @@ export default (state = initialState, action) => {
       case ADD_MONEY_REQUEST:
          return {
             ...state,
-            addedMoney: {},
             loadingOfMoneyAdding: true,
+            moneyAddingSuccess: false,
             errorOfMoneyAdding: null
          };
 
       case ADD_MONEY_SUCCESS:
          return {
             ...state,
-            addedMoney: action.payload,
+            balance: action.payload,
+            moneyAddingSuccess: true,
             loadingOfMoneyAdding: false,
             errorOfMoneyAdding: null
          };
@@ -86,8 +89,8 @@ export default (state = initialState, action) => {
       case ADD_MONEY_FAILURE:
          return {
             ...state,
-            addedMoney: {},
             loadingOfMoneyAdding: false,
+            moneyAddingSuccess: false,
             errorOfMoneyAdding: action.error
          };
 
@@ -115,6 +118,14 @@ export default (state = initialState, action) => {
             errorOfMoneyRequests: action.error
          };
 
+      case REFRESH_MONEY_ADDING_STATUS:
+         return {
+            ...state,
+            moneyAddingSuccess: false,
+            loadingOfMoneyAdding: false,
+            errorOfMoneyAdding: null,
+         };
+
       default:
          return state;
    }
@@ -137,6 +148,10 @@ export const getMoneyRequests = () => ({
    type: GET_MONEY_REQUEST
 });
 
+export const refreshMoneyAddingStatus = () => ({
+   type: REFRESH_MONEY_ADDING_STATUS
+});
+
 /**
  * Sagas
  */
@@ -151,7 +166,14 @@ function* getBalanceSaga() {
          const {data} = yield call(Partners.getBalance, formData);
 
          if (data.ok) {
-            yield put({type: GET_BALANCE_REQUEST, payload: data});
+            yield put({
+               type: GET_BALANCE_SUCCESS,
+               payload: {
+                  balance: data.balance,
+                  in_processing: data.in_processing,
+                  paid_out: data.paid_out,
+               }
+            });
          } else {
             yield put({type: GET_BALANCE_FAILURE, error: data.desc});
          }
@@ -172,11 +194,19 @@ function* addMoneySaga() {
             formData.append('user_token', userAccessToken());
             formData.append('amount', action.payload.amount);
             formData.append('card_number', action.payload.card);
+            formData.append('payment_method', action.payload.method);
 
             const {data} = yield call(Partners.addMoneyRequest, formData);
 
             if (data.ok) {
-               yield put({type: ADD_MONEY_SUCCESS, payload: data.profile});
+               yield put({
+                  type: ADD_MONEY_SUCCESS,
+                  payload: {
+                     balance: data.balance,
+                     in_processing: data.in_processing,
+                     paid_out: data.paid_out,
+                  }
+               });
             } else {
                yield put({type: ADD_MONEY_FAILURE, error: data.desc});
             }
