@@ -1,30 +1,32 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
 
-import {Table, Modal, Collapse, Result, Button as AntdButton, Icon, notification} from "antd"
+import {Table, Icon} from "antd"
 import Button from "@material-ui/core/Button";
 
 import CopyToClipboard from "../Containers/CopyToClipboard";
-import {matchNumber} from "../../utils/textValidation";
 
-import {addMoney, getBalance, moduleName as partnersModule, refreshMoneyAddingStatus} from "../../ducks/Partners";
 import PageLoader from "../Containers/PageLoader";
+import PartnersMineModal from "./partnersMineModal";
+
+import {getBalance, getMoneyRequests, moduleName as partnersModule} from "../../ducks/Partners";
+import {getProfile, moduleName as profileModule} from "../../ducks/Profile";
 
 import PartnersMoney from "../../images/partners/partners-money.png";
 import PartnersTime from "../../images/partners/partners-time.png";
 import PartnersCheck from "../../images/partners/partners-check.png";
-
-const {Panel} = Collapse;
+import {formatUnixToDate} from "../../utils/formatDate";
 
 const columns = [
    {
-      title: 'Email покупателя:',
-      dataIndex: 'email',
-      key: 'email',
-      width: '50%'
+      title: 'Сумма выплаты:',
+      dataIndex: 'amount',
+      key: 'amount',
+      width: '20%',
+      render: amount => <span>{amount} $</span>
    },
    {
-      title: 'Дата регистраци:',
+      title: 'Дата:',
       dataIndex: 'date',
       key: 'date',
    },
@@ -32,167 +34,56 @@ const columns = [
       title: 'Статус оплаты:',
       dataIndex: 'status',
       key: 'status',
+      render: status => status
+         ? <span className="partners-mine-table__true">Выплачено</span>
+         : <span className="partners-mine-table__false">Не выплачено</span>
    },
+   {
+      title: 'Номер карты',
+      dataIndex: 'card',
+      key: 'card'
+   }
 ];
 
-const PartnersMineContainer = ({
-                                  getBalance, addMoney, balance,
-                                  loadingOfBalance, loadingOfMoneyAdding,
-                                  errorOfMoneyAdding, refreshMoneyAddingStatus,
-                                  moneyAddingSuccess
-                               }) => {
-   const [modalVisibility, setModalVisibility] = useState(false);
-   const [activeCollapse, setActiveCollapse] = useState(undefined);
+const PartnersMineContainer = props => {
+   const {
+      getBalance, balance,
+      getProfile, profile,
+      getMoneyRequests, pays,
+      loadingOfBalance, loadingOfProfile,
+      loadingOfPays
+   } = props;
 
-   const [modalError, setModalError] = useState('');
-   const [amount, setAmount] = useState('');
-   const [card, setCard] = useState('');
+   const [modalVisibility, setModalVisibility] = useState(false);
+   const [paysData, setPaysData] = useState(false);
 
    useEffect(() => {
       getBalance();
+      getProfile();
+      getMoneyRequests();
    }, []);
 
    useEffect(() => {
-      if (errorOfMoneyAdding) {
-         setModalError(errorOfMoneyAdding);
+      if (pays.length !== 0) {
+         const arr = pays.map(item => ({
+            amount: item.amount,
+            date: formatUnixToDate(item.date),
+            status: item.is_approved,
+            card: item.card_number,
+         }));
+
+         setPaysData(arr);
       }
-   }, [errorOfMoneyAdding]);
+   }, [pays]);
 
    const showModal = () => setModalVisibility(true);
-   const handleCancel = () => {
-      setModalVisibility(false);
-      refreshMoneyAddingStatus();
-   };
-
-   const handleOk = () => {
-      if (activeCollapse === '1') {
-         if (amount.length !== 0 && card.length !== 0) {
-            addMoney({
-               amount: amount,
-               card: card,
-               method: 'yandex'
-            });
-         } else {
-            setModalError('Заполните обязательные поля!');
-         }
-      } else if (activeCollapse === '2') {
-         if (amount.length !== 0 && card.length !== 0) {
-            addMoney({
-               amount: amount,
-               card: card,
-               method: 'card'
-            });
-         } else {
-            setModalError('Заполните обязательные поля!');
-         }
-      } else {
-         notification['warning']({
-            message: 'Выберите способ выплаты!',
-            description: 'Вы можете оплатить свой тариф в Chatlead.io или сделать выплату двумя способами: Заказать на «Яндекс деньги», Заказать на «Банковскую карту»',
-         });
-      }
-   };
-
-   const collapseChanging = key => {
-      setActiveCollapse(key);
-      setModalError('');
-      setAmount('');
-      setCard('');
-   };
 
    return (
-      <PageLoader loading={loadingOfBalance}>
-         <Modal
-            title={`${!moneyAddingSuccess ? 'Выберите способ выплаты:' : ''}`}
-            wrapClassName={`partners-mine-container__modal ${activeCollapse === '1' ? 'partners-mine-container__modal-1' : activeCollapse === '2' ? 'partners-mine-container__modal-2' : ''}`}
-            visible={modalVisibility}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            footer={!moneyAddingSuccess && [
-               <AntdButton key="back" onClick={handleCancel}>
-                  Отмена
-               </AntdButton>,
-               <AntdButton key="submit" type="primary" loading={loadingOfMoneyAdding} onClick={handleOk}>
-                  Оплатить
-               </AntdButton>,
-            ]}
-            okText="Оплатить"
-         >
-            {moneyAddingSuccess ? (
-               <Result
-                  status="success"
-                  title="Ваша выплата в обработке!"
-                  subTitle="В течение 3 рабочих дней деньги поступят на ваш счет."
-               />
-            ) : (
-               <Fragment>
-                  <a
-                     href="https://my.chatlead.io/bots/tariff/prices"
-                     target="_blank"
-                     className="partners-mine-container-modal__text"
-                  >
-                     Оплатить свой тариф в «Chatlead.io»
-                     <span/>
-                  </a>
-                  <Collapse accordion onChange={collapseChanging}>
-                     <Panel showArrow={false} header="Заказать выплату на «Яндекс деньги»" key="1">
-                        <div className="partners-mine-container-modal__field">
-                           <input
-                              type="text"
-                              placeholder="100$"
-                              value={amount}
-                              onInput={matchNumber}
-                              onChange={e => setAmount(e.target.value)}
-                           />
-                           <p className="partners-mine-container-modal-field__decs">
-                              Напишите сумму выплаты.
-                           </p>
-                        </div>
-
-                        <div className="partners-mine-container-modal__field">
-                           <input
-                              type="text"
-                              placeholder="4100110468707859"
-                              value={card}
-                              onInput={matchNumber}
-                              onChange={e => setCard(e.target.value)}
-                           />
-                           <p className="partners-mine-container-modal-field__decs">
-                              Напишите номер счета.
-                           </p>
-                        </div>
-
-                        <p className="partners-mine-container-modal__error">{modalError}</p>
-                     </Panel>
-                     <Panel showArrow={false} header="Заказать выплату на «Банковскую карту»" key="2">
-                        <div className="partners-mine-container-modal__field">
-                           <input
-                              type="text"
-                              placeholder="100$"
-                              value={amount}
-                              onInput={matchNumber}
-                              onChange={e => setAmount(e.target.value)}
-                           />
-                           <p className="partners-mine-container-modal-field__decs">Напишите сумму выплаты.</p>
-                        </div>
-
-                        <div className="partners-mine-container-modal__field">
-                           <input
-                              type="text"
-                              placeholder="5169 4931 3557 9897"
-                              value={card}
-                              onInput={matchNumber}
-                              onChange={e => setCard(e.target.value)}
-                           />
-                           <p className="partners-mine-container-modal-field__decs">Напишите номер счета.</p>
-                        </div>
-
-                        <p className="partners-mine-container-modal__error">{modalError}</p>
-                     </Panel>
-                  </Collapse>
-               </Fragment>
-            )}
-         </Modal>
+      <PageLoader loading={loadingOfBalance || loadingOfProfile || loadingOfPays}>
+         <PartnersMineModal
+            modalVisibility={modalVisibility}
+            setModalVisibility={setModalVisibility}
+         />
 
          <div className="main-container partners-mine-container">
             <div className="pv1-flex pv1-j-sb">
@@ -280,12 +171,12 @@ const PartnersMineContainer = ({
                         <div className="partners-mine-container-info-links-auto__field pv1-flex pv1-flex-align-center">
                            <div
                               className="partners-mine-container-info-links-auto-field__link pv1-flex pv1-j-sb pv1-flex-align-center">
-                              <p>Скоро!</p>
+                              <p>{profile.id ? `http://my.chatlead.io/${profile.id}` : 'Загрузка...'}</p>
                               <CopyToClipboard>
                                  {({copy}) => (
                                     <Icon
                                        type="copy"
-                                       onClick={() => copy('')}
+                                       onClick={() => copy(`http://my.chatlead.io/${profile.id}`)}
                                     />
                                  )}
                               </CopyToClipboard>
@@ -361,12 +252,12 @@ const PartnersMineContainer = ({
                         <div className="partners-mine-container-info-links-auto__field">
                            <div
                               className="partners-mine-container-info-links-auto-field__link pv1-flex pv1-j-sb pv1-flex-align-center">
-                              <p>Скоро!</p>
+                              <p>{profile.id ? profile.id : 'Загрузка...'}</p>
                               <CopyToClipboard placement="top">
                                  {({copy}) => (
                                     <Icon
                                        type="copy"
-                                       onClick={() => copy('')}
+                                       onClick={() => copy(profile.id)}
                                     />
                                  )}
                               </CopyToClipboard>
@@ -382,9 +273,13 @@ const PartnersMineContainer = ({
             </div>
 
             <div className="partners-mine-table">
+               <h2 className="partners-mine-table__title partners-table-title">
+                  История выплат:
+               </h2>
+
                <Table
                   columns={columns}
-                  dataSource={[]}
+                  dataSource={paysData}
                />
             </div>
          </div>
@@ -393,17 +288,18 @@ const PartnersMineContainer = ({
 };
 
 const mapStateToProps = state => ({
+   pays: state[partnersModule].pays,
+   profile: state[profileModule].profile,
    balance: state[partnersModule].balance,
+   loadingOfPays: state[partnersModule].loadingOfPays,
+   loadingOfProfile: state[profileModule].loadingOfProfile,
    loadingOfBalance: state[partnersModule].loadingOfBalance,
-   loadingOfMoneyAdding: state[partnersModule].loadingOfMoneyAdding,
-   moneyAddingSuccess: state[partnersModule].moneyAddingSuccess,
-   errorOfMoneyAdding: state[partnersModule].errorOfMoneyAdding,
 });
 
 const mapDispatchToProps = dispatch => ({
    getBalance: () => dispatch(getBalance()),
-   addMoney: data => dispatch(addMoney(data)),
-   refreshMoneyAddingStatus: data => dispatch(refreshMoneyAddingStatus(data)),
+   getProfile: () => dispatch(getProfile()),
+   getMoneyRequests: () => dispatch(getMoneyRequests()),
 });
 
 export default connect(

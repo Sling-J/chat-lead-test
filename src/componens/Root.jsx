@@ -113,12 +113,12 @@ const Root = () => {
                      path={"/bots/tariff/payment"}
                      component={onlyAuthorizedUsers(TariffPayment)}
                   />
-						<Route
+                  <Route
                      exact
                      path={"/bots/tariff/payment/success"}
                      component={onlyAuthorizedUsers(TariffSuccess)}
                   />
-						<Route
+                  <Route
                      exact
                      path={"/bots/tariff/payment/failure"}
                      component={onlyAuthorizedUsers(TariffFailure)}

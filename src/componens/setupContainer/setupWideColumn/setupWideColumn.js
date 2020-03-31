@@ -24,6 +24,7 @@ class SetupWideColumn extends Component {
       isEmail: '',
       visible: false,
       willSend: false,
+      asap: ''
    };
 
    componentDidMount() {

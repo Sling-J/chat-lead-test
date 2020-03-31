@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
@@ -8,7 +8,7 @@ import {
 	getWpScreenshot, closeWpScreenshot,
 	logoutWp
 } from "../../../actions/actionCreator";
-import {Spin, Modal} from "antd";
+import {Spin, Modal, Icon} from "antd";
 
 import {useTheme} from '@material-ui/core/styles';
 
@@ -94,12 +94,26 @@ const TabPanel = ({
 					disabled={loading || loadingOfLogout}
 				>
 					{isAuth === '' || !isAuth || logoutData.ok ?
-						loading ? <CircularProgress color="white"/> : 'АВТОРИЗОВАТЬСЯ'
+						loading
+							? <CircularProgress color="white"/> : 'АВТОРИЗОВАТЬСЯ'
+							: loadingOfLogout ? <CircularProgress color="white"/> : 'ВЫХОД'
+					}
+				</Button>
+         ) : value === 0 ? (
+				<Button
+					type="button"
+					variant="contained"
+					onClick={handleSubmit}
+					className={style.ui_vmenu_sep_button_facebook}
+					disabled={loading || isFetching}
+				>
+					{isAuth === '' || !isAuth ?
+						loading ? <CircularProgress color="white"/> : <Fragment><Icon type="facebook" theme="filled" /> Продолжить с Facebook</Fragment>
 						: (
-							loadingOfLogout ? <CircularProgress color="white"/> : 'ВЫХОД'
+							loading ? <CircularProgress color="white"/> : 'ПЕРЕАВТОРИЗАЦИЯ'
 						)}
 				</Button>
-         ) : (
+			) : (
 				<Button
 					type="button"
 					variant="contained"
@@ -282,7 +296,7 @@ const SetupSidebar = props => {
    )
 };
 
-const mapStateToProps = ({botSetupReducers, singleBotReducers}) => ({
+const mapStateToProps = ({botSetupReducers}) => ({
    botSetupData: botSetupReducers.botSetupData,
    setupLoading: botSetupReducers.setupLoading,
    isFetching: botSetupReducers.isFetching,

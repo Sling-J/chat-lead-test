@@ -7,7 +7,7 @@ const CopyToClipboard = ({children, TooltipProps}) => {
    const [tooltipVisibility, setTooltipVisibility] = useState(false);
 
    const onCopy = content => {
-      copy(content).then(r => console.log(r));
+      copy(content).then(r => console.log(`${r} Copied!`));
       setTooltipVisibility(true);
    };
 

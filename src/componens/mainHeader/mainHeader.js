@@ -14,6 +14,7 @@ import {moduleName as statisticsModule} from "../../ducks/Statistics";
 import {moduleName as paymentModule} from "../../ducks/Payment";
 import {moduleName as profileModule} from "../../ducks/Profile";
 import {moduleName as tagsModule} from "../../ducks/Tags";
+import {moduleName as partnersModule} from "../../ducks/Partners";
 import {getAllBotsForUser} from "../../actions/actionCreator";
 import {logout} from "../../ducks/Auth";
 
@@ -70,12 +71,18 @@ const MainHeader = props => {
    return isAuthPage ? null : (
       <Fragment>
          {(
-            props.errorOfSetup ||
-            props.errorOfBot ||
-            props.errorOfBroadCast ||
-            props.errorOfAutoRides ||
+            props.errorOfOfTransactions ||
             props.errorOfBotsReducers ||
             props.errorOfStatistics ||
+            props.errorOfBroadCast ||
+            props.errorOfAutoRides ||
+            props.errorOfPayment ||
+            props.errorOfProfile ||
+            props.errorOfBalance ||
+            props.errorOfSetup ||
+            props.errorOfTags ||
+            props.errorOfMLP ||
+            props.errorOfBot ||
             props.error
          ) &&
             <div className={style.techWorkError}>
@@ -167,14 +174,16 @@ const mapStateToProps = state => {
    const errorOfAutoRides = state.autoridesReducers.error;
    const errorOfBotsReducers = state.botsReducers.error;
    const errorOfStatistics = state[statisticsModule].error;
+   const errorOfBalance = state[partnersModule].errorOfBalance;
 
    return {
       botSetupData, isFetching, error, changedBotData,
+
       errorOfSetup, errorOfBot, errorOfMLP,
       errorOfBroadCast, errorOfAutoRides,
       errorOfBotsReducers, errorOfStatistics,
       errorOfPayment, errorOfOfTransactions,
-      errorOfProfile, errorOfTags,
+      errorOfProfile, errorOfTags, errorOfBalance
    }
 };
 

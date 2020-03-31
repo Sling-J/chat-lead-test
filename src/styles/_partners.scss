@@ -155,20 +155,28 @@
 
    .partners-mine-table {
       margin: 100px 0 60px;
+
+      .partners-mine-table__title {
+         margin-bottom: 15px;
+      }
+
+      .partners-mine-table__true {color: #1BCA00}
+      .partners-mine-table__false {color: tomato}
    }
+}
+
+.partners-table-title {
+   font-size: 26px;
+   margin-left: 14px;
+   font-weight: 300;
 }
 
 .partners-top-container {
    width: 71%;
    margin: 0 auto;
 
-   .partners-top-container__title {
-      font-size: 24px;
-      margin-left: 14.5px;
-   }
-
    .partners-top-container__table {
-      margin: 20px 0 60px
+      margin: 15px 0 60px
    }
 }
 

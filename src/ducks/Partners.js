@@ -38,9 +38,9 @@ const initialState = {
    loadingOfMoneyAdding: false,
    errorOfMoneyAdding: null,
 
-   moneyRequests: [],
-   loadingOfMoneyRequests: false,
-   errorOfMoneyRequests: null
+   pays: [],
+   loadingOfPays: false,
+   errorOfPays: null
 };
 
 export default (state = initialState, action) => {
@@ -97,25 +97,25 @@ export default (state = initialState, action) => {
       case GET_MONEY_REQUEST:
          return {
             ...state,
-            moneyRequests: {},
-            loadingOfMoneyRequests: true,
-            errorOfMoneyRequests: null
+            pays: [],
+            loadingOfPays: true,
+            errorOfPays: null
          };
 
       case GET_MONEY_SUCCESS:
          return {
             ...state,
-            moneyRequests: action.payload,
-            loadingOfMoneyRequests: false,
-            errorOfMoneyRequests: null
+            pays: action.payload,
+            loadingOfPays: false,
+            errorOfPays: null
          };
 
       case GET_MONEY_FAILURE:
          return {
             ...state,
-            moneyRequests: {},
-            loadingOfMoneyRequests: false,
-            errorOfMoneyRequests: action.error
+            pays: [],
+            loadingOfPays: false,
+            errorOfPays: action.error
          };
 
       case REFRESH_MONEY_ADDING_STATUS:
@@ -194,7 +194,7 @@ function* addMoneySaga() {
             formData.append('user_token', userAccessToken());
             formData.append('amount', action.payload.amount);
             formData.append('card_number', action.payload.card);
-            formData.append('payment_method', action.payload.method);
+            formData.append('type', action.payload.method);
 
             const {data} = yield call(Partners.addMoneyRequest, formData);
 
@@ -227,7 +227,7 @@ function* getMoneyRequestsSaga() {
          const {data} = yield call(Partners.getMoneyRequests, formData);
 
          if (data.ok) {
-            yield put({type: GET_MONEY_SUCCESS, payload: data});
+            yield put({type: GET_MONEY_SUCCESS, payload: data.pays});
          } else {
             yield put({type: GET_MONEY_FAILURE, error: data.desc});
          }

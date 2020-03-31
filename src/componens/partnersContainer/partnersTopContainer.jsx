@@ -20,7 +20,7 @@ const PartnersTopContainer = () => {
    return (
       <div className="main-container">
          <div className="partners-top-container">
-            <h2 className="partners-top-container__title">
+            <h2 className="partners-top-container__title partners-table-title">
                Рейтинг:
             </h2>
 
